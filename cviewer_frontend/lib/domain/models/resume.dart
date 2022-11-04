@@ -1,0 +1,3 @@
+class Resume {
+  // TODO: model
+}
