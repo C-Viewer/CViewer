@@ -11,7 +11,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  var _currentTabIndex = 0;
+  var _currentTabIndex = 1;
 
   Widget _buildTab(BuildContext context) {
     switch (_currentTabIndex) {
