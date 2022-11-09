@@ -1,6 +1,8 @@
+import 'package:cviewer_frontend/data/repositories/mock_user_repository.dart';
 import 'package:cviewer_frontend/presentation/route_paths.dart';
 import 'package:cviewer_frontend/presentation/screens/main_screen.dart';
 import 'package:cviewer_frontend/presentation/screens/resume/applicant_review_screen.dart';
+import 'package:cviewer_frontend/presentation/widgets/user/user_provider.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -8,15 +10,18 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CViewer',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return UserProvider(
+      user: mockUser,
+      child: MaterialApp(
+        title: 'CViewer',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routes: {
+          RoutePaths.main: (_) => const MainScreen(),
+          RoutePaths.applicantReview: (_) => const ApplicantReviewScreen(),
+        },
       ),
-      routes: {
-        RoutePaths.main: (_) => const MainScreen(),
-        RoutePaths.applicantReview: (_) => const ApplicantReviewScreen(),
-      },
     );
   }
 }

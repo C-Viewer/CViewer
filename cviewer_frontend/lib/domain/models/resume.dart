@@ -1,3 +1,10 @@
+// TODO: доработать модель
 class Resume {
-  // TODO: model
+  const Resume({
+    required this.id,
+    required this.fileName,
+  });
+
+  final String id;
+  final String fileName;
 }
