@@ -1,6 +1,6 @@
 import 'package:cviewer_frontend/presentation/screens/home/applicant_home_screen.dart';
 import 'package:cviewer_frontend/presentation/screens/profile/applicant_profile_screen.dart';
-import 'package:cviewer_frontend/presentation/screens/resume/applicant_review_history_screen.dart';
+import 'package:cviewer_frontend/presentation/screens/resume/applicant_resume_history_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return const ApplicantHomeScreen();
       case 1:
-        return const ApplicantReviewHistoryScreen();
+        return const ApplicantResumeHistoryScreen();
       default:
         return const ApplicantProfileScreen();
     }
@@ -39,7 +39,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            label: 'Review history',
+            label: 'Resume history',
             icon: Icon(
               Icons.history_rounded,
             ),

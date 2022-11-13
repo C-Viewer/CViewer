@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ApplicantReviewScreen extends StatelessWidget {
-  const ApplicantReviewScreen({super.key});
+class ExpertResumeHistoryScreen extends StatelessWidget {
+  const ExpertResumeHistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
         child: Text(
-          'Review - Applicant',
+          'Review history - Expert',
         ),
       ),
     );

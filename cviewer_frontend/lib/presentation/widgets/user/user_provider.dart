@@ -1,4 +1,4 @@
-import 'package:cviewer_frontend/domain/models/user.dart';
+import 'package:cviewer_frontend/domain/models/user/user.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider extends InheritedWidget {

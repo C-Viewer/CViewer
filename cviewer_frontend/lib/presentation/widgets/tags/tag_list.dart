@@ -1,18 +1,23 @@
+import 'package:cviewer_frontend/domain/models/tag/tag.dart';
 import 'package:cviewer_frontend/presentation/widgets/tags/tag_chip.dart';
 import 'package:flutter/material.dart';
 
 class TagList extends StatelessWidget {
-  const TagList({super.key});
+  const TagList({
+    super.key,
+    required this.items,
+  });
+
+  final List<Tag> items;
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       children: [
-        TagChip(label: 'Mobile'),
-        SizedBox(width: 10),
-        TagChip(label: 'Backend'),
-        SizedBox(width: 10),
-        TagChip(label: 'Frontend'),
+        for (final it in items) ...[
+          TagChip(item: it),
+          const SizedBox(width: 10),
+        ],
       ],
     );
   }
