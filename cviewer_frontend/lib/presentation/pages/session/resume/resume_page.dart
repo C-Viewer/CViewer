@@ -1,11 +1,11 @@
 import 'package:cviewer_frontend/data/repositories/mock_resume_repository.dart';
 import 'package:cviewer_frontend/domain/models/resume/resume.dart';
-import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
+import 'package:cviewer_frontend/constants/text_styles.dart';
 import 'package:cviewer_frontend/presentation/widgets/resume/resume_history_list.dart';
 import 'package:flutter/material.dart';
 
-class ApplicantResumeScreen extends StatelessWidget {
-  const ApplicantResumeScreen({
+class ResumePage extends StatelessWidget {
+  const ResumePage({
     super.key,
     required this.resumeId,
   });

@@ -1,5 +1,5 @@
 import 'package:cviewer_frontend/domain/models/resume/resume_comment_info.dart';
-import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
+import 'package:cviewer_frontend/constants/text_styles.dart';
 import 'package:cviewer_frontend/utils/date_time_formatters.dart';
 import 'package:flutter/material.dart';
 

@@ -1,8 +1,9 @@
+import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/domain/models/resume/resume.dart';
-import 'package:cviewer_frontend/presentation/route_paths.dart';
 import 'package:cviewer_frontend/presentation/widgets/resume/resume_status_label.dart';
 import 'package:cviewer_frontend/presentation/widgets/tags/tag_list.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ResumeTile extends StatelessWidget {
   const ResumeTile({
@@ -15,9 +16,11 @@ class ResumeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(
-        RoutePaths.applicantResume,
-        arguments: item.id,
+      onTap: () => context.goNamed(
+        RouteNames.resume,
+        params: {
+          RouteParams.resumeId: item.id.toString(),
+        },
       ),
       child: Card(
         child: Padding(

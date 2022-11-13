@@ -1,26 +1,26 @@
-import 'package:cviewer_frontend/presentation/screens/home/applicant_home_screen.dart';
-import 'package:cviewer_frontend/presentation/screens/profile/applicant_profile_screen.dart';
-import 'package:cviewer_frontend/presentation/screens/resume/applicant_resume_history_screen.dart';
+import 'package:cviewer_frontend/presentation/pages/session/main/home/home_page.dart';
+import 'package:cviewer_frontend/presentation/pages/session/main/profile/profile_page.dart';
+import 'package:cviewer_frontend/presentation/pages/session/main/resume_history/resume_history_page.dart';
 import 'package:flutter/material.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainPageState extends State<MainPage> {
   var _currentTabIndex = 1;
 
   Widget _buildTab(BuildContext context) {
     switch (_currentTabIndex) {
       case 0:
-        return const ApplicantHomeScreen();
+        return const HomePage();
       case 1:
-        return const ApplicantResumeHistoryScreen();
+        return const ResumeHistoryPage();
       default:
-        return const ApplicantProfileScreen();
+        return const ProfilePage();
     }
   }
 

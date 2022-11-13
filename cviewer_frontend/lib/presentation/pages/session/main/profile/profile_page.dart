@@ -1,8 +1,8 @@
 import 'package:cviewer_frontend/presentation/widgets/user/user_provider.dart';
 import 'package:flutter/material.dart';
 
-class ApplicantProfileScreen extends StatelessWidget {
-  const ApplicantProfileScreen({super.key});
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {

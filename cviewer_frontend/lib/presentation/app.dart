@@ -1,9 +1,12 @@
+import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/data/repositories/mock_user_repository.dart';
-import 'package:cviewer_frontend/presentation/route_paths.dart';
-import 'package:cviewer_frontend/presentation/screens/main_screen.dart';
-import 'package:cviewer_frontend/presentation/screens/resume/applicant_resume_screen.dart';
+import 'package:cviewer_frontend/presentation/pages/auth/auth_page.dart';
+import 'package:cviewer_frontend/presentation/pages/session/main/main_page.dart';
+import 'package:cviewer_frontend/presentation/pages/session/resume/resume_page.dart';
+import 'package:cviewer_frontend/presentation/pages/session/session_page.dart';
 import 'package:cviewer_frontend/presentation/widgets/user/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -12,31 +15,46 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return UserProvider(
       user: mockUser,
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'CViewer',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        initialRoute: RoutePaths.main,
-        onGenerateRoute: (settings) {
-          switch (settings.name) {
-            case RoutePaths.main:
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => const MainScreen(),
-              );
-            case RoutePaths.applicantResume:
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => ApplicantResumeScreen(
-                  resumeId: settings.arguments as int,
-                ),
-              );
-            default:
-              return null;
-          }
-        },
+        routerConfig: _appRouter,
       ),
     );
   }
 }
+
+final _appRouter = GoRouter(
+  initialLocation: RoutePaths.auth,
+  routes: [
+    // Auth
+    GoRoute(
+      path: RoutePaths.auth,
+      builder: (_, __) => const AuthPage(),
+    ),
+    // Session
+    GoRoute(
+      path: RoutePaths.session,
+      name: RouteNames.session,
+      builder: (_, __) => const SessionPage(),
+      routes: [
+        // Main
+        GoRoute(
+          path: RoutePaths.main,
+          name: RouteNames.main,
+          builder: (_, __) => const MainPage(),
+        ),
+        // Resume
+        GoRoute(
+          path: RoutePaths.resume,
+          name: RouteNames.resume,
+          builder: (_, s) => ResumePage(
+            resumeId: int.parse(s.params[RouteParams.resumeId]!),
+          ),
+        ),
+      ],
+    ),
+  ],
+);
