@@ -1,5 +1,5 @@
-import 'package:cviewer_frontend/domain/models/resume/comment_info.dart';
-import 'package:cviewer_frontend/domain/models/resume/file_info.dart';
+import 'package:cviewer_frontend/domain/models/resume/resume_comment_info.dart';
+import 'package:cviewer_frontend/domain/models/resume/resume_file_info.dart';
 import 'package:cviewer_frontend/domain/models/resume/resume.dart';
 import 'package:cviewer_frontend/domain/models/resume/resume_status.dart';
 import 'package:cviewer_frontend/domain/models/tag/tag.dart';
@@ -11,6 +11,11 @@ class MockResumeRepository implements ResumeRepository {
   @override
   Future<List<Resume>> getResumeList() async {
     return _mockResumeList;
+  }
+
+  @override
+  Future<Resume> getResume(int resumeId) async {
+    return _mockResumeList.firstWhere((it) => it.id == resumeId);
   }
 }
 
@@ -34,20 +39,20 @@ final _mockResumeList = [
       ),
     ],
     history: [
-      CommentInfo(
+      ResumeCommentInfo(
         comment: 'New comment',
         date: DateTime(2022, 11, 13),
       ),
-      FileInfo(
+      ResumeFileInfo(
         id: 11,
         fileName: 'new_resume.pdf',
         date: DateTime(2022, 11, 13),
       ),
-      CommentInfo(
+      ResumeCommentInfo(
         comment: 'Old comment',
         date: DateTime(2022, 11, 10),
       ),
-      FileInfo(
+      ResumeFileInfo(
         id: 12,
         fileName: 'resume.pdf',
         date: DateTime(2022, 11, 10),
@@ -69,11 +74,11 @@ final _mockResumeList = [
       ),
     ],
     history: [
-      CommentInfo(
+      ResumeCommentInfo(
         comment: 'New comment',
         date: DateTime(2022, 11, 13),
       ),
-      FileInfo(
+      ResumeFileInfo(
         id: 21,
         fileName: 'new_resume.pdf',
         date: DateTime(2022, 11, 13),

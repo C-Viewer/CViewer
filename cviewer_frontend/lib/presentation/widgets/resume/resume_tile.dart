@@ -15,7 +15,10 @@ class ResumeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(RoutePaths.applicantReview),
+      onTap: () => Navigator.of(context).pushNamed(
+        RoutePaths.applicantResume,
+        arguments: item.id,
+      ),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8),

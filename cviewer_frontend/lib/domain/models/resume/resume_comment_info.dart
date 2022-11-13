@@ -1,7 +1,7 @@
 import 'package:cviewer_frontend/domain/models/resume/date_sortable.dart';
 
-class CommentInfo implements DateSortable {
-  const CommentInfo({
+class ResumeCommentInfo implements DateSortable {
+  const ResumeCommentInfo({
     required this.comment,
     required this.date,
   });

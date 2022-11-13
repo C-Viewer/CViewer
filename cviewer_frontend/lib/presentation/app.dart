@@ -17,9 +17,24 @@ class App extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        routes: {
-          RoutePaths.main: (_) => const MainScreen(),
-          RoutePaths.applicantReview: (_) => const ApplicantResumeScreen(),
+        initialRoute: RoutePaths.main,
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case RoutePaths.main:
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => const MainScreen(),
+              );
+            case RoutePaths.applicantResume:
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => ApplicantResumeScreen(
+                  resumeId: settings.arguments as int,
+                ),
+              );
+            default:
+              return null;
+          }
         },
       ),
     );

@@ -3,6 +3,6 @@ class RoutePaths {
 
   static const main = '/';
 
-  static const applicantReview = '/applicant-review';
-  static const expertReview = '/expert-review';
+  static const applicantResume = '/applicant-resume';
+  static const expertResume = '/expert-resume';
 }
