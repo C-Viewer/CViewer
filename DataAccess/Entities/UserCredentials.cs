@@ -1,4 +1,4 @@
-﻿namespace MinimalJwt.Models
+﻿namespace CViewer.DataAccess.Entities
 {
     /// <summary>
     /// For register and login.

@@ -1,4 +1,4 @@
-﻿namespace MinimalJwt.Models
+﻿namespace CViewer.DataAccess.Entities
 {
     public enum ReportStatus
     {

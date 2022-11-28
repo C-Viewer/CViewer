@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "MinimalJwt": {
+    "CViewer": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

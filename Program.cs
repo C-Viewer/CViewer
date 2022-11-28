@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MinimalJwt.Models;
-using MinimalJwt.Services;
+using CViewer.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using CViewer.DataAccess.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using MinimalJwt.Models;
-using MinimalJwt.Repositories;
+using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.Repositories;
 
-namespace MinimalJwt.Services
+namespace CViewer.Services
 {
     public class ProfileService : IProfileService
     {

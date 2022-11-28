@@ -1,6 +1,6 @@
-﻿using MinimalJwt.Models;
+﻿using CViewer.DataAccess.Entities;
 
-namespace MinimalJwt.Repositories
+namespace CViewer.DataAccess.Repositories
 {
     public class ProfileRepository
     {

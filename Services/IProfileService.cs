@@ -1,6 +1,6 @@
-﻿using MinimalJwt.Models;
+﻿using CViewer.DataAccess.Entities;
 
-namespace MinimalJwt.Services
+namespace CViewer.Services
 {
     public interface IProfileService
     {
