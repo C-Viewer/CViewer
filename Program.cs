@@ -66,8 +66,8 @@ app.UseAuthentication();
 app.MapGet("/", () => "Nice CV, Awesome skills!!!")
     .ExcludeFromDescription();
 
-app.MapPost("/login",
-(UserCredentials user, IProfileService service) => Login(user, service))
+app.MapPost("/sign_in",
+(UserCredentials user, IProfileService service) => SignIn(user, service))
     .Accepts<UserCredentials>("application/json")
     .Produces<string>();
 
@@ -98,9 +98,9 @@ app.MapDelete("/delete",
 
 #region IProfileService
 
-app.MapPost("/createProfile",
+app.MapPost("/sign_up",
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Standard, Administrator")]
-    (UserCredentials userCredentials, IProfileService service) => CreateProfile(userCredentials, service));
+    (UserCredentials userCredentials, IProfileService service) => SignUp(userCredentials, service));
 
 app.MapGet("/getProfileInfo",
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Standard, Administrator")]
@@ -115,12 +115,12 @@ app.MapGet("/listProfiles",
 
 #endregion
 
-IResult Login(UserCredentials user, IProfileService service)
+IResult SignIn(UserCredentials user, IProfileService service)
 {
     if (!string.IsNullOrEmpty(user.EmailAddress) &&
         !string.IsNullOrEmpty(user.Password))
     {
-        var loggedInUser = service.LoginByEmailAndPassword(user);
+        var loggedInUser = service.SignIn(user);
         if (loggedInUser is null) return Results.NotFound("Profile not found");
 
         var claims = new[]
@@ -193,9 +193,9 @@ IResult Delete(int id, ICVService service)
 
 #region ProfileServices
 
-IResult CreateProfile(UserCredentials userCredentials, IProfileService service)
+IResult SignUp(UserCredentials userCredentials, IProfileService service)
 {
-    var profile = service.CreateProfile(userCredentials);
+    var profile = service.SignUp(userCredentials);
     return Results.Ok(profile);
 }
 

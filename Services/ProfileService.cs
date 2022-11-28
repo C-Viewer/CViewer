@@ -6,7 +6,7 @@ namespace CViewer.Services
 {
     public class ProfileService : IProfileService
     {
-        public Profile CreateProfile(UserCredentials userCredentials)
+        public Profile SignUp(UserCredentials userCredentials)
         {
             Profile existingProfile = ProfileRepository.Profiles.FirstOrDefault(
                 o => o.EmailAddress.Equals(userCredentials.EmailAddress)
@@ -28,7 +28,7 @@ namespace CViewer.Services
             return newProfile;
         }
 
-        public Profile LoginByEmailAndPassword(UserCredentials userCredentials)
+        public Profile SignIn(UserCredentials userCredentials)
         {
             Profile profile = ProfileRepository.Profiles.FirstOrDefault(o => o.EmailAddress.Equals(userCredentials.EmailAddress, StringComparison.OrdinalIgnoreCase) && o.Password.Equals(userCredentials.Password));
 
