@@ -13,6 +13,35 @@ namespace CViewer.Services
             return cv;
         }
 
+        public CV UpdateCVInfo(int cvId, string title = null, Specialization? specialization = null, List<CVTag> tags = null, string description = null)
+        {
+            var cvForUpdating = CVRepository.CVs.FirstOrDefault(o => o.Id == cvId);
+
+            if (cvForUpdating is null) return null;
+
+            if (title != null)
+            {
+                cvForUpdating.Title = title;
+            }
+
+            if (specialization != null)
+            {
+                cvForUpdating.Specialization = (Specialization)specialization;
+            }
+
+            if (tags != null)
+            {
+                cvForUpdating.Tags = tags;
+            }
+
+            if (description != null)
+            {
+                cvForUpdating.Description = description;
+            }
+
+            return cvForUpdating;
+        }
+
         public CV Get(int id)
         {
             var movie = CVRepository.CVs.FirstOrDefault(o => o.Id == id);
@@ -35,7 +64,7 @@ namespace CViewer.Services
 
             if (oldMovie is null) return null;
 
-            oldMovie.Name = newCv.Name;
+            oldMovie.Title = newCv.Title;
             oldMovie.Description = newCv.Description;
             oldMovie.Rating = newCv.Rating;
 

@@ -1,5 +1,6 @@
 ﻿namespace CViewer.DataAccess.Entities
 {
+    // ToDo: Add parsing string to tag
     public enum CVTag
     {
         DotNet,
@@ -8,6 +9,7 @@
         SQL,
     }
 
+    // ToDo: Add parsing string to Specialization
     public enum Specialization
     {
         SoftwareEngineer,
@@ -17,7 +19,7 @@
     public class CV
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
         public int PeopleCreatedId { get; set; }
         public Specialization Specialization { get; set; }
         public string Description { get; set; }

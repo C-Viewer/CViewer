@@ -1,5 +1,8 @@
 ﻿namespace CViewer.DataAccess.Entities
 {
+    /// <summary>
+    /// I assume, UI could be able retrieve main CV info from CV table not CVHistory table
+    /// </summary>
     public class CVHistory
     {
         public int Id { get; set; }

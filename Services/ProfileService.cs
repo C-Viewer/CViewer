@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using CViewer.DataAccess.Entities;
+﻿using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.Repositories;
 
 namespace CViewer.Services

@@ -10,13 +10,23 @@ namespace CViewer.Endpoints
         public static void MapCVEndpoints(this WebApplication app)
         {
             app.MapPost("/create_cv_draft",
-                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+                //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
                     (CV cv, int applicantId, ICVService service) => CreateCVDraft(cv, applicantId, service))
                 .Accepts<CV>("application/json")
                 .Produces<CV>(statusCode: 200, contentType: "application/json");
 
+            // ToDo: Perhaps, we will need two or more List-parameters, but I cannot understand how to pass it yet.
+            app.MapPost("/update_cv_info",
+                //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+                (int cvId, ICVService service, string title, Specialization? specialization, List<CVTag> tags,
+                        string description) =>
+                    UpdateCVInfo(cvId, service, title, specialization, tags, description));
+                //.Accepts<CV>("application/json")
+                //.Produces<CV>(statusCode: 200, contentType: "application/json");
+
+            // ToDo: change the following methods
             app.MapGet("/get",
-                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Standard, Administrator")]
+                    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Standard, Administrator")]
                     (int id, ICVService service) => Get(id, service))
                 .Produces<CV>();
 
@@ -25,7 +35,7 @@ namespace CViewer.Endpoints
                 .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 
             app.MapPut("/update",
-                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+                    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
                     (CV newCV, ICVService service) => Update(newCV, service))
                 .Accepts<CV>("application/json")
                 .Produces<CV>(statusCode: 200, contentType: "application/json");
@@ -39,6 +49,15 @@ namespace CViewer.Endpoints
         {
             var result = service.CreateCVDraft(cv, applicantId);
             return Results.Ok(result);
+        }
+
+        private static IResult UpdateCVInfo(int cvId, ICVService service, string title = null, Specialization? specialization = null, List<CVTag> tags = null, string description = null)
+        {
+            var updatedCV = service.UpdateCVInfo(cvId, title, specialization, tags, description);
+
+            if (updatedCV is null) Results.NotFound("CV not found");
+
+            return Results.Ok(updatedCV);
         }
 
         private static IResult Get(int id, ICVService service)
