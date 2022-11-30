@@ -65,71 +65,7 @@ app.MapGet("/", () => "Nice CV, Awesome skills!!!")
     .ExcludeFromDescription();
 
 app.MapProfileEndpoints(builder);
-
-app.MapPost("/create",
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
-(CV movie, ICVService service) => Create(movie, service))
-    .Accepts<CV>("application/json")
-    .Produces<CV>(statusCode: 200, contentType: "application/json");
-
-app.MapGet("/get",
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Standard, Administrator")]
-(int id, ICVService service) => Get(id, service))
-    .Produces<CV>();
-
-app.MapGet("/list",
-    (ICVService service) => List(service))
-    .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
-
-app.MapPut("/update",
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
-(CV newMovie, ICVService service) => Update(newMovie, service))
-    .Accepts<CV>("application/json")
-    .Produces<CV>(statusCode: 200, contentType: "application/json");
-
-app.MapDelete("/delete",
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
-(int id, ICVService service) => Delete(id, service));
-
-IResult Create(CV movie, ICVService service)
-{
-    var result = service.Create(movie);
-    return Results.Ok(result);
-}
-
-IResult Get(int id, ICVService service)
-{
-    var movie = service.Get(id);
-
-    if (movie is null) return Results.NotFound("CV not found");
-
-    return Results.Ok(movie);
-}
-
-IResult List(ICVService service)
-{
-    var movies = service.List();
-
-    return Results.Ok(movies);
-}
-
-IResult Update(CV newMovie, ICVService service)
-{
-    var updatedMovie = service.Update(newMovie);
-
-    if (updatedMovie is null) Results.NotFound("CV not found");
-
-    return Results.Ok(updatedMovie);
-}
-
-IResult Delete(int id, ICVService service)
-{
-    var result = service.Delete(id);
-
-    if (!result) Results.BadRequest("Something went wrong");
-
-    return Results.Ok(result);
-}
+app.MapCVEndpoints();
 
 app.UseSwaggerUI();
 

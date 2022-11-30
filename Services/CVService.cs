@@ -5,7 +5,7 @@ namespace CViewer.Services
 {
     public class CVService : ICVService
     {
-        public CV Create(CV cv)
+        public CV CreateCVDraft(CV cv, int applicantId)
         {
             cv.Id = CVRepository.CVs.Count + 1;
             CVRepository.CVs.Add(cv);
