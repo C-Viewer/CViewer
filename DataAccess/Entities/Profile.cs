@@ -25,7 +25,7 @@
         public string EmailAddress { get; set; }
 
         public string Biography { get; set; }
-        public bool IsReviewer { get; set; }
+        public bool IsExpert { get; set; }
         public int SpecializationId { get; set; }
         public double Rating { get; set; }
 
