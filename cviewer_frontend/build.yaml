@@ -1,0 +1,25 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          # Options configure how source code is generated for every
+          # `@JsonSerializable`-annotated class in the package.
+          #
+          # The default value for each is listed.
+          any_map: false
+          checked: false
+          constructor: ""
+          create_factory: true
+          #create_to_json: false
+          disallow_unrecognized_keys: false
+          #explicit_to_json: false
+          field_rename: snake
+          generic_argument_factories: true
+          ignore_unannotated: false
+          include_if_null: false
+      swagger_dart_code_generator:
+        options:
+          input_folder: "lib/assets/swagger"
+          output_folder: "lib/data/service"
+          separate_models: true
