@@ -1,11 +1,5 @@
 ﻿namespace CViewer.DataAccess.Entities
 {
-    public enum UserRole
-    {
-        User,
-        Admin
-    }
-
     public enum AuthenticationType
     {
         ByEmailAndPassword,
@@ -28,8 +22,6 @@
         public bool IsExpert { get; set; }
         public int SpecializationId { get; set; }
         public double Rating { get; set; }
-
-        public UserRole UserRole { get; set; }
 
         // ToDo: And so on...
     }

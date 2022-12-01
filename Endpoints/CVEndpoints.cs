@@ -20,7 +20,7 @@ namespace CViewer.Endpoints
                 //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
                 (int cvId, ICVService service, string title, Specialization? specialization, List<CVTag> tags,
                         string description) =>
-                    UpdateCVInfo(cvId, service, title, specialization, tags, description));
+                    UpdateCVInfo(cvId: cvId, service: service, title: title, specialization: specialization, tags: tags, description: description));
                 //.Accepts<CV>("application/json")
                 //.Produces<CV>(statusCode: 200, contentType: "application/json");
 
@@ -53,7 +53,8 @@ namespace CViewer.Endpoints
 
         private static IResult UpdateCVInfo(int cvId, ICVService service, string title = null, Specialization? specialization = null, List<CVTag> tags = null, string description = null)
         {
-            var updatedCV = service.UpdateCVInfo(cvId, title, specialization, tags, description);
+            var updatedCV = service.UpdateCVInfo(cvId: cvId, title: title, specialization: specialization, tags: tags, 
+                description: description);
 
             if (updatedCV is null) Results.NotFound("CV not found");
 

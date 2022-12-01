@@ -43,17 +43,49 @@ namespace CViewer.Services
             return profile;
         }
 
-        public Profile UpdateProfileInfo(Profile newProfile)
+        public Profile UpdateProfileInfo(int profileId, string firstName = null, string lastName = null, string biography = null,
+            double? rating = null, string email = null, string password = null, int? specializationId = null)
         {
-            var oldProfile = ProfileRepository.Profiles.FirstOrDefault(o => o.Id == newProfile.Id);
+            var profileForUpdate = ProfileRepository.Profiles.FirstOrDefault(o => o.Id == profileId);
 
-            if (oldProfile is null) return null;
+            if (profileForUpdate is null) return null;
 
-            oldProfile.FirstName = newProfile.FirstName;
-            oldProfile.Biography = newProfile.Biography;
-            oldProfile.Rating = newProfile.Rating;
+            if (firstName != null)
+            {
+                profileForUpdate.FirstName = firstName;
+            }
 
-            return oldProfile;
+            if (lastName != null)
+            {
+                profileForUpdate.LastName = lastName;
+            }
+
+            if (biography != null)
+            {
+                profileForUpdate.Biography = biography;
+            }
+
+            if (rating != null)
+            {
+                profileForUpdate.Rating = (double)rating;
+            }
+
+            if (email != null)
+            {
+                profileForUpdate.EmailAddress = email;
+            }
+
+            if (password != null)
+            {
+                profileForUpdate.Password = password;
+            }
+
+            if (specializationId != null)
+            {
+                profileForUpdate.SpecializationId = (int)specializationId;
+            }
+
+            return profileForUpdate;
         }
 
         public List<Profile> ListProfiles()

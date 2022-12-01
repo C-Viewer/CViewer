@@ -13,7 +13,6 @@ namespace CViewer.DataAccess.Repositories
                 Password = "MyPass_w0rd", 
                 FirstName = "Luke", 
                 LastName = "Rogers", 
-                UserRole = UserRole.Admin
             },
             new()
             {
@@ -22,7 +21,6 @@ namespace CViewer.DataAccess.Repositories
                 Password = "MyPass_w0rd", 
                 FirstName = "Elyse",
                 LastName = "Burton", 
-                UserRole = UserRole.User
             },
         };
     }

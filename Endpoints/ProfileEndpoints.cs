@@ -30,7 +30,10 @@ namespace CViewer.Endpoints
 
             app.MapPut("/update_profile_info",
                 //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Standard, Administrator")]
-                (Profile profile, IProfileService service) => UpdateProfileInfo(profile, service));
+                (int profileId, IProfileService service, string firstName, string lastName, string biography,
+                double? rating, string email, string password, int? specializationId) => UpdateProfileInfo(profileId: profileId, firstName: firstName,
+                    lastName: lastName, biography: biography, rating: rating, email: email, password: password, specializationId: specializationId, 
+                    service: service));
 
             app.MapGet("/list_profiles",
                 (IProfileService service) => ListProfiles(service));
@@ -50,7 +53,6 @@ namespace CViewer.Endpoints
                     new Claim(ClaimTypes.Email, loggedInUser.EmailAddress),
                     new Claim(ClaimTypes.GivenName, loggedInUser.FirstName),
                     new Claim(ClaimTypes.Surname, loggedInUser.LastName),
-                    new Claim(ClaimTypes.Role, loggedInUser.UserRole.ToString())
                 };
 
                 var token = new JwtSecurityToken
@@ -86,9 +88,11 @@ namespace CViewer.Endpoints
             return Results.Ok(profile);
         }
 
-        private static IResult UpdateProfileInfo(Profile newProfile, IProfileService service)
+        private static IResult UpdateProfileInfo(int profileId, IProfileService service, string firstName = null, string lastName = null, string biography = null,
+            double? rating = null, string email = null, string password = null, int? specializationId = null)
         {
-            var updatedProfile = service.UpdateProfileInfo(newProfile);
+            var updatedProfile = service.UpdateProfileInfo(profileId: profileId, firstName: firstName, lastName: lastName, 
+                biography: biography, rating: rating, email: email, password: password, specializationId: specializationId);
 
             if (updatedProfile is null) Results.NotFound("Profile not found");
 
