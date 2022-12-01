@@ -1,14 +1,14 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "MinimalJwt",
+    "title": "CViewer",
     "version": "1.0"
   },
   "paths": {
-    "/login": {
+    "/sign_in": {
       "post": {
         "tags": [
-          "MinimalJwt"
+          "CViewer"
         ],
         "requestBody": {
           "content": {
@@ -33,141 +33,10 @@
         }
       }
     },
-    "/create": {
+    "/sign_up": {
       "post": {
         "tags": [
-          "MinimalJwt"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CV"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CV"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/get": {
-      "get": {
-        "tags": [
-          "MinimalJwt"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CV"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/list": {
-      "get": {
-        "tags": [
-          "MinimalJwt"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CV"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/update": {
-      "put": {
-        "tags": [
-          "MinimalJwt"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CV"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CV"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/delete": {
-      "delete": {
-        "tags": [
-          "MinimalJwt"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/createProfile": {
-      "post": {
-        "tags": [
-          "MinimalJwt"
+          "CViewer"
         ],
         "requestBody": {
           "content": {
@@ -185,10 +54,96 @@
         }
       }
     },
-    "/getProfileInfo": {
+    "/update_profile": {
+      "put": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "firstName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lastName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "biography",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rating",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "specializationId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/list_profiles": {
       "get": {
         "tags": [
-          "MinimalJwt"
+          "CViewer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/get_profile": {
+      "get": {
+        "tags": [
+          "CViewer"
         ],
         "parameters": [
           {
@@ -208,16 +163,180 @@
         }
       }
     },
-    "/updateProfileInfo": {
-      "put": {
+    "/get_cv": {
+      "get": {
         "tags": [
-          "MinimalJwt"
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "cvId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CV"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_cv_history": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "cvHistoryId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CVHistory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_attached_file": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "attachedFileId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachedFile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/create_cv_draft": {
+      "post": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "applicantId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Profile"
+                "$ref": "#/components/schemas/CV"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CV"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update_cv_info": {
+      "post": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "cvId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "specialization",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CVTag"
+                }
               }
             }
           }
@@ -229,10 +348,50 @@
         }
       }
     },
-    "/listProfiles": {
+    "/add_event_to_history": {
       "get": {
         "tags": [
-          "MinimalJwt"
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "cvId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "applicantComment",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expertComment",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dateTime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -240,10 +399,94 @@
           }
         }
       }
+    },
+    "/list_CVs": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CV"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list_CV_histories": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CVHistory"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list_attached_files": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AttachedFile"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AttachedFile": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "filePath": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CV": {
         "type": "object",
         "properties": {
@@ -251,7 +494,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "name": {
+          "title": {
             "type": "string",
             "nullable": true
           },
@@ -276,6 +519,50 @@
               "$ref": "#/components/schemas/CVTag"
             },
             "nullable": true
+          },
+          "dateCreation": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CVHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "attachedFileId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "cvId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amazonPathToFile": {
+            "type": "string",
+            "nullable": true
+          },
+          "applicantComment": {
+            "type": "string",
+            "nullable": true
+          },
+          "expertComment": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -289,50 +576,6 @@
         ],
         "type": "integer",
         "format": "int32"
-      },
-      "Profile": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "firstName": {
-            "type": "string",
-            "nullable": true
-          },
-          "lastName": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "emailAddress": {
-            "type": "string",
-            "nullable": true
-          },
-          "biography": {
-            "type": "string",
-            "nullable": true
-          },
-          "isReviewer": {
-            "type": "boolean"
-          },
-          "specializationId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "rating": {
-            "type": "number",
-            "format": "double"
-          },
-          "userRole": {
-            "$ref": "#/components/schemas/UserRole"
-          }
-        },
-        "additionalProperties": false
       },
       "Specialization": {
         "enum": [
@@ -355,14 +598,6 @@
           }
         },
         "additionalProperties": false
-      },
-      "UserRole": {
-        "enum": [
-          0,
-          1
-        ],
-        "type": "integer",
-        "format": "int32"
       }
     },
     "securitySchemes": {

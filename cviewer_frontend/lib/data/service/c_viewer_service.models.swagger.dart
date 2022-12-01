@@ -9,23 +9,89 @@ import 'c_viewer_service.enums.swagger.dart' as enums;
 part 'c_viewer_service.models.swagger.g.dart';
 
 @JsonSerializable(explicitToJson: true)
+class AttachedFile {
+  AttachedFile({
+    this.id,
+    this.fileName,
+    this.filePath,
+  });
+
+  factory AttachedFile.fromJson(Map<String, dynamic> json) =>
+      _$AttachedFileFromJson(json);
+
+  @JsonKey(name: 'id')
+  final int? id;
+  @JsonKey(name: 'fileName')
+  final String? fileName;
+  @JsonKey(name: 'filePath')
+  final String? filePath;
+  static const fromJsonFactory = _$AttachedFileFromJson;
+  static const toJsonFactory = _$AttachedFileToJson;
+  Map<String, dynamic> toJson() => _$AttachedFileToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is AttachedFile &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.fileName, fileName) ||
+                const DeepCollectionEquality()
+                    .equals(other.fileName, fileName)) &&
+            (identical(other.filePath, filePath) ||
+                const DeepCollectionEquality()
+                    .equals(other.filePath, filePath)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(fileName) ^
+      const DeepCollectionEquality().hash(filePath) ^
+      runtimeType.hashCode;
+}
+
+extension $AttachedFileExtension on AttachedFile {
+  AttachedFile copyWith({int? id, String? fileName, String? filePath}) {
+    return AttachedFile(
+        id: id ?? this.id,
+        fileName: fileName ?? this.fileName,
+        filePath: filePath ?? this.filePath);
+  }
+
+  AttachedFile copyWithWrapped(
+      {Wrapped<int?>? id,
+      Wrapped<String?>? fileName,
+      Wrapped<String?>? filePath}) {
+    return AttachedFile(
+        id: (id != null ? id.value : this.id),
+        fileName: (fileName != null ? fileName.value : this.fileName),
+        filePath: (filePath != null ? filePath.value : this.filePath));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class Cv {
   Cv({
     this.id,
-    this.name,
+    this.title,
     this.peopleCreatedId,
     this.specialization,
     this.description,
     this.rating,
     this.tags,
+    this.dateCreation,
   });
 
   factory Cv.fromJson(Map<String, dynamic> json) => _$CvFromJson(json);
 
   @JsonKey(name: 'id')
   final int? id;
-  @JsonKey(name: 'name')
-  final String? name;
+  @JsonKey(name: 'title')
+  final String? title;
   @JsonKey(name: 'peopleCreatedId')
   final int? peopleCreatedId;
   @JsonKey(
@@ -44,6 +110,8 @@ class Cv {
     fromJson: cVTagListFromJson,
   )
   final List<enums.CVTag>? tags;
+  @JsonKey(name: 'dateCreation')
+  final DateTime? dateCreation;
   static const fromJsonFactory = _$CvFromJson;
   static const toJsonFactory = _$CvToJson;
   Map<String, dynamic> toJson() => _$CvToJson(this);
@@ -54,8 +122,8 @@ class Cv {
         (other is Cv &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
             (identical(other.peopleCreatedId, peopleCreatedId) ||
                 const DeepCollectionEquality()
                     .equals(other.peopleCreatedId, peopleCreatedId)) &&
@@ -68,7 +136,10 @@ class Cv {
             (identical(other.rating, rating) ||
                 const DeepCollectionEquality().equals(other.rating, rating)) &&
             (identical(other.tags, tags) ||
-                const DeepCollectionEquality().equals(other.tags, tags)));
+                const DeepCollectionEquality().equals(other.tags, tags)) &&
+            (identical(other.dateCreation, dateCreation) ||
+                const DeepCollectionEquality()
+                    .equals(other.dateCreation, dateCreation)));
   }
 
   @override
@@ -77,45 +148,49 @@ class Cv {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(peopleCreatedId) ^
       const DeepCollectionEquality().hash(specialization) ^
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(rating) ^
       const DeepCollectionEquality().hash(tags) ^
+      const DeepCollectionEquality().hash(dateCreation) ^
       runtimeType.hashCode;
 }
 
 extension $CvExtension on Cv {
   Cv copyWith(
       {int? id,
-      String? name,
+      String? title,
       int? peopleCreatedId,
       enums.Specialization? specialization,
       String? description,
       double? rating,
-      List<enums.CVTag>? tags}) {
+      List<enums.CVTag>? tags,
+      DateTime? dateCreation}) {
     return Cv(
         id: id ?? this.id,
-        name: name ?? this.name,
+        title: title ?? this.title,
         peopleCreatedId: peopleCreatedId ?? this.peopleCreatedId,
         specialization: specialization ?? this.specialization,
         description: description ?? this.description,
         rating: rating ?? this.rating,
-        tags: tags ?? this.tags);
+        tags: tags ?? this.tags,
+        dateCreation: dateCreation ?? this.dateCreation);
   }
 
   Cv copyWithWrapped(
       {Wrapped<int?>? id,
-      Wrapped<String?>? name,
+      Wrapped<String?>? title,
       Wrapped<int?>? peopleCreatedId,
       Wrapped<enums.Specialization?>? specialization,
       Wrapped<String?>? description,
       Wrapped<double?>? rating,
-      Wrapped<List<enums.CVTag>?>? tags}) {
+      Wrapped<List<enums.CVTag>?>? tags,
+      Wrapped<DateTime?>? dateCreation}) {
     return Cv(
         id: (id != null ? id.value : this.id),
-        name: (name != null ? name.value : this.name),
+        title: (title != null ? title.value : this.title),
         peopleCreatedId: (peopleCreatedId != null
             ? peopleCreatedId.value
             : this.peopleCreatedId),
@@ -125,88 +200,73 @@ extension $CvExtension on Cv {
         description:
             (description != null ? description.value : this.description),
         rating: (rating != null ? rating.value : this.rating),
-        tags: (tags != null ? tags.value : this.tags));
+        tags: (tags != null ? tags.value : this.tags),
+        dateCreation:
+            (dateCreation != null ? dateCreation.value : this.dateCreation));
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class Profile {
-  Profile({
+class CVHistory {
+  CVHistory({
     this.id,
-    this.firstName,
-    this.lastName,
-    this.password,
-    this.emailAddress,
-    this.biography,
-    this.isReviewer,
-    this.specializationId,
-    this.rating,
-    this.userRole,
+    this.attachedFileId,
+    this.cvId,
+    this.amazonPathToFile,
+    this.applicantComment,
+    this.expertComment,
+    this.grade,
+    this.dateTime,
   });
 
-  factory Profile.fromJson(Map<String, dynamic> json) =>
-      _$ProfileFromJson(json);
+  factory CVHistory.fromJson(Map<String, dynamic> json) =>
+      _$CVHistoryFromJson(json);
 
   @JsonKey(name: 'id')
   final int? id;
-  @JsonKey(name: 'firstName')
-  final String? firstName;
-  @JsonKey(name: 'lastName')
-  final String? lastName;
-  @JsonKey(name: 'password')
-  final String? password;
-  @JsonKey(name: 'emailAddress')
-  final String? emailAddress;
-  @JsonKey(name: 'biography')
-  final String? biography;
-  @JsonKey(name: 'isReviewer')
-  final bool? isReviewer;
-  @JsonKey(name: 'specializationId')
-  final int? specializationId;
-  @JsonKey(name: 'rating')
-  final double? rating;
-  @JsonKey(
-    name: 'userRole',
-    toJson: userRoleToJson,
-    fromJson: userRoleFromJson,
-  )
-  final enums.UserRole? userRole;
-  static const fromJsonFactory = _$ProfileFromJson;
-  static const toJsonFactory = _$ProfileToJson;
-  Map<String, dynamic> toJson() => _$ProfileToJson(this);
+  @JsonKey(name: 'attachedFileId')
+  final int? attachedFileId;
+  @JsonKey(name: 'cvId')
+  final int? cvId;
+  @JsonKey(name: 'amazonPathToFile')
+  final String? amazonPathToFile;
+  @JsonKey(name: 'applicantComment')
+  final String? applicantComment;
+  @JsonKey(name: 'expertComment')
+  final String? expertComment;
+  @JsonKey(name: 'grade')
+  final double? grade;
+  @JsonKey(name: 'dateTime')
+  final DateTime? dateTime;
+  static const fromJsonFactory = _$CVHistoryFromJson;
+  static const toJsonFactory = _$CVHistoryToJson;
+  Map<String, dynamic> toJson() => _$CVHistoryToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is Profile &&
+        (other is CVHistory &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.firstName, firstName) ||
+            (identical(other.attachedFileId, attachedFileId) ||
                 const DeepCollectionEquality()
-                    .equals(other.firstName, firstName)) &&
-            (identical(other.lastName, lastName) ||
+                    .equals(other.attachedFileId, attachedFileId)) &&
+            (identical(other.cvId, cvId) ||
+                const DeepCollectionEquality().equals(other.cvId, cvId)) &&
+            (identical(other.amazonPathToFile, amazonPathToFile) ||
                 const DeepCollectionEquality()
-                    .equals(other.lastName, lastName)) &&
-            (identical(other.password, password) ||
+                    .equals(other.amazonPathToFile, amazonPathToFile)) &&
+            (identical(other.applicantComment, applicantComment) ||
                 const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
-            (identical(other.emailAddress, emailAddress) ||
+                    .equals(other.applicantComment, applicantComment)) &&
+            (identical(other.expertComment, expertComment) ||
                 const DeepCollectionEquality()
-                    .equals(other.emailAddress, emailAddress)) &&
-            (identical(other.biography, biography) ||
+                    .equals(other.expertComment, expertComment)) &&
+            (identical(other.grade, grade) ||
+                const DeepCollectionEquality().equals(other.grade, grade)) &&
+            (identical(other.dateTime, dateTime) ||
                 const DeepCollectionEquality()
-                    .equals(other.biography, biography)) &&
-            (identical(other.isReviewer, isReviewer) ||
-                const DeepCollectionEquality()
-                    .equals(other.isReviewer, isReviewer)) &&
-            (identical(other.specializationId, specializationId) ||
-                const DeepCollectionEquality()
-                    .equals(other.specializationId, specializationId)) &&
-            (identical(other.rating, rating) ||
-                const DeepCollectionEquality().equals(other.rating, rating)) &&
-            (identical(other.userRole, userRole) ||
-                const DeepCollectionEquality()
-                    .equals(other.userRole, userRole)));
+                    .equals(other.dateTime, dateTime)));
   }
 
   @override
@@ -215,68 +275,62 @@ class Profile {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(firstName) ^
-      const DeepCollectionEquality().hash(lastName) ^
-      const DeepCollectionEquality().hash(password) ^
-      const DeepCollectionEquality().hash(emailAddress) ^
-      const DeepCollectionEquality().hash(biography) ^
-      const DeepCollectionEquality().hash(isReviewer) ^
-      const DeepCollectionEquality().hash(specializationId) ^
-      const DeepCollectionEquality().hash(rating) ^
-      const DeepCollectionEquality().hash(userRole) ^
+      const DeepCollectionEquality().hash(attachedFileId) ^
+      const DeepCollectionEquality().hash(cvId) ^
+      const DeepCollectionEquality().hash(amazonPathToFile) ^
+      const DeepCollectionEquality().hash(applicantComment) ^
+      const DeepCollectionEquality().hash(expertComment) ^
+      const DeepCollectionEquality().hash(grade) ^
+      const DeepCollectionEquality().hash(dateTime) ^
       runtimeType.hashCode;
 }
 
-extension $ProfileExtension on Profile {
-  Profile copyWith(
+extension $CVHistoryExtension on CVHistory {
+  CVHistory copyWith(
       {int? id,
-      String? firstName,
-      String? lastName,
-      String? password,
-      String? emailAddress,
-      String? biography,
-      bool? isReviewer,
-      int? specializationId,
-      double? rating,
-      enums.UserRole? userRole}) {
-    return Profile(
+      int? attachedFileId,
+      int? cvId,
+      String? amazonPathToFile,
+      String? applicantComment,
+      String? expertComment,
+      double? grade,
+      DateTime? dateTime}) {
+    return CVHistory(
         id: id ?? this.id,
-        firstName: firstName ?? this.firstName,
-        lastName: lastName ?? this.lastName,
-        password: password ?? this.password,
-        emailAddress: emailAddress ?? this.emailAddress,
-        biography: biography ?? this.biography,
-        isReviewer: isReviewer ?? this.isReviewer,
-        specializationId: specializationId ?? this.specializationId,
-        rating: rating ?? this.rating,
-        userRole: userRole ?? this.userRole);
+        attachedFileId: attachedFileId ?? this.attachedFileId,
+        cvId: cvId ?? this.cvId,
+        amazonPathToFile: amazonPathToFile ?? this.amazonPathToFile,
+        applicantComment: applicantComment ?? this.applicantComment,
+        expertComment: expertComment ?? this.expertComment,
+        grade: grade ?? this.grade,
+        dateTime: dateTime ?? this.dateTime);
   }
 
-  Profile copyWithWrapped(
+  CVHistory copyWithWrapped(
       {Wrapped<int?>? id,
-      Wrapped<String?>? firstName,
-      Wrapped<String?>? lastName,
-      Wrapped<String?>? password,
-      Wrapped<String?>? emailAddress,
-      Wrapped<String?>? biography,
-      Wrapped<bool?>? isReviewer,
-      Wrapped<int?>? specializationId,
-      Wrapped<double?>? rating,
-      Wrapped<enums.UserRole?>? userRole}) {
-    return Profile(
+      Wrapped<int?>? attachedFileId,
+      Wrapped<int?>? cvId,
+      Wrapped<String?>? amazonPathToFile,
+      Wrapped<String?>? applicantComment,
+      Wrapped<String?>? expertComment,
+      Wrapped<double?>? grade,
+      Wrapped<DateTime?>? dateTime}) {
+    return CVHistory(
         id: (id != null ? id.value : this.id),
-        firstName: (firstName != null ? firstName.value : this.firstName),
-        lastName: (lastName != null ? lastName.value : this.lastName),
-        password: (password != null ? password.value : this.password),
-        emailAddress:
-            (emailAddress != null ? emailAddress.value : this.emailAddress),
-        biography: (biography != null ? biography.value : this.biography),
-        isReviewer: (isReviewer != null ? isReviewer.value : this.isReviewer),
-        specializationId: (specializationId != null
-            ? specializationId.value
-            : this.specializationId),
-        rating: (rating != null ? rating.value : this.rating),
-        userRole: (userRole != null ? userRole.value : this.userRole));
+        attachedFileId: (attachedFileId != null
+            ? attachedFileId.value
+            : this.attachedFileId),
+        cvId: (cvId != null ? cvId.value : this.cvId),
+        amazonPathToFile: (amazonPathToFile != null
+            ? amazonPathToFile.value
+            : this.amazonPathToFile),
+        applicantComment: (applicantComment != null
+            ? applicantComment.value
+            : this.applicantComment),
+        expertComment:
+            (expertComment != null ? expertComment.value : this.expertComment),
+        grade: (grade != null ? grade.value : this.grade),
+        dateTime: (dateTime != null ? dateTime.value : this.dateTime));
   }
 }
 
@@ -450,61 +504,6 @@ List<enums.Specialization>? specializationNullableListFromJson(
   return specialization
       .map((e) => specializationFromJson(e.toString()))
       .toList();
-}
-
-int? userRoleToJson(enums.UserRole? userRole) {
-  return enums.$UserRoleMap[userRole];
-}
-
-enums.UserRole userRoleFromJson(
-  Object? userRole, [
-  enums.UserRole? defaultValue,
-]) {
-  if (userRole is int) {
-    return enums.$UserRoleMap.entries
-        .firstWhere((element) => element.value == userRole,
-            orElse: () =>
-                const MapEntry(enums.UserRole.swaggerGeneratedUnknown, 0))
-        .key;
-  }
-
-  final parsedResult = defaultValue == null
-      ? null
-      : enums.$UserRoleMap.entries
-          .firstWhereOrNull((element) => element.value == defaultValue)
-          ?.key;
-
-  return parsedResult ?? defaultValue ?? enums.UserRole.swaggerGeneratedUnknown;
-}
-
-List<int> userRoleListToJson(List<enums.UserRole>? userRole) {
-  if (userRole == null) {
-    return [];
-  }
-
-  return userRole.map((e) => enums.$UserRoleMap[e]!).toList();
-}
-
-List<enums.UserRole> userRoleListFromJson(
-  List? userRole, [
-  List<enums.UserRole>? defaultValue,
-]) {
-  if (userRole == null) {
-    return defaultValue ?? [];
-  }
-
-  return userRole.map((e) => userRoleFromJson(e.toString())).toList();
-}
-
-List<enums.UserRole>? userRoleNullableListFromJson(
-  List? userRole, [
-  List<enums.UserRole>? defaultValue,
-]) {
-  if (userRole == null) {
-    return defaultValue;
-  }
-
-  return userRole.map((e) => userRoleFromJson(e.toString())).toList();
 }
 
 // ignore: unused_element

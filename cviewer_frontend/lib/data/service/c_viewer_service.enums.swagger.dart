@@ -33,14 +33,3 @@ const $SpecializationMap = {
   Specialization.value_0: 0,
   Specialization.value_1: 1
 };
-
-enum UserRole {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue(0)
-  value_0,
-  @JsonValue(1)
-  value_1
-}
-
-const $UserRoleMap = {UserRole.value_0: 0, UserRole.value_1: 1};
