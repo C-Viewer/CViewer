@@ -62,14 +62,14 @@ namespace CViewer.Services
             if (fileName != null)
             {
                 // ToDo: Add adding file path to Amazaon S3.
-                int newAttachedFileId = AttachedFileRepository.CVHistories.Count + 1;
+                int newAttachedFileId = AttachedFileRepository.AttachedFiles.Count + 1;
                 var attachedFile = new AttachedFile()
                 {
                     Id = newAttachedFileId,
                     FileName = fileName,
                     FilePath = $"HardCodePath/{fileName}"
                 };
-                AttachedFileRepository.CVHistories.Add(attachedFile);
+                AttachedFileRepository.AttachedFiles.Add(attachedFile);
 
                 cvHistory.AttachedFileId = newAttachedFileId;
                 cvHistory.AmazonPathToFile = fileName;
@@ -87,11 +87,22 @@ namespace CViewer.Services
             return movie;
         }
 
-        public List<CV> List()
+        public List<CVHistory> ListCVHistories()
         {
-            var movies = CVRepository.CVs;
+            var cvHistories = CVHistoryRepository.CVHistories;
+            return cvHistories;
+        }
 
-            return movies;
+        public List<AttachedFile> ListAttachedFiles()
+        {
+            var attachedFiles = AttachedFileRepository.AttachedFiles;
+            return attachedFiles;
+        }
+
+        public List<CV> ListCVs()
+        {
+            var cvs = CVRepository.CVs;
+            return cvs;
         }
 
         public CV Update(CV newCv)

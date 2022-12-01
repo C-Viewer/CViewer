@@ -36,8 +36,16 @@ namespace CViewer.Endpoints
                     (int id, ICVService service) => Get(id, service))
                 .Produces<CV>();
 
-            app.MapGet("/list",
-                    (ICVService service) => List(service))
+            app.MapGet("/list_CVs",
+                    (ICVService service) => ListCVs(service))
+                .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
+
+            app.MapGet("/list_CV_histories",
+                    (ICVService service) => ListCVHistories(service))
+                .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
+
+            app.MapGet("/list_attached_files",
+                    (ICVService service) => ListAttachedFiles(service))
                 .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 
             app.MapPut("/update",
@@ -86,11 +94,25 @@ namespace CViewer.Endpoints
             return Results.Ok(movie);
         }
 
-        private static IResult List(ICVService service)
+        private static IResult ListCVHistories(ICVService service)
         {
-            var movies = service.List();
+            var cvHistories = service.ListCVHistories();
 
-            return Results.Ok(movies);
+            return Results.Ok(cvHistories);
+        }
+
+        private static IResult ListAttachedFiles(ICVService service)
+        {
+            var attachedFiles = service.ListAttachedFiles();
+
+            return Results.Ok(attachedFiles);
+        }
+
+        private static IResult ListCVs(ICVService service)
+        {
+            var cvs = service.ListCVs();
+
+            return Results.Ok(cvs);
         }
 
         private static IResult Update(CV newCV, ICVService service)

@@ -4,7 +4,7 @@ namespace CViewer.DataAccess.Repositories
 {
     public class AttachedFileRepository
     {
-        public static List<AttachedFile> CVHistories = new()
+        public static List<AttachedFile> AttachedFiles = new()
         {
             new AttachedFile
             {
