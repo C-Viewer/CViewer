@@ -13,6 +13,7 @@ class RealProfileRepository implements ProfileRepository {
     // TODO: избавиться от profileId
     final response = await _service.getProfileGet(profileId: 1);
 
+    // TODO: возвращать реальный профиль
     return const MockProfileRepository().getProfile();
   }
 }
