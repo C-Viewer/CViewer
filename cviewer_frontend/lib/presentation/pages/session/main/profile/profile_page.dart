@@ -1,4 +1,4 @@
-import 'package:cviewer_frontend/presentation/widgets/user/user_provider.dart';
+import 'package:cviewer_frontend/presentation/widgets/profile/profile_provider.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -6,7 +6,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = UserProvider.of(context);
+    final user = ProfileProvider.of(context);
 
     return Scaffold(
       body: user != null

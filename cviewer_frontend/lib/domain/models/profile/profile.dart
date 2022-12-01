@@ -1,8 +1,8 @@
 // TODO: доработать модель
 // avatarUrl - ?
 // tags - ?
-class User {
-  const User({
+class Profile {
+  const Profile({
     required this.id,
     required this.firstName,
     required this.lastName,

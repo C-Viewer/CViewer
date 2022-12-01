@@ -1,15 +1,17 @@
-import 'package:cviewer_frontend/domain/models/user/user.dart';
-import 'package:cviewer_frontend/domain/repositories/user_repository.dart';
+import 'package:cviewer_frontend/domain/models/profile/profile.dart';
+import 'package:cviewer_frontend/domain/repositories/profile_repository.dart';
 
-class MockUserRepository implements UserRepository {
+class MockProfileRepository implements ProfileRepository {
+  const MockProfileRepository();
+
   @override
-  Future<User> getUser() async {
+  Future<Profile> getProfile() async {
     return mockUser;
   }
 }
 
 // TODO: сделать приватным в будущем
-const mockUser = User(
+const mockUser = Profile(
   id: '1',
   firstName: 'Ван',
   lastName: 'Даркхолм',

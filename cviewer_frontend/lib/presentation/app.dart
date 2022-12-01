@@ -1,10 +1,10 @@
 import 'package:cviewer_frontend/constants/route_constants.dart';
-import 'package:cviewer_frontend/data/repositories/mock_user_repository.dart';
+import 'package:cviewer_frontend/data/repositories/mock_profile_repository.dart';
 import 'package:cviewer_frontend/presentation/pages/auth/auth_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/main/main_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/resume/resume_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/session_page.dart';
-import 'package:cviewer_frontend/presentation/widgets/user/user_provider.dart';
+import 'package:cviewer_frontend/presentation/widgets/profile/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,7 +13,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return UserProvider(
+    return ProfileProvider(
       user: mockUser,
       child: MaterialApp.router(
         title: 'CViewer',
