@@ -21,22 +21,19 @@ namespace CViewer.Endpoints
                 .Produces<string>();
 
             app.MapPost("/sign_up",
-                //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Standard, Administrator")]
                 (UserCredentials userCredentials, IProfileService service) => SignUp(userCredentials, service));
 
-            app.MapGet("/get_profile_info",
-                //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Standard, Administrator")]
-                (int profileId, IProfileService service) => GetProfileInfo(profileId, service));
-
-            app.MapPut("/update_profile_info",
-                //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Standard, Administrator")]
+            app.MapPut("/update_profile",
                 (int profileId, IProfileService service, string firstName, string lastName, string biography,
-                double? rating, string email, string password, int? specializationId) => UpdateProfileInfo(profileId: profileId, firstName: firstName,
+                double? rating, string email, string password, int? specializationId) => UpdateProfile(profileId: profileId, firstName: firstName,
                     lastName: lastName, biography: biography, rating: rating, email: email, password: password, specializationId: specializationId, 
                     service: service));
 
             app.MapGet("/list_profiles",
                 (IProfileService service) => ListProfiles(service));
+
+            app.MapGet("/get_profile",
+                (int profileId, IProfileService service) => GetProfile(profileId, service));
         }
 
         private static IResult SignIn(UserCredentials user, IProfileService service)
@@ -80,18 +77,18 @@ namespace CViewer.Endpoints
             return Results.Ok(profile);
         }
 
-        private static IResult GetProfileInfo(int profileId, IProfileService service)
+        private static IResult GetProfile(int profileId, IProfileService service)
         {
-            var profile = service.GetProfileInfo(profileId);
+            var profile = service.GetProfile(profileId);
             if (profile is null) return Results.NotFound("Profile not found");
 
             return Results.Ok(profile);
         }
 
-        private static IResult UpdateProfileInfo(int profileId, IProfileService service, string firstName = null, string lastName = null, string biography = null,
+        private static IResult UpdateProfile(int profileId, IProfileService service, string firstName = null, string lastName = null, string biography = null,
             double? rating = null, string email = null, string password = null, int? specializationId = null)
         {
-            var updatedProfile = service.UpdateProfileInfo(profileId: profileId, firstName: firstName, lastName: lastName, 
+            var updatedProfile = service.UpdateProfile(profileId: profileId, firstName: firstName, lastName: lastName, 
                 biography: biography, rating: rating, email: email, password: password, specializationId: specializationId);
 
             if (updatedProfile is null) Results.NotFound("Profile not found");

@@ -11,8 +11,9 @@ namespace CViewer.Services
         public List<CVHistory> ListCVHistories();
         public List<AttachedFile> ListAttachedFiles();
         public List<CV> ListCVs();
-        public CV Get(int id);
-        public CV Update(CV cv);
-        public bool Delete(int id);
+        public CV GetCV(int id);
+        public CVHistory GetCVHistory(int id);
+        public AttachedFile GetAttachedFile(int id);
+        //public bool Delete(int id);
     }
 }

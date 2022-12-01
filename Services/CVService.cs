@@ -78,13 +78,31 @@ namespace CViewer.Services
             return cvHistory;
         }
 
-        public CV Get(int id)
+        public CV GetCV(int cvId)
         {
-            var movie = CVRepository.CVs.FirstOrDefault(o => o.Id == id);
+            var cv = CVRepository.CVs.FirstOrDefault(o => o.Id == cvId);
 
-            if (movie is null) return null;
+            if (cv is null) return null;
 
-            return movie;
+            return cv;
+        }
+
+        public CVHistory GetCVHistory(int cvHistoryId)
+        {
+            var cvHistory = CVHistoryRepository.CVHistories.FirstOrDefault(o => o.Id == cvHistoryId);
+
+            if (cvHistory is null) return null;
+
+            return cvHistory;
+        }
+
+        public AttachedFile GetAttachedFile(int attachedFileId)
+        {
+            var attachedFile = AttachedFileRepository.AttachedFiles.FirstOrDefault(o => o.Id == attachedFileId);
+
+            if (attachedFile is null) return null;
+
+            return attachedFile;
         }
 
         public List<CVHistory> ListCVHistories()
@@ -105,28 +123,15 @@ namespace CViewer.Services
             return cvs;
         }
 
-        public CV Update(CV newCv)
-        {
-            var oldMovie = CVRepository.CVs.FirstOrDefault(o => o.Id == newCv.Id);
-
-            if (oldMovie is null) return null;
-
-            oldMovie.Title = newCv.Title;
-            oldMovie.Description = newCv.Description;
-            oldMovie.Rating = newCv.Rating;
-
-            return newCv;
-        }
-
-        public bool Delete(int id)
-        {
-            var oldMovie = CVRepository.CVs.FirstOrDefault(o => o.Id == id);
-
-            if (oldMovie is null) return false;
-
-            CVRepository.CVs.Remove(oldMovie);
-
-            return true;
-        }
+        //public bool Delete(int id)
+        //{
+        //    var oldMovie = CVRepository.CVs.FirstOrDefault(o => o.Id == id);
+        //
+        //    if (oldMovie is null) return false;
+        //
+        //    CVRepository.CVs.Remove(oldMovie);
+        //
+        //    return true;
+        //}
     }
 }

@@ -10,15 +10,25 @@ namespace CViewer.Endpoints
     {
         public static void MapCVEndpoints(this WebApplication app)
         {
+            app.MapGet("/get_cv",
+                    (int cvId, ICVService service) => GetCV(cvId, service))
+                .Produces<CV>();
+
+            app.MapGet("/get_cv_history",
+                    (int cvHistoryId, ICVService service) => GetCVHistory(cvHistoryId, service))
+                .Produces<CVHistory>();
+
+            app.MapGet("/get_attached_file",
+                    (int attachedFileId, ICVService service) => GetAttachedFile(attachedFileId, service))
+                .Produces<AttachedFile>();
+
             app.MapPost("/create_cv_draft",
-                //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
                     (CV cv, int applicantId, ICVService service) => CreateCVDraft(cv, applicantId, service))
                 .Accepts<CV>("application/json")
                 .Produces<CV>(statusCode: 200, contentType: "application/json");
 
             // ToDo: Perhaps, we will need two or more List-parameters, but I cannot understand how to pass it yet.
             app.MapPost("/update_cv_info",
-                //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
                 (int cvId, ICVService service, string title, Specialization? specialization, List<CVTag> tags,
                         string description) =>
                     UpdateCVInfo(cvId: cvId, service: service, title: title, specialization: specialization, tags: tags, description: description));
@@ -30,33 +40,21 @@ namespace CViewer.Endpoints
                     AddEventToHistory(cvId: cvId, fileName: fileName, applicantComment: applicantComment, expertComment: expertComment, dateTime: dateTime,
                         service: service));
 
-            // ToDo: change the following methods
-            app.MapGet("/get",
-                    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Standard, Administrator")]
-                    (int id, ICVService service) => Get(id, service))
-                .Produces<CV>();
-
             app.MapGet("/list_CVs",
                     (ICVService service) => ListCVs(service))
                 .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_CV_histories",
                     (ICVService service) => ListCVHistories(service))
-                .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
+                .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_attached_files",
                     (ICVService service) => ListAttachedFiles(service))
-                .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
+                .Produces<List<AttachedFile>>(statusCode: 200, contentType: "application/json");
 
-            app.MapPut("/update",
-                    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
-                    (CV newCV, ICVService service) => Update(newCV, service))
-                .Accepts<CV>("application/json")
-                .Produces<CV>(statusCode: 200, contentType: "application/json");
-
-            app.MapDelete("/delete",
-                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
-                (int id, ICVService service) => Delete(id, service));
+            //app.MapDelete("/delete",
+            //    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+            //    (int id, ICVService service) => Delete(id, service));
         }
 
         private static IResult CreateCVDraft(CV cv, int applicantId, ICVService service)
@@ -85,13 +83,31 @@ namespace CViewer.Endpoints
             return Results.Ok(cvHistory);
         }
 
-        private static IResult Get(int id, ICVService service)
+        private static IResult GetCV(int cvId, ICVService service)
         {
-            var movie = service.Get(id);
+            var cv = service.GetCV(cvId);
 
-            if (movie is null) return Results.NotFound("CV not found");
+            if (cv is null) return Results.NotFound("CV not found");
 
-            return Results.Ok(movie);
+            return Results.Ok(cv);
+        }
+
+        private static IResult GetCVHistory(int cvHistoryId, ICVService service)
+        {
+            var cvHistory = service.GetCVHistory(cvHistoryId);
+
+            if (cvHistory is null) return Results.NotFound("CV history not found");
+
+            return Results.Ok(cvHistory);
+        }
+
+        private static IResult GetAttachedFile(int attachedFileId, ICVService service)
+        {
+            var attachedFile = service.GetAttachedFile(attachedFileId);
+
+            if (attachedFile is null) return Results.NotFound("Attached file not found");
+
+            return Results.Ok(attachedFile);
         }
 
         private static IResult ListCVHistories(ICVService service)
@@ -115,22 +131,13 @@ namespace CViewer.Endpoints
             return Results.Ok(cvs);
         }
 
-        private static IResult Update(CV newCV, ICVService service)
-        {
-            var updatedMovie = service.Update(newCV);
-
-            if (updatedMovie is null) Results.NotFound("CV not found");
-
-            return Results.Ok(updatedMovie);
-        }
-
-        private static IResult Delete(int id, ICVService service)
-        {
-            var result = service.Delete(id);
-
-            if (!result) Results.BadRequest("Something went wrong");
-
-            return Results.Ok(result);
-        }
+        //private static IResult Delete(int id, ICVService service)
+        //{
+        //    var result = service.Delete(id);
+        //
+        //    if (!result) Results.BadRequest("Something went wrong");
+        //
+        //    return Results.Ok(result);
+        //}
     }
 }

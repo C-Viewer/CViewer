@@ -34,7 +34,7 @@ namespace CViewer.Services
             return profile;
         }
 
-        public Profile GetProfileInfo(int profileId)
+        public Profile GetProfile(int profileId)
         {
             var profile = ProfileRepository.Profiles.FirstOrDefault(o => o.Id == profileId);
 
@@ -43,7 +43,7 @@ namespace CViewer.Services
             return profile;
         }
 
-        public Profile UpdateProfileInfo(int profileId, string firstName = null, string lastName = null, string biography = null,
+        public Profile UpdateProfile(int profileId, string firstName = null, string lastName = null, string biography = null,
             double? rating = null, string email = null, string password = null, int? specializationId = null)
         {
             var profileForUpdate = ProfileRepository.Profiles.FirstOrDefault(o => o.Id == profileId);
