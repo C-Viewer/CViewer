@@ -42,6 +42,42 @@ namespace CViewer.Services
             return cvForUpdating;
         }
 
+        // ToDo: Add validation on empty data
+        public CVHistory AddEventToHistory(int cvId, DateTime dateTime, ICVService service, string fileName = null,
+            string applicantComment = null, string expertComment = null, double? grade = null)
+        {
+            CVHistory cvHistory = new CVHistory
+            {
+                Id = CVHistoryRepository.CVHistories.Count + 1,
+                CVId = cvId,
+                ApplicantComment = applicantComment,
+                ExpertComment = expertComment,
+                DateTime = dateTime,
+
+                // ToDo: Change to Amazon Path
+                AmazonPathToFile = fileName,
+                Grade = grade
+            };
+
+            if (fileName != null)
+            {
+                // ToDo: Add adding file path to Amazaon S3.
+                int newAttachedFileId = AttachedFileRepository.CVHistories.Count + 1;
+                var attachedFile = new AttachedFile()
+                {
+                    Id = newAttachedFileId,
+                    FileName = fileName,
+                    FilePath = $"HardCodePath/{fileName}"
+                };
+                AttachedFileRepository.CVHistories.Add(attachedFile);
+
+                cvHistory.AttachedFileId = newAttachedFileId;
+                cvHistory.AmazonPathToFile = fileName;
+            }
+
+            return cvHistory;
+        }
+
         public CV Get(int id)
         {
             var movie = CVRepository.CVs.FirstOrDefault(o => o.Id == id);

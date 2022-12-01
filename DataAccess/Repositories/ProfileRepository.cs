@@ -9,18 +9,25 @@ namespace CViewer.DataAccess.Repositories
             new()
             {
                 Id = 1,
-                EmailAddress = "luke.admin@email.com",
-                Password = "MyPass_w0rd", 
-                FirstName = "Luke", 
-                LastName = "Rogers", 
+                EmailAddress = "dark-fantasies.com",
+                Password = "Pass", 
+                FirstName = "Ven", 
+                LastName = "Darkholm", 
+                IsExpert = true,
+                Rating = 10,
+                SpecializationId = 1,
+                Biography = "Dungeon master"
             },
             new()
             {
                 Id = 2,
-                EmailAddress = "lydia.standard@email.com", 
-                Password = "MyPass_w0rd", 
-                FirstName = "Elyse",
-                LastName = "Burton", 
+                EmailAddress = "letherman.com", 
+                Password = "Pass2", 
+                FirstName = "Boy",
+                LastName = "Next", 
+                IsExpert = false,
+                SpecializationId = 1,
+                Biography = "Average IT fun"
             },
         };
     }

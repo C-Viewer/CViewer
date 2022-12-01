@@ -21,7 +21,7 @@
         public string Biography { get; set; }
         public bool IsExpert { get; set; }
         public int SpecializationId { get; set; }
-        public double Rating { get; set; }
+        public double? Rating { get; set; }
 
         // ToDo: And so on...
     }

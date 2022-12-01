@@ -2,6 +2,7 @@
 using CViewer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace CViewer.Endpoints
 {
@@ -21,8 +22,13 @@ namespace CViewer.Endpoints
                 (int cvId, ICVService service, string title, Specialization? specialization, List<CVTag> tags,
                         string description) =>
                     UpdateCVInfo(cvId: cvId, service: service, title: title, specialization: specialization, tags: tags, description: description));
-                //.Accepts<CV>("application/json")
-                //.Produces<CV>(statusCode: 200, contentType: "application/json");
+            //.Accepts<CV>("application/json")
+            //.Produces<CV>(statusCode: 200, contentType: "application/json");
+
+            app.MapGet("/add_event_to_history",
+                (int cvId, string fileName, string applicantComment, string expertComment, DateTime dateTime, ICVService service) => 
+                    AddEventToHistory(cvId: cvId, fileName: fileName, applicantComment: applicantComment, expertComment: expertComment, dateTime: dateTime,
+                        service: service));
 
             // ToDo: change the following methods
             app.MapGet("/get",
@@ -59,6 +65,16 @@ namespace CViewer.Endpoints
             if (updatedCV is null) Results.NotFound("CV not found");
 
             return Results.Ok(updatedCV);
+        }
+
+        private static IResult AddEventToHistory(int cvId, string fileName, string applicantComment,
+            string expertComment, DateTime dateTime, ICVService service)
+        {
+            CVHistory cvHistory = service.AddEventToHistory(cvId: cvId, fileName: fileName, applicantComment: applicantComment,
+                expertComment: expertComment, dateTime: dateTime,
+                service: service);
+
+            return Results.Ok(cvHistory);
         }
 
         private static IResult Get(int id, ICVService service)
