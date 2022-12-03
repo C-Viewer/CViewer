@@ -120,7 +120,7 @@ namespace CViewer.Services
             Claim[] claims = new[]
             {
                 // ToDo: Perhaps, we need change chosen properties for Claim.
-                new Claim(ClaimTypes.NameIdentifier, loggedInUser.EmailAddress),
+                new Claim(ClaimTypes.NameIdentifier, $"{loggedInUser.Id.ToString()}:{loggedInUser.EmailAddress}"),
                 new Claim(ClaimTypes.Email, loggedInUser.EmailAddress),
                 new Claim(ClaimTypes.Name, loggedInUser.FirstName ?? string.Empty),
                 new Claim(ClaimTypes.Surname, loggedInUser.LastName ?? string.Empty),
