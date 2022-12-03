@@ -5,19 +5,19 @@ namespace CViewer.DataAccess.DataRetrieval
 {
     internal static class DataManager
     {
-        internal static Profile GetProfile(string email, string password)
+        internal static Profile GetProfileFromMemory(string email, string password)
         {
             // ToDo: Use salt and hash for password.
             return ProfileRepository.Profiles.FirstOrDefault(u =>
                 u.EmailAddress.Equals(email) && u.Password.Equals(password));
         }
 
-        internal static int GetProfilesCount()
+        internal static int GetProfilesCountFromMemory()
         {
             return ProfileRepository.Profiles.Count;
         }
 
-        internal static void AddProfile(Profile profile)
+        internal static void AddProfileToMemory(Profile profile)
         {
             ProfileRepository.Profiles.Add(profile);
         }

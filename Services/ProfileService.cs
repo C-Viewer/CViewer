@@ -13,7 +13,7 @@ namespace CViewer.Services
     {
         public int SignUp(UserCredentials userCredentials, out string tokenOrMessage, WebApplicationBuilder builder)
         {
-            Profile existingProfile = DataManager.GetProfile(userCredentials.EmailAddress, userCredentials.Password);
+            Profile existingProfile = DataManager.GetProfileFromMemory(userCredentials.EmailAddress, userCredentials.Password);
             if (existingProfile != null)
             {
 
@@ -23,12 +23,12 @@ namespace CViewer.Services
 
             Profile newProfile = new Profile
             {
-                Id = DataManager.GetProfilesCount() + 1,
+                Id = DataManager.GetProfilesCountFromMemory() + 1,
                 EmailAddress = userCredentials.EmailAddress,
                 Password = userCredentials.Password
             };
 
-            DataManager.AddProfile(newProfile);
+            DataManager.AddProfileToMemory(newProfile);
 
             tokenOrMessage = GenerateToken(newProfile, builder);
             return ErrorCodes.Ok;
@@ -43,7 +43,7 @@ namespace CViewer.Services
                 return ErrorCodes.BadRequest;
             }
 
-            Profile loggedInUser = DataManager.GetProfile(userCredentials.EmailAddress, userCredentials.Password);
+            Profile loggedInUser = DataManager.GetProfileFromMemory(userCredentials.EmailAddress, userCredentials.Password);
             if (loggedInUser is null)
             {
                 tokenOrMessage = "User not found";
