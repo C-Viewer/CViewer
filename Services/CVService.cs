@@ -3,7 +3,7 @@ using CViewer.DataAccess.Repositories;
 
 namespace CViewer.Services
 {
-    public class CVService : ICVService
+    internal sealed class CVService : ICVService
     {
         public CV CreateCVDraft(CV cv, int applicantId)
         {
@@ -103,6 +103,11 @@ namespace CViewer.Services
             if (attachedFile is null) return null;
 
             return attachedFile;
+        }
+
+        public List<CVTag> ListCVTags()
+        {
+            return CVTagRepository.CVTags;
         }
 
         public List<CVHistory> ListCVHistories()

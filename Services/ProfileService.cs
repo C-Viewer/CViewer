@@ -3,7 +3,7 @@ using CViewer.DataAccess.Repositories;
 
 namespace CViewer.Services
 {
-    public class ProfileService : IProfileService
+    internal sealed class ProfileService : IProfileService
     {
         public Profile SignUp(UserCredentials userCredentials)
         {

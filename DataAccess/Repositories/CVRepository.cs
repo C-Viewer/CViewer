@@ -14,7 +14,11 @@ namespace CViewer.DataAccess.Repositories
                 DateCreation = new DateTime(2022, 12, 1, 16, 13, 33),
                 PeopleCreatedId = 2,
                 Specialization = Specialization.DataAnalyst,
-                Tags = new List<CVTag>() { CVTag.SQL, CVTag.DotNet },
+                Tags = new List<CVTag>
+                {
+                    CVTagRepository.CVTags.FirstOrDefault(o => o.Name.Equals("SQL")),
+                    CVTagRepository.CVTags.FirstOrDefault(o => o.Name.Equals("DotNet")),
+                },
             },
         };
     }

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using CViewer.DataAccess.Entities;
 using CViewer.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CViewer.Endpoints
@@ -34,6 +35,13 @@ namespace CViewer.Endpoints
 
             app.MapGet("/get_profile",
                 (int profileId, IProfileService service) => GetProfile(profileId, service));
+
+            #region OnlyForScheme
+            
+            app.MapGet("/stubForProfileScheme",
+                ([FromBody] Profile profile, IProfileService service) => Results.Ok(profile));
+            
+            #endregion
         }
 
         private static IResult SignIn(UserCredentials user, IProfileService service)

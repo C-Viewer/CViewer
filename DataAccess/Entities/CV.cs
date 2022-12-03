@@ -1,14 +1,5 @@
 ﻿namespace CViewer.DataAccess.Entities
 {
-    // ToDo: Add parsing string to tag
-    public enum CVTag
-    {
-        DotNet,
-        Java,
-        Flatter,
-        SQL,
-    }
-
     // ToDo: Add parsing string to Specialization
     public enum Specialization
     {

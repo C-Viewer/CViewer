@@ -44,6 +44,9 @@ namespace CViewer.Endpoints
                     (ICVService service) => ListCVs(service))
                 .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 
+            app.MapGet("/list_CV_tags",
+                (ICVService service) => ListCVTags(service));
+
             app.MapGet("/list_CV_histories",
                     (ICVService service) => ListCVHistories(service))
                 .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
@@ -108,6 +111,11 @@ namespace CViewer.Endpoints
             if (attachedFile is null) return Results.NotFound("Attached file not found");
 
             return Results.Ok(attachedFile);
+        }
+
+        private static IResult ListCVTags(ICVService service)
+        {
+            return Results.Ok(service.ListCVTags());
         }
 
         private static IResult ListCVHistories(ICVService service)
