@@ -2,7 +2,7 @@
 
 namespace CViewer.DataAccess.Repositories
 {
-    public class CVRepository
+    internal sealed class CVRepository
     {
         public static List<CV> CVs = new()
         {
@@ -13,7 +13,7 @@ namespace CViewer.DataAccess.Repositories
                 Rating = 6.8,
                 DateCreation = new DateTime(2022, 12, 1, 16, 13, 33),
                 PeopleCreatedId = 2,
-                Specialization = Specialization.DataAnalyst,
+                Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Name.Equals("DataAnalyst")),            
                 Tags = new List<CVTag>
                 {
                     CVTagRepository.CVTags.FirstOrDefault(o => o.Name.Equals("SQL")),

@@ -1,12 +1,5 @@
 ﻿namespace CViewer.DataAccess.Entities
 {
-    // ToDo: Add parsing string to Specialization
-    public enum Specialization
-    {
-        SoftwareEngineer,
-        DataAnalyst,
-    }
-
     public class CV
     {
         public int Id { get; set; }

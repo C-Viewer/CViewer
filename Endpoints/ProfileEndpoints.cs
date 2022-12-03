@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CViewer.Endpoints
 {
-    public static class ProfileEndpoints
+    internal static class ProfileEndpoints
     {
         private static WebApplicationBuilder _builder;
 

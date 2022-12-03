@@ -1,12 +1,10 @@
 ﻿using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace CViewer.Endpoints
 {
-    public static class CVEndpoints
+    internal static class CVEndpoints
     {
         public static void MapCVEndpoints(this WebApplication app)
         {
@@ -29,9 +27,10 @@ namespace CViewer.Endpoints
 
             // ToDo: Perhaps, we will need two or more List-parameters, but I cannot understand how to pass it yet.
             app.MapPost("/update_cv_info",
-                (int cvId, ICVService service, string title, Specialization? specialization, List<CVTag> tags,
+                (int cvId, ICVService service, string title, TransitObjectForUpdateCVInfo updateCVInfoParams,// Specialization specialization, List<CVTag> tags,
                         string description) =>
-                    UpdateCVInfo(cvId: cvId, service: service, title: title, specialization: specialization, tags: tags, description: description));
+                    UpdateCVInfo(cvId: cvId, service: service, title: title, 
+                        specialization: updateCVInfoParams.Specialization, tags: updateCVInfoParams.CVTags, description: description));
             //.Accepts<CV>("application/json")
             //.Produces<CV>(statusCode: 200, contentType: "application/json");
 
@@ -46,6 +45,9 @@ namespace CViewer.Endpoints
 
             app.MapGet("/list_CV_tags",
                 (ICVService service) => ListCVTags(service));
+
+            app.MapGet("/list_specializations",
+                (ICVService service) => ListSpecializations(service));
 
             app.MapGet("/list_CV_histories",
                     (ICVService service) => ListCVHistories(service))
@@ -66,7 +68,7 @@ namespace CViewer.Endpoints
             return Results.Ok(result);
         }
 
-        private static IResult UpdateCVInfo(int cvId, ICVService service, string title = null, Specialization? specialization = null, List<CVTag> tags = null, string description = null)
+        private static IResult UpdateCVInfo(int cvId, ICVService service, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null)
         {
             var updatedCV = service.UpdateCVInfo(cvId: cvId, title: title, specialization: specialization, tags: tags, 
                 description: description);
@@ -118,6 +120,12 @@ namespace CViewer.Endpoints
             return Results.Ok(service.ListCVTags());
         }
 
+        private static IResult ListSpecializations(ICVService service)
+        {
+            return Results.Ok(service.ListSpecializations());
+        }
+
+        
         private static IResult ListCVHistories(ICVService service)
         {
             var cvHistories = service.ListCVHistories();

@@ -2,7 +2,7 @@
 
 namespace CViewer.DataAccess.Repositories
 {
-    public class AttachedFileRepository
+    internal sealed class AttachedFileRepository
     {
         public static List<AttachedFile> AttachedFiles = new()
         {

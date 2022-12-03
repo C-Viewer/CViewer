@@ -2,7 +2,7 @@
 
 namespace CViewer.DataAccess.Repositories
 {
-    public class CVHistoryRepository
+    internal sealed class CVHistoryRepository
     {
         public static List<CVHistory> CVHistories = new()
         {

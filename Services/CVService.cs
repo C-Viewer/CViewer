@@ -13,7 +13,7 @@ namespace CViewer.Services
             return cv;
         }
 
-        public CV UpdateCVInfo(int cvId, string title = null, Specialization? specialization = null, List<CVTag> tags = null, string description = null)
+        public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null)
         {
             var cvForUpdating = CVRepository.CVs.FirstOrDefault(o => o.Id == cvId);
 
@@ -108,6 +108,11 @@ namespace CViewer.Services
         public List<CVTag> ListCVTags()
         {
             return CVTagRepository.CVTags;
+        }
+
+        public List<Specialization> ListSpecializations()
+        {
+            return SpecializationRepository.Specializations;
         }
 
         public List<CVHistory> ListCVHistories()

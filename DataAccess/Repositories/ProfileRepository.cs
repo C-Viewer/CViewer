@@ -2,7 +2,7 @@
 
 namespace CViewer.DataAccess.Repositories
 {
-    public class ProfileRepository
+    internal sealed class ProfileRepository
     {
         public static List<Profile> Profiles = new()
         {
