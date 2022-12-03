@@ -1,6 +1,8 @@
 ﻿using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CViewer.Endpoints
 {
@@ -37,9 +39,9 @@ namespace CViewer.Endpoints
             app.MapGet("/add_event_to_history",
                 (int cvId, string fileName, string applicantComment, string expertComment, DateTime dateTime, ICVService service) => 
                     AddEventToHistory(cvId: cvId, fileName: fileName, applicantComment: applicantComment, expertComment: expertComment, dateTime: dateTime,
-                        service: service));
-
+                service: service));
             app.MapGet("/list_CVs",
+                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (ICVService service) => ListCVs(service))
                 .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 

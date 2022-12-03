@@ -1,37 +1,57 @@
 ﻿using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.Repositories;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using CViewer.DataAccess.DataRetrieval;
+using CViewer.Utils;
 
 namespace CViewer.Services
 {
     internal sealed class ProfileService : IProfileService
     {
-        public Profile SignUp(UserCredentials userCredentials)
+        public int SignUp(UserCredentials userCredentials, out string tokenOrMessage, WebApplicationBuilder builder)
         {
-            Profile existingProfile = ProfileRepository.Profiles.FirstOrDefault(
-                o => o.EmailAddress.Equals(userCredentials.EmailAddress)
-                     && o.Password.Equals(userCredentials.Password));
+            Profile existingProfile = DataManager.GetProfile(userCredentials.EmailAddress, userCredentials.Password);
             if (existingProfile != null)
             {
-                return existingProfile;
+
+                tokenOrMessage = "Email is already used for another account";
+                return ErrorCodes.Conflict;
             }
 
             Profile newProfile = new Profile
             {
-                Id = ProfileRepository.Profiles.Count + 1,
+                Id = DataManager.GetProfilesCount() + 1,
                 EmailAddress = userCredentials.EmailAddress,
                 Password = userCredentials.Password
             };
 
-            ProfileRepository.Profiles.Add(newProfile);
+            DataManager.AddProfile(newProfile);
 
-            return newProfile;
+            tokenOrMessage = GenerateToken(newProfile, builder);
+            return ErrorCodes.Ok;
         }
 
-        public Profile SignIn(UserCredentials userCredentials)
+        public int SignIn(UserCredentials userCredentials, out string tokenOrMessage, WebApplicationBuilder builder)
         {
-            Profile profile = ProfileRepository.Profiles.FirstOrDefault(o => o.EmailAddress.Equals(userCredentials.EmailAddress, StringComparison.OrdinalIgnoreCase) && o.Password.Equals(userCredentials.Password));
+            if (string.IsNullOrEmpty(userCredentials.EmailAddress) ||
+                string.IsNullOrEmpty(userCredentials.Password))
+            {
+                tokenOrMessage = "Invalid user credentials: at least one is empty";
+                return ErrorCodes.BadRequest;
+            }
 
-            return profile;
+            Profile loggedInUser = DataManager.GetProfile(userCredentials.EmailAddress, userCredentials.Password);
+            if (loggedInUser is null)
+            {
+                tokenOrMessage = "User not found";
+                return ErrorCodes.NotFound;
+            }
+
+            tokenOrMessage = GenerateToken(loggedInUser, builder);
+            return ErrorCodes.Ok;
         }
 
         public Profile GetProfile(int profileId)
@@ -93,6 +113,34 @@ namespace CViewer.Services
             var profiles = ProfileRepository.Profiles;
 
             return profiles;
+        }
+
+        private string GenerateToken(Profile loggedInUser, WebApplicationBuilder builder)
+        {
+            Claim[] claims = new[]
+            {
+                // ToDo: Perhaps, we need change chosen properties for Claim.
+                new Claim(ClaimTypes.NameIdentifier, loggedInUser.EmailAddress),
+                new Claim(ClaimTypes.Email, loggedInUser.EmailAddress),
+                new Claim(ClaimTypes.Name, loggedInUser.FirstName ?? string.Empty),
+                new Claim(ClaimTypes.Surname, loggedInUser.LastName ?? string.Empty),
+                new Claim(ClaimTypes.Role, loggedInUser.IsExpert == null 
+                    ? Role.WithoutRole.ToString() : (bool)loggedInUser.IsExpert ? Role.Expert.ToString() : Role.Applicant.ToString()),
+            };
+
+            JwtSecurityToken token = new JwtSecurityToken
+            (
+                issuer: builder.Configuration["Jwt:Issuer"],
+                audience: builder.Configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(14),
+                notBefore: DateTime.UtcNow,
+                signingCredentials: new SigningCredentials(
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+                    SecurityAlgorithms.HmacSha256)
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

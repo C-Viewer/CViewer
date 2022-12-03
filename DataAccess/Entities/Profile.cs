@@ -6,6 +6,13 @@
         Gmail,
     }
 
+    public enum Role
+    {
+        WithoutRole,
+        Applicant,
+        Expert,
+    }
+
     public class Profile
     {
         public int Id { get; set; }
@@ -19,8 +26,8 @@
         public string EmailAddress { get; set; }
 
         public string Biography { get; set; }
-        public bool IsExpert { get; set; }
-        public int SpecializationId { get; set; }
+        public bool? IsExpert { get; set; }
+        public int? SpecializationId { get; set; }
         public double? Rating { get; set; }
 
         // ToDo: And so on...
