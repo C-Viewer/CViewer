@@ -90,7 +90,7 @@ namespace CViewer.Endpoints
 
         private static IResult GetCV(int cvId, ICVService service)
         {
-            var cv = service.GetCV(cvId);
+            CV cv = service.GetCV(cvId);
 
             if (cv is null) return Results.NotFound("CV not found");
 

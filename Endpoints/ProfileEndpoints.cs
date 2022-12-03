@@ -28,20 +28,16 @@ namespace CViewer.Endpoints
                 (int profileId, IProfileService service, string firstName, string lastName, string biography,
                 double? rating, string email, string password, int? specializationId) => UpdateProfile(profileId: profileId, firstName: firstName,
                     lastName: lastName, biography: biography, rating: rating, email: email, password: password, specializationId: specializationId, 
-                    service: service));
+                    service: service))
+                .Produces<Profile>();
 
             app.MapGet("/list_profiles",
-                (IProfileService service) => ListProfiles(service));
+                (IProfileService service) => ListProfiles(service))
+                .Produces<List<Profile>>();
 
             app.MapGet("/get_profile",
-                (int profileId, IProfileService service) => GetProfile(profileId, service));
-
-            #region OnlyForScheme
-            
-            app.MapGet("/stubForProfileScheme",
-                ([FromBody] Profile profile, IProfileService service) => Results.Ok(profile));
-            
-            #endregion
+                    (int profileId, IProfileService service) => GetProfile(profileId, service))
+                .Produces<Profile>();
         }
 
         private static IResult SignIn(UserCredentials user, IProfileService service)
