@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using CViewer.Services;
 using System.Text;
-using CViewer.DataAccess.Entities;
 using CViewer.Endpoints;
 
+const string corsPolicyName = "AllowAll";
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen(options =>
@@ -55,6 +54,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<ICVService, CVService>();
 builder.Services.AddSingleton<IProfileService, ProfileService>();
 
+builder.Services.AddCors(p => p.AddPolicy(corsPolicyName, build =>
+{
+    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+}));
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -68,5 +72,7 @@ app.MapProfileEndpoints(builder);
 app.MapCVEndpoints();
 
 app.UseSwaggerUI();
+
+app.UseCors(corsPolicyName);
 
 app.Run();
