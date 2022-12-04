@@ -31,7 +31,7 @@ namespace CViewer.Services
             DataManager.AddProfileToMemory(newProfile);
 
             tokenOrMessage = GenerateToken(newProfile, builder);
-            DataManager.SetTokenToProfile(newProfile.Id, tokenOrMessage);
+            DataManager.AddProfileAndToken(newProfile.Id, tokenOrMessage);
             return ErrorCodes.Ok;
         }
 
@@ -52,7 +52,7 @@ namespace CViewer.Services
             }
 
             tokenOrMessage = GenerateToken(loggedInUser, builder);
-            DataManager.SetTokenToProfile(loggedInUser.Id, tokenOrMessage);
+            DataManager.SetTokenToProfileBySignIn(loggedInUser.Id, tokenOrMessage);
 
             return ErrorCodes.Ok;
         }

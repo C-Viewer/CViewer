@@ -10,26 +10,41 @@ namespace CViewer.DataAccess.DataManager
     {
         internal const int EntityNotFound = -1;
 
-        internal static void SetTokenToProfile(int profileId, string token)
+        internal static void SetTokenToProfileBySignIn(int profileId, string token)
         { 
-            ProfileToToken profileToToken = GetProfileToTokenFromMemory(profileId);
+            ProfileToToken profileToToken = GetProfileAndToken(profileId);
             if (profileToToken == null)
             {
-                AddProfileToTokenInMemory(profileId, token);
+                AddProfileAndToken(profileId, token);
                 return;
             }
 
             profileToToken.Token = token;
         }
 
-        internal static void AddProfileToTokenInMemory(int profileId, string token)
+        internal static void AddProfileAndToken(int profileId, string token)
         {
-            ProfileToTokenRepository.ProfilesToTokens.Add(new() { ProfileId = profileId, Token = token});
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                var profileToToken = new ProfileToToken { ProfileId = profileId, Token = token };
+                ProfileToTokenRepository.ProfilesToTokens.Add(profileToToken);
+            }
         }
 
-        internal static ProfileToToken GetProfileToTokenFromMemory(int profileId)
+        internal static ProfileToToken GetProfileAndToken(int profileId)
         {
-            return ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p => p.ProfileId == profileId);
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p => p.ProfileId == profileId);
+            }
         }
 
         internal static Profile GetProfileFromMemory(string email, string password)
