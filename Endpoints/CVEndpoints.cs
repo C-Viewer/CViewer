@@ -138,7 +138,7 @@ namespace CViewer.Endpoints
             List<int> profilesIds = DataManager.GetProfilesIdsForCv(cvId);
             if (profilesIds.Count == 1 && profilesIds[0] == DataManager.EntityNotFound)
             {
-                return Results.BadRequest("Cannot find profile corresponding current CV");
+                return Results.BadRequest($"Cannot find CV corresponding current `{nameof(cvId)}`");
             }
 
             if (!Validator.ValidateTokenWithProfiles(applicantOrExpertToken, profilesIds))
