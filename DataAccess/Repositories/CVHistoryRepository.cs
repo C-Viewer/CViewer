@@ -10,8 +10,7 @@ namespace CViewer.DataAccess.Repositories
             {
                 Id = 1,
                 CVId = 1,
-                ApplicantComment = "I'm sorry",
-                ExpertComment = "You choose the wrong door",
+                Comment = "You choose the wrong door",
                 DateTime = new DateTime(2022, 12, 1, 17, 13, 33),
                 AttachedFileId = 1,
                 Grade = 9.8
@@ -21,8 +20,7 @@ namespace CViewer.DataAccess.Repositories
             {
                 Id = 2,
                 CVId = 1,
-                ApplicantComment = "Ah shit I'm sorry",
-                ExpertComment = "Sorry for what?!",
+                Comment = "Sorry for what?!",
                 DateTime = new DateTime(2022, 12, 1, 17, 12, 00),
             },
         };

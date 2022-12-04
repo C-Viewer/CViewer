@@ -44,22 +44,21 @@ namespace CViewer.Services
         }
 
         // ToDo: Add validation on empty data
-        public CVHistory AddEventToHistory(int cvId, DateTime dateTime, ICVService service, string fileName = null,
-            string applicantComment = null, string expertComment = null, double? grade = null)
+        public CVHistory AddEventToHistory(int cvId, DateTime dateTime, ICVService service, string fileName = null, string comment = null, 
+            double? grade = null, int? expertId = null)
         {
             CVHistory cvHistory = new CVHistory
             {
                 Id = CVHistoryRepository.CVHistories.Count + 1,
                 CVId = cvId,
-                ApplicantComment = applicantComment,
-                ExpertComment = expertComment,
+                Comment = comment,
+                ExpertId = expertId,
                 DateTime = dateTime,
-
-                // ToDo: Change to Amazon Path
-                AmazonPathToFile = fileName,
+                
                 Grade = grade
             };
 
+            // ToDo: Change to Amazon Path
             if (fileName != null)
             {
                 // ToDo: Add adding file path to Amazaon S3.

@@ -39,8 +39,8 @@ namespace CViewer.Endpoints
             //.Produces<CV>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/add_event_to_history",
-                (int cvId, string fileName, string applicantComment, string expertComment, DateTime dateTime, ICVService service) => 
-                    AddEventToHistory(cvId: cvId, fileName: fileName, applicantComment: applicantComment, expertComment: expertComment, dateTime: dateTime,
+                (int cvId, string fileName, string comment, DateTime dateTime, double? grade, int? expertId, ICVService service) => 
+                    AddEventToHistory(cvId: cvId, fileName: fileName, comment: comment, dateTime: dateTime, grade: grade, expertId: expertId,
                 service: service));
             app.MapGet("/list_CVs",
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -87,12 +87,10 @@ namespace CViewer.Endpoints
             return Results.Ok(updatedCV);
         }
 
-        private static IResult AddEventToHistory(int cvId, string fileName, string applicantComment,
-            string expertComment, DateTime dateTime, ICVService service)
+        private static IResult AddEventToHistory(int cvId, string fileName, string comment, DateTime dateTime, double? grade, int? expertId, ICVService service)
         {
-            CVHistory cvHistory = service.AddEventToHistory(cvId: cvId, fileName: fileName, applicantComment: applicantComment,
-                expertComment: expertComment, dateTime: dateTime,
-                service: service);
+            CVHistory cvHistory = service.AddEventToHistory(cvId: cvId, fileName: fileName, comment: comment, 
+                dateTime: dateTime, grade: grade, expertId: expertId, service: service);
 
             return Results.Ok(cvHistory);
         }
