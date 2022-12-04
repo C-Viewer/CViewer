@@ -58,6 +58,7 @@ namespace CViewer.Endpoints
                 .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_concrete_CV_histories",
+                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (int cvId, HttpContext context, ICVService service) => ListCVHistories(cvId, context, service))
                 .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
 
