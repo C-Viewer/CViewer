@@ -1,4 +1,5 @@
-﻿using CViewer.DataAccess.Entities;
+﻿using CViewer.DataAccess.DataRetrieval;
+using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.Repositories;
 
 namespace CViewer.Services
@@ -117,8 +118,14 @@ namespace CViewer.Services
 
         public List<CVHistory> ListCVHistories()
         {
-            var cvHistories = CVHistoryRepository.CVHistories;
+            List<CVHistory> cvHistories = CVHistoryRepository.CVHistories;
             return cvHistories;
+        }
+
+        public List<CVHistory> ListCVHistories(int cvId)
+        {
+            List<CVHistory> concreteCvHistories = DataManager.GetCVHistories(cvId);
+            return concreteCvHistories;
         }
 
         public List<AttachedFile> ListAttachedFiles()

@@ -10,6 +10,7 @@ namespace CViewer.Services
         public CVHistory AddEventToHistory(int cvId, DateTime dateTime, ICVService service, string fileName = null, string applicantComment = null,
             string expertComment = null, double? grade = null);
         public List<CVHistory> ListCVHistories();
+        public List<CVHistory> ListCVHistories(int cvId);
         public List<AttachedFile> ListAttachedFiles();
         public List<CV> ListCVs();
         public CV GetCV(int id);

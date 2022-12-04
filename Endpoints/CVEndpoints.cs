@@ -55,6 +55,10 @@ namespace CViewer.Endpoints
                     (ICVService service) => ListCVHistories(service))
                 .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
 
+            app.MapGet("/list_concrete_CV_histories",
+                    (int cvId, ICVService service) => ListCVHistories(cvId, service))
+                .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
+
             app.MapGet("/list_attached_files",
                     (ICVService service) => ListAttachedFiles(service))
                 .Produces<List<AttachedFile>>(statusCode: 200, contentType: "application/json");
@@ -127,10 +131,15 @@ namespace CViewer.Endpoints
             return Results.Ok(service.ListSpecializations());
         }
 
-        
+        private static IResult ListCVHistories(int cvId, ICVService service)
+        {
+            List<CVHistory> concreteCvHistories = service.ListCVHistories(cvId);
+            return Results.Ok(concreteCvHistories);
+        }
+
         private static IResult ListCVHistories(ICVService service)
         {
-            var cvHistories = service.ListCVHistories();
+            List<CVHistory> cvHistories = service.ListCVHistories();
 
             return Results.Ok(cvHistories);
         }

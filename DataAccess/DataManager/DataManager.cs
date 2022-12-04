@@ -21,5 +21,10 @@ namespace CViewer.DataAccess.DataRetrieval
         {
             ProfileRepository.Profiles.Add(profile);
         }
+
+        internal static List<CVHistory> GetCVHistories(int cvId)
+        {
+            return CVHistoryRepository.CVHistories.Where(h => h.CVId == cvId).ToList();
+        }
     }
 }
