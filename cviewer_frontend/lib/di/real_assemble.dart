@@ -1,9 +1,11 @@
 import 'package:cviewer_frontend/data/network/network_client.dart';
 import 'package:cviewer_frontend/data/network/service/client_index.dart';
 import 'package:cviewer_frontend/data/repositories/real_auth_repository.dart';
+import 'package:cviewer_frontend/data/repositories/real_cv_repository.dart';
 import 'package:cviewer_frontend/data/repositories/real_profile_repository.dart';
 import 'package:cviewer_frontend/di/di.dart';
 import 'package:cviewer_frontend/domain/repositories/auth_repository.dart';
+import 'package:cviewer_frontend/domain/repositories/cv_repository.dart';
 import 'package:cviewer_frontend/domain/repositories/profile_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,4 +51,12 @@ abstract class RealAssemble {
     CViewerService service,
   ) =>
       RealProfileRepository(service);
+
+  @dev
+  @prod
+  @injectable
+  CVRepository cvRepository(
+    CViewerService service,
+  ) =>
+      RealCVRepository(service);
 }

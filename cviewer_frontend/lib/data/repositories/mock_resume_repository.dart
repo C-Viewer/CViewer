@@ -1,26 +1,26 @@
+import 'package:cviewer_frontend/domain/models/resume/cv.dart';
 import 'package:cviewer_frontend/domain/models/resume/resume_comment_info.dart';
 import 'package:cviewer_frontend/domain/models/resume/resume_file_info.dart';
-import 'package:cviewer_frontend/domain/models/resume/resume.dart';
 import 'package:cviewer_frontend/domain/models/resume/resume_status.dart';
 import 'package:cviewer_frontend/domain/models/tag/tag.dart';
-import 'package:cviewer_frontend/domain/repositories/resume_repository.dart';
+import 'package:cviewer_frontend/domain/repositories/cv_repository.dart';
 
-class MockResumeRepository implements ResumeRepository {
+class MockResumeRepository implements CVRepository {
   const MockResumeRepository();
 
   @override
-  Future<List<Resume>> getResumeList() async {
+  Future<List<CV>> getCVs() async {
     return _mockResumeList;
   }
 
   @override
-  Future<Resume> getResume(int resumeId) async {
+  Future<CV> getCV(int resumeId) async {
     return _mockResumeList.firstWhere((it) => it.id == resumeId);
   }
 }
 
 final _mockResumeList = [
-  Resume(
+  CV(
     id: 1,
     title: 'Resume title 1',
     status: ResumeStatus.draft,
@@ -59,7 +59,7 @@ final _mockResumeList = [
       ),
     ],
   ),
-  Resume(
+  CV(
     id: 2,
     title: 'Resume title 2',
     status: ResumeStatus.opened,
@@ -85,28 +85,28 @@ final _mockResumeList = [
       ),
     ],
   ),
-  const Resume(
+  const CV(
     id: 3,
     title: 'Resume title 3',
     status: ResumeStatus.onReview,
     tags: [],
     history: [],
   ),
-  const Resume(
+  const CV(
     id: 4,
     title: 'Resume title 4',
     status: ResumeStatus.fixRequired,
     tags: [],
     history: [],
   ),
-  const Resume(
+  const CV(
     id: 5,
     title: 'Resume title 5',
     status: ResumeStatus.marked,
     tags: [],
     history: [],
   ),
-  const Resume(
+  const CV(
     id: 6,
     title: 'Resume title 6',
     status: ResumeStatus.finished,

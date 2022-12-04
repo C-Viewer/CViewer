@@ -1,22 +1,23 @@
-import 'package:cviewer_frontend/data/repositories/mock_resume_repository.dart';
-import 'package:cviewer_frontend/domain/models/resume/resume.dart';
 import 'package:cviewer_frontend/constants/text_styles.dart';
+import 'package:cviewer_frontend/data/repositories/mock_resume_repository.dart';
+import 'package:cviewer_frontend/domain/models/resume/cv.dart';
 import 'package:cviewer_frontend/presentation/widgets/resume/resume_history_list.dart';
 import 'package:flutter/material.dart';
 
-class ResumePage extends StatelessWidget {
-  const ResumePage({
+class CVPage extends StatelessWidget {
+  const CVPage({
     super.key,
-    required this.resumeId,
+    required this.cvId,
   });
 
-  final int resumeId;
+  final int cvId;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: const MockResumeRepository().getResume(resumeId),
+        // TODO: обновить на реальные данные
+        future: const MockResumeRepository().getCV(cvId),
         builder: (_, snapshot) => snapshot.data != null
             ? _Content(
                 resume: snapshot.data!,
@@ -32,7 +33,7 @@ class _Content extends StatelessWidget {
     required this.resume,
   });
 
-  final Resume resume;
+  final CV resume;
 
   @override
   Widget build(BuildContext context) {

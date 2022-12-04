@@ -2,8 +2,8 @@ import 'package:cviewer_frontend/domain/models/resume/date_sortable.dart';
 import 'package:cviewer_frontend/domain/models/resume/resume_status.dart';
 import 'package:cviewer_frontend/domain/models/tag/tag.dart';
 
-class Resume {
-  const Resume({
+class CV {
+  const CV({
     required this.id,
     required this.title,
     required this.status,

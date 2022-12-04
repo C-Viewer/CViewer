@@ -1,7 +1,7 @@
 import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/presentation/pages/auth/auth_page.dart';
+import 'package:cviewer_frontend/presentation/pages/session/cv/cv_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/main/main_page.dart';
-import 'package:cviewer_frontend/presentation/pages/session/resume/resume_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/session_page.dart';
 import 'package:cviewer_frontend/presentation/pages/splash/splash_page.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +26,7 @@ final _appRouter = GoRouter(
   initialLocation: RoutePaths.splash,
   routes: [
     // Splash
-    GoRoute(
-      path: RoutePaths.splash,
-      builder: (_, __) => const SplashPage()
-    ),
+    GoRoute(path: RoutePaths.splash, builder: (_, __) => const SplashPage()),
     // Auth
     GoRoute(
       path: RoutePaths.auth,
@@ -51,8 +48,8 @@ final _appRouter = GoRouter(
         GoRoute(
           path: RoutePaths.resume,
           name: RouteNames.resume,
-          builder: (_, s) => ResumePage(
-            resumeId: int.parse(s.params[RouteParams.resumeId]!),
+          builder: (_, s) => CVPage(
+            cvId: int.parse(s.params[RouteParams.resumeId]!),
           ),
         ),
       ],

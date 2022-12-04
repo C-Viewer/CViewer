@@ -1,5 +1,5 @@
 import 'package:cviewer_frontend/constants/route_constants.dart';
-import 'package:cviewer_frontend/domain/models/resume/resume.dart';
+import 'package:cviewer_frontend/domain/models/resume/cv.dart';
 import 'package:cviewer_frontend/presentation/widgets/resume/resume_status_label.dart';
 import 'package:cviewer_frontend/presentation/widgets/tags/tag_list.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ class ResumeTile extends StatelessWidget {
     required this.item,
   });
 
-  final Resume item;
+  final CV item;
 
   @override
   Widget build(BuildContext context) {

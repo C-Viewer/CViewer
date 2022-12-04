@@ -6,10 +6,11 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:cviewer_frontend/data/network/service/client_index.dart' as _i5;
-import 'package:cviewer_frontend/di/mock_assemble.dart' as _i7;
-import 'package:cviewer_frontend/di/real_assemble.dart' as _i8;
+import 'package:cviewer_frontend/di/mock_assemble.dart' as _i8;
+import 'package:cviewer_frontend/di/real_assemble.dart' as _i9;
 import 'package:cviewer_frontend/domain/repositories/auth_repository.dart'
     as _i6;
+import 'package:cviewer_frontend/domain/repositories/cv_repository.dart' as _i7;
 import 'package:cviewer_frontend/domain/repositories/profile_repository.dart'
     as _i3;
 import 'package:get_it/get_it.dart' as _i1;
@@ -80,10 +81,17 @@ extension GetItInjectableX on _i1.GetIt {
         _prod,
       },
     );
+    gh.factory<_i7.CVRepository>(
+      () => realAssemble.cvRepository(gh<_i5.CViewerService>()),
+      registerFor: {
+        _dev,
+        _prod,
+      },
+    );
     return this;
   }
 }
 
-class _$MockAssemble extends _i7.MockAssemble {}
+class _$MockAssemble extends _i8.MockAssemble {}
 
-class _$RealAssemble extends _i8.RealAssemble {}
+class _$RealAssemble extends _i9.RealAssemble {}

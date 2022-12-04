@@ -1,4 +1,4 @@
-import 'package:cviewer_frontend/domain/models/resume/resume.dart';
+import 'package:cviewer_frontend/domain/models/resume/cv.dart';
 import 'package:cviewer_frontend/presentation/widgets/resume/resume_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +8,7 @@ class ResumeList extends StatelessWidget {
     required this.items,
   });
 
-  final List<Resume> items;
+  final List<CV> items;
 
   @override
   Widget build(BuildContext context) {

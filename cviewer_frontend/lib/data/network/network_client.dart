@@ -1,4 +1,5 @@
 import 'package:chopper/chopper.dart';
+import 'package:cviewer_frontend/data/network/converters/network_error_converter.dart';
 import 'package:cviewer_frontend/data/network/interceptors/token_substitutor.dart';
 import 'package:cviewer_frontend/data/network/service/c_viewer_service.swagger.dart';
 import 'package:flutter/foundation.dart';
@@ -14,7 +15,7 @@ class NetworkClient {
     return ChopperClient(
       baseUrl: baseUrl,
       converter: $JsonSerializableConverter(),
-      // errorConverter: const AppErrorConverter(),
+      errorConverter: const NetworkErrorConverter(),
       interceptors: [
         TokenSubstitutor(storage),
         if (!kReleaseMode) HttpLoggingInterceptor(),
