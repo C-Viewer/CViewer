@@ -33,7 +33,7 @@ namespace CViewer.Endpoints
                 .Produces<List<Profile>>();
 
             app.MapGet("/get_profile",
-                    (int profileId, IProfileService service) => GetProfile(profileId, service))
+                    (HttpContext context, IProfileService service) => GetProfile(context, service))
                 .Produces<Profile>();
         }
 
@@ -89,10 +89,14 @@ namespace CViewer.Endpoints
             }
         }
 
-        private static IResult GetProfile(int profileId, IProfileService service)
+        private static IResult GetProfile(HttpContext context, IProfileService service)
         {
-            var profile = service.GetProfile(profileId);
-            if (profile is null) return Results.NotFound("Profile not found");
+            string applicantOrExpertToken = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            Profile profile = service.GetProfile(applicantOrExpertToken);
+            if (profile is null)
+            {
+                return Results.NotFound("Profile not found");
+            }
 
             return Results.Ok(profile);
         }

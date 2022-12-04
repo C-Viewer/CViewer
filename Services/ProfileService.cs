@@ -57,11 +57,19 @@ namespace CViewer.Services
             return ErrorCodes.Ok;
         }
 
-        public Profile GetProfile(int profileId)
+        public Profile GetProfile(string applicantOrExpertToken)
         {
-            var profile = ProfileRepository.Profiles.FirstOrDefault(o => o.Id == profileId);
+            ProfileToToken profileToToken = DataManager.GetProfileAndToken(applicantOrExpertToken);
+            if (profileToToken == null)
+            {
+                return null;
+            }
 
-            if (profile is null) return null;
+            Profile profile = DataManager.GetProfile(profileToToken.ProfileId);
+            if (profile == null)
+            {
+                return null;
+            }
 
             return profile;
         }

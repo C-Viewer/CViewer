@@ -47,6 +47,30 @@ namespace CViewer.DataAccess.DataManager
             }
         }
 
+        internal static ProfileToToken GetProfileAndToken(string applicantOrExpertToken)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p => p.Token.Equals(applicantOrExpertToken));
+            }
+        }
+
+        internal static Profile GetProfile(int profileId)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return ProfileRepository.Profiles.FirstOrDefault(u => u.Id == profileId);
+            }
+        }
+
         internal static Profile GetProfileFromMemory(string email, string password)
         {
             // ToDo: Use salt and hash for password.
