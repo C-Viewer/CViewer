@@ -30,7 +30,7 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<dynamic>> _signUpPost({required UserCredentials? body}) {
+  Future<Response<String>> _signUpPost({required UserCredentials? body}) {
     final String $url = '/sign_up';
     final $body = body;
     final Request $request = Request(
@@ -39,11 +39,11 @@ class _$CViewerService extends CViewerService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<String, String>($request);
   }
 
   @override
-  Future<Response<dynamic>> _updateProfilePut({
+  Future<Response<Profile>> _updateProfilePut({
     required int? profileId,
     String? firstName,
     String? lastName,
@@ -70,22 +70,22 @@ class _$CViewerService extends CViewerService {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<Profile, Profile>($request);
   }
 
   @override
-  Future<Response<dynamic>> _listProfilesGet() {
+  Future<Response<List<Profile>>> _listProfilesGet() {
     final String $url = '/list_profiles';
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<Profile>, Profile>($request);
   }
 
   @override
-  Future<Response<dynamic>> _getProfileGet({required int? profileId}) {
+  Future<Response<Profile>> _getProfileGet({required int? profileId}) {
     final String $url = '/get_profile';
     final Map<String, dynamic> $params = <String, dynamic>{
       'profileId': profileId
@@ -96,7 +96,7 @@ class _$CViewerService extends CViewerService {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<Profile, Profile>($request);
   }
 
   @override
@@ -167,15 +167,13 @@ class _$CViewerService extends CViewerService {
   Future<Response<dynamic>> _updateCvInfoPost({
     required int? cvId,
     String? title,
-    String? specialization,
     String? description,
-    required dynamic body,
+    required TransitObjectForUpdateCVInfo? body,
   }) {
     final String $url = '/update_cv_info';
     final Map<String, dynamic> $params = <String, dynamic>{
       'cvId': cvId,
       'title': title,
-      'specialization': specialization,
       'description': description,
     };
     final $body = body;
@@ -193,17 +191,19 @@ class _$CViewerService extends CViewerService {
   Future<Response<dynamic>> _addEventToHistoryGet({
     required int? cvId,
     String? fileName,
-    String? applicantComment,
-    String? expertComment,
+    String? comment,
     required String? dateTime,
+    num? grade,
+    int? expertId,
   }) {
     final String $url = '/add_event_to_history';
     final Map<String, dynamic> $params = <String, dynamic>{
       'cvId': cvId,
       'fileName': fileName,
-      'applicantComment': applicantComment,
-      'expertComment': expertComment,
+      'comment': comment,
       'dateTime': dateTime,
+      'grade': grade,
+      'expertId': expertId,
     };
     final Request $request = Request(
       'GET',
@@ -226,12 +226,48 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
+  Future<Response<dynamic>> _listCVTagsGet() {
+    final String $url = '/list_CV_tags';
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _listSpecializationsGet() {
+    final String $url = '/list_specializations';
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<List<CVHistory>>> _listCVHistoriesGet() {
     final String $url = '/list_CV_histories';
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
+    );
+    return client.send<List<CVHistory>, CVHistory>($request);
+  }
+
+  @override
+  Future<Response<List<CVHistory>>> _listConcreteCVHistoriesGet(
+      {required int? cvId}) {
+    final String $url = '/list_concrete_CV_histories';
+    final Map<String, dynamic> $params = <String, dynamic>{'cvId': cvId};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
     );
     return client.send<List<CVHistory>, CVHistory>($request);
   }

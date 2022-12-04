@@ -1,6 +1,6 @@
 import 'package:cviewer_frontend/data/mappers/profile_credentials_mapper.dart';
+import 'package:cviewer_frontend/data/network/service/client_index.dart';
 import 'package:cviewer_frontend/data/repositories/mock_profile_repository.dart';
-import 'package:cviewer_frontend/data/service/client_index.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile_credentials.dart';
 import 'package:cviewer_frontend/domain/repositories/auth_repository.dart';

@@ -3,56 +3,56 @@ import 'package:cviewer_frontend/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+// TODO: intl
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Label
-          const Text(
-            'Кто вы?',
-            textAlign: TextAlign.center,
-            style: TextStyles.titleXXL,
-          ),
-          const SizedBox(height: 40),
-          // Button
-          TextButton(
-            onPressed: () => context.replaceNamed(
-              RouteNames.main,
-              params: {
-                RouteParams.userType: 'applicant',
-              },
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 64),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              'Вход в CViewer',
+              textAlign: TextAlign.center,
+              style: TextStyles.titleXXL,
             ),
-            child: const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                'Соискатель',
-                style: TextStyles.titleL,
+            const SizedBox(height: 48),
+            // Email field
+            TextFormField(
+              decoration: InputDecoration(
+                label: Text(
+                  'Почта',
+                ),
               ),
             ),
-          ),
-          // Button
-          TextButton(
-            onPressed: () => context.replaceNamed(
-              RouteNames.main,
-              params: {
-                RouteParams.userType: 'expert',
-              },
-            ),
-            child: const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                'Эксперт',
-                style: TextStyles.titleL,
+            const SizedBox(height: 24),
+            // Password field
+            TextFormField(
+              decoration: InputDecoration(
+                label: Text(
+                  'Пароль',
+                ),
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 48),
+            // TODO: login check
+            ElevatedButton(
+              onPressed: () => context.replaceNamed(RouteNames.main),
+              child: const Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  'Войти',
+                  style: TextStyles.titleL,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

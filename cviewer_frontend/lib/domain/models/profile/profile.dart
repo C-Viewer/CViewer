@@ -10,7 +10,7 @@ class Profile {
     this.description = '',
   });
 
-  final String id;
+  final int id;
   final String firstName;
   final String lastName;
   final String middleName;

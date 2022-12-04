@@ -4,8 +4,6 @@ import 'package:chopper/chopper.dart';
 import 'client_mapping.dart';
 import 'dart:async';
 import 'package:chopper/chopper.dart' as chopper;
-import 'c_viewer_service.enums.swagger.dart' as enums;
-export 'c_viewer_service.enums.swagger.dart';
 export 'c_viewer_service.models.swagger.dart';
 
 part 'c_viewer_service.swagger.chopper.dart';
@@ -47,13 +45,14 @@ abstract class CViewerService extends ChopperService {
       {@Body() required UserCredentials? body});
 
   ///
-  Future<chopper.Response> signUpPost({required UserCredentials? body}) {
+  Future<chopper.Response<String>> signUpPost(
+      {required UserCredentials? body}) {
     return _signUpPost(body: body);
   }
 
   ///
   @Post(path: '/sign_up')
-  Future<chopper.Response> _signUpPost(
+  Future<chopper.Response<String>> _signUpPost(
       {@Body() required UserCredentials? body});
 
   ///
@@ -65,7 +64,7 @@ abstract class CViewerService extends ChopperService {
   ///@param email
   ///@param password
   ///@param specializationId
-  Future<chopper.Response> updateProfilePut({
+  Future<chopper.Response<Profile>> updateProfilePut({
     required int? profileId,
     String? firstName,
     String? lastName,
@@ -75,6 +74,8 @@ abstract class CViewerService extends ChopperService {
     String? password,
     int? specializationId,
   }) {
+    generatedMapping.putIfAbsent(Profile, () => Profile.fromJsonFactory);
+
     return _updateProfilePut(
         profileId: profileId,
         firstName: firstName,
@@ -99,7 +100,7 @@ abstract class CViewerService extends ChopperService {
     path: '/update_profile',
     optionalBody: true,
   )
-  Future<chopper.Response> _updateProfilePut({
+  Future<chopper.Response<Profile>> _updateProfilePut({
     @Query('profileId') required int? profileId,
     @Query('firstName') String? firstName,
     @Query('lastName') String? lastName,
@@ -111,24 +112,28 @@ abstract class CViewerService extends ChopperService {
   });
 
   ///
-  Future<chopper.Response> listProfilesGet() {
+  Future<chopper.Response<List<Profile>>> listProfilesGet() {
+    generatedMapping.putIfAbsent(Profile, () => Profile.fromJsonFactory);
+
     return _listProfilesGet();
   }
 
   ///
   @Get(path: '/list_profiles')
-  Future<chopper.Response> _listProfilesGet();
+  Future<chopper.Response<List<Profile>>> _listProfilesGet();
 
   ///
   ///@param profileId
-  Future<chopper.Response> getProfileGet({required int? profileId}) {
+  Future<chopper.Response<Profile>> getProfileGet({required int? profileId}) {
+    generatedMapping.putIfAbsent(Profile, () => Profile.fromJsonFactory);
+
     return _getProfileGet(profileId: profileId);
   }
 
   ///
   ///@param profileId
   @Get(path: '/get_profile')
-  Future<chopper.Response> _getProfileGet(
+  Future<chopper.Response<Profile>> _getProfileGet(
       {@Query('profileId') required int? profileId});
 
   ///
@@ -197,71 +202,68 @@ abstract class CViewerService extends ChopperService {
   ///
   ///@param cvId
   ///@param title
-  ///@param specialization
   ///@param description
   Future<chopper.Response> updateCvInfoPost({
     required int? cvId,
     String? title,
-    String? specialization,
     String? description,
-    required List<enums.CVTag>? body,
+    required TransitObjectForUpdateCVInfo? body,
   }) {
     return _updateCvInfoPost(
-        cvId: cvId,
-        title: title,
-        specialization: specialization,
-        description: description,
-        body: cVTagListToJson(body));
+        cvId: cvId, title: title, description: description, body: body);
   }
 
   ///
   ///@param cvId
   ///@param title
-  ///@param specialization
   ///@param description
   @Post(path: '/update_cv_info')
   Future<chopper.Response> _updateCvInfoPost({
     @Query('cvId') required int? cvId,
     @Query('title') String? title,
-    @Query('specialization') String? specialization,
     @Query('description') String? description,
-    @Body() required dynamic body,
+    @Body() required TransitObjectForUpdateCVInfo? body,
   });
 
   ///
   ///@param cvId
   ///@param fileName
-  ///@param applicantComment
-  ///@param expertComment
+  ///@param comment
   ///@param dateTime
+  ///@param grade
+  ///@param expertId
   Future<chopper.Response> addEventToHistoryGet({
     required int? cvId,
     String? fileName,
-    String? applicantComment,
-    String? expertComment,
+    String? comment,
     required String? dateTime,
+    num? grade,
+    int? expertId,
   }) {
     return _addEventToHistoryGet(
         cvId: cvId,
         fileName: fileName,
-        applicantComment: applicantComment,
-        expertComment: expertComment,
-        dateTime: dateTime);
+        comment: comment,
+        dateTime: dateTime,
+        grade: grade,
+        expertId: expertId);
   }
 
   ///
   ///@param cvId
   ///@param fileName
-  ///@param applicantComment
-  ///@param expertComment
+  ///@param comment
   ///@param dateTime
+  ///@param grade
+  ///@param expertId
   @Get(path: '/add_event_to_history')
   Future<chopper.Response> _addEventToHistoryGet({
     @Query('cvId') required int? cvId,
     @Query('fileName') String? fileName,
-    @Query('applicantComment') String? applicantComment,
-    @Query('expertComment') String? expertComment,
+    @Query('comment') String? comment,
     @Query('dateTime') required String? dateTime,
+    @Query('grade') num? grade,
+    @Query('expertId') int? expertId,
   });
 
   ///
@@ -276,6 +278,24 @@ abstract class CViewerService extends ChopperService {
   Future<chopper.Response<List<Cv>>> _listCVsGet();
 
   ///
+  Future<chopper.Response> listCVTagsGet() {
+    return _listCVTagsGet();
+  }
+
+  ///
+  @Get(path: '/list_CV_tags')
+  Future<chopper.Response> _listCVTagsGet();
+
+  ///
+  Future<chopper.Response> listSpecializationsGet() {
+    return _listSpecializationsGet();
+  }
+
+  ///
+  @Get(path: '/list_specializations')
+  Future<chopper.Response> _listSpecializationsGet();
+
+  ///
   Future<chopper.Response<List<CVHistory>>> listCVHistoriesGet() {
     generatedMapping.putIfAbsent(CVHistory, () => CVHistory.fromJsonFactory);
 
@@ -285,6 +305,21 @@ abstract class CViewerService extends ChopperService {
   ///
   @Get(path: '/list_CV_histories')
   Future<chopper.Response<List<CVHistory>>> _listCVHistoriesGet();
+
+  ///
+  ///@param cvId
+  Future<chopper.Response<List<CVHistory>>> listConcreteCVHistoriesGet(
+      {required int? cvId}) {
+    generatedMapping.putIfAbsent(CVHistory, () => CVHistory.fromJsonFactory);
+
+    return _listConcreteCVHistoriesGet(cvId: cvId);
+  }
+
+  ///
+  ///@param cvId
+  @Get(path: '/list_concrete_CV_histories')
+  Future<chopper.Response<List<CVHistory>>> _listConcreteCVHistoriesGet(
+      {@Query('cvId') required int? cvId});
 
   ///
   Future<chopper.Response<List<AttachedFile>>> listAttachedFilesGet() {

@@ -6,13 +6,12 @@ class MockProfileRepository implements ProfileRepository {
 
   @override
   Future<Profile> getProfile() async {
-    return mockUser;
+    return _mockUser;
   }
 }
 
-// TODO: сделать приватным в будущем
-const mockUser = Profile(
-  id: '1',
+const _mockUser = Profile(
+  id: 1,
   firstName: 'Ван',
   lastName: 'Даркхолм',
   description: ''' 
