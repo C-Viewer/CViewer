@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using CViewer.DataAccess.DataRetrieval;
+using CViewer.DataAccess.DataManager;
 using CViewer.Utils;
 
 namespace CViewer.Services
@@ -31,6 +31,7 @@ namespace CViewer.Services
             DataManager.AddProfileToMemory(newProfile);
 
             tokenOrMessage = GenerateToken(newProfile, builder);
+            DataManager.SetTokenToProfile(newProfile.Id, tokenOrMessage);
             return ErrorCodes.Ok;
         }
 
@@ -51,6 +52,8 @@ namespace CViewer.Services
             }
 
             tokenOrMessage = GenerateToken(loggedInUser, builder);
+            DataManager.SetTokenToProfile(loggedInUser.Id, tokenOrMessage);
+
             return ErrorCodes.Ok;
         }
 

@@ -1,4 +1,4 @@
-﻿using CViewer.DataAccess.DataRetrieval;
+﻿using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.Repositories;
 

@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public string Title { get; set; }
         public int PeopleCreatedId { get; set; }
+        public List<int> ExpertIds { get; set; }
         public Specialization Specialization { get; set; }
         public string Description { get; set; }
         public double Rating { get; set; }

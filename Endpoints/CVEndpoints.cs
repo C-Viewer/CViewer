@@ -1,6 +1,8 @@
-﻿using CViewer.DataAccess.Entities;
+﻿using CViewer.DataAccess.DataManager;
+using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
+using CViewer.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
@@ -56,7 +58,7 @@ namespace CViewer.Endpoints
                 .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_concrete_CV_histories",
-                    (int cvId, ICVService service) => ListCVHistories(cvId, service))
+                    (int cvId, HttpContext context, ICVService service) => ListCVHistories(cvId, context, service))
                 .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_attached_files",
@@ -131,8 +133,20 @@ namespace CViewer.Endpoints
             return Results.Ok(service.ListSpecializations());
         }
 
-        private static IResult ListCVHistories(int cvId, ICVService service)
+        private static IResult ListCVHistories(int cvId, HttpContext context, ICVService service)
         {
+            string applicantOrExpertToken = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            List<int> profilesIds = DataManager.GetProfilesIdsForCv(cvId);
+            if (profilesIds.Count == 1 && profilesIds[0] == DataManager.EntityNotFound)
+            {
+                return Results.BadRequest("Cannot find profile corresponding current CV");
+            }
+
+            if (!Validator.ValidateTokenWithProfiles(applicantOrExpertToken, profilesIds))
+            {
+                return Results.BadRequest("You have not access to this CV history");
+            }
+
             List<CVHistory> concreteCvHistories = service.ListCVHistories(cvId);
             return Results.Ok(concreteCvHistories);
         }
