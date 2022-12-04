@@ -9,7 +9,7 @@ class ProfileCredentialsToDtoMapper implements Mapper<ProfileCredentials, UserCr
   UserCredentials map(ProfileCredentials data) {
     return UserCredentials(
       emailAddress: data.email,
-      password: data.email,
+      password: data.password,
     );
   }
 }

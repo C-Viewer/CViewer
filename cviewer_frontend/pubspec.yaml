@@ -44,6 +44,8 @@ dependencies:
   flutter_mobx: ^2.0.6+5
   get_it: ^7.2.0
   injectable: ^2.1.0
+  shared_preferences: ^2.0.15
+  logging: ^1.1.0
 
 dev_dependencies:
   flutter_test:

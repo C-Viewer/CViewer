@@ -1,6 +1,8 @@
 class RoutePaths {
   RoutePaths._();
 
+  static const splash = '/splash';
+
   static const auth = '/auth';
 
   static const session = '/';
@@ -11,7 +13,7 @@ class RoutePaths {
 class RouteNames {
   RouteNames._();
 
-  static const session = 'session';
+  static const auth = 'auth';
   static const main = 'main';
   static const resume = 'resume';
 }
