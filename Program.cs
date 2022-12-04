@@ -53,6 +53,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<ICVService, CVService>();
 builder.Services.AddSingleton<IProfileService, ProfileService>();
+builder.Services.AddSingleton<ISecurityService, SecurityService>();
 
 builder.Services.AddCors(p => p.AddPolicy(corsPolicyName, build =>
 {
@@ -70,6 +71,7 @@ app.MapGet("/", () => "Nice CV, Awesome skills!!!")
 
 app.MapProfileEndpoints(builder);
 app.MapCVEndpoints();
+app.MapSecurityEndpoints();
 
 app.UseSwaggerUI();
 
