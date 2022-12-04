@@ -10,12 +10,14 @@ namespace CViewer
     internal class AmazonS3
     {
         private readonly string bucketName = "cviewercvs";
-        private readonly string accessKey = "AKIASC4V2PC2PAIBTQWN";
-        private readonly string secretKey = "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";
+        private string accessKey;
+        private string secretKey;
         private readonly AmazonS3Config amazonS3Config = new AmazonS3Config();
 
-        public AmazonS3()
+        public AmazonS3(string access, string secret)
         {
+            accessKey = access;
+            secretKey = secret;
             amazonS3Config.RegionEndpoint = RegionEndpoint.GetBySystemName("eu-north-1");
             amazonS3Config.SignatureVersion = "4";
             amazonS3Config.SignatureMethod = Amazon.Runtime.SigningAlgorithm.HmacSHA256;
