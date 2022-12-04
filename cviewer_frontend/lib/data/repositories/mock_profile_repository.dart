@@ -14,6 +14,9 @@ const _mockUser = Profile(
   id: 1,
   firstName: 'Ван',
   lastName: 'Даркхолм',
+  rating: 300.0,
+  isExpert: true,
+  specialization: '',
   description: ''' 
 Эй приятель, я думаю ты ошибся дверью, кожаный клуб двумя этажами ниже.
 Пошел ты!
