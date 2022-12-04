@@ -7,11 +7,11 @@ using System.IO;
 
 namespace CViewer
 {
-    internal class AmazonS3
+    sealed internal class AmazonS3
     {
         private readonly string bucketName = "cviewercvs";
-        private string accessKey;
-        private string secretKey;
+        private readonly string accessKey;
+        private readonly string secretKey;
         private readonly AmazonS3Config amazonS3Config = new AmazonS3Config();
 
         public AmazonS3(string access, string secret)
@@ -25,67 +25,97 @@ namespace CViewer
 
         public List<string> GetFiles()
         {
-            using (var client = AWSClientFactory.CreateAmazonS3Client(accessKey, secretKey, amazonS3Config))
+            try
             {
-                var list = client.ListObjects(
-                    new ListObjectsRequest()
-                    {
-                        BucketName = bucketName
-                    });
-
-                List<string> files = new List<string>();
-
-                foreach (var file in list.S3Objects)
+                using (var client = AWSClientFactory.CreateAmazonS3Client(accessKey, secretKey, amazonS3Config))
                 {
-                    files.Add(file.Key);
+                    var list = client.ListObjects(
+                        new ListObjectsRequest()
+                        {
+                            BucketName = bucketName
+                        });
+
+                    List<string> fileNames = new List<string>();
+
+                    foreach (var fileName in list.S3Objects)
+                    {
+                        fileNames.Add(fileName.Key);
+                    }
+                    return fileNames;
                 }
-                return files;
+            }
+            catch
+            {
+                return null;
             }
         }
 
-        public void AddFile(FileStream stream, string path)
+        public bool AddFile(FileStream stream, string path)
         {
-            using (var client = AWSClientFactory.CreateAmazonS3Client(accessKey, secretKey, amazonS3Config))
+            try
             {
-                var request = new PutObjectRequest
+                using (var client = AWSClientFactory.CreateAmazonS3Client(accessKey, secretKey, amazonS3Config))
                 {
-                    BucketName = bucketName,
-                    CannedACL = S3CannedACL.PublicRead,
-                    Key = path,
-                    InputStream = stream
-                };
+                    var request = new PutObjectRequest
+                    {
+                        BucketName = bucketName,
+                        CannedACL = S3CannedACL.PublicRead,
+                        Key = path,
+                        InputStream = stream
+                    };
 
-                client.PutObject(request);
+                    client.PutObject(request);
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
 
         public Stream GetFile(string path)
         {
-            using (var client = AWSClientFactory.CreateAmazonS3Client(accessKey, secretKey, amazonS3Config))
+            try
             {
-                var request = new GetObjectRequest
+                using (var client = AWSClientFactory.CreateAmazonS3Client(accessKey, secretKey, amazonS3Config))
                 {
-                    BucketName = bucketName,
-                    Key = path
-                };
+                    var request = new GetObjectRequest
+                    {
+                        BucketName = bucketName,
+                        Key = path
+                    };
 
-                GetObjectResponse myResponse = client.GetObject(request);
-                Stream myStream = myResponse.ResponseStream;
-                return myStream;
+                    GetObjectResponse myResponse = client.GetObject(request);
+                    Stream myStream = myResponse.ResponseStream;
+                    return myStream;
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
 
-        public void DeleteFile(string path)
+        public bool DeleteFile(string path)
         {
-            using (var client = AWSClientFactory.CreateAmazonS3Client(accessKey, secretKey, amazonS3Config))
+            try
             {
-                var request = new DeleteObjectRequest
+                using (var client = AWSClientFactory.CreateAmazonS3Client(accessKey, secretKey, amazonS3Config))
                 {
-                    BucketName = bucketName,
-                    Key = path
-                };
+                    var request = new DeleteObjectRequest
+                    {
+                        BucketName = bucketName,
+                        Key = path
+                    };
 
-                client.DeleteObject(request);
+                    client.DeleteObject(request);
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
     }
