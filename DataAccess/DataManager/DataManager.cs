@@ -117,5 +117,17 @@ namespace CViewer.DataAccess.DataManager
         {
             return CVHistoryRepository.CVHistories.Where(h => h.CVId == cvId).ToList();
         }
+
+        internal static List<CV> GetCvs(int profileId)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return CVRepository.CVs.Where(cv => cv.PeopleCreatedId == profileId || cv.ExpertIds.Contains(profileId)).ToList();
+            }
+        }
     }
 }

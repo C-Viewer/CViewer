@@ -2,6 +2,7 @@
 using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
+using CViewer.Utils;
 using CViewer.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -42,9 +43,15 @@ namespace CViewer.Endpoints
                 (int cvId, string fileName, string comment, DateTime dateTime, double? grade, int? expertId, ICVService service) => 
                     AddEventToHistory(cvId: cvId, fileName: fileName, comment: comment, dateTime: dateTime, grade: grade, expertId: expertId,
                 service: service));
+
             app.MapGet("/list_CVs",
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (ICVService service) => ListCVs(service))
+                .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
+
+            app.MapGet("/list_CVs_for_profile",
+                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                    (HttpContext context, ICVService service) => ListCVsForProfile(context, service))
                 .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_CV_tags",
@@ -134,7 +141,7 @@ namespace CViewer.Endpoints
 
         private static IResult ListCVHistories(int cvId, HttpContext context, ICVService service)
         {
-            string applicantOrExpertToken = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            string applicantOrExpertToken = TokenHelper.GetToken(context);
             List<int> profilesIds = DataManager.GetProfilesIdsForCv(cvId);
             if (profilesIds.Count == 1 && profilesIds[0] == DataManager.EntityNotFound)
             {
@@ -169,6 +176,14 @@ namespace CViewer.Endpoints
             var cvs = service.ListCVs();
 
             return Results.Ok(cvs);
+        }
+
+        private static IResult ListCVsForProfile(HttpContext context, ICVService service)
+        {
+            string applicantOrExpertToken = TokenHelper.GetToken(context);
+            List<CV> profileCVs = service.ListCVsForProfile(applicantOrExpertToken);
+
+            return Results.Ok(profileCVs);
         }
 
         //private static IResult Delete(int id, ICVService service)

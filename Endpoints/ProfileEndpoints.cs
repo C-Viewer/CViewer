@@ -91,7 +91,7 @@ namespace CViewer.Endpoints
 
         private static IResult GetProfile(HttpContext context, IProfileService service)
         {
-            string applicantOrExpertToken = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            string applicantOrExpertToken = TokenHelper.GetToken(context);
             Profile profile = service.GetProfile(applicantOrExpertToken);
             if (profile is null)
             {

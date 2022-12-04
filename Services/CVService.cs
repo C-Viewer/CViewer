@@ -139,6 +139,17 @@ namespace CViewer.Services
             return cvs;
         }
 
+        public List<CV> ListCVsForProfile(string applicantOrExpertToken)
+        {
+            ProfileToToken profileToToken = DataManager.GetProfileAndToken(applicantOrExpertToken);
+            if (profileToToken == null)
+            {
+                return null;
+            }
+
+            return DataManager.GetCvs(profileToToken.ProfileId);
+        }
+
         //public bool Delete(int id)
         //{
         //    var oldMovie = CVRepository.CVs.FirstOrDefault(o => o.Id == id);

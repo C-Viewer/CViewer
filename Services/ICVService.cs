@@ -12,6 +12,7 @@ namespace CViewer.Services
         public List<CVHistory> ListCVHistories(int cvId);
         public List<AttachedFile> ListAttachedFiles();
         public List<CV> ListCVs();
+        public List<CV> ListCVsForProfile(string applicantOrExpertToken);
         public CV GetCV(int id);
         public CVHistory GetCVHistory(int id);
         public AttachedFile GetAttachedFile(int id);
