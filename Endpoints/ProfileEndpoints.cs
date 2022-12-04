@@ -1,4 +1,5 @@
 ﻿using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
 using CViewer.Utils;
 
@@ -15,11 +16,11 @@ namespace CViewer.Endpoints
             app.MapPost("/sign_in",
                     (UserCredentials user, IProfileService service) => SignIn(user, service))
                 .Accepts<UserCredentials>("application/json")
-                .Produces<string>();
+                .Produces<ComplexObjectProfileAndToken>();
 
             app.MapPost("/sign_up",
                 (UserCredentials userCredentials, IProfileService service) => SignUp(userCredentials, service))
-                .Produces<string>();
+                .Produces<ComplexObjectProfileAndToken>();
 
             app.MapPut("/update_profile",
                 (int profileId, IProfileService service, string firstName, string lastName, string biography,
@@ -39,20 +40,20 @@ namespace CViewer.Endpoints
 
         private static IResult SignIn(UserCredentials user, IProfileService service)
         {
-            int status = service.SignIn(user, out var tokenOrMessage, _builder);
+            int status = service.SignIn(user, out Profile profile, out Token token, out string errorMessage, _builder);
             switch (status)
             {
                 case ErrorCodes.BadRequest:
                 {
-                    return Results.BadRequest(tokenOrMessage);
+                    return Results.BadRequest(errorMessage);
                 }
                 case ErrorCodes.NotFound:
                 {
-                    return Results.NotFound(tokenOrMessage);
+                    return Results.NotFound(errorMessage);
                 }
                 case ErrorCodes.Ok:
                 {
-                    return Results.Ok(tokenOrMessage);
+                    return Results.Ok(new ComplexObjectProfileAndToken { Profile = profile, Token = token });
                 }
                 default:
                 {
@@ -63,24 +64,24 @@ namespace CViewer.Endpoints
 
         private static IResult SignUp(UserCredentials userCredentials, IProfileService service)
         {
-            int status = service.SignUp(userCredentials, out string tokenOrMessage, _builder);
+            int status = service.SignUp(userCredentials, out Profile profile, out Token token, out string errorMessage, _builder);
             switch (status)
             {
                 case ErrorCodes.Conflict:
                 {
-                    return Results.Conflict(tokenOrMessage);
+                    return Results.Conflict(errorMessage);
                 }
                 case ErrorCodes.BadRequest:
                 {
-                    return Results.BadRequest(tokenOrMessage);
+                    return Results.BadRequest(errorMessage);
                 }
                 case ErrorCodes.NotFound:
                 {
-                    return Results.NotFound(tokenOrMessage);
+                    return Results.NotFound(errorMessage);
                 }
                 case ErrorCodes.Ok:
                 {
-                    return Results.Ok(tokenOrMessage);
+                    return Results.Ok(new ComplexObjectProfileAndToken { Profile = profile, Token = token });
                 }
                 default:
                 {

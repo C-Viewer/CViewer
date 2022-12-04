@@ -10,7 +10,7 @@ namespace CViewer.DataAccess.DataManager
     {
         internal const int EntityNotFound = -1;
 
-        internal static void SetTokenToProfileBySignIn(int profileId, string token)
+        internal static void SetTokenToProfileBySignIn(int profileId, Token token)
         { 
             ProfileToToken profileToToken = GetProfileAndToken(profileId);
             if (profileToToken == null)
@@ -22,7 +22,7 @@ namespace CViewer.DataAccess.DataManager
             profileToToken.Token = token;
         }
 
-        internal static void AddProfileAndToken(int profileId, string token)
+        internal static void AddProfileAndToken(int profileId, Token token)
         {
             if (TemporaryConfiguration.UseDb)
             {
@@ -30,7 +30,7 @@ namespace CViewer.DataAccess.DataManager
             }
             else
             {
-                var profileToToken = new ProfileToToken { ProfileId = profileId, Token = token };
+                ProfileToToken profileToToken = new ProfileToToken { ProfileId = profileId, Token = token };
                 ProfileToTokenRepository.ProfilesToTokens.Add(profileToToken);
             }
         }
@@ -47,7 +47,7 @@ namespace CViewer.DataAccess.DataManager
             }
         }
 
-        internal static ProfileToToken GetProfileAndToken(string applicantOrExpertToken)
+        internal static ProfileToToken GetProfileAndToken(string applicantOrExpertTokenValue)
         {
             if (TemporaryConfiguration.UseDb)
             {
@@ -55,7 +55,7 @@ namespace CViewer.DataAccess.DataManager
             }
             else
             {
-                return ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p => p.Token.Equals(applicantOrExpertToken));
+                return ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p => p.Token != null && p.Token.Value.Equals(applicantOrExpertTokenValue));
             }
         }
 
@@ -127,6 +127,18 @@ namespace CViewer.DataAccess.DataManager
             else
             {
                 return CVRepository.CVs.Where(cv => cv.PeopleCreatedId == profileId || cv.ExpertIds.Contains(profileId)).ToList();
+            }
+        }
+
+        internal static int GetTokenCount()
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return TokenRepository.Tokens.Count;
             }
         }
     }

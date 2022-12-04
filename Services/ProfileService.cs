@@ -11,17 +11,20 @@ namespace CViewer.Services
 {
     internal sealed class ProfileService : IProfileService
     {
-        public int SignUp(UserCredentials userCredentials, out string tokenOrMessage, WebApplicationBuilder builder)
+        public int SignUp(UserCredentials userCredentials, out Profile newProfile, out Token token, out string errorMessage, WebApplicationBuilder builder)
         {
+            errorMessage = string.Empty;
+            newProfile = null;
+            token = null;
             Profile existingProfile = DataManager.GetProfileFromMemory(userCredentials.EmailAddress, userCredentials.Password);
             if (existingProfile != null)
             {
 
-                tokenOrMessage = "Email is already used for another account";
+                errorMessage = "Email is already used for another account";
                 return ErrorCodes.Conflict;
             }
 
-            Profile newProfile = new Profile
+            newProfile = new Profile
             {
                 Id = DataManager.GetProfilesCountFromMemory() + 1,
                 EmailAddress = userCredentials.EmailAddress,
@@ -30,36 +33,48 @@ namespace CViewer.Services
 
             DataManager.AddProfileToMemory(newProfile);
 
-            tokenOrMessage = GenerateToken(newProfile, builder);
-            DataManager.AddProfileAndToken(newProfile.Id, tokenOrMessage);
+            JwtSecurityToken jwtToken = GenerateToken(newProfile, builder);
+            string tokenValue = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+            token = new Token()
+                { Id = DataManager.GetTokenCount() + 1, Value = tokenValue, ExpirationDateTime = jwtToken.ValidTo };
+
+            DataManager.AddProfileAndToken(newProfile.Id, token);
             return ErrorCodes.Ok;
         }
 
-        public int SignIn(UserCredentials userCredentials, out string tokenOrMessage, WebApplicationBuilder builder)
+        // ToDo: Right now we can signin only one device. Like WhatsApp
+        public int SignIn(UserCredentials userCredentials, out Profile existingProfile, out Token token, out string errorMessage, WebApplicationBuilder builder)
         {
+            errorMessage = string.Empty;
+            existingProfile = null;
+            token = null;
             if (string.IsNullOrEmpty(userCredentials.EmailAddress) ||
                 string.IsNullOrEmpty(userCredentials.Password))
             {
-                tokenOrMessage = "Invalid user credentials: at least one is empty";
+                errorMessage = "Invalid user credentials: at least one is empty";
                 return ErrorCodes.BadRequest;
             }
 
-            Profile loggedInUser = DataManager.GetProfileFromMemory(userCredentials.EmailAddress, userCredentials.Password);
-            if (loggedInUser is null)
+            existingProfile = DataManager.GetProfileFromMemory(userCredentials.EmailAddress, userCredentials.Password);
+            if (existingProfile is null)
             {
-                tokenOrMessage = "User not found";
+                errorMessage = "User not found";
                 return ErrorCodes.NotFound;
             }
 
-            tokenOrMessage = GenerateToken(loggedInUser, builder);
-            DataManager.SetTokenToProfileBySignIn(loggedInUser.Id, tokenOrMessage);
+            JwtSecurityToken jwtToken = GenerateToken(existingProfile, builder);
+            string tokenValue = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+            token = new Token()
+                { Id = DataManager.GetTokenCount() + 1, Value = tokenValue, ExpirationDateTime = jwtToken.ValidTo };
+
+            DataManager.SetTokenToProfileBySignIn(existingProfile.Id, token);
 
             return ErrorCodes.Ok;
         }
 
-        public Profile GetProfile(string applicantOrExpertToken)
+        public Profile GetProfile(string applicantOrExpertTokenValue)
         {
-            ProfileToToken profileToToken = DataManager.GetProfileAndToken(applicantOrExpertToken);
+            ProfileToToken profileToToken = DataManager.GetProfileAndToken(applicantOrExpertTokenValue);
             if (profileToToken == null)
             {
                 return null;
@@ -126,7 +141,7 @@ namespace CViewer.Services
             return profiles;
         }
 
-        private string GenerateToken(Profile loggedInUser, WebApplicationBuilder builder)
+        private JwtSecurityToken GenerateToken(Profile loggedInUser, WebApplicationBuilder builder)
         {
             Claim[] claims = new[]
             {
@@ -151,7 +166,7 @@ namespace CViewer.Services
                     SecurityAlgorithms.HmacSha256)
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return token;
         }
     }
 }

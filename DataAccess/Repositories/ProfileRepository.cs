@@ -9,8 +9,8 @@ namespace CViewer.DataAccess.Repositories
             new()
             {
                 Id = 1,
-                EmailAddress = "dark-fantasies.com",
-                Password = "Pass", 
+                EmailAddress = "d",
+                Password = "d", 
                 FirstName = "Ven", 
                 LastName = "Darkholm", 
                 IsExpert = true,
@@ -21,8 +21,8 @@ namespace CViewer.DataAccess.Repositories
             new()
             {
                 Id = 2,
-                EmailAddress = "letherman.com", 
-                Password = "Pass2", 
+                EmailAddress = "l", 
+                Password = "l", 
                 FirstName = "Boy",
                 LastName = "Next", 
                 IsExpert = false,

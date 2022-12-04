@@ -3,6 +3,6 @@
     public class ProfileToToken
     {
         public int ProfileId { get; set; }
-        public string Token { get; set; }
+        public Token Token { get; set; }
     }
 }
