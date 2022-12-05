@@ -24,7 +24,9 @@ class _CVsPageState extends State<CVsPage> {
     return Scaffold(
       body: Observer(
         builder: (_) => _cvsHolder.isLoading
-            ? const CircularProgressIndicator()
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
             : _cvsHolder.hasLoadError
                 // TODO: кастомизировать UI при ошибке загрузки данных
                 ? const Center(
@@ -32,11 +34,15 @@ class _CVsPageState extends State<CVsPage> {
                   )
                 : ResumeList(items: _cvsHolder.cvs),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO: создание черновика CV
-        },
-        child: const Icon(Icons.create_rounded),
+      floatingActionButton: Observer(
+        builder: (_) => !_cvsHolder.isLoading && !_cvsHolder.hasLoadError
+            ? FloatingActionButton(
+                onPressed: () {
+                  // TODO: создание черновика CV
+                },
+                child: const Icon(Icons.create_rounded),
+              )
+            : const SizedBox(),
       ),
     );
   }

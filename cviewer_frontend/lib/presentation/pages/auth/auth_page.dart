@@ -70,6 +70,7 @@ class _AuthPageState extends State<AuthPage> {
               // Password field
               TextFormField(
                 controller: _passwordTextController,
+                obscureText: true,
                 decoration: InputDecoration(
                   label: Text(
                     'Пароль',

@@ -1,8 +1,4 @@
 import 'package:cviewer_frontend/domain/models/resume/cv.dart';
-import 'package:cviewer_frontend/domain/models/resume/resume_comment_info.dart';
-import 'package:cviewer_frontend/domain/models/resume/resume_file_info.dart';
-import 'package:cviewer_frontend/domain/models/resume/resume_status.dart';
-import 'package:cviewer_frontend/domain/models/tag/tag.dart';
 import 'package:cviewer_frontend/domain/repositories/cv_repository.dart';
 
 class MockResumeRepository implements CVRepository {
@@ -19,7 +15,8 @@ class MockResumeRepository implements CVRepository {
   }
 }
 
-final _mockResumeList = [
+final _mockResumeList = <CV>[
+/*
   CV(
     id: 1,
     title: 'Resume title 1',
@@ -113,4 +110,5 @@ final _mockResumeList = [
     tags: [],
     history: [],
   ),
+  */
 ];

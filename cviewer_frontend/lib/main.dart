@@ -7,11 +7,15 @@ import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await DI.init(Environment.dev);
 
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
-    debugPrint('${record.level.name}: ${record.time}: ${record.message}');
+    debugPrint(
+      '${record.level.name}: ${record.time}: [${record.loggerName}]: ${record.message} ',
+    );
   });
 
   runZonedGuarded(
