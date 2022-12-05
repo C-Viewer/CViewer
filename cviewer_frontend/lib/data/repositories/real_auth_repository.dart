@@ -1,5 +1,6 @@
 import 'package:cviewer_frontend/constants/storage_keys.dart';
 import 'package:cviewer_frontend/data/mappers/profile_credentials_mapper.dart';
+import 'package:cviewer_frontend/data/mappers/profile_mapper.dart';
 import 'package:cviewer_frontend/data/network/service/client_index.dart';
 import 'package:cviewer_frontend/data/repositories/mock_profile_repository.dart';
 import 'package:cviewer_frontend/domain/models/exceptions/data_exception.dart';
@@ -35,13 +36,14 @@ class RealAuthRepository implements AuthRepository {
     final response = await _service.signInPost(
       body: const ProfileCredentialsToDtoMapper().map(credentials),
     );
-    final dto = response.body;
+    final token = response.body?.token?.value;
+    final profileDto = response.body?.profile;
 
-    if (dto != null) {
-      _storage.setString(StorageKeys.authToken, dto);
+    if (profileDto != null && token != null) {
+      _storage.setString(StorageKeys.authToken, token);
       _logger.info('Auth token was saved');
-      // TODO: возвращать реальный профиль (должен приходить с бека)
-      return const MockProfileRepository().getProfile();
+
+      return const ProfileFromDtoMapper().map(profileDto);
     } else {
       throw const NoDataException();
     }

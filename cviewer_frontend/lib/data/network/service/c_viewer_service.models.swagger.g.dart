@@ -27,6 +27,32 @@ Map<String, dynamic> _$AttachedFileToJson(AttachedFile instance) {
   return val;
 }
 
+ComplexObjectProfileAndToken _$ComplexObjectProfileAndTokenFromJson(
+        Map<String, dynamic> json) =>
+    ComplexObjectProfileAndToken(
+      profile: json['profile'] == null
+          ? null
+          : Profile.fromJson(json['profile'] as Map<String, dynamic>),
+      token: json['token'] == null
+          ? null
+          : Token.fromJson(json['token'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ComplexObjectProfileAndTokenToJson(
+    ComplexObjectProfileAndToken instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('profile', instance.profile?.toJson());
+  writeNotNull('token', instance.token?.toJson());
+  return val;
+}
+
 Cv _$CvFromJson(Map<String, dynamic> json) => Cv(
       id: json['id'] as int?,
       title: json['title'] as String?,
@@ -173,6 +199,30 @@ Map<String, dynamic> _$SpecializationToJson(Specialization instance) {
 
   writeNotNull('id', instance.id);
   writeNotNull('name', instance.name);
+  return val;
+}
+
+Token _$TokenFromJson(Map<String, dynamic> json) => Token(
+      id: json['id'] as int?,
+      value: json['value'] as String?,
+      expirationDateTime: json['expirationDateTime'] == null
+          ? null
+          : DateTime.parse(json['expirationDateTime'] as String),
+    );
+
+Map<String, dynamic> _$TokenToJson(Token instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('value', instance.value);
+  writeNotNull(
+      'expirationDateTime', instance.expirationDateTime?.toIso8601String());
   return val;
 }
 

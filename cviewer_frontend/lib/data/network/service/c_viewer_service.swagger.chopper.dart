@@ -17,7 +17,8 @@ class _$CViewerService extends CViewerService {
   final definitionType = CViewerService;
 
   @override
-  Future<Response<String>> _signInPost({required UserCredentials? body}) {
+  Future<Response<ComplexObjectProfileAndToken>> _signInPost(
+      {required UserCredentials? body}) {
     final String $url = '/sign_in';
     final $body = body;
     final Request $request = Request(
@@ -26,11 +27,13 @@ class _$CViewerService extends CViewerService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<String, String>($request);
+    return client.send<ComplexObjectProfileAndToken,
+        ComplexObjectProfileAndToken>($request);
   }
 
   @override
-  Future<Response<String>> _signUpPost({required UserCredentials? body}) {
+  Future<Response<ComplexObjectProfileAndToken>> _signUpPost(
+      {required UserCredentials? body}) {
     final String $url = '/sign_up';
     final $body = body;
     final Request $request = Request(
@@ -39,7 +42,8 @@ class _$CViewerService extends CViewerService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<String, String>($request);
+    return client.send<ComplexObjectProfileAndToken,
+        ComplexObjectProfileAndToken>($request);
   }
 
   @override
@@ -85,16 +89,12 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<Profile>> _getProfileGet({required int? profileId}) {
+  Future<Response<Profile>> _getProfileGet() {
     final String $url = '/get_profile';
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'profileId': profileId
-    };
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
-      parameters: $params,
     );
     return client.send<Profile, Profile>($request);
   }
@@ -226,6 +226,17 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
+  Future<Response<List<Cv>>> _listCVsForProfileGet() {
+    final String $url = '/list_CVs_for_profile';
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<List<Cv>, Cv>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _listCVTagsGet() {
     final String $url = '/list_CV_tags';
     final Request $request = Request(
@@ -281,5 +292,16 @@ class _$CViewerService extends CViewerService {
       client.baseUrl,
     );
     return client.send<List<AttachedFile>, AttachedFile>($request);
+  }
+
+  @override
+  Future<Response<bool>> _checkAccessGet() {
+    final String $url = '/check_access';
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<bool, bool>($request);
   }
 }

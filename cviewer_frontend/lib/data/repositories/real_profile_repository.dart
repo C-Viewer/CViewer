@@ -11,8 +11,7 @@ class RealProfileRepository implements ProfileRepository {
 
   @override
   Future<Profile> getProfile() async {
-    // TODO: избавиться от profileId
-    final response = await _service.getProfileGet(profileId: 1);
+    final response = await _service.getProfileGet();
     final dto = response.body;
 
     if (dto != null) {

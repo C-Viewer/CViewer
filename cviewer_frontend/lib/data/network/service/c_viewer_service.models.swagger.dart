@@ -72,6 +72,60 @@ extension $AttachedFileExtension on AttachedFile {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ComplexObjectProfileAndToken {
+  ComplexObjectProfileAndToken({
+    this.profile,
+    this.token,
+  });
+
+  factory ComplexObjectProfileAndToken.fromJson(Map<String, dynamic> json) =>
+      _$ComplexObjectProfileAndTokenFromJson(json);
+
+  @JsonKey(name: 'profile')
+  final Profile? profile;
+  @JsonKey(name: 'token')
+  final Token? token;
+  static const fromJsonFactory = _$ComplexObjectProfileAndTokenFromJson;
+  static const toJsonFactory = _$ComplexObjectProfileAndTokenToJson;
+  Map<String, dynamic> toJson() => _$ComplexObjectProfileAndTokenToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ComplexObjectProfileAndToken &&
+            (identical(other.profile, profile) ||
+                const DeepCollectionEquality()
+                    .equals(other.profile, profile)) &&
+            (identical(other.token, token) ||
+                const DeepCollectionEquality().equals(other.token, token)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(profile) ^
+      const DeepCollectionEquality().hash(token) ^
+      runtimeType.hashCode;
+}
+
+extension $ComplexObjectProfileAndTokenExtension
+    on ComplexObjectProfileAndToken {
+  ComplexObjectProfileAndToken copyWith({Profile? profile, Token? token}) {
+    return ComplexObjectProfileAndToken(
+        profile: profile ?? this.profile, token: token ?? this.token);
+  }
+
+  ComplexObjectProfileAndToken copyWithWrapped(
+      {Wrapped<Profile?>? profile, Wrapped<Token?>? token}) {
+    return ComplexObjectProfileAndToken(
+        profile: (profile != null ? profile.value : this.profile),
+        token: (token != null ? token.value : this.token));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class Cv {
   Cv({
     this.id,
@@ -564,6 +618,71 @@ extension $SpecializationExtension on Specialization {
     return Specialization(
         id: (id != null ? id.value : this.id),
         name: (name != null ? name.value : this.name));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class Token {
+  Token({
+    this.id,
+    this.value,
+    this.expirationDateTime,
+  });
+
+  factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
+
+  @JsonKey(name: 'id')
+  final int? id;
+  @JsonKey(name: 'value')
+  final String? value;
+  @JsonKey(name: 'expirationDateTime')
+  final DateTime? expirationDateTime;
+  static const fromJsonFactory = _$TokenFromJson;
+  static const toJsonFactory = _$TokenToJson;
+  Map<String, dynamic> toJson() => _$TokenToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is Token &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)) &&
+            (identical(other.expirationDateTime, expirationDateTime) ||
+                const DeepCollectionEquality()
+                    .equals(other.expirationDateTime, expirationDateTime)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(value) ^
+      const DeepCollectionEquality().hash(expirationDateTime) ^
+      runtimeType.hashCode;
+}
+
+extension $TokenExtension on Token {
+  Token copyWith({int? id, String? value, DateTime? expirationDateTime}) {
+    return Token(
+        id: id ?? this.id,
+        value: value ?? this.value,
+        expirationDateTime: expirationDateTime ?? this.expirationDateTime);
+  }
+
+  Token copyWithWrapped(
+      {Wrapped<int?>? id,
+      Wrapped<String?>? value,
+      Wrapped<DateTime?>? expirationDateTime}) {
+    return Token(
+        id: (id != null ? id.value : this.id),
+        value: (value != null ? value.value : this.value),
+        expirationDateTime: (expirationDateTime != null
+            ? expirationDateTime.value
+            : this.expirationDateTime));
   }
 }
 

@@ -34,25 +34,31 @@ abstract class CViewerService extends ChopperService {
   }
 
   ///
-  Future<chopper.Response<String>> signInPost(
+  Future<chopper.Response<ComplexObjectProfileAndToken>> signInPost(
       {required UserCredentials? body}) {
+    generatedMapping.putIfAbsent(ComplexObjectProfileAndToken,
+        () => ComplexObjectProfileAndToken.fromJsonFactory);
+
     return _signInPost(body: body);
   }
 
   ///
   @Post(path: '/sign_in')
-  Future<chopper.Response<String>> _signInPost(
+  Future<chopper.Response<ComplexObjectProfileAndToken>> _signInPost(
       {@Body() required UserCredentials? body});
 
   ///
-  Future<chopper.Response<String>> signUpPost(
+  Future<chopper.Response<ComplexObjectProfileAndToken>> signUpPost(
       {required UserCredentials? body}) {
+    generatedMapping.putIfAbsent(ComplexObjectProfileAndToken,
+        () => ComplexObjectProfileAndToken.fromJsonFactory);
+
     return _signUpPost(body: body);
   }
 
   ///
   @Post(path: '/sign_up')
-  Future<chopper.Response<String>> _signUpPost(
+  Future<chopper.Response<ComplexObjectProfileAndToken>> _signUpPost(
       {@Body() required UserCredentials? body});
 
   ///
@@ -123,18 +129,15 @@ abstract class CViewerService extends ChopperService {
   Future<chopper.Response<List<Profile>>> _listProfilesGet();
 
   ///
-  ///@param profileId
-  Future<chopper.Response<Profile>> getProfileGet({required int? profileId}) {
+  Future<chopper.Response<Profile>> getProfileGet() {
     generatedMapping.putIfAbsent(Profile, () => Profile.fromJsonFactory);
 
-    return _getProfileGet(profileId: profileId);
+    return _getProfileGet();
   }
 
   ///
-  ///@param profileId
   @Get(path: '/get_profile')
-  Future<chopper.Response<Profile>> _getProfileGet(
-      {@Query('profileId') required int? profileId});
+  Future<chopper.Response<Profile>> _getProfileGet();
 
   ///
   ///@param cvId
@@ -278,6 +281,17 @@ abstract class CViewerService extends ChopperService {
   Future<chopper.Response<List<Cv>>> _listCVsGet();
 
   ///
+  Future<chopper.Response<List<Cv>>> listCVsForProfileGet() {
+    generatedMapping.putIfAbsent(Cv, () => Cv.fromJsonFactory);
+
+    return _listCVsForProfileGet();
+  }
+
+  ///
+  @Get(path: '/list_CVs_for_profile')
+  Future<chopper.Response<List<Cv>>> _listCVsForProfileGet();
+
+  ///
   Future<chopper.Response> listCVTagsGet() {
     return _listCVTagsGet();
   }
@@ -332,6 +346,15 @@ abstract class CViewerService extends ChopperService {
   ///
   @Get(path: '/list_attached_files')
   Future<chopper.Response<List<AttachedFile>>> _listAttachedFilesGet();
+
+  ///
+  Future<chopper.Response<bool>> checkAccessGet() {
+    return _checkAccessGet();
+  }
+
+  ///
+  @Get(path: '/check_access')
+  Future<chopper.Response<bool>> _checkAccessGet();
 }
 
 typedef $JsonFactory<T> = T Function(Map<String, dynamic> json);
