@@ -1,6 +1,6 @@
-﻿using CViewer.DataAccess.Entities;
-using CViewer.Services;
+﻿using CViewer.Services;
 using CViewer.Utils;
+using Microsoft.AspNetCore.Cors;
 
 namespace CViewer.Endpoints
 {
@@ -9,6 +9,7 @@ namespace CViewer.Endpoints
         internal static void MapSecurityEndpoints(this WebApplication app)
         {
             app.MapGet("/check_access",
+                [EnableCors(Configuration.CorsPolicyName)]
                 (HttpContext context, ISecurityService service) => CheckAccess(context, service));
         }
 

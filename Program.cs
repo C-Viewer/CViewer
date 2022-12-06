@@ -4,8 +4,8 @@ using Microsoft.OpenApi.Models;
 using CViewer.Services;
 using System.Text;
 using CViewer.Endpoints;
+using CViewer.Utils;
 
-const string corsPolicyName = "AllowAll";
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen(options =>
@@ -55,9 +55,9 @@ builder.Services.AddSingleton<ICVService, CVService>();
 builder.Services.AddSingleton<IProfileService, ProfileService>();
 builder.Services.AddSingleton<ISecurityService, SecurityService>();
 
-builder.Services.AddCors(p => p.AddPolicy(corsPolicyName, build =>
+builder.Services.AddCors(p => p.AddPolicy(Configuration.CorsPolicyName, builder =>
 {
-    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
 }));
 
 var app = builder.Build();
@@ -75,6 +75,6 @@ app.MapSecurityEndpoints();
 
 app.UseSwaggerUI();
 
-app.UseCors(corsPolicyName);
+app.UseCors(Configuration.CorsPolicyName);
 
 app.Run();

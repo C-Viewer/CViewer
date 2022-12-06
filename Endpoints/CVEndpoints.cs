@@ -6,6 +6,7 @@ using CViewer.Utils;
 using CViewer.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace CViewer.Endpoints
 {
@@ -45,11 +46,13 @@ namespace CViewer.Endpoints
                 service: service));
 
             app.MapGet("/list_CVs",
+                    [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (ICVService service) => ListCVs(service))
                 .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_CVs_for_profile",
+                    [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (HttpContext context, ICVService service) => ListCVsForProfile(context, service))
                 .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
@@ -65,6 +68,7 @@ namespace CViewer.Endpoints
                 .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_concrete_CV_histories",
+                    [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (int cvId, HttpContext context, ICVService service) => ListCVHistories(cvId, context, service))
                 .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
