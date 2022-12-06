@@ -295,13 +295,13 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<bool>> _checkAccessGet() {
+  Future<Response<dynamic>> _checkAccessGet() {
     final String $url = '/check_access';
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<bool, bool>($request);
+    return client.send<dynamic, dynamic>($request);
   }
 }

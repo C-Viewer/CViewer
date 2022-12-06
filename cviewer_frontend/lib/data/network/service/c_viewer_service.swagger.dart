@@ -348,13 +348,13 @@ abstract class CViewerService extends ChopperService {
   Future<chopper.Response<List<AttachedFile>>> _listAttachedFilesGet();
 
   ///
-  Future<chopper.Response<bool>> checkAccessGet() {
+  Future<chopper.Response> checkAccessGet() {
     return _checkAccessGet();
   }
 
   ///
   @Get(path: '/check_access')
-  Future<chopper.Response<bool>> _checkAccessGet();
+  Future<chopper.Response> _checkAccessGet();
 }
 
 typedef $JsonFactory<T> = T Function(Map<String, dynamic> json);
