@@ -141,5 +141,17 @@ namespace CViewer.DataAccess.DataManager
                 return TokenRepository.Tokens.Count;
             }
         }
+
+        internal static List<CVStatusType> GetCVStatuses()
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return CVStatusRepository.CvStatuses;
+            }
+        }
     }
 }

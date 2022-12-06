@@ -110,6 +110,11 @@ namespace CViewer.Services
             return CVTagRepository.CVTags;
         }
 
+        public List<CVStatusType> ListCVStatuses()
+        {
+            return DataManager.GetCVStatuses();
+        }
+
         public List<Specialization> ListSpecializations()
         {
             return SpecializationRepository.Specializations;

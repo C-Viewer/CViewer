@@ -1,10 +1,14 @@
+using CViewer.Endpoints;
+using CViewer.Services;
+using CViewer.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using CViewer.Services;
 using System.Text;
-using CViewer.Endpoints;
-using CViewer.Utils;
+using System.Text.Json.Serialization;
+
+using MvcJsonOptions = Microsoft.AspNetCore.Mvc.JsonOptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +38,9 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
+builder.Services.Configure<JsonOptions>(o => o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+builder.Services.Configure<MvcJsonOptions>(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {

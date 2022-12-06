@@ -1,5 +1,5 @@
-﻿using System.Net;
-using CViewer.DataAccess.Entities;
+﻿using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.Repositories;
 
 namespace CViewer.Services
 {
@@ -17,6 +17,7 @@ namespace CViewer.Services
         public CVHistory GetCVHistory(int id);
         public AttachedFile GetAttachedFile(int id);
         public List<CVTag> ListCVTags();
+        public List<CVStatusType> ListCVStatuses();
         public List<Specialization> ListSpecializations();
         //public bool Delete(int id);
     }

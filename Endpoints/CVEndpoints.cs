@@ -1,5 +1,6 @@
 ﻿using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.Repositories;
 using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
 using CViewer.Utils;
@@ -58,7 +59,12 @@ namespace CViewer.Endpoints
                 .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_CV_tags",
-                (ICVService service) => ListCVTags(service));
+                (ICVService service) => ListCVTags(service))
+                .Produces<List<CVTag>>();
+
+            app.MapGet("/list_CV_statuses",
+                (ICVService service) => ListCVStatusesTags(service))
+                .Produces<List<CVStatusType>>();
 
             app.MapGet("/list_specializations",
                 (ICVService service) => ListSpecializations(service));
@@ -138,6 +144,11 @@ namespace CViewer.Endpoints
             return Results.Ok(service.ListCVTags());
         }
 
+        private static IResult ListCVStatusesTags(ICVService service)
+        {
+            return Results.Ok(service.ListCVStatuses());
+        }
+        
         private static IResult ListSpecializations(ICVService service)
         {
             return Results.Ok(service.ListSpecializations());
