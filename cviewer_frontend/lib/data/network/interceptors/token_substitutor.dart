@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:chopper/chopper.dart';
+import 'package:cviewer_frontend/constants/storage_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenSubstitutor implements RequestInterceptor {
@@ -10,7 +11,7 @@ class TokenSubstitutor implements RequestInterceptor {
 
   @override
   FutureOr<Request> onRequest(Request request) {
-    final authToken = null; //_storage.getString(StorageKeys.authToken);
+    final authToken = _storage.getString(StorageKeys.authToken);
 
     return request.copyWith(
       headers: {
