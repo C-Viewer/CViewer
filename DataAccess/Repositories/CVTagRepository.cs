@@ -19,7 +19,7 @@ namespace CViewer.DataAccess.Repositories
             new CVTag()
             {
                 Id = 3,
-                Name = "Flatter",
+                Name = "Flutter",
             },
             new CVTag()
             {
