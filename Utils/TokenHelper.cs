@@ -2,9 +2,9 @@
 {
     internal static class TokenHelper
     {
-        internal static DateTime TokenLifeTimeExpires = DateTime.UtcNow.AddMinutes(10);
-        internal static DateTime TokenLifeTimeNotBefore = DateTime.UtcNow;
-        internal static DateTime TokenLifeTimeForSessionWindow = DateTime.UtcNow.AddMinutes(5);
+        internal static Func<DateTime> TokenLifeTimeExpires = () => DateTime.UtcNow.AddMinutes(10);
+        internal static Func<DateTime> TokenLifeTimeNotBefore = () => DateTime.UtcNow;
+        internal static Func<DateTime> TokenLifeTimeForSessionWindow = () => DateTime.UtcNow.AddMinutes(5);
 
         internal static string GetToken(HttpContext context)
         {

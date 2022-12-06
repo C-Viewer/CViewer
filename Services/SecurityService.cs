@@ -15,7 +15,7 @@ namespace CViewer.Services
             }
 
             // Allow user at least 10-minutes session.
-            if (TokenHelper.TokenLifeTimeForSessionWindow <= profileToToken.Token.ExpirationDateTime)
+            if (TokenHelper.TokenLifeTimeForSessionWindow() <= profileToToken.Token.ExpirationDateTime)
             {
                 return true;
             }

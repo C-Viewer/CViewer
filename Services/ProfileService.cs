@@ -159,8 +159,8 @@ namespace CViewer.Services
                 issuer: builder.Configuration["Jwt:Issuer"],
                 audience: builder.Configuration["Jwt:Audience"],
                 claims: claims,
-                expires: TokenHelper.TokenLifeTimeExpires,
-                notBefore: TokenHelper.TokenLifeTimeNotBefore,
+                expires: TokenHelper.TokenLifeTimeExpires(),
+                notBefore: TokenHelper.TokenLifeTimeNotBefore(),
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
                     SecurityAlgorithms.HmacSha256)
