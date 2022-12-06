@@ -26,7 +26,10 @@ final _appRouter = GoRouter(
   initialLocation: RoutePaths.splash,
   routes: [
     // Splash
-    GoRoute(path: RoutePaths.splash, builder: (_, __) => const SplashPage()),
+    GoRoute(
+      path: RoutePaths.splash,
+      builder: (_, __) => const SplashPage(),
+    ),
     // Auth
     GoRoute(
       path: RoutePaths.auth,

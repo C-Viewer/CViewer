@@ -1,4 +1,4 @@
-import 'package:cviewer_frontend/domain/models/resume/cv.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv.dart';
 
 abstract class CVRepository {
   Future<List<CV>> getCVs();

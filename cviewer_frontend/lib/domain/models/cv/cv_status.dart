@@ -1,4 +1,4 @@
-enum ResumeStatus {
+enum CVStatus {
   draft,
   opened,
   onReview,

@@ -1,5 +1,5 @@
-import 'package:cviewer_frontend/domain/models/resume/date_sortable.dart';
-import 'package:cviewer_frontend/domain/models/resume/resume_status.dart';
+import 'package:cviewer_frontend/domain/models/cv/date_sortable.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_status.dart';
 import 'package:cviewer_frontend/domain/models/tag/tag.dart';
 
 class CV {
@@ -17,7 +17,7 @@ class CV {
   final int id;
   final String title;
   final String description;
-  final ResumeStatus status;
+  final CVStatus status;
   final DateTime creationDate;
   final double rating;
   final List<Tag> tags;

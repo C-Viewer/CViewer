@@ -1,15 +1,15 @@
-import 'package:cviewer_frontend/domain/models/resume/resume_comment_info.dart';
 import 'package:cviewer_frontend/constants/text_styles.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_file_info.dart';
 import 'package:cviewer_frontend/utils/date_time_formatters.dart';
 import 'package:flutter/material.dart';
 
-class ResumeCommentTile extends StatelessWidget {
-  const ResumeCommentTile({
+class CVFileTile extends StatelessWidget {
+  const CVFileTile({
     super.key,
     required this.info,
   });
 
-  final ResumeCommentInfo info;
+  final CVFileInfo info;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class ResumeCommentTile extends StatelessWidget {
       children: [
         // Comment
         Text(
-          info.comment,
+          info.fileName,
           style: TextStyles.textL,
         ),
         // Date

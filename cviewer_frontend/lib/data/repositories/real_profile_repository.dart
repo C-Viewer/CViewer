@@ -1,6 +1,6 @@
 import 'package:cviewer_frontend/data/mappers/profile_mapper.dart';
 import 'package:cviewer_frontend/data/network/service/client_index.dart';
-import 'package:cviewer_frontend/domain/models/exceptions/data_exception.dart';
+import 'package:cviewer_frontend/domain/models/exceptions/exceptions.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/domain/repositories/profile_repository.dart';
 

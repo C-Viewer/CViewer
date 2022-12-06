@@ -1,4 +1,4 @@
-import 'package:cviewer_frontend/domain/models/resume/cv.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv.dart';
 import 'package:cviewer_frontend/domain/repositories/cv_repository.dart';
 
 class MockResumeRepository implements CVRepository {

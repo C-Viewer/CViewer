@@ -1,7 +1,7 @@
-import 'package:cviewer_frontend/domain/models/resume/date_sortable.dart';
+import 'package:cviewer_frontend/domain/models/cv/date_sortable.dart';
 
-class ResumeFileInfo implements DateSortable {
-  const ResumeFileInfo({
+class CVFileInfo implements DateSortable {
+  const CVFileInfo({
     required this.id,
     required this.fileName,
     required this.date,

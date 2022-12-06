@@ -1,7 +1,7 @@
 import 'package:cviewer_frontend/constants/text_styles.dart';
 import 'package:cviewer_frontend/data/repositories/mock_resume_repository.dart';
-import 'package:cviewer_frontend/domain/models/resume/cv.dart';
-import 'package:cviewer_frontend/presentation/widgets/resume/resume_history_list.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv.dart';
+import 'package:cviewer_frontend/presentation/widgets/cvs/cv_history_list.dart';
 import 'package:flutter/material.dart';
 
 class CVPage extends StatelessWidget {
@@ -48,7 +48,7 @@ class _Content extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           // History
-          ResumeHistoryList(
+          CVHistoryList(
             items: resume.history,
           ),
         ],

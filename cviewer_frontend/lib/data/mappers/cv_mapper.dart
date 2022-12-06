@@ -1,7 +1,7 @@
 import 'package:cviewer_frontend/data/mappers/cv_tag_mapper.dart';
 import 'package:cviewer_frontend/data/network/service/c_viewer_service.models.swagger.dart';
-import 'package:cviewer_frontend/domain/models/resume/cv.dart';
-import 'package:cviewer_frontend/domain/models/resume/resume_status.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_status.dart';
 import 'package:cviewer_frontend/utils/mapper.dart';
 
 class CVFromDtoMapper implements Mapper<Cv, CV> {
@@ -15,7 +15,7 @@ class CVFromDtoMapper implements Mapper<Cv, CV> {
       title: data.title ?? '',
       description: data.description ?? '',
       // TODO: маппинг статуса
-      status: ResumeStatus.draft,
+      status: CVStatus.draft,
       // TODO: устранить nullable-поле в респонсе или сделать nullable в модели
       creationDate: data.dateCreation ?? DateTime.now(),
       rating: data.rating ?? 0.0,

@@ -1,7 +1,7 @@
 import 'package:cviewer_frontend/data/mappers/cv_mapper.dart';
 import 'package:cviewer_frontend/data/network/service/client_index.dart';
-import 'package:cviewer_frontend/domain/models/exceptions/data_exception.dart';
-import 'package:cviewer_frontend/domain/models/resume/cv.dart';
+import 'package:cviewer_frontend/domain/models/exceptions/exceptions.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv.dart';
 import 'package:cviewer_frontend/domain/repositories/cv_repository.dart';
 
 class RealCVRepository implements CVRepository {

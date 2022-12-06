@@ -1,44 +1,45 @@
-import 'package:cviewer_frontend/domain/models/resume/resume_status.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_status.dart';
 import 'package:flutter/material.dart';
 
-class ResumeStatusLabel extends StatelessWidget {
-  const ResumeStatusLabel({
+class CVStatusLabel extends StatelessWidget {
+  const CVStatusLabel({
     super.key,
     required this.status,
   });
 
-  final ResumeStatus status;
+  final CVStatus status;
 
   Color _getColor() {
     switch (status) {
-      case ResumeStatus.draft:
+      case CVStatus.draft:
         return Colors.grey;
-      case ResumeStatus.opened:
+      case CVStatus.opened:
         return Colors.lightBlue;
-      case ResumeStatus.onReview:
+      case CVStatus.onReview:
         return Colors.blue;
-      case ResumeStatus.fixRequired:
+      case CVStatus.fixRequired:
         return Colors.orange;
-      case ResumeStatus.marked:
+      case CVStatus.marked:
         return Colors.green;
-      case ResumeStatus.finished:
+      case CVStatus.finished:
         return Colors.purple;
     }
   }
 
+  // TODO: intl
   String _getText() {
     switch (status) {
-      case ResumeStatus.draft:
+      case CVStatus.draft:
         return 'Draft';
-      case ResumeStatus.opened:
+      case CVStatus.opened:
         return 'Opened';
-      case ResumeStatus.onReview:
+      case CVStatus.onReview:
         return 'On review';
-      case ResumeStatus.fixRequired:
+      case CVStatus.fixRequired:
         return 'Fix required';
-      case ResumeStatus.marked:
+      case CVStatus.marked:
         return 'Marked';
-      case ResumeStatus.finished:
+      case CVStatus.finished:
         return 'Finished';
     }
   }

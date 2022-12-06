@@ -1,12 +1,15 @@
 import 'package:cviewer_frontend/di/assemble.dart';
-import 'package:cviewer_frontend/domain/models/resume/cv.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv.dart';
+import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 
-part 'cvs_holder.g.dart';
+part 'cvs_loader.g.dart';
 
-class CVsHolder = _CVsHolder with _$CVsHolder;
+final _logger = Logger('CVs loader');
 
-abstract class _CVsHolder with Store {
+class CVsLoader = _CVsLoader with _$CVsLoader;
+
+abstract class _CVsLoader with Store {
   final _cvRepository = Assemble.cvRepository;
 
   @observable
@@ -23,14 +26,18 @@ abstract class _CVsHolder with Store {
 
   @action
   Future<void> loadCVs() async {
+    isLoading = true;
     try {
-      isLoading = true;
       cvs = await _cvRepository.getCVs();
-      isLoading = false;
+      error = null;
       hasLoadError = false;
+      _logger.info('CVs were loaded');
     } catch (e) {
       error = e;
       hasLoadError = true;
+      _logger.warning('Error occured: $e');
+    } finally {
+      isLoading = false;
     }
   }
 }
