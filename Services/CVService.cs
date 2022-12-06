@@ -78,6 +78,11 @@ namespace CViewer.Services
             return cvHistory;
         }
 
+        public CVStatusType GetCVStatus(int cvId)
+        {
+            return DataManager.GetCv(cvId).StatusId;
+        }
+
         public CV GetCV(int cvId)
         {
             var cv = CVRepository.CVs.FirstOrDefault(o => o.Id == cvId);
@@ -152,7 +157,7 @@ namespace CViewer.Services
                 return null;
             }
 
-            return DataManager.GetCvs(profileToToken.ProfileId);
+            return DataManager.GetCvsForProfile(profileToToken.ProfileId);
         }
 
         //public bool Delete(int id)

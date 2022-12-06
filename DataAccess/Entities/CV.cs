@@ -1,8 +1,11 @@
-﻿namespace CViewer.DataAccess.Entities
+﻿using CViewer.DataAccess.Repositories;
+
+namespace CViewer.DataAccess.Entities
 {
     public class CV
     {
         public int Id { get; set; }
+        public CVStatusType StatusId { get; set; }
         public string Title { get; set; }
         public int PeopleCreatedId { get; set; }
         public List<int> ExpertIds { get; set; }

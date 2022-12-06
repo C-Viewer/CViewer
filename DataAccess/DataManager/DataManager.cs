@@ -118,7 +118,7 @@ namespace CViewer.DataAccess.DataManager
             return CVHistoryRepository.CVHistories.Where(h => h.CVId == cvId).ToList();
         }
 
-        internal static List<CV> GetCvs(int profileId)
+        internal static List<CV> GetCvsForProfile(int profileId)
         {
             if (TemporaryConfiguration.UseDb)
             {
@@ -127,6 +127,18 @@ namespace CViewer.DataAccess.DataManager
             else
             {
                 return CVRepository.CVs.Where(cv => cv.PeopleCreatedId == profileId || cv.ExpertIds.Contains(profileId)).ToList();
+            }
+        }
+
+        internal static CV GetCv(int cvId)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return CVRepository.CVs.FirstOrDefault(cv => cv.Id == cvId);
             }
         }
 

@@ -8,6 +8,7 @@ namespace CViewer.DataAccess.Repositories
         {
             new() { 
                 Id = 1, 
+                StatusId = CVStatusType.CommentedGradedNeedFix,
                 Title = "My fantasies", 
                 Description = "Very dark and nice.", 
                 Rating = 6.8,

@@ -1,13 +1,14 @@
-﻿using CViewer.DataAccess.DataManager;
+﻿using System.ComponentModel.DataAnnotations;
+using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.Repositories;
 using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
 using CViewer.Utils;
-using CViewer.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Validator = CViewer.Validation.Validator;
 
 namespace CViewer.Endpoints
 {
@@ -52,6 +53,11 @@ namespace CViewer.Endpoints
                     (ICVService service) => ListCVs(service))
                 .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 
+            app.MapGet("/get_cv_status",
+                    [EnableCors(Configuration.CorsPolicyName)]
+                    ([Required] int cvId, ICVService service) => GetCVStatus(cvId, service))
+                .Produces<CVStatusType>();
+            
             app.MapGet("/list_CVs_for_profile",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -193,6 +199,12 @@ namespace CViewer.Endpoints
             return Results.Ok(cvs);
         }
 
+        private static IResult GetCVStatus(int cvId, ICVService service)
+        {
+            CVStatusType cvStatus = service.GetCVStatus(cvId);
+            return Results.Ok(cvStatus);
+        }
+        
         private static IResult ListCVsForProfile(HttpContext context, ICVService service)
         {
             string applicantOrExpertToken = TokenHelper.GetToken(context);
