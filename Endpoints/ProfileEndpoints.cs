@@ -2,6 +2,8 @@
 using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
 using CViewer.Utils;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CViewer.Endpoints
 {
@@ -34,6 +36,7 @@ namespace CViewer.Endpoints
                 .Produces<List<Profile>>();
 
             app.MapGet("/get_profile",
+                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (HttpContext context, IProfileService service) => GetProfile(context, service))
                 .Produces<Profile>();
         }
