@@ -9,8 +9,7 @@ namespace CViewer.Endpoints
         internal static void MapSecurityEndpoints(this WebApplication app)
         {
             app.MapGet("/check_access",
-                    (HttpContext context, ISecurityService service) => CheckAccess(context, service))
-                .Produces<bool>();
+                (HttpContext context, ISecurityService service) => CheckAccess(context, service));
         }
 
         private static IResult CheckAccess(HttpContext context, ISecurityService service)
@@ -19,7 +18,7 @@ namespace CViewer.Endpoints
             bool isExistAndAlive = service.CheckAccess(tokenValue);
             if (isExistAndAlive)
             {
-                return Results.Ok(true);
+                return Results.Ok();
             }
 
             return Results.Unauthorized();
