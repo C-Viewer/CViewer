@@ -1,6 +1,6 @@
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/constants/route_constants.dart';
-import 'package:cviewer_frontend/constants/text_styles.dart';
+import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
 import 'package:cviewer_frontend/domain/logic/auth/auth_manager.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile_credentials.dart';
 import 'package:flutter/material.dart';

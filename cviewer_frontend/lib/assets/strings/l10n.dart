@@ -50,6 +50,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Вход в CViewer`
+  String get authTitle {
+    return Intl.message(
+      'Вход в CViewer',
+      name: 'authTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Почта`
   String get email {
     return Intl.message(
@@ -80,11 +90,41 @@ class S {
     );
   }
 
-  /// `Вход в CViewer`
-  String get authTitle {
+  /// `Зарегистрироваться`
+  String get signUp {
     return Intl.message(
-      'Вход в CViewer',
-      name: 'authTitle',
+      'Зарегистрироваться',
+      name: 'signUp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Главная`
+  String get home {
+    return Intl.message(
+      'Главная',
+      name: 'home',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Мои CV`
+  String get myCV {
+    return Intl.message(
+      'Мои CV',
+      name: 'myCV',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Профиль`
+  String get profile {
+    return Intl.message(
+      'Профиль',
+      name: 'profile',
       desc: '',
       args: [],
     );

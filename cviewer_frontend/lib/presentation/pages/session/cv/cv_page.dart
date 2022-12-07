@@ -1,4 +1,4 @@
-import 'package:cviewer_frontend/constants/text_styles.dart';
+import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
 import 'package:cviewer_frontend/data/repositories/mock_resume_repository.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv.dart';
 import 'package:cviewer_frontend/presentation/widgets/cvs/cv_history_list.dart';

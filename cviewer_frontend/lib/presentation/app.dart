@@ -5,6 +5,7 @@ import 'package:cviewer_frontend/presentation/pages/session/cv/cv_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/main/main_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/session_page.dart';
 import 'package:cviewer_frontend/presentation/pages/splash/splash_page.dart';
+import 'package:cviewer_frontend/presentation/resources/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -15,10 +16,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'CViewer',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: appTheme,
       routerConfig: _appRouter,
       supportedLocales: S.delegate.supportedLocales,
       localizationsDelegates: const [

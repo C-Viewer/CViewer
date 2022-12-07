@@ -1,3 +1,4 @@
+import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/presentation/pages/session/main/cvs/cvs_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/main/home/home_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/main/profile/profile_page.dart';
@@ -31,22 +32,22 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentTabIndex,
         onTap: (i) => setState(() => _currentTabIndex = i),
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: 'Home',
-            icon: Icon(
+            label: S.of(context).home,
+            icon: const Icon(
               Icons.home_rounded,
             ),
           ),
           BottomNavigationBarItem(
-            label: 'Resume history',
-            icon: Icon(
+            label: S.of(context).myCV,
+            icon: const Icon(
               Icons.history_rounded,
             ),
           ),
           BottomNavigationBarItem(
-            label: 'Profile',
-            icon: Icon(
+            label: S.of(context).profile,
+            icon: const Icon(
               Icons.account_circle_rounded,
             ),
           ),

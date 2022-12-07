@@ -29,14 +29,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "email": MessageLookupByLibrary.simpleMessage("Почта"),
         "finished": MessageLookupByLibrary.simpleMessage("Завершено"),
         "fixRequired": MessageLookupByLibrary.simpleMessage("Нужно исправить"),
+        "home": MessageLookupByLibrary.simpleMessage("Главная"),
         "marked": MessageLookupByLibrary.simpleMessage("Оценено"),
+        "myCV": MessageLookupByLibrary.simpleMessage("Мои CV"),
         "noAccessError": MessageLookupByLibrary.simpleMessage(
             "Доступ запрещен, пожалуйста, попробуйте заново авторизоваться"),
         "noDataError": MessageLookupByLibrary.simpleMessage(
             "Не удалось загрузить данные, пожалуйста, повторите попытку"),
         "onReview": MessageLookupByLibrary.simpleMessage("На проверке"),
         "password": MessageLookupByLibrary.simpleMessage("Пароль"),
+        "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
         "signIn": MessageLookupByLibrary.simpleMessage("Войти"),
+        "signUp": MessageLookupByLibrary.simpleMessage("Зарегистрироваться"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Неизвестная ошибка, пожалуйста, обратитесь в службу поддержки")
       };

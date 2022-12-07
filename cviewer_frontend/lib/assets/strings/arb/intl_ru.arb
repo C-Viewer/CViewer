@@ -1,8 +1,12 @@
 {
+    "authTitle": "Вход в CViewer",
     "email": "Почта",
     "password": "Пароль",
     "signIn": "Войти",
-    "authTitle": "Вход в CViewer",
+    "signUp": "Зарегистрироваться",
+    "home": "Главная",
+    "myCV": "Мои CV",
+    "profile": "Профиль",
     "draft": "Черновик",
     "availableForReview": "Опубликовано",
     "onReview": "На проверке",
