@@ -2,7 +2,7 @@ import 'package:cviewer_frontend/constants/storage_keys.dart';
 import 'package:cviewer_frontend/data/mappers/profile_credentials_mapper.dart';
 import 'package:cviewer_frontend/data/mappers/profile_mapper.dart';
 import 'package:cviewer_frontend/data/network/service/client_index.dart';
-import 'package:cviewer_frontend/domain/models/exceptions/exceptions.dart';
+import 'package:cviewer_frontend/domain/models/errors.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile_credentials.dart';
 import 'package:cviewer_frontend/domain/repositories/auth_repository.dart';
@@ -44,7 +44,7 @@ class RealAuthRepository implements AuthRepository {
 
       return const ProfileFromDtoMapper().map(profileDto);
     } else {
-      throw const NoDataException();
+      throw const NoDataError();
     }
   }
 }

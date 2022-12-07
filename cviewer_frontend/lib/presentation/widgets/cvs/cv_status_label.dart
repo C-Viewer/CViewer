@@ -1,3 +1,4 @@
+import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_status.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class CVStatusLabel extends StatelessWidget {
     switch (status) {
       case CVStatus.draft:
         return Colors.grey;
-      case CVStatus.opened:
+      case CVStatus.availableForReview:
         return Colors.lightBlue;
       case CVStatus.onReview:
         return Colors.blue;
@@ -26,28 +27,27 @@ class CVStatusLabel extends StatelessWidget {
     }
   }
 
-  // TODO: intl
-  String _getText() {
+  String _getText(BuildContext context) {
     switch (status) {
       case CVStatus.draft:
-        return 'Draft';
-      case CVStatus.opened:
-        return 'Opened';
+        return S.of(context).draft;
+      case CVStatus.availableForReview:
+        return S.of(context).availableForReview;
       case CVStatus.onReview:
-        return 'On review';
+        return S.of(context).onReview;
       case CVStatus.fixRequired:
-        return 'Fix required';
+        return S.of(context).fixRequired;
       case CVStatus.marked:
-        return 'Marked';
+        return S.of(context).marked;
       case CVStatus.finished:
-        return 'Finished';
+        return S.of(context).finished;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      _getText(),
+      _getText(context),
       style: Theme.of(context).textTheme.headline6?.copyWith(
             color: _getColor(),
           ),

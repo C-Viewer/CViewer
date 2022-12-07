@@ -1,6 +1,6 @@
 import 'package:cviewer_frontend/data/mappers/profile_mapper.dart';
 import 'package:cviewer_frontend/data/network/service/client_index.dart';
-import 'package:cviewer_frontend/domain/models/exceptions/exceptions.dart';
+import 'package:cviewer_frontend/domain/models/errors.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/domain/repositories/profile_repository.dart';
 
@@ -17,7 +17,7 @@ class RealProfileRepository implements ProfileRepository {
     if (dto != null) {
       return const ProfileFromDtoMapper().map(dto);
     } else {
-      throw const NoDataException();
+      throw const NoDataError();
     }
   }
 }

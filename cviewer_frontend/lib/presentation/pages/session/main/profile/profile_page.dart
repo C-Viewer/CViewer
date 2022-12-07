@@ -44,6 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   : _profileLoader.hasLoadError
                       ? LoadErrorPlaceholder(
                           error: ErrorUiAdapter(
+                            context,
                             error: _profileLoader.error,
                           ),
                           onReload: _onReload,

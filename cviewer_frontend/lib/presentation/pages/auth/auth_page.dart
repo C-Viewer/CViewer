@@ -1,3 +1,4 @@
+import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/constants/text_styles.dart';
 import 'package:cviewer_frontend/domain/logic/auth/auth_manager.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 
-// TODO: intl
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
 
@@ -51,8 +51,9 @@ class _AuthPageState extends State<AuthPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                'Вход в CViewer',
+              // Title
+              Text(
+                S.of(context).authTitle,
                 textAlign: TextAlign.center,
                 style: TextStyles.titleXXL,
               ),
@@ -62,7 +63,7 @@ class _AuthPageState extends State<AuthPage> {
                 controller: _emailTextController,
                 decoration: InputDecoration(
                   label: Text(
-                    'Почта',
+                    S.of(context).email,
                   ),
                 ),
               ),
@@ -73,18 +74,17 @@ class _AuthPageState extends State<AuthPage> {
                 obscureText: true,
                 decoration: InputDecoration(
                   label: Text(
-                    'Пароль',
+                    S.of(context).password,
                   ),
                 ),
               ),
               const SizedBox(height: 48),
-              // TODO: login check
               ElevatedButton(
                 onPressed: _onSignInButtonPressed,
-                child: const Padding(
-                  padding: EdgeInsets.all(16),
+                child:  Padding(
+                  padding: const EdgeInsets.all(16),
                   child: Text(
-                    'Войти',
+                    S.of(context).signIn,
                     style: TextStyles.titleL,
                   ),
                 ),

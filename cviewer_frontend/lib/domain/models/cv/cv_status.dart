@@ -1,6 +1,6 @@
 enum CVStatus {
   draft,
-  opened,
+  availableForReview,
   onReview,
   fixRequired,
   marked,

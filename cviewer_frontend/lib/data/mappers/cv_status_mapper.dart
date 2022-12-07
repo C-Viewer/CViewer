@@ -12,15 +12,16 @@ class CVStatusMapper implements Mapper<CVStatusType, CVStatus> {
       case CVStatusType.draft:
         return CVStatus.draft;
       case CVStatusType.senttoreview:
-        return CVStatus.opened;
+        return CVStatus.availableForReview;
       case CVStatusType.takentoreview:
         return CVStatus.onReview;
       case CVStatusType.commentedgradedneedfix:
         return CVStatus.fixRequired;
       case CVStatusType.maxgrade:
-      case CVStatusType.publishedingoodstore:
       case CVStatusType.finishedwithgrade:
+        return CVStatus.marked;
       case CVStatusType.finishwithcompany:
+      case CVStatusType.publishedingoodstore:
       case CVStatusType.swaggerGeneratedUnknown:
         return CVStatus.finished;
     }

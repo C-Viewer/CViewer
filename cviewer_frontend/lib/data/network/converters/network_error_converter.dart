@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:chopper/chopper.dart';
-import 'package:cviewer_frontend/domain/models/exceptions/exceptions.dart';
+import 'package:cviewer_frontend/domain/models/errors.dart';
 
 class NetworkErrorConverter implements ErrorConverter {
   const NetworkErrorConverter();
@@ -12,7 +12,7 @@ class NetworkErrorConverter implements ErrorConverter {
   ) async {
     switch (response.statusCode) {
       case 401:
-        throw const NoAccessException();
+        throw const NoAccessError();
     }
     return response;
   }
