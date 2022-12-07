@@ -1,43 +1,42 @@
 ﻿using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace CViewer
 {
-    sealed internal class AmazonS3
+    internal sealed class AmazonS3
     {
-        private readonly string bucketName = "cviewercvs";
-        private readonly string accessKey;
-        private readonly string secretKey;
-        private readonly AmazonS3Config amazonS3Config = new AmazonS3Config();
+        private readonly string _bucketName = "cviewercvs";
+        private readonly string _accessKey;
+        private readonly string _secretKey;
+        private readonly AmazonS3Config _amazonS3Config = new();
+        private readonly string _amazonRegionEndpoint = "eu-north-1";
+        private readonly string _amazonSignatureVersion = "4";
 
         public AmazonS3(string access, string secret)
         {
-            accessKey = access;
-            secretKey = secret;
-            amazonS3Config.RegionEndpoint = RegionEndpoint.GetBySystemName("eu-north-1");
-            amazonS3Config.SignatureVersion = "4";
-            amazonS3Config.SignatureMethod = Amazon.Runtime.SigningAlgorithm.HmacSHA256;
+            _accessKey = access;
+            _secretKey = secret;
+            _amazonS3Config.RegionEndpoint = RegionEndpoint.GetBySystemName(_amazonRegionEndpoint);
+            _amazonS3Config.SignatureVersion = _amazonSignatureVersion;
+            _amazonS3Config.SignatureMethod = Amazon.Runtime.SigningAlgorithm.HmacSHA256;
         }
 
         public List<string> GetFiles()
         {
             try
             {
-                using (var client = AWSClientFactory.CreateAmazonS3Client(accessKey, secretKey, amazonS3Config))
+                using (IAmazonS3 client = AWSClientFactory.CreateAmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
                 {
-                    var list = client.ListObjects(
+                    ListObjectsResponse listAmazonFiles = client.ListObjects(
                         new ListObjectsRequest()
                         {
-                            BucketName = bucketName
+                            BucketName = _bucketName
                         });
 
-                    List<string> fileNames = new List<string>();
+                    List<string> fileNames = new();
 
-                    foreach (var fileName in list.S3Objects)
+                    foreach (S3Object fileName in listAmazonFiles.S3Objects)
                     {
                         fileNames.Add(fileName.Key);
                     }
@@ -54,11 +53,11 @@ namespace CViewer
         {
             try
             {
-                using (var client = AWSClientFactory.CreateAmazonS3Client(accessKey, secretKey, amazonS3Config))
+                using (IAmazonS3 client = AWSClientFactory.CreateAmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
                 {
-                    var request = new PutObjectRequest
+                    PutObjectRequest request = new PutObjectRequest
                     {
-                        BucketName = bucketName,
+                        BucketName = _bucketName,
                         CannedACL = S3CannedACL.PublicRead,
                         Key = path,
                         InputStream = stream
@@ -78,11 +77,11 @@ namespace CViewer
         {
             try
             {
-                using (var client = AWSClientFactory.CreateAmazonS3Client(accessKey, secretKey, amazonS3Config))
+                using (IAmazonS3 client = AWSClientFactory.CreateAmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
                 {
-                    var request = new GetObjectRequest
+                    GetObjectRequest request = new GetObjectRequest
                     {
-                        BucketName = bucketName,
+                        BucketName = _bucketName,
                         Key = path
                     };
 
@@ -101,11 +100,11 @@ namespace CViewer
         {
             try
             {
-                using (var client = AWSClientFactory.CreateAmazonS3Client(accessKey, secretKey, amazonS3Config))
+                using (IAmazonS3 client = AWSClientFactory.CreateAmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
                 {
-                    var request = new DeleteObjectRequest
+                    DeleteObjectRequest request = new DeleteObjectRequest
                     {
-                        BucketName = bucketName,
+                        BucketName = _bucketName,
                         Key = path
                     };
 
