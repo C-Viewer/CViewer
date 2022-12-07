@@ -2,6 +2,7 @@ import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv.dart';
 import 'package:cviewer_frontend/presentation/widgets/cvs/cv_status_label.dart';
 import 'package:cviewer_frontend/presentation/widgets/tags/tag_list.dart';
+import 'package:cviewer_frontend/utils/date_time_formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -46,7 +47,7 @@ class CVTile extends StatelessWidget {
                 children: [
                   // Last activity date
                   Text(
-                    'dd.MM.YYYY',
+                    DateTimeFormatters.formatDayMonthYear(cv.creationDate),
                     style: Theme.of(context).textTheme.subtitle2,
                   ),
                   // Status

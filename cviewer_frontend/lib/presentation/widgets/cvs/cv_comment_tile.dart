@@ -1,5 +1,5 @@
-import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_comment_info.dart';
+import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
 import 'package:cviewer_frontend/utils/date_time_formatters.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +23,7 @@ class CVCommentTile extends StatelessWidget {
         ),
         // Date
         Text(
-          DateTimeFormatters.hourMinuteDayMonthYearFormat.format(info.date),
+          DateTimeFormatters.formatTimeAndDate(info.date),
           style: TextStyles.textM,
         ),
       ],
