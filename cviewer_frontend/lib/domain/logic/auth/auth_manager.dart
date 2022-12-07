@@ -1,13 +1,11 @@
 import 'package:cviewer_frontend/di/assemble.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile_credentials.dart';
-import 'package:logging/logging.dart';
+import 'package:cviewer_frontend/utils/loggers.dart';
 import 'package:mobx/mobx.dart';
 
 part 'auth_manager.g.dart';
 
 class AuthManager = _AuthManager with _$AuthManager;
-
-final _logger = Logger('Auth manager');
 
 abstract class _AuthManager with Store {
   final _authRepository = Assemble.authRepository;
@@ -21,13 +19,14 @@ abstract class _AuthManager with Store {
   @action
   Future<void> checkAccess() async {
     try {
-      isAuthorized = await _authRepository.checkAccess();
+      await _authRepository.checkAccess();
+      isAuthorized = true;
       error = null;
-      _logger.info('Profile has access to content');
+      Loggers.authManager.info('Profile has access to content');
     } catch (e) {
       error = e;
       isAuthorized = false;
-      _logger.warning('Error occured on check access: $e');
+      Loggers.authManager.warning('Error occured on check access: $e');
     }
   }
 
@@ -41,11 +40,11 @@ abstract class _AuthManager with Store {
       );
       isAuthorized = true;
       error = null;
-      _logger.info('Successful Sign In');
+      Loggers.authManager.info('Successful Sign In');
     } catch (e) {
       error = e;
       isAuthorized = false;
-      _logger.warning('Error occured on sign in: $e');
+      Loggers.authManager.warning('Error occured on sign in: $e');
     }
   }
 }

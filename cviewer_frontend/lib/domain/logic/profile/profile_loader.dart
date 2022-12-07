@@ -1,11 +1,9 @@
 import 'package:cviewer_frontend/di/assemble.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
-import 'package:logging/logging.dart';
+import 'package:cviewer_frontend/utils/loggers.dart';
 import 'package:mobx/mobx.dart';
 
 part 'profile_loader.g.dart';
-
-final _logger = Logger('Profile loader');
 
 class ProfileLoader = _ProfileLoader with _$ProfileLoader;
 
@@ -31,11 +29,11 @@ abstract class _ProfileLoader with Store {
       profile = await _profileRepository.getProfile();
       error = null;
       hasLoadError = false;
-      _logger.info('Profile was loaded');
+      Loggers.profileLoader.info('Profile was loaded');
     } catch (e) {
       error = e;
       hasLoadError = true;
-      _logger.warning('Error occured: $e');
+      Loggers.profileLoader.warning('Error occured: $e');
     } finally {
       isLoading = false;
     }

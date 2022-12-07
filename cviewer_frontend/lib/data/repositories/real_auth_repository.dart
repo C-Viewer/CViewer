@@ -6,7 +6,7 @@ import 'package:cviewer_frontend/domain/models/errors.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile_credentials.dart';
 import 'package:cviewer_frontend/domain/repositories/auth_repository.dart';
-import 'package:logging/logging.dart';
+import 'package:cviewer_frontend/utils/loggers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RealAuthRepository implements AuthRepository {
@@ -18,14 +18,9 @@ class RealAuthRepository implements AuthRepository {
   final CViewerService _service;
   final SharedPreferences _storage;
 
-  static final _logger = Logger('AUTH REPO');
-
   @override
-  Future<bool> checkAccess() async {
-    // TODO: заменить на метод сервиса, который будет проверять время жизни токена
-    final authToken = _storage.getString(StorageKeys.authToken);
-
-    return authToken != null;
+  Future<void> checkAccess() async {
+    await _service.checkAccessGet();
   }
 
   @override
@@ -40,7 +35,7 @@ class RealAuthRepository implements AuthRepository {
 
     if (profileDto != null && token != null) {
       _storage.setString(StorageKeys.authToken, token);
-      _logger.info('Auth token was saved: $token');
+      Loggers.authRepository.info('Auth token was saved: $token');
 
       return const ProfileFromDtoMapper().map(profileDto);
     } else {
