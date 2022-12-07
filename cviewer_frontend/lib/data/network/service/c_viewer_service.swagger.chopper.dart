@@ -226,6 +226,19 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
+  Future<Response<Object>> _getCvStatusGet({required int? cvId}) {
+    final String $url = '/get_cv_status';
+    final Map<String, dynamic> $params = <String, dynamic>{'cvId': cvId};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<Object, Object>($request);
+  }
+
+  @override
   Future<Response<List<Cv>>> _listCVsForProfileGet() {
     final String $url = '/list_CVs_for_profile';
     final Request $request = Request(
@@ -237,14 +250,14 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<dynamic>> _listCVTagsGet() {
+  Future<Response<List<CVTag>>> _listCVTagsGet() {
     final String $url = '/list_CV_tags';
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<CVTag>, CVTag>($request);
   }
 
   @override

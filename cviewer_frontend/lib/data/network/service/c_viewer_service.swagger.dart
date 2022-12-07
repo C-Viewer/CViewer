@@ -4,6 +4,8 @@ import 'package:chopper/chopper.dart';
 import 'client_mapping.dart';
 import 'dart:async';
 import 'package:chopper/chopper.dart' as chopper;
+import 'c_viewer_service.enums.swagger.dart' as enums;
+export 'c_viewer_service.enums.swagger.dart';
 export 'c_viewer_service.models.swagger.dart';
 
 part 'c_viewer_service.swagger.chopper.dart';
@@ -281,6 +283,18 @@ abstract class CViewerService extends ChopperService {
   Future<chopper.Response<List<Cv>>> _listCVsGet();
 
   ///
+  ///@param cvId
+  Future<chopper.Response<Object>> getCvStatusGet({required int? cvId}) {
+    return _getCvStatusGet(cvId: cvId);
+  }
+
+  ///
+  ///@param cvId
+  @Get(path: '/get_cv_status')
+  Future<chopper.Response<Object>> _getCvStatusGet(
+      {@Query('cvId') required int? cvId});
+
+  ///
   Future<chopper.Response<List<Cv>>> listCVsForProfileGet() {
     generatedMapping.putIfAbsent(Cv, () => Cv.fromJsonFactory);
 
@@ -292,13 +306,15 @@ abstract class CViewerService extends ChopperService {
   Future<chopper.Response<List<Cv>>> _listCVsForProfileGet();
 
   ///
-  Future<chopper.Response> listCVTagsGet() {
+  Future<chopper.Response<List<CVTag>>> listCVTagsGet() {
+    generatedMapping.putIfAbsent(CVTag, () => CVTag.fromJsonFactory);
+
     return _listCVTagsGet();
   }
 
   ///
   @Get(path: '/list_CV_tags')
-  Future<chopper.Response> _listCVTagsGet();
+  Future<chopper.Response<List<CVTag>>> _listCVTagsGet();
 
   ///
   Future<chopper.Response> listSpecializationsGet() {

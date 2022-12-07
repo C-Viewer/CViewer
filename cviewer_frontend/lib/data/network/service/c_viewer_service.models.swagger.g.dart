@@ -55,6 +55,7 @@ Map<String, dynamic> _$ComplexObjectProfileAndTokenToJson(
 
 Cv _$CvFromJson(Map<String, dynamic> json) => Cv(
       id: json['id'] as int?,
+      statusId: cVStatusTypeFromJson(json['statusId']),
       title: json['title'] as String?,
       peopleCreatedId: json['peopleCreatedId'] as int?,
       expertIds: (json['expertIds'] as List<dynamic>?)
@@ -86,6 +87,7 @@ Map<String, dynamic> _$CvToJson(Cv instance) {
   }
 
   writeNotNull('id', instance.id);
+  writeNotNull('statusId', cVStatusTypeToJson(instance.statusId));
   writeNotNull('title', instance.title);
   writeNotNull('peopleCreatedId', instance.peopleCreatedId);
   writeNotNull('expertIds', instance.expertIds);

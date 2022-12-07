@@ -4,6 +4,8 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:collection/collection.dart';
 import 'dart:convert';
 
+import 'c_viewer_service.enums.swagger.dart' as enums;
+
 part 'c_viewer_service.models.swagger.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -129,6 +131,7 @@ extension $ComplexObjectProfileAndTokenExtension
 class Cv {
   Cv({
     this.id,
+    this.statusId,
     this.title,
     this.peopleCreatedId,
     this.expertIds,
@@ -143,6 +146,12 @@ class Cv {
 
   @JsonKey(name: 'id')
   final int? id;
+  @JsonKey(
+    name: 'statusId',
+    toJson: cVStatusTypeToJson,
+    fromJson: cVStatusTypeFromJson,
+  )
+  final enums.CVStatusType? statusId;
   @JsonKey(name: 'title')
   final String? title;
   @JsonKey(name: 'peopleCreatedId')
@@ -169,6 +178,9 @@ class Cv {
         (other is Cv &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.statusId, statusId) ||
+                const DeepCollectionEquality()
+                    .equals(other.statusId, statusId)) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
             (identical(other.peopleCreatedId, peopleCreatedId) ||
@@ -198,6 +210,7 @@ class Cv {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(statusId) ^
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(peopleCreatedId) ^
       const DeepCollectionEquality().hash(expertIds) ^
@@ -212,6 +225,7 @@ class Cv {
 extension $CvExtension on Cv {
   Cv copyWith(
       {int? id,
+      enums.CVStatusType? statusId,
       String? title,
       int? peopleCreatedId,
       List<int>? expertIds,
@@ -222,6 +236,7 @@ extension $CvExtension on Cv {
       DateTime? dateCreation}) {
     return Cv(
         id: id ?? this.id,
+        statusId: statusId ?? this.statusId,
         title: title ?? this.title,
         peopleCreatedId: peopleCreatedId ?? this.peopleCreatedId,
         expertIds: expertIds ?? this.expertIds,
@@ -234,6 +249,7 @@ extension $CvExtension on Cv {
 
   Cv copyWithWrapped(
       {Wrapped<int?>? id,
+      Wrapped<enums.CVStatusType?>? statusId,
       Wrapped<String?>? title,
       Wrapped<int?>? peopleCreatedId,
       Wrapped<List<int>?>? expertIds,
@@ -244,6 +260,7 @@ extension $CvExtension on Cv {
       Wrapped<DateTime?>? dateCreation}) {
     return Cv(
         id: (id != null ? id.value : this.id),
+        statusId: (statusId != null ? statusId.value : this.statusId),
         title: (title != null ? title.value : this.title),
         peopleCreatedId: (peopleCreatedId != null
             ? peopleCreatedId.value
@@ -799,6 +816,65 @@ extension $UserCredentialsExtension on UserCredentials {
             (emailAddress != null ? emailAddress.value : this.emailAddress),
         password: (password != null ? password.value : this.password));
   }
+}
+
+String? cVStatusTypeToJson(enums.CVStatusType? cVStatusType) {
+  return enums.$CVStatusTypeMap[cVStatusType];
+}
+
+enums.CVStatusType cVStatusTypeFromJson(
+  Object? cVStatusType, [
+  enums.CVStatusType? defaultValue,
+]) {
+  if (cVStatusType is String) {
+    return enums.$CVStatusTypeMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == cVStatusType.toLowerCase(),
+            orElse: () =>
+                const MapEntry(enums.CVStatusType.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  final parsedResult = defaultValue == null
+      ? null
+      : enums.$CVStatusTypeMap.entries
+          .firstWhereOrNull((element) => element.value == defaultValue)
+          ?.key;
+
+  return parsedResult ??
+      defaultValue ??
+      enums.CVStatusType.swaggerGeneratedUnknown;
+}
+
+List<String> cVStatusTypeListToJson(List<enums.CVStatusType>? cVStatusType) {
+  if (cVStatusType == null) {
+    return [];
+  }
+
+  return cVStatusType.map((e) => enums.$CVStatusTypeMap[e]!).toList();
+}
+
+List<enums.CVStatusType> cVStatusTypeListFromJson(
+  List? cVStatusType, [
+  List<enums.CVStatusType>? defaultValue,
+]) {
+  if (cVStatusType == null) {
+    return defaultValue ?? [];
+  }
+
+  return cVStatusType.map((e) => cVStatusTypeFromJson(e.toString())).toList();
+}
+
+List<enums.CVStatusType>? cVStatusTypeNullableListFromJson(
+  List? cVStatusType, [
+  List<enums.CVStatusType>? defaultValue,
+]) {
+  if (cVStatusType == null) {
+    return defaultValue;
+  }
+
+  return cVStatusType.map((e) => cVStatusTypeFromJson(e.toString())).toList();
 }
 
 // ignore: unused_element

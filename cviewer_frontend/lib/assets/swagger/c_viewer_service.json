@@ -441,6 +441,36 @@
         }
       }
     },
+    "/get_cv_status": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "cvId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CVStatusType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/list_CVs_for_profile": {
       "get": {
         "tags": [
@@ -470,7 +500,39 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CVTag"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list_CV_statuses": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CVStatusType"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -616,6 +678,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "statusId": {
+            "$ref": "#/components/schemas/CVStatusType"
+          },
           "title": {
             "type": "string",
             "nullable": true
@@ -697,6 +762,19 @@
           }
         },
         "additionalProperties": false
+      },
+      "CVStatusType": {
+        "enum": [
+          "Draft",
+          "SentToReview",
+          "TakenToReview",
+          "CommentedGradedNeedFix",
+          "MaxGrade",
+          "FinishedWithGrade",
+          "FinishWithCompany",
+          "PublishedInGoodStore"
+        ],
+        "type": "string"
       },
       "CVTag": {
         "type": "object",

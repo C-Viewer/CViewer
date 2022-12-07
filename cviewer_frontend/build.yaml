@@ -23,3 +23,5 @@ targets:
           input_folder: "lib/assets/swagger"
           output_folder: "lib/data/network/service"
           separate_models: true
+          exclude_paths:
+            - '\/list_CV_statuses'
