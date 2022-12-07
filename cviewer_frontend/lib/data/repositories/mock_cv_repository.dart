@@ -1,21 +1,21 @@
 import 'package:cviewer_frontend/domain/models/cv/cv.dart';
 import 'package:cviewer_frontend/domain/repositories/cv_repository.dart';
 
-class MockResumeRepository implements CVRepository {
-  const MockResumeRepository();
+class MockCVRepository implements CVRepository {
+  const MockCVRepository();
 
   @override
   Future<List<CV>> getCVs() async {
-    return _mockResumeList;
+    return _mockCVList;
   }
 
   @override
   Future<CV> getCV(int resumeId) async {
-    return _mockResumeList.firstWhere((it) => it.id == resumeId);
+    return _mockCVList.firstWhere((it) => it.id == resumeId);
   }
 }
 
-final _mockResumeList = <CV>[
+final _mockCVList = <CV>[
 /*
   CV(
     id: 1,

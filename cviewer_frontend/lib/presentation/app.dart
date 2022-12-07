@@ -54,12 +54,12 @@ final _appRouter = GoRouter(
           name: RouteNames.main,
           builder: (_, __) => const MainPage(),
         ),
-        // Resume
+        // CV
         GoRoute(
-          path: RoutePaths.resume,
-          name: RouteNames.resume,
+          path: RoutePaths.cv,
+          name: RouteNames.cv,
           builder: (_, s) => CVPage(
-            cvId: int.parse(s.params[RouteParams.resumeId]!),
+            cvId: int.parse(s.params[RouteParams.cvId]!),
           ),
         ),
       ],

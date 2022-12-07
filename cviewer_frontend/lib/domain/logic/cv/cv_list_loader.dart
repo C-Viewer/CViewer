@@ -3,15 +3,15 @@ import 'package:cviewer_frontend/domain/models/cv/cv.dart';
 import 'package:cviewer_frontend/utils/loggers.dart';
 import 'package:mobx/mobx.dart';
 
-part 'cvs_loader.g.dart';
+part 'cv_list_loader.g.dart';
 
-class CVsLoader = _CVsLoader with _$CVsLoader;
+class CVListLoader = _CVListLoader with _$CVListLoader;
 
-abstract class _CVsLoader with Store {
+abstract class _CVListLoader with Store {
   final _cvRepository = Assemble.cvRepository;
 
   @observable
-  List<CV> cvs = [];
+  List<CV> cvList = [];
 
   @observable
   bool isLoading = false;
@@ -26,7 +26,7 @@ abstract class _CVsLoader with Store {
   Future<void> loadCVs() async {
     isLoading = true;
     try {
-      cvs = await _cvRepository.getCVs();
+      cvList = await _cvRepository.getCVs();
       error = null;
       hasLoadError = false;
       Loggers.cvsLoader.info('CVs were loaded');

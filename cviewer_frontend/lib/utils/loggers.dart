@@ -8,6 +8,7 @@ class Loggers {
 
   // Business logic
   static final authManager = Logger('AUTH MANAGER');
-  static final cvsLoader = Logger('CVS LOADER');
+  static final cvsLoader = Logger('CVs LOADER');
+  static final cvLoader = Logger('CV LOADER');
   static final profileLoader = Logger('PROFILE LOADER');
 }

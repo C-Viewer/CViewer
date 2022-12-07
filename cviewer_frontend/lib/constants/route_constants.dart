@@ -7,7 +7,7 @@ class RoutePaths {
 
   static const session = '/';
   static const main = 'main';
-  static const resume = 'resume/:${RouteParams.resumeId}';
+  static const cv = 'cv/:${RouteParams.cvId}';
 }
 
 class RouteNames {
@@ -15,11 +15,11 @@ class RouteNames {
 
   static const auth = 'auth';
   static const main = 'main';
-  static const resume = 'resume';
+  static const cv = 'cv';
 }
 
 class RouteParams {
   RouteParams._();
 
-  static const resumeId = 'resume_id';
+  static const cvId = 'cv_id';
 }

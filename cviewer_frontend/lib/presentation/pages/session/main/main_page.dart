@@ -1,5 +1,5 @@
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
-import 'package:cviewer_frontend/presentation/pages/session/main/cvs/cvs_page.dart';
+import 'package:cviewer_frontend/presentation/pages/session/main/cvs/cv_list_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/main/home/home_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/main/profile/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class _MainPageState extends State<MainPage> {
       case 0:
         return const HomePage();
       case 1:
-        return const CVsPage();
+        return const CVListPage();
       default:
         return const ProfilePage();
     }

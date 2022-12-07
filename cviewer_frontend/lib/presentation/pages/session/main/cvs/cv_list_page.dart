@@ -1,4 +1,4 @@
-import 'package:cviewer_frontend/domain/logic/cv/cvs_loader.dart';
+import 'package:cviewer_frontend/domain/logic/cv/cv_list_loader.dart';
 import 'package:cviewer_frontend/presentation/core/core_error_disposer.dart';
 import 'package:cviewer_frontend/presentation/ui_adapters/error_ui_adapter.dart';
 import 'package:cviewer_frontend/presentation/widgets/cvs/cv_list.dart';
@@ -7,15 +7,15 @@ import 'package:cviewer_frontend/presentation/widgets/placeholders/load_error_pl
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-class CVsPage extends StatefulWidget {
-  const CVsPage({super.key});
+class CVListPage extends StatefulWidget {
+  const CVListPage({super.key});
 
   @override
-  State<CVsPage> createState() => _CVsPageState();
+  State<CVListPage> createState() => _CVListPageState();
 }
 
-class _CVsPageState extends State<CVsPage> {
-  final _cvsLoader = CVsLoader();
+class _CVListPageState extends State<CVListPage> {
+  final _cvsLoader = CVListLoader();
 
   @override
   void initState() {
@@ -51,7 +51,7 @@ class _CVsPageState extends State<CVsPage> {
                         )
                       // Content
                       : CVList(
-                          cvs: _cvsLoader.cvs,
+                          cvs: _cvsLoader.cvList,
                         ),
         ),
         floatingActionButton: Observer(
