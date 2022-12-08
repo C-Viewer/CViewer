@@ -42,6 +42,17 @@ namespace CViewer.Endpoints
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (HttpContext context, IProfileService service) => GetProfile(context, service))
                 .Produces<Profile>();
+
+            app.MapGet("/get_expert_profile",
+                    [EnableCors(Configuration.CorsPolicyName)]
+                    ([Required] int expertId, IProfileService service) => GetExpertProfile(expertId, service))
+                .Produces<Profile>();
+
+            app.MapGet("/get_applicant_profile",
+                    [EnableCors(Configuration.CorsPolicyName)]
+                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+            ([Required] int applicantId, IProfileService service) => GetApplicantProfile(applicantId, service))
+                .Produces<Profile>();
         }
 
         private static IResult SignIn(UserCredentials user, IProfileService service)
@@ -103,6 +114,28 @@ namespace CViewer.Endpoints
             if (profile is null)
             {
                 return Results.NotFound("Profile not found");
+            }
+
+            return Results.Ok(profile);
+        }
+
+        private static IResult GetExpertProfile(int expertId, IProfileService service)
+        {
+            Profile profile = service.GetExpertProfile(expertId);
+            if (profile is null)
+            {
+                return Results.NotFound("Expert profile not found");
+            }
+
+            return Results.Ok(profile);
+        }
+
+        private static IResult GetApplicantProfile(int applicantId, IProfileService service)
+        {
+            Profile profile = service.GetApplicantProfile(applicantId);
+            if (profile is null)
+            {
+                return Results.NotFound("Applicant profile not found");
             }
 
             return Results.Ok(profile);

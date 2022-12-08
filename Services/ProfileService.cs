@@ -89,6 +89,16 @@ namespace CViewer.Services
             return profile;
         }
 
+        public Profile GetExpertProfile(int expertId)
+        {
+            return DataManager.GetExpertProfile(expertId);
+        }
+
+        public Profile GetApplicantProfile(int applicantId)
+        {
+            return DataManager.GetApplicantProfile(applicantId);
+        }
+
         public Profile UpdateProfile(int profileId, string firstName = null, string lastName = null, string biography = null,
             double? rating = null, string email = null, string password = null, Specialization specializationId = null)
         {

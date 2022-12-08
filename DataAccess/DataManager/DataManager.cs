@@ -165,5 +165,29 @@ namespace CViewer.DataAccess.DataManager
                 return CVStatusRepository.CvStatuses;
             }
         }
+
+        public static Profile GetExpertProfile(int expertId)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return ProfileRepository.Profiles.FirstOrDefault(p => p.Id == expertId && p.IsExpert);
+            }
+        }
+
+        public static Profile GetApplicantProfile(int applicantId)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return ProfileRepository.Profiles.FirstOrDefault(p => p.Id == applicantId && !p.IsExpert);
+            }
+        }
     }
 }
