@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using CViewer.DataAccess;
 using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.Repositories;
@@ -70,7 +71,7 @@ namespace CViewer.Endpoints
 
             app.MapGet("/list_CV_statuses",
                 (ICVService service) => ListCVStatusesTags(service))
-                .Produces<List<CVStatusType>>();
+                .Produces<List<EntitiesHelper.CVStatusTypeObject>>();
 
             app.MapGet("/list_specializations",
                 (ICVService service) => ListSpecializations(service));

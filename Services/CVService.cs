@@ -1,6 +1,7 @@
 ﻿using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.Repositories;
+using static CViewer.DataAccess.EntitiesHelper;
 
 namespace CViewer.Services
 {
@@ -115,9 +116,9 @@ namespace CViewer.Services
             return CVTagRepository.CVTags;
         }
 
-        public List<CVStatusType> ListCVStatuses()
+        public List<CVStatusTypeObject> ListCVStatuses()
         {
-            return DataManager.GetCVStatuses();
+            return DataManager.GetCVStatuses().Select(status => new CVStatusTypeObject(status)).ToList();
         }
 
         public List<Specialization> ListSpecializations()
