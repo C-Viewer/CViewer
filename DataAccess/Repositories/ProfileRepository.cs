@@ -15,7 +15,7 @@ namespace CViewer.DataAccess.Repositories
                 LastName = "Darkholm", 
                 IsExpert = true,
                 Rating = 10,
-                SpecializationId = 1,
+                Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "SoftwareEngineer"),
                 Biography = "Dungeon master"
             },
             new()
@@ -26,7 +26,7 @@ namespace CViewer.DataAccess.Repositories
                 FirstName = "Boy",
                 LastName = "Next", 
                 IsExpert = false,
-                SpecializationId = 1,
+                Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "DataAnalyst"),
                 Biography = "Average IT fun"
             },
         };

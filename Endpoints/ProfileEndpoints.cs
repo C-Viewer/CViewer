@@ -5,6 +5,7 @@ using CViewer.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using System.ComponentModel.DataAnnotations;
 
 namespace CViewer.Endpoints
 {
@@ -17,17 +18,17 @@ namespace CViewer.Endpoints
             _builder = builder;
 
             app.MapPost("/sign_in",
-                    (UserCredentials user, IProfileService service) => SignIn(user, service))
+                    ([Required] UserCredentials user, IProfileService service) => SignIn(user, service))
                 .Accepts<UserCredentials>("application/json")
                 .Produces<ComplexObjectProfileAndToken>();
 
             app.MapPost("/sign_up",
-                (UserCredentials userCredentials, IProfileService service) => SignUp(userCredentials, service))
+                ([Required] UserCredentials userCredentials, IProfileService service) => SignUp(userCredentials, service))
                 .Produces<ComplexObjectProfileAndToken>();
 
             app.MapPut("/update_profile",
-                (int profileId, IProfileService service, string firstName, string lastName, string biography,
-                double? rating, string email, string password, int? specializationId) => UpdateProfile(profileId: profileId, firstName: firstName,
+                ([Required] int profileId, string firstName, string lastName, string biography,
+                double? rating, string email, string password, Specialization specializationId, IProfileService service) => UpdateProfile(profileId: profileId, firstName: firstName,
                     lastName: lastName, biography: biography, rating: rating, email: email, password: password, specializationId: specializationId, 
                     service: service))
                 .Produces<Profile>();
@@ -108,7 +109,7 @@ namespace CViewer.Endpoints
         }
 
         private static IResult UpdateProfile(int profileId, IProfileService service, string firstName = null, string lastName = null, string biography = null,
-            double? rating = null, string email = null, string password = null, int? specializationId = null)
+            double? rating = null, string email = null, string password = null, Specialization specializationId = null)
         {
             var updatedProfile = service.UpdateProfile(profileId: profileId, firstName: firstName, lastName: lastName, 
                 biography: biography, rating: rating, email: email, password: password, specializationId: specializationId);

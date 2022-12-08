@@ -18,33 +18,30 @@ namespace CViewer.Endpoints
         public static void MapCVEndpoints(this WebApplication app)
         {
             app.MapGet("/get_cv",
-                    (int cvId, ICVService service) => GetCV(cvId, service))
+                    ([Required] int cvId, ICVService service) => GetCV(cvId, service))
                 .Produces<CV>();
 
             app.MapGet("/get_cv_history",
-                    (int cvHistoryId, ICVService service) => GetCVHistory(cvHistoryId, service))
+                    ([Required] int cvHistoryId, ICVService service) => GetCVHistory(cvHistoryId, service))
                 .Produces<CVHistory>();
 
             app.MapGet("/get_attached_file",
-                    (int attachedFileId, ICVService service) => GetAttachedFile(attachedFileId, service))
+                    ([Required] int attachedFileId, ICVService service) => GetAttachedFile(attachedFileId, service))
                 .Produces<AttachedFile>();
 
             app.MapPost("/create_cv_draft",
-                    (CV cv, int applicantId, ICVService service) => CreateCVDraft(cv, applicantId, service))
+                    ([Required] CV cv, [Required] int applicantId, ICVService service) => CreateCVDraft(cv, applicantId, service))
                 .Accepts<CV>("application/json")
                 .Produces<CV>(statusCode: 200, contentType: "application/json");
 
-            // ToDo: Perhaps, we will need two or more List-parameters, but I cannot understand how to pass it yet.
             app.MapPost("/update_cv_info",
-                (int cvId, ICVService service, string title, TransitObjectForUpdateCVInfo updateCVInfoParams,// Specialization specialization, List<CVTag> tags,
-                        string description) =>
+                ([Required] int cvId, string title, TransitObjectSpecializationAndCVTags updateCVInfoParams,
+                        string description, ICVService service) =>
                     UpdateCVInfo(cvId: cvId, service: service, title: title, 
                         specialization: updateCVInfoParams.Specialization, tags: updateCVInfoParams.CVTags, description: description));
-            //.Accepts<CV>("application/json")
-            //.Produces<CV>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/add_event_to_history",
-                (int cvId, string fileName, string comment, DateTime dateTime, double? grade, int? expertId, ICVService service) => 
+                ([Required] int cvId, string fileName, string comment, [Required] DateTime dateTime, double? grade, int? expertId, ICVService service) => 
                     AddEventToHistory(cvId: cvId, fileName: fileName, comment: comment, dateTime: dateTime, grade: grade, expertId: expertId,
                 service: service));
 
@@ -83,7 +80,7 @@ namespace CViewer.Endpoints
             app.MapGet("/list_concrete_CV_histories",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                    (int cvId, HttpContext context, ICVService service) => ListCVHistories(cvId, context, service))
+                    ([Required] int cvId, HttpContext context, ICVService service) => ListCVHistories(cvId, context, service))
                 .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_attached_files",

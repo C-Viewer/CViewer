@@ -90,7 +90,7 @@ namespace CViewer.Services
         }
 
         public Profile UpdateProfile(int profileId, string firstName = null, string lastName = null, string biography = null,
-            double? rating = null, string email = null, string password = null, int? specializationId = null)
+            double? rating = null, string email = null, string password = null, Specialization specializationId = null)
         {
             var profileForUpdate = ProfileRepository.Profiles.FirstOrDefault(o => o.Id == profileId);
 
@@ -128,7 +128,7 @@ namespace CViewer.Services
 
             if (specializationId != null)
             {
-                profileForUpdate.SpecializationId = (int)specializationId;
+                profileForUpdate.Specialization = specializationId;
             }
 
             return profileForUpdate;
