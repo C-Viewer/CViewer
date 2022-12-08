@@ -36,13 +36,13 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             label: S.of(context).home,
             icon: const Icon(
-              Icons.home_rounded,
+              Icons.star_rounded,
             ),
           ),
           BottomNavigationBarItem(
             label: S.of(context).myCV,
             icon: const Icon(
-              Icons.history_rounded,
+              Icons.list_alt_rounded,
             ),
           ),
           BottomNavigationBarItem(

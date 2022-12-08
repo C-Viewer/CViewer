@@ -12,10 +12,10 @@ class ProfileFromDtoMapper implements Mapper<dto.Profile, Profile> {
       id: data.id ?? 0,
       firstName: data.firstName ?? '',
       lastName: data.lastName ?? '',
-      description: data.biography ?? '',
+      biography: data.biography ?? '',
       rating: data.rating ?? 0.0,
       isExpert: data.isExpert ?? false,
-      specialization: data.specializationId?.toString() ?? '',
+      speciality: data.specializationId?.toString() ?? '',
     );
   }
 }

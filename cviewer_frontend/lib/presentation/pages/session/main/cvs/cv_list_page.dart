@@ -1,3 +1,4 @@
+import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/domain/logic/cv/cv_list_loader.dart';
 import 'package:cviewer_frontend/presentation/core/core_error_disposer.dart';
 import 'package:cviewer_frontend/presentation/ui_adapters/error_ui_adapter.dart';
@@ -35,6 +36,10 @@ class _CVListPageState extends State<CVListPage> {
         (_) => _cvsLoader.error,
       ),
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(S.of(context).myCV),
+          automaticallyImplyLeading: false,
+        ),
         body: Observer(
           builder: (_) =>
               // Loading

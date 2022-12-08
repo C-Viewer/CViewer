@@ -25,11 +25,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "authTitle": MessageLookupByLibrary.simpleMessage("Вход в CViewer"),
         "availableForReview":
             MessageLookupByLibrary.simpleMessage("Опубликовано"),
+        "biography": MessageLookupByLibrary.simpleMessage("Биография"),
         "draft": MessageLookupByLibrary.simpleMessage("Черновик"),
+        "edit": MessageLookupByLibrary.simpleMessage("Редактировать"),
         "email": MessageLookupByLibrary.simpleMessage("Почта"),
         "finished": MessageLookupByLibrary.simpleMessage("Завершено"),
+        "firstName": MessageLookupByLibrary.simpleMessage("Имя"),
         "fixRequired": MessageLookupByLibrary.simpleMessage("Нужно исправить"),
         "home": MessageLookupByLibrary.simpleMessage("Главная"),
+        "lastName": MessageLookupByLibrary.simpleMessage("Фамилия"),
         "marked": MessageLookupByLibrary.simpleMessage("Оценено"),
         "myCV": MessageLookupByLibrary.simpleMessage("Мои CV"),
         "noAccessError": MessageLookupByLibrary.simpleMessage(
@@ -39,8 +43,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "onReview": MessageLookupByLibrary.simpleMessage("На проверке"),
         "password": MessageLookupByLibrary.simpleMessage("Пароль"),
         "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
+        "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "signIn": MessageLookupByLibrary.simpleMessage("Войти"),
         "signUp": MessageLookupByLibrary.simpleMessage("Зарегистрироваться"),
+        "speciality": MessageLookupByLibrary.simpleMessage("Специальность"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Неизвестная ошибка, пожалуйста, обратитесь в службу поддержки")
       };

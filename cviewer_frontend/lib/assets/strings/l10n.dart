@@ -120,16 +120,6 @@ class S {
     );
   }
 
-  /// `Профиль`
-  String get profile {
-    return Intl.message(
-      'Профиль',
-      name: 'profile',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Черновик`
   String get draft {
     return Intl.message(
@@ -185,6 +175,76 @@ class S {
     return Intl.message(
       'Завершено',
       name: 'finished',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Профиль`
+  String get profile {
+    return Intl.message(
+      'Профиль',
+      name: 'profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Имя`
+  String get firstName {
+    return Intl.message(
+      'Имя',
+      name: 'firstName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Фамилия`
+  String get lastName {
+    return Intl.message(
+      'Фамилия',
+      name: 'lastName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Специальность`
+  String get speciality {
+    return Intl.message(
+      'Специальность',
+      name: 'speciality',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Биография`
+  String get biography {
+    return Intl.message(
+      'Биография',
+      name: 'biography',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Редактировать`
+  String get edit {
+    return Intl.message(
+      'Редактировать',
+      name: 'edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Сохранить`
+  String get save {
+    return Intl.message(
+      'Сохранить',
+      name: 'save',
       desc: '',
       args: [],
     );
