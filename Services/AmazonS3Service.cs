@@ -2,9 +2,9 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 
-namespace CViewer
+namespace CViewer.Services
 {
-    internal sealed class AmazonS3
+    internal sealed class AmazonS3Service
     {
         private readonly string _bucketName = "cviewercvs";
         private readonly string _accessKey;
@@ -13,7 +13,7 @@ namespace CViewer
         private readonly string _amazonRegionEndpoint = "eu-north-1";
         private readonly string _amazonSignatureVersion = "4";
 
-        public AmazonS3(string access, string secret)
+        public AmazonS3Service(string access, string secret)
         {
             _accessKey = access;
             _secretKey = secret;
