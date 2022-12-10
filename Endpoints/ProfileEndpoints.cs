@@ -29,8 +29,8 @@ namespace CViewer.Endpoints
             app.MapPost("/logout",
                 [EnableCors(Configuration.CorsPolicyName)]
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                (HttpContext context, IProfileService service) =>
-                    Logout(context, service));
+                (HttpContext context, ISecurityService securityService, IProfileService service) =>
+                    Logout(context, securityService, service));
             
 
             app.MapPut("/update_profile",
@@ -47,7 +47,7 @@ namespace CViewer.Endpoints
             app.MapGet("/get_profile",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                    (HttpContext context, IProfileService service) => GetProfile(context, service))
+                    (HttpContext context, ISecurityService securityService, IProfileService service) => GetProfile(context, securityService, service))
                 .Produces<Profile>();
 
             app.MapGet("/get_expert_profile",
@@ -58,7 +58,8 @@ namespace CViewer.Endpoints
             app.MapGet("/get_applicant_profile",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-            ([Required] int applicantId, IProfileService service) => GetApplicantProfile(applicantId, service))
+            ([Required] int applicantId, HttpContext context, ISecurityService securityService, IProfileService service) => 
+                GetApplicantProfile(applicantId, context, securityService, service))
                 .Produces<Profile>();
         }
 
@@ -86,13 +87,15 @@ namespace CViewer.Endpoints
             }
         }
 
-        private static IResult Logout(HttpContext context, IProfileService service)
+        private static IResult Logout(HttpContext context, ISecurityService securityService, IProfileService service)
         {
-            bool profileFound = service.Logout(TokenHelper.GetToken(context));
-            if (!profileFound)
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token))
             {
                 return Results.Unauthorized();
             }
+
+            service.Logout(token);
 
             return Results.Ok("Logout success");
         }
@@ -125,9 +128,14 @@ namespace CViewer.Endpoints
             }
         }
 
-        private static IResult GetProfile(HttpContext context, IProfileService service)
+        private static IResult GetProfile(HttpContext context, ISecurityService securityService, IProfileService service)
         {
             string applicantOrExpertToken = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(applicantOrExpertToken))
+            {
+                return Results.Unauthorized();
+            }
+
             Profile profile = service.GetProfile(applicantOrExpertToken);
             if (profile is null)
             {
@@ -148,8 +156,13 @@ namespace CViewer.Endpoints
             return Results.Ok(profile);
         }
 
-        private static IResult GetApplicantProfile(int applicantId, IProfileService service)
+        private static IResult GetApplicantProfile(int applicantId, HttpContext context, ISecurityService securityService, IProfileService service)
         {
+            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            {
+                return Results.Unauthorized();
+            }
+
             Profile profile = service.GetApplicantProfile(applicantId);
             if (profile is null)
             {

@@ -6,7 +6,7 @@ namespace CViewer.Services
     {
         public int SignUp(UserCredentials userCredentials, out Profile newProfile, out Token token, out string errorMessage, WebApplicationBuilder builder);
         public int SignIn(UserCredentials userCredentials, out Profile existingProfile, out Token token, out string errorMessage, WebApplicationBuilder builder);
-        public bool Logout(string applicantOrExpertTokenValue);
+        public void Logout(string applicantOrExpertTokenValue);
         public Profile GetProfile(string applicantOrExpertTokenValue);
 
         /// <summary>

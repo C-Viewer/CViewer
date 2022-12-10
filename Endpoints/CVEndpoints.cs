@@ -48,7 +48,7 @@ namespace CViewer.Endpoints
             app.MapGet("/list_CVs",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                    (ICVService service) => ListCVs(service))
+                    (HttpContext context, ISecurityService securityService, ICVService service) => ListCVs(context, securityService, service))
                 .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/get_cv_status",
@@ -59,7 +59,7 @@ namespace CViewer.Endpoints
             app.MapGet("/list_CVs_for_profile",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                    (HttpContext context, ICVService service) => ListCVsForProfile(context, service))
+                    (HttpContext context, ISecurityService securityService, ICVService service) => ListCVsForProfile(context, securityService, service))
                 .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_CV_tags",
@@ -80,7 +80,7 @@ namespace CViewer.Endpoints
             app.MapGet("/list_concrete_CV_histories",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                    ([Required] int cvId, HttpContext context, ICVService service) => ListCVHistories(cvId, context, service))
+                    ([Required] int cvId, HttpContext context, ISecurityService securityService, ICVService service) => ListCVHistories(cvId, context, securityService, service))
                 .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_attached_files",
@@ -158,8 +158,13 @@ namespace CViewer.Endpoints
             return Results.Ok(service.ListSpecializations());
         }
 
-        private static IResult ListCVHistories(int cvId, HttpContext context, ICVService service)
+        private static IResult ListCVHistories(int cvId, HttpContext context, ISecurityService securityService, ICVService service)
         {
+            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            {
+                return Results.Unauthorized();
+            }
+
             string applicantOrExpertToken = TokenHelper.GetToken(context);
             List<int> profilesIds = DataManager.GetProfilesIdsForCv(cvId);
             if (profilesIds.Count == 1 && profilesIds[0] == DataManager.EntityNotFound)
@@ -190,8 +195,13 @@ namespace CViewer.Endpoints
             return Results.Ok(attachedFiles);
         }
 
-        private static IResult ListCVs(ICVService service)
+        private static IResult ListCVs(HttpContext context, ISecurityService securityService, ICVService service)
         {
+            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            {
+                return Results.Unauthorized();
+            }
+
             var cvs = service.ListCVs();
 
             return Results.Ok(cvs);
@@ -203,8 +213,13 @@ namespace CViewer.Endpoints
             return Results.Ok(cvStatus);
         }
         
-        private static IResult ListCVsForProfile(HttpContext context, ICVService service)
+        private static IResult ListCVsForProfile(HttpContext context, ISecurityService securityService, ICVService service)
         {
+            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            {
+                return Results.Unauthorized();
+            }
+
             string applicantOrExpertToken = TokenHelper.GetToken(context);
             List<CV> profileCVs = service.ListCVsForProfile(applicantOrExpertToken);
 
