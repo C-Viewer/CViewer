@@ -26,6 +26,13 @@ namespace CViewer.Endpoints
                 ([Required] UserCredentials userCredentials, IProfileService service) => SignUp(userCredentials, service))
                 .Produces<ComplexObjectProfileAndToken>();
 
+            app.MapPost("/logout",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                (HttpContext context, IProfileService service) =>
+                    Logout(context, service));
+            
+
             app.MapPut("/update_profile",
                 ([Required] int profileId, string firstName, string lastName, string biography,
                 double? rating, string email, string password, Specialization specializationId, IProfileService service) => UpdateProfile(profileId: profileId, firstName: firstName,
@@ -77,6 +84,17 @@ namespace CViewer.Endpoints
                     return Results.BadRequest("Unexpected behaviour");
                 }
             }
+        }
+
+        private static IResult Logout(HttpContext context, IProfileService service)
+        {
+            bool profileFound = service.Logout(TokenHelper.GetToken(context));
+            if (!profileFound)
+            {
+                return Results.Unauthorized();
+            }
+
+            return Results.Ok("Logout success");
         }
 
         private static IResult SignUp(UserCredentials userCredentials, IProfileService service)

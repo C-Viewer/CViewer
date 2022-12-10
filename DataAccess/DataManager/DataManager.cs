@@ -5,7 +5,7 @@ using CViewer.Utils;
 
 namespace CViewer.DataAccess.DataManager
 {
-    // ToDo: Add preprocess directive for Memory/Db data extraction.
+    // ToDo: Remove this bullshit. Need to add interface for data access.
     internal static class DataManager
     {
         internal const int EntityNotFound = -1;
@@ -187,6 +187,22 @@ namespace CViewer.DataAccess.DataManager
             else
             {
                 return ProfileRepository.Profiles.FirstOrDefault(p => p.Id == applicantId && !p.IsExpert);
+            }
+        }
+
+        public static void RemoveProfileAndToken(string applicantOrExpertTokenValue)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                 ProfileToToken profileToToken = ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p => p.Token.Value == applicantOrExpertTokenValue);
+                 if (profileToToken != null)
+                 {
+                     ProfileToTokenRepository.ProfilesToTokens.Remove(profileToToken);
+                 }
             }
         }
     }

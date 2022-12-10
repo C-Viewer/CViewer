@@ -72,6 +72,19 @@ namespace CViewer.Services
             return ErrorCodes.Ok;
         }
 
+        public bool Logout(string applicantOrExpertTokenValue)
+        {
+            ProfileToToken profileToToken = DataManager.GetProfileAndToken(applicantOrExpertTokenValue);
+            if (profileToToken == null)
+            {
+                return false;
+            }
+
+            DataManager.RemoveProfileAndToken(applicantOrExpertTokenValue);
+
+            return true;
+        }
+
         public Profile GetProfile(string applicantOrExpertTokenValue)
         {
             ProfileToToken profileToToken = DataManager.GetProfileAndToken(applicantOrExpertTokenValue);
