@@ -17,7 +17,7 @@ class CVTagList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(vertical: 20),
       itemCount: tags.length,
       itemBuilder: (_, i) => GestureDetector(
         onTap: () => onPressed(i),

@@ -71,6 +71,22 @@ mixin _$CVCreator on _CVCreator, Store {
     });
   }
 
+  late final _$fileNameAtom =
+      Atom(name: '_CVCreator.fileName', context: context);
+
+  @override
+  String? get fileName {
+    _$fileNameAtom.reportRead();
+    return super.fileName;
+  }
+
+  @override
+  set fileName(String? value) {
+    _$fileNameAtom.reportWrite(value, super.fileName, () {
+      super.fileName = value;
+    });
+  }
+
   late final _$loadTagsAsyncAction =
       AsyncAction('_CVCreator.loadTags', context: context);
 
@@ -79,13 +95,30 @@ mixin _$CVCreator on _CVCreator, Store {
     return _$loadTagsAsyncAction.run(() => super.loadTags());
   }
 
+  late final _$selectCVFileAsyncAction =
+      AsyncAction('_CVCreator.selectCVFile', context: context);
+
+  @override
+  Future<void> selectCVFile() {
+    return _$selectCVFileAsyncAction.run(() => super.selectCVFile());
+  }
+
+  late final _$removeCVFileAsyncAction =
+      AsyncAction('_CVCreator.removeCVFile', context: context);
+
+  @override
+  Future<void> removeCVFile() {
+    return _$removeCVFileAsyncAction.run(() => super.removeCVFile());
+  }
+
   @override
   String toString() {
     return '''
 tags: ${tags},
 isLoading: ${isLoading},
 hasLoadError: ${hasLoadError},
-error: ${error}
+error: ${error},
+fileName: ${fileName}
     ''';
   }
 }

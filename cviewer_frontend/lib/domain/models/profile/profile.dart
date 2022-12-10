@@ -13,7 +13,7 @@ class Profile {
   final String firstName;
   final String lastName;
   final String biography;
-  final double rating;
+  final double? rating;
   final bool isExpert;
   final String speciality;
 }

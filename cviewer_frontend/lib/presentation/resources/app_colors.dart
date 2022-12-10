@@ -4,6 +4,7 @@ class AppColors {
   AppColors._();
 
   static const black = Color(0xFF000000);
+  static const black25 = Color(0x40000000);
   static const white = Color(0xFFFFFFFF);
   static const mint = Color(0xFF00BD9D);
   static const mint15 = Color(0x2600BD9D);

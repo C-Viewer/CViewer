@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cviewer_frontend/di/assemble.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
 import 'package:cviewer_frontend/utils/loggers.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:mobx/mobx.dart';
 
 part 'cv_creator.g.dart';
@@ -22,6 +25,11 @@ abstract class _CVCreator with Store {
   @observable
   Object? error;
 
+  @observable
+  String? fileName;
+
+  PlatformFile? _file;
+
   @action
   Future<void> loadTags() async {
     isLoading = true;
@@ -37,5 +45,25 @@ abstract class _CVCreator with Store {
     } finally {
       isLoading = false;
     }
+  }
+
+  @action
+  Future<void> selectCVFile() async {
+    try {
+      final result = await FilePicker.platform.pickFiles();
+      final f = result?.files.single;
+      if (f != null) {
+        fileName = f.name;
+        _file = f;
+      }
+    } catch (e) {
+      error = e;
+    }
+  }
+
+  @action
+  Future<void> removeCVFile() async {
+    _file = null;
+    fileName = null;
   }
 }
