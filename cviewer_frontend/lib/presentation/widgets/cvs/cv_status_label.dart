@@ -48,9 +48,11 @@ class CVStatusLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       _getText(context),
-      style: Theme.of(context).textTheme.headline6?.copyWith(
-            color: _getColor(),
-          ),
+      style: TextStyle(
+        color: _getColor(),
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 }

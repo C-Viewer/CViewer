@@ -59,6 +59,7 @@ class _CVListPageState extends State<CVListPage> {
                           cvs: _cvsLoader.cvList,
                         ),
         ),
+        // TODO: заменить на обычную кнопку
         // floatingActionButton: Observer(
         //   builder: (_) => !_cvsLoader.isLoading && !_cvsLoader.hasLoadError
         //       ? FloatingActionButton(

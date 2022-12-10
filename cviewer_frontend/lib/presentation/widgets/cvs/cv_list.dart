@@ -14,7 +14,7 @@ class CVList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: cvs.length,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+      padding: const EdgeInsets.all(32),
       itemBuilder: (_, i) => CVTile(cv: cvs[i]),
       separatorBuilder: (_, __) => const SizedBox(height: 16),
     );
