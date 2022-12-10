@@ -250,6 +250,16 @@ class S {
     );
   }
 
+  /// `Повторить`
+  String get tryAgain {
+    return Intl.message(
+      'Повторить',
+      name: 'tryAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Доступ запрещен, пожалуйста, попробуйте заново авторизоваться`
   String get noAccessError {
     return Intl.message(

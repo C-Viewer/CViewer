@@ -105,7 +105,7 @@ class _ProfileContent extends StatelessWidget {
               // Biography
               _ProfilePropertyTile(
                 title: S.of(context).biography,
-                property: profile.biography + ('adw ' * 250),
+                property: profile.biography,
               ),
             ],
           ),

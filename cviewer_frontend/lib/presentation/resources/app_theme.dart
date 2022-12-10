@@ -17,7 +17,7 @@ final appTheme = ThemeData(
     style: ButtonStyle(
       foregroundColor: MaterialStatePropertyAll(AppColors.white),
       backgroundColor: MaterialStatePropertyAll(AppColors.emerald),
-      padding: MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20)),
+      padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
     ),
   ),
 );

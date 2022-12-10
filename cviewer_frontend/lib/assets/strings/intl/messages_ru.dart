@@ -47,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "signIn": MessageLookupByLibrary.simpleMessage("Войти"),
         "signUp": MessageLookupByLibrary.simpleMessage("Зарегистрироваться"),
         "speciality": MessageLookupByLibrary.simpleMessage("Специальность"),
+        "tryAgain": MessageLookupByLibrary.simpleMessage("Повторить"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Неизвестная ошибка, пожалуйста, обратитесь в службу поддержки")
       };

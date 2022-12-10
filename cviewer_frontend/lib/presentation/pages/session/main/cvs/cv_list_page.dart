@@ -59,18 +59,18 @@ class _CVListPageState extends State<CVListPage> {
                           cvs: _cvsLoader.cvList,
                         ),
         ),
-        floatingActionButton: Observer(
-          builder: (_) => !_cvsLoader.isLoading && !_cvsLoader.hasLoadError
-              ? FloatingActionButton(
-                  onPressed: () {
-                    // TODO: создание черновика CV
-                  },
-                  child: const Icon(
-                    Icons.create_rounded,
-                  ),
-                )
-              : const SizedBox(),
-        ),
+        // floatingActionButton: Observer(
+        //   builder: (_) => !_cvsLoader.isLoading && !_cvsLoader.hasLoadError
+        //       ? FloatingActionButton(
+        //           onPressed: () {
+        //             // TODO: создание черновика CV
+        //           },
+        //           child: const Icon(
+        //             Icons.create_rounded,
+        //           ),
+        //         )
+        //       : const SizedBox(),
+        // ),
       ),
     );
   }
