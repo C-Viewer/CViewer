@@ -1,5 +1,5 @@
-class Tag {
-  const Tag({
+class CVTag {
+  const CVTag({
     required this.id,
     required this.name,
   });

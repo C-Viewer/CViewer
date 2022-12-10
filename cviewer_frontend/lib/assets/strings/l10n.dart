@@ -180,6 +180,56 @@ class S {
     );
   }
 
+  /// `Создание CV`
+  String get cvCreator {
+    return Intl.message(
+      'Создание CV',
+      name: 'cvCreator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Название`
+  String get title {
+    return Intl.message(
+      'Название',
+      name: 'title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Введите название CV`
+  String get titleHint {
+    return Intl.message(
+      'Введите название CV',
+      name: 'titleHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Теги`
+  String get tags {
+    return Intl.message(
+      'Теги',
+      name: 'tags',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CV`
+  String get cv {
+    return Intl.message(
+      'CV',
+      name: 'cv',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Профиль`
   String get profile {
     return Intl.message(

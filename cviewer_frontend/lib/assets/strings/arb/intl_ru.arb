@@ -15,6 +15,12 @@
     "marked": "Оценено",
     "finished": "Завершено",
 
+    "cvCreator": "Создание CV",
+    "title": "Название",
+    "titleHint": "Введите название CV",
+    "tags": "Теги",
+    "cv": "CV",
+
     "profile": "Профиль",
     "firstName": "Имя",
     "lastName": "Фамилия",

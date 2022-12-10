@@ -1,6 +1,6 @@
-import 'package:cviewer_frontend/domain/models/cv/date_sortable.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_status.dart';
-import 'package:cviewer_frontend/domain/models/tag/tag.dart';
+import 'package:cviewer_frontend/domain/models/cv/date_sortable.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
 
 class CV {
   const CV({
@@ -20,6 +20,6 @@ class CV {
   final CVStatus status;
   final DateTime creationDate;
   final double rating;
-  final List<Tag> tags;
+  final List<CVTag> tags;
   final List<DateSortable> history;
 }

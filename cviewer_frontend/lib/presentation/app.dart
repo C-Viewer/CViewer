@@ -1,6 +1,7 @@
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/presentation/pages/auth/auth_page.dart';
+import 'package:cviewer_frontend/presentation/pages/session/cv/cv_creator_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/cv/cv_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/main/main_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/session_page.dart';
@@ -54,13 +55,19 @@ final _appRouter = GoRouter(
           name: RouteNames.main,
           builder: (_, __) => const MainPage(),
         ),
-        // CV
+        // CV details
         GoRoute(
-          path: RoutePaths.cv,
-          name: RouteNames.cv,
+          path: RoutePaths.cvDetails,
+          name: RouteNames.cvDetails,
           builder: (_, s) => CVPage(
             cvId: int.parse(s.params[RouteParams.cvId]!),
           ),
+        ),
+        // CV creator
+        GoRoute(
+          path: RoutePaths.cvCreator,
+          name: RouteNames.cvCreator,
+          builder: (_, s) => const CVCreatorPage(),
         ),
       ],
     ),

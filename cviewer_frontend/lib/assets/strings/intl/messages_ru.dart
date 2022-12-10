@@ -26,6 +26,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "availableForReview":
             MessageLookupByLibrary.simpleMessage("Опубликовано"),
         "biography": MessageLookupByLibrary.simpleMessage("Биография"),
+        "cv": MessageLookupByLibrary.simpleMessage("CV"),
+        "cvCreator": MessageLookupByLibrary.simpleMessage("Создание CV"),
         "draft": MessageLookupByLibrary.simpleMessage("Черновик"),
         "edit": MessageLookupByLibrary.simpleMessage("Редактировать"),
         "email": MessageLookupByLibrary.simpleMessage("Почта"),
@@ -47,6 +49,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "signIn": MessageLookupByLibrary.simpleMessage("Войти"),
         "signUp": MessageLookupByLibrary.simpleMessage("Зарегистрироваться"),
         "speciality": MessageLookupByLibrary.simpleMessage("Специальность"),
+        "tags": MessageLookupByLibrary.simpleMessage("Теги"),
+        "title": MessageLookupByLibrary.simpleMessage("Название"),
+        "titleHint":
+            MessageLookupByLibrary.simpleMessage("Введите название CV"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Повторить"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Неизвестная ошибка, пожалуйста, обратитесь в службу поддержки")

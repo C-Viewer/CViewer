@@ -1,4 +1,5 @@
 import 'package:cviewer_frontend/domain/models/cv/cv.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
 import 'package:cviewer_frontend/domain/repositories/cv_repository.dart';
 
 class MockCVRepository implements CVRepository {
@@ -12,6 +13,11 @@ class MockCVRepository implements CVRepository {
   @override
   Future<CV> getCV(int resumeId) async {
     return _mockCVList.firstWhere((it) => it.id == resumeId);
+  }
+
+  @override
+  Future<List<CVTag>> getTags() async {
+    return [];
   }
 }
 

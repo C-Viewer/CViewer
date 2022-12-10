@@ -1,14 +1,14 @@
-import 'package:cviewer_frontend/domain/models/tag/tag.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
 import 'package:flutter/material.dart';
 
-class TagChip extends StatelessWidget {
-  const TagChip({
+class CVTagChip extends StatelessWidget {
+  const CVTagChip({
     super.key,
     required this.item,
     this.color,
   });
 
-  final Tag item;
+  final CVTag item;
   final Color? color;
 
   @override

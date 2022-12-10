@@ -10,5 +10,6 @@ class Loggers {
   static final authManager = Logger('AUTH MANAGER');
   static final cvsLoader = Logger('CVs LOADER');
   static final cvLoader = Logger('CV LOADER');
+  static final cvCreator = Logger('CV CREATOR');
   static final profileLoader = Logger('PROFILE LOADER');
 }

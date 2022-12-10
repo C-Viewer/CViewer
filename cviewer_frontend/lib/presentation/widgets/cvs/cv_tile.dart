@@ -1,9 +1,9 @@
 import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv.dart';
 import 'package:cviewer_frontend/presentation/resources/app_colors.dart';
+import 'package:cviewer_frontend/presentation/widgets/cv_tags/cv_tag_group.dart';
 import 'package:cviewer_frontend/presentation/widgets/cvs/cv_rating_label.dart';
 import 'package:cviewer_frontend/presentation/widgets/cvs/cv_status_label.dart';
-import 'package:cviewer_frontend/presentation/widgets/tags/tag_list.dart';
 import 'package:cviewer_frontend/utils/date_time_formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +20,7 @@ class CVTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => context.goNamed(
-        RouteNames.cv,
+        RouteNames.cvDetails,
         params: {
           RouteParams.cvId: cv.id.toString(),
         },
@@ -43,7 +43,7 @@ class CVTile extends StatelessWidget {
               const SizedBox(height: 12),
               // Tags
               if (cv.tags.isNotEmpty) ...[
-                TagList(items: cv.tags),
+                CVTagGroup(tags: cv.tags),
                 const SizedBox(height: 12),
               ],
               // Main info

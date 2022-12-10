@@ -7,7 +7,8 @@ class RoutePaths {
 
   static const session = '/';
   static const main = 'main';
-  static const cv = 'cv/:${RouteParams.cvId}';
+  static const cvDetails = 'cv/:${RouteParams.cvId}';
+  static const cvCreator = 'create-cv';
 }
 
 class RouteNames {
@@ -15,7 +16,8 @@ class RouteNames {
 
   static const auth = 'auth';
   static const main = 'main';
-  static const cv = 'cv';
+  static const cvDetails = 'cv-details';
+  static const cvCreator = 'cv-creator';
 }
 
 class RouteParams {
