@@ -118,16 +118,17 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "specializationId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Specialization"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success",
@@ -168,6 +169,66 @@
       "get": {
         "tags": [
           "CViewer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_expert_profile": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "expertId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_applicant_profile": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "applicantId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -346,7 +407,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TransitObjectForUpdateCVInfo"
+                "$ref": "#/components/schemas/TransitObjectSpecializationAndCVTags"
               }
             }
           }
@@ -528,7 +589,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CVStatusType"
+                    "$ref": "#/components/schemas/CVStatusTypeObject"
                   }
                 }
               }
@@ -642,6 +703,11 @@
   "components": {
     "schemas": {
       "AttachedFile": {
+        "required": [
+          "fileName",
+          "filePath",
+          "id"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -649,12 +715,10 @@
             "format": "int32"
           },
           "fileName": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "filePath": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -672,6 +736,13 @@
         "additionalProperties": false
       },
       "CV": {
+        "required": [
+          "dateCreation",
+          "id",
+          "peopleCreatedId",
+          "statusId",
+          "title"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -682,8 +753,7 @@
             "$ref": "#/components/schemas/CVStatusType"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "peopleCreatedId": {
             "type": "integer",
@@ -723,6 +793,11 @@
         "additionalProperties": false
       },
       "CVHistory": {
+        "required": [
+          "cvId",
+          "dateTime",
+          "id"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -776,7 +851,20 @@
         ],
         "type": "string"
       },
+      "CVStatusTypeObject": {
+        "type": "object",
+        "properties": {
+          "cvStatusType": {
+            "$ref": "#/components/schemas/CVStatusType"
+          }
+        },
+        "additionalProperties": false
+      },
       "CVTag": {
+        "required": [
+          "id",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -784,13 +872,18 @@
             "format": "int32"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "additionalProperties": false
       },
       "Profile": {
+        "required": [
+          "emailAddress",
+          "id",
+          "isExpert",
+          "password"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -806,25 +899,20 @@
             "nullable": true
           },
           "password": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "emailAddress": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "biography": {
             "type": "string",
             "nullable": true
           },
           "isExpert": {
-            "type": "boolean",
-            "nullable": true
+            "type": "boolean"
           },
-          "specializationId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+          "specialization": {
+            "$ref": "#/components/schemas/Specialization"
           },
           "rating": {
             "type": "number",
@@ -835,6 +923,10 @@
         "additionalProperties": false
       },
       "Specialization": {
+        "required": [
+          "id",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -842,13 +934,17 @@
             "format": "int32"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "additionalProperties": false
       },
       "Token": {
+        "required": [
+          "expirationDateTime",
+          "id",
+          "value"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -856,8 +952,7 @@
             "format": "int32"
           },
           "value": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "expirationDateTime": {
             "type": "string",
@@ -866,7 +961,7 @@
         },
         "additionalProperties": false
       },
-      "TransitObjectForUpdateCVInfo": {
+      "TransitObjectSpecializationAndCVTags": {
         "type": "object",
         "properties": {
           "specialization": {
@@ -883,15 +978,17 @@
         "additionalProperties": false
       },
       "UserCredentials": {
+        "required": [
+          "emailAddress",
+          "password"
+        ],
         "type": "object",
         "properties": {
           "emailAddress": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "password": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "additionalProperties": false

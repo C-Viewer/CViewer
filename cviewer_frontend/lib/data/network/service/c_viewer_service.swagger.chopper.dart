@@ -55,7 +55,7 @@ class _$CViewerService extends CViewerService {
     num? rating,
     String? email,
     String? password,
-    int? specializationId,
+    required Specialization? body,
   }) {
     final String $url = '/update_profile';
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -66,12 +66,13 @@ class _$CViewerService extends CViewerService {
       'rating': rating,
       'email': email,
       'password': password,
-      'specializationId': specializationId,
     };
+    final $body = body;
     final Request $request = Request(
       'PUT',
       $url,
       client.baseUrl,
+      body: $body,
       parameters: $params,
     );
     return client.send<Profile, Profile>($request);
@@ -95,6 +96,37 @@ class _$CViewerService extends CViewerService {
       'GET',
       $url,
       client.baseUrl,
+    );
+    return client.send<Profile, Profile>($request);
+  }
+
+  @override
+  Future<Response<Profile>> _getExpertProfileGet({required int? expertId}) {
+    final String $url = '/get_expert_profile';
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'expertId': expertId
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<Profile, Profile>($request);
+  }
+
+  @override
+  Future<Response<Profile>> _getApplicantProfileGet(
+      {required int? applicantId}) {
+    final String $url = '/get_applicant_profile';
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'applicantId': applicantId
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
     );
     return client.send<Profile, Profile>($request);
   }
@@ -168,7 +200,7 @@ class _$CViewerService extends CViewerService {
     required int? cvId,
     String? title,
     String? description,
-    required TransitObjectForUpdateCVInfo? body,
+    required TransitObjectSpecializationAndCVTags? body,
   }) {
     final String $url = '/update_cv_info';
     final Map<String, dynamic> $params = <String, dynamic>{

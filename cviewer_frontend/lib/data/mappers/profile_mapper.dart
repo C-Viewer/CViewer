@@ -9,13 +9,13 @@ class ProfileFromDtoMapper implements Mapper<dto.Profile, Profile> {
   @override
   Profile map(dto.Profile data) {
     return Profile(
-      id: data.id ?? 0,
+      id: data.id,
       firstName: data.firstName ?? '',
       lastName: data.lastName ?? '',
       biography: data.biography ?? '',
       rating: data.rating ?? 0.0,
-      isExpert: data.isExpert ?? false,
-      speciality: data.specializationId?.toString() ?? '',
+      isExpert: data.isExpert,
+      speciality: data.specialization?.name ?? '',
     );
   }
 }

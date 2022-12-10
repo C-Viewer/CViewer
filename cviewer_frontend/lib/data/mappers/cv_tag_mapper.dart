@@ -8,8 +8,8 @@ class CVTagFromDtoMapper implements Mapper<CVTag, Tag> {
   @override
   Tag map(CVTag data) {
     return Tag(
-      id: data.id ?? 0,
-      name: data.name ?? '',
+      id: data.id,
+      name: data.name,
     );
   }
 }

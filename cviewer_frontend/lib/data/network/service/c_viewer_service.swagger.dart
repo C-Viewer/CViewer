@@ -71,7 +71,6 @@ abstract class CViewerService extends ChopperService {
   ///@param rating
   ///@param email
   ///@param password
-  ///@param specializationId
   Future<chopper.Response<Profile>> updateProfilePut({
     required int? profileId,
     String? firstName,
@@ -80,7 +79,7 @@ abstract class CViewerService extends ChopperService {
     num? rating,
     String? email,
     String? password,
-    int? specializationId,
+    required Specialization? body,
   }) {
     generatedMapping.putIfAbsent(Profile, () => Profile.fromJsonFactory);
 
@@ -92,7 +91,7 @@ abstract class CViewerService extends ChopperService {
         rating: rating,
         email: email,
         password: password,
-        specializationId: specializationId);
+        body: body);
   }
 
   ///
@@ -103,11 +102,7 @@ abstract class CViewerService extends ChopperService {
   ///@param rating
   ///@param email
   ///@param password
-  ///@param specializationId
-  @Put(
-    path: '/update_profile',
-    optionalBody: true,
-  )
+  @Put(path: '/update_profile')
   Future<chopper.Response<Profile>> _updateProfilePut({
     @Query('profileId') required int? profileId,
     @Query('firstName') String? firstName,
@@ -116,7 +111,7 @@ abstract class CViewerService extends ChopperService {
     @Query('rating') num? rating,
     @Query('email') String? email,
     @Query('password') String? password,
-    @Query('specializationId') int? specializationId,
+    @Body() required Specialization? body,
   });
 
   ///
@@ -140,6 +135,36 @@ abstract class CViewerService extends ChopperService {
   ///
   @Get(path: '/get_profile')
   Future<chopper.Response<Profile>> _getProfileGet();
+
+  ///
+  ///@param expertId
+  Future<chopper.Response<Profile>> getExpertProfileGet(
+      {required int? expertId}) {
+    generatedMapping.putIfAbsent(Profile, () => Profile.fromJsonFactory);
+
+    return _getExpertProfileGet(expertId: expertId);
+  }
+
+  ///
+  ///@param expertId
+  @Get(path: '/get_expert_profile')
+  Future<chopper.Response<Profile>> _getExpertProfileGet(
+      {@Query('expertId') required int? expertId});
+
+  ///
+  ///@param applicantId
+  Future<chopper.Response<Profile>> getApplicantProfileGet(
+      {required int? applicantId}) {
+    generatedMapping.putIfAbsent(Profile, () => Profile.fromJsonFactory);
+
+    return _getApplicantProfileGet(applicantId: applicantId);
+  }
+
+  ///
+  ///@param applicantId
+  @Get(path: '/get_applicant_profile')
+  Future<chopper.Response<Profile>> _getApplicantProfileGet(
+      {@Query('applicantId') required int? applicantId});
 
   ///
   ///@param cvId
@@ -212,7 +237,7 @@ abstract class CViewerService extends ChopperService {
     required int? cvId,
     String? title,
     String? description,
-    required TransitObjectForUpdateCVInfo? body,
+    required TransitObjectSpecializationAndCVTags? body,
   }) {
     return _updateCvInfoPost(
         cvId: cvId, title: title, description: description, body: body);
@@ -227,7 +252,7 @@ abstract class CViewerService extends ChopperService {
     @Query('cvId') required int? cvId,
     @Query('title') String? title,
     @Query('description') String? description,
-    @Body() required TransitObjectForUpdateCVInfo? body,
+    @Body() required TransitObjectSpecializationAndCVTags? body,
   });
 
   ///

@@ -11,20 +11,20 @@ part 'c_viewer_service.models.swagger.g.dart';
 @JsonSerializable(explicitToJson: true)
 class AttachedFile {
   AttachedFile({
-    this.id,
-    this.fileName,
-    this.filePath,
+    required this.id,
+    required this.fileName,
+    required this.filePath,
   });
 
   factory AttachedFile.fromJson(Map<String, dynamic> json) =>
       _$AttachedFileFromJson(json);
 
   @JsonKey(name: 'id')
-  final int? id;
+  final int id;
   @JsonKey(name: 'fileName')
-  final String? fileName;
+  final String fileName;
   @JsonKey(name: 'filePath')
-  final String? filePath;
+  final String filePath;
   static const fromJsonFactory = _$AttachedFileFromJson;
   static const toJsonFactory = _$AttachedFileToJson;
   Map<String, dynamic> toJson() => _$AttachedFileToJson(this);
@@ -63,9 +63,9 @@ extension $AttachedFileExtension on AttachedFile {
   }
 
   AttachedFile copyWithWrapped(
-      {Wrapped<int?>? id,
-      Wrapped<String?>? fileName,
-      Wrapped<String?>? filePath}) {
+      {Wrapped<int>? id,
+      Wrapped<String>? fileName,
+      Wrapped<String>? filePath}) {
     return AttachedFile(
         id: (id != null ? id.value : this.id),
         fileName: (fileName != null ? fileName.value : this.fileName),
@@ -130,32 +130,32 @@ extension $ComplexObjectProfileAndTokenExtension
 @JsonSerializable(explicitToJson: true)
 class Cv {
   Cv({
-    this.id,
-    this.statusId,
-    this.title,
-    this.peopleCreatedId,
+    required this.id,
+    required this.statusId,
+    required this.title,
+    required this.peopleCreatedId,
     this.expertIds,
     this.specialization,
     this.description,
     this.rating,
     this.tags,
-    this.dateCreation,
+    required this.dateCreation,
   });
 
   factory Cv.fromJson(Map<String, dynamic> json) => _$CvFromJson(json);
 
   @JsonKey(name: 'id')
-  final int? id;
+  final int id;
   @JsonKey(
     name: 'statusId',
     toJson: cVStatusTypeToJson,
     fromJson: cVStatusTypeFromJson,
   )
-  final enums.CVStatusType? statusId;
+  final enums.CVStatusType statusId;
   @JsonKey(name: 'title')
-  final String? title;
+  final String title;
   @JsonKey(name: 'peopleCreatedId')
-  final int? peopleCreatedId;
+  final int peopleCreatedId;
   @JsonKey(name: 'expertIds', defaultValue: <int>[])
   final List<int>? expertIds;
   @JsonKey(name: 'specialization')
@@ -167,7 +167,7 @@ class Cv {
   @JsonKey(name: 'tags', defaultValue: <CVTag>[])
   final List<CVTag>? tags;
   @JsonKey(name: 'dateCreation')
-  final DateTime? dateCreation;
+  final DateTime dateCreation;
   static const fromJsonFactory = _$CvFromJson;
   static const toJsonFactory = _$CvToJson;
   Map<String, dynamic> toJson() => _$CvToJson(this);
@@ -248,16 +248,16 @@ extension $CvExtension on Cv {
   }
 
   Cv copyWithWrapped(
-      {Wrapped<int?>? id,
-      Wrapped<enums.CVStatusType?>? statusId,
-      Wrapped<String?>? title,
-      Wrapped<int?>? peopleCreatedId,
+      {Wrapped<int>? id,
+      Wrapped<enums.CVStatusType>? statusId,
+      Wrapped<String>? title,
+      Wrapped<int>? peopleCreatedId,
       Wrapped<List<int>?>? expertIds,
       Wrapped<Specialization?>? specialization,
       Wrapped<String?>? description,
       Wrapped<double?>? rating,
       Wrapped<List<CVTag>?>? tags,
-      Wrapped<DateTime?>? dateCreation}) {
+      Wrapped<DateTime>? dateCreation}) {
     return Cv(
         id: (id != null ? id.value : this.id),
         statusId: (statusId != null ? statusId.value : this.statusId),
@@ -281,25 +281,25 @@ extension $CvExtension on Cv {
 @JsonSerializable(explicitToJson: true)
 class CVHistory {
   CVHistory({
-    this.id,
+    required this.id,
     this.attachedFileId,
-    this.cvId,
+    required this.cvId,
     this.expertId,
     this.amazonPathToFile,
     this.comment,
     this.grade,
-    this.dateTime,
+    required this.dateTime,
   });
 
   factory CVHistory.fromJson(Map<String, dynamic> json) =>
       _$CVHistoryFromJson(json);
 
   @JsonKey(name: 'id')
-  final int? id;
+  final int id;
   @JsonKey(name: 'attachedFileId')
   final int? attachedFileId;
   @JsonKey(name: 'cvId')
-  final int? cvId;
+  final int cvId;
   @JsonKey(name: 'expertId')
   final int? expertId;
   @JsonKey(name: 'amazonPathToFile')
@@ -309,7 +309,7 @@ class CVHistory {
   @JsonKey(name: 'grade')
   final double? grade;
   @JsonKey(name: 'dateTime')
-  final DateTime? dateTime;
+  final DateTime dateTime;
   static const fromJsonFactory = _$CVHistoryFromJson;
   static const toJsonFactory = _$CVHistoryToJson;
   Map<String, dynamic> toJson() => _$CVHistoryToJson(this);
@@ -379,14 +379,14 @@ extension $CVHistoryExtension on CVHistory {
   }
 
   CVHistory copyWithWrapped(
-      {Wrapped<int?>? id,
+      {Wrapped<int>? id,
       Wrapped<int?>? attachedFileId,
-      Wrapped<int?>? cvId,
+      Wrapped<int>? cvId,
       Wrapped<int?>? expertId,
       Wrapped<String?>? amazonPathToFile,
       Wrapped<String?>? comment,
       Wrapped<double?>? grade,
-      Wrapped<DateTime?>? dateTime}) {
+      Wrapped<DateTime>? dateTime}) {
     return CVHistory(
         id: (id != null ? id.value : this.id),
         attachedFileId: (attachedFileId != null
@@ -404,18 +404,67 @@ extension $CVHistoryExtension on CVHistory {
 }
 
 @JsonSerializable(explicitToJson: true)
+class CVStatusTypeObject {
+  CVStatusTypeObject({
+    this.cvStatusType,
+  });
+
+  factory CVStatusTypeObject.fromJson(Map<String, dynamic> json) =>
+      _$CVStatusTypeObjectFromJson(json);
+
+  @JsonKey(
+    name: 'cvStatusType',
+    toJson: cVStatusTypeToJson,
+    fromJson: cVStatusTypeFromJson,
+  )
+  final enums.CVStatusType? cvStatusType;
+  static const fromJsonFactory = _$CVStatusTypeObjectFromJson;
+  static const toJsonFactory = _$CVStatusTypeObjectToJson;
+  Map<String, dynamic> toJson() => _$CVStatusTypeObjectToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CVStatusTypeObject &&
+            (identical(other.cvStatusType, cvStatusType) ||
+                const DeepCollectionEquality()
+                    .equals(other.cvStatusType, cvStatusType)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(cvStatusType) ^ runtimeType.hashCode;
+}
+
+extension $CVStatusTypeObjectExtension on CVStatusTypeObject {
+  CVStatusTypeObject copyWith({enums.CVStatusType? cvStatusType}) {
+    return CVStatusTypeObject(cvStatusType: cvStatusType ?? this.cvStatusType);
+  }
+
+  CVStatusTypeObject copyWithWrapped(
+      {Wrapped<enums.CVStatusType?>? cvStatusType}) {
+    return CVStatusTypeObject(
+        cvStatusType:
+            (cvStatusType != null ? cvStatusType.value : this.cvStatusType));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class CVTag {
   CVTag({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
   });
 
   factory CVTag.fromJson(Map<String, dynamic> json) => _$CVTagFromJson(json);
 
   @JsonKey(name: 'id')
-  final int? id;
+  final int id;
   @JsonKey(name: 'name')
-  final String? name;
+  final String name;
   static const fromJsonFactory = _$CVTagFromJson;
   static const toJsonFactory = _$CVTagToJson;
   Map<String, dynamic> toJson() => _$CVTagToJson(this);
@@ -445,7 +494,7 @@ extension $CVTagExtension on CVTag {
     return CVTag(id: id ?? this.id, name: name ?? this.name);
   }
 
-  CVTag copyWithWrapped({Wrapped<int?>? id, Wrapped<String?>? name}) {
+  CVTag copyWithWrapped({Wrapped<int>? id, Wrapped<String>? name}) {
     return CVTag(
         id: (id != null ? id.value : this.id),
         name: (name != null ? name.value : this.name));
@@ -455,14 +504,14 @@ extension $CVTagExtension on CVTag {
 @JsonSerializable(explicitToJson: true)
 class Profile {
   Profile({
-    this.id,
+    required this.id,
     this.firstName,
     this.lastName,
-    this.password,
-    this.emailAddress,
+    required this.password,
+    required this.emailAddress,
     this.biography,
-    this.isExpert,
-    this.specializationId,
+    required this.isExpert,
+    this.specialization,
     this.rating,
   });
 
@@ -470,21 +519,21 @@ class Profile {
       _$ProfileFromJson(json);
 
   @JsonKey(name: 'id')
-  final int? id;
+  final int id;
   @JsonKey(name: 'firstName')
   final String? firstName;
   @JsonKey(name: 'lastName')
   final String? lastName;
   @JsonKey(name: 'password')
-  final String? password;
+  final String password;
   @JsonKey(name: 'emailAddress')
-  final String? emailAddress;
+  final String emailAddress;
   @JsonKey(name: 'biography')
   final String? biography;
   @JsonKey(name: 'isExpert')
-  final bool? isExpert;
-  @JsonKey(name: 'specializationId')
-  final int? specializationId;
+  final bool isExpert;
+  @JsonKey(name: 'specialization')
+  final Specialization? specialization;
   @JsonKey(name: 'rating')
   final double? rating;
   static const fromJsonFactory = _$ProfileFromJson;
@@ -515,9 +564,9 @@ class Profile {
             (identical(other.isExpert, isExpert) ||
                 const DeepCollectionEquality()
                     .equals(other.isExpert, isExpert)) &&
-            (identical(other.specializationId, specializationId) ||
+            (identical(other.specialization, specialization) ||
                 const DeepCollectionEquality()
-                    .equals(other.specializationId, specializationId)) &&
+                    .equals(other.specialization, specialization)) &&
             (identical(other.rating, rating) ||
                 const DeepCollectionEquality().equals(other.rating, rating)));
   }
@@ -534,7 +583,7 @@ class Profile {
       const DeepCollectionEquality().hash(emailAddress) ^
       const DeepCollectionEquality().hash(biography) ^
       const DeepCollectionEquality().hash(isExpert) ^
-      const DeepCollectionEquality().hash(specializationId) ^
+      const DeepCollectionEquality().hash(specialization) ^
       const DeepCollectionEquality().hash(rating) ^
       runtimeType.hashCode;
 }
@@ -548,7 +597,7 @@ extension $ProfileExtension on Profile {
       String? emailAddress,
       String? biography,
       bool? isExpert,
-      int? specializationId,
+      Specialization? specialization,
       double? rating}) {
     return Profile(
         id: id ?? this.id,
@@ -558,19 +607,19 @@ extension $ProfileExtension on Profile {
         emailAddress: emailAddress ?? this.emailAddress,
         biography: biography ?? this.biography,
         isExpert: isExpert ?? this.isExpert,
-        specializationId: specializationId ?? this.specializationId,
+        specialization: specialization ?? this.specialization,
         rating: rating ?? this.rating);
   }
 
   Profile copyWithWrapped(
-      {Wrapped<int?>? id,
+      {Wrapped<int>? id,
       Wrapped<String?>? firstName,
       Wrapped<String?>? lastName,
-      Wrapped<String?>? password,
-      Wrapped<String?>? emailAddress,
+      Wrapped<String>? password,
+      Wrapped<String>? emailAddress,
       Wrapped<String?>? biography,
-      Wrapped<bool?>? isExpert,
-      Wrapped<int?>? specializationId,
+      Wrapped<bool>? isExpert,
+      Wrapped<Specialization?>? specialization,
       Wrapped<double?>? rating}) {
     return Profile(
         id: (id != null ? id.value : this.id),
@@ -581,9 +630,9 @@ extension $ProfileExtension on Profile {
             (emailAddress != null ? emailAddress.value : this.emailAddress),
         biography: (biography != null ? biography.value : this.biography),
         isExpert: (isExpert != null ? isExpert.value : this.isExpert),
-        specializationId: (specializationId != null
-            ? specializationId.value
-            : this.specializationId),
+        specialization: (specialization != null
+            ? specialization.value
+            : this.specialization),
         rating: (rating != null ? rating.value : this.rating));
   }
 }
@@ -591,17 +640,17 @@ extension $ProfileExtension on Profile {
 @JsonSerializable(explicitToJson: true)
 class Specialization {
   Specialization({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
   });
 
   factory Specialization.fromJson(Map<String, dynamic> json) =>
       _$SpecializationFromJson(json);
 
   @JsonKey(name: 'id')
-  final int? id;
+  final int id;
   @JsonKey(name: 'name')
-  final String? name;
+  final String name;
   static const fromJsonFactory = _$SpecializationFromJson;
   static const toJsonFactory = _$SpecializationToJson;
   Map<String, dynamic> toJson() => _$SpecializationToJson(this);
@@ -631,7 +680,7 @@ extension $SpecializationExtension on Specialization {
     return Specialization(id: id ?? this.id, name: name ?? this.name);
   }
 
-  Specialization copyWithWrapped({Wrapped<int?>? id, Wrapped<String?>? name}) {
+  Specialization copyWithWrapped({Wrapped<int>? id, Wrapped<String>? name}) {
     return Specialization(
         id: (id != null ? id.value : this.id),
         name: (name != null ? name.value : this.name));
@@ -641,19 +690,19 @@ extension $SpecializationExtension on Specialization {
 @JsonSerializable(explicitToJson: true)
 class Token {
   Token({
-    this.id,
-    this.value,
-    this.expirationDateTime,
+    required this.id,
+    required this.value,
+    required this.expirationDateTime,
   });
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
 
   @JsonKey(name: 'id')
-  final int? id;
+  final int id;
   @JsonKey(name: 'value')
-  final String? value;
+  final String value;
   @JsonKey(name: 'expirationDateTime')
-  final DateTime? expirationDateTime;
+  final DateTime expirationDateTime;
   static const fromJsonFactory = _$TokenFromJson;
   static const toJsonFactory = _$TokenToJson;
   Map<String, dynamic> toJson() => _$TokenToJson(this);
@@ -691,9 +740,9 @@ extension $TokenExtension on Token {
   }
 
   Token copyWithWrapped(
-      {Wrapped<int?>? id,
-      Wrapped<String?>? value,
-      Wrapped<DateTime?>? expirationDateTime}) {
+      {Wrapped<int>? id,
+      Wrapped<String>? value,
+      Wrapped<DateTime>? expirationDateTime}) {
     return Token(
         id: (id != null ? id.value : this.id),
         value: (value != null ? value.value : this.value),
@@ -704,27 +753,29 @@ extension $TokenExtension on Token {
 }
 
 @JsonSerializable(explicitToJson: true)
-class TransitObjectForUpdateCVInfo {
-  TransitObjectForUpdateCVInfo({
+class TransitObjectSpecializationAndCVTags {
+  TransitObjectSpecializationAndCVTags({
     this.specialization,
     this.cvTags,
   });
 
-  factory TransitObjectForUpdateCVInfo.fromJson(Map<String, dynamic> json) =>
-      _$TransitObjectForUpdateCVInfoFromJson(json);
+  factory TransitObjectSpecializationAndCVTags.fromJson(
+          Map<String, dynamic> json) =>
+      _$TransitObjectSpecializationAndCVTagsFromJson(json);
 
   @JsonKey(name: 'specialization')
   final Specialization? specialization;
   @JsonKey(name: 'cvTags', defaultValue: <CVTag>[])
   final List<CVTag>? cvTags;
-  static const fromJsonFactory = _$TransitObjectForUpdateCVInfoFromJson;
-  static const toJsonFactory = _$TransitObjectForUpdateCVInfoToJson;
-  Map<String, dynamic> toJson() => _$TransitObjectForUpdateCVInfoToJson(this);
+  static const fromJsonFactory = _$TransitObjectSpecializationAndCVTagsFromJson;
+  static const toJsonFactory = _$TransitObjectSpecializationAndCVTagsToJson;
+  Map<String, dynamic> toJson() =>
+      _$TransitObjectSpecializationAndCVTagsToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is TransitObjectForUpdateCVInfo &&
+        (other is TransitObjectSpecializationAndCVTags &&
             (identical(other.specialization, specialization) ||
                 const DeepCollectionEquality()
                     .equals(other.specialization, specialization)) &&
@@ -742,19 +793,19 @@ class TransitObjectForUpdateCVInfo {
       runtimeType.hashCode;
 }
 
-extension $TransitObjectForUpdateCVInfoExtension
-    on TransitObjectForUpdateCVInfo {
-  TransitObjectForUpdateCVInfo copyWith(
+extension $TransitObjectSpecializationAndCVTagsExtension
+    on TransitObjectSpecializationAndCVTags {
+  TransitObjectSpecializationAndCVTags copyWith(
       {Specialization? specialization, List<CVTag>? cvTags}) {
-    return TransitObjectForUpdateCVInfo(
+    return TransitObjectSpecializationAndCVTags(
         specialization: specialization ?? this.specialization,
         cvTags: cvTags ?? this.cvTags);
   }
 
-  TransitObjectForUpdateCVInfo copyWithWrapped(
+  TransitObjectSpecializationAndCVTags copyWithWrapped(
       {Wrapped<Specialization?>? specialization,
       Wrapped<List<CVTag>?>? cvTags}) {
-    return TransitObjectForUpdateCVInfo(
+    return TransitObjectSpecializationAndCVTags(
         specialization: (specialization != null
             ? specialization.value
             : this.specialization),
@@ -765,17 +816,17 @@ extension $TransitObjectForUpdateCVInfoExtension
 @JsonSerializable(explicitToJson: true)
 class UserCredentials {
   UserCredentials({
-    this.emailAddress,
-    this.password,
+    required this.emailAddress,
+    required this.password,
   });
 
   factory UserCredentials.fromJson(Map<String, dynamic> json) =>
       _$UserCredentialsFromJson(json);
 
   @JsonKey(name: 'emailAddress')
-  final String? emailAddress;
+  final String emailAddress;
   @JsonKey(name: 'password')
-  final String? password;
+  final String password;
   static const fromJsonFactory = _$UserCredentialsFromJson;
   static const toJsonFactory = _$UserCredentialsToJson;
   Map<String, dynamic> toJson() => _$UserCredentialsToJson(this);
@@ -810,7 +861,7 @@ extension $UserCredentialsExtension on UserCredentials {
   }
 
   UserCredentials copyWithWrapped(
-      {Wrapped<String?>? emailAddress, Wrapped<String?>? password}) {
+      {Wrapped<String>? emailAddress, Wrapped<String>? password}) {
     return UserCredentials(
         emailAddress:
             (emailAddress != null ? emailAddress.value : this.emailAddress),
