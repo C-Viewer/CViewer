@@ -5,20 +5,20 @@ class ProfileProvider extends InheritedWidget {
   const ProfileProvider({
     super.key,
     required super.child,
-    required this.user,
+    required this.profile,
   });
 
-  final Profile user;
+  final Profile profile;
 
   static Profile? of(BuildContext context) {
     final provider =
         context.dependOnInheritedWidgetOfExactType<ProfileProvider>();
 
-    return provider?.user;
+    return provider?.profile;
   }
 
   @override
   bool updateShouldNotify(covariant ProfileProvider oldWidget) {
-    return user != oldWidget.user;
+    return profile != oldWidget.profile;
   }
 }

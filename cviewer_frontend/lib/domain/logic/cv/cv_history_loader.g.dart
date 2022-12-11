@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cv_loader.dart';
+part of 'cv_history_loader.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,24 +8,25 @@ part of 'cv_loader.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$CVLoader on _CVLoader, Store {
-  late final _$cvAtom = Atom(name: '_CVLoader.cv', context: context);
+mixin _$CVHistoryLoader on _CVHistoryLoader, Store {
+  late final _$cvHistoryAtom =
+      Atom(name: '_CVHistoryLoader.cvHistory', context: context);
 
   @override
-  CV? get cv {
-    _$cvAtom.reportRead();
-    return super.cv;
+  CVHistory? get cvHistory {
+    _$cvHistoryAtom.reportRead();
+    return super.cvHistory;
   }
 
   @override
-  set cv(CV? value) {
-    _$cvAtom.reportWrite(value, super.cv, () {
-      super.cv = value;
+  set cvHistory(CVHistory? value) {
+    _$cvHistoryAtom.reportWrite(value, super.cvHistory, () {
+      super.cvHistory = value;
     });
   }
 
   late final _$isLoadingAtom =
-      Atom(name: '_CVLoader.isLoading', context: context);
+      Atom(name: '_CVHistoryLoader.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -41,7 +42,7 @@ mixin _$CVLoader on _CVLoader, Store {
   }
 
   late final _$hasLoadErrorAtom =
-      Atom(name: '_CVLoader.hasLoadError', context: context);
+      Atom(name: '_CVHistoryLoader.hasLoadError', context: context);
 
   @override
   bool get hasLoadError {
@@ -56,7 +57,8 @@ mixin _$CVLoader on _CVLoader, Store {
     });
   }
 
-  late final _$errorAtom = Atom(name: '_CVLoader.error', context: context);
+  late final _$errorAtom =
+      Atom(name: '_CVHistoryLoader.error', context: context);
 
   @override
   Object? get error {
@@ -71,18 +73,18 @@ mixin _$CVLoader on _CVLoader, Store {
     });
   }
 
-  late final _$loadCVAsyncAction =
-      AsyncAction('_CVLoader.loadCV', context: context);
+  late final _$loadCVHistoryAsyncAction =
+      AsyncAction('_CVHistoryLoader.loadCVHistory', context: context);
 
   @override
-  Future<void> loadCV(int cvId) {
-    return _$loadCVAsyncAction.run(() => super.loadCV(cvId));
+  Future<void> loadCVHistory(int cvId) {
+    return _$loadCVHistoryAsyncAction.run(() => super.loadCVHistory(cvId));
   }
 
   @override
   String toString() {
     return '''
-cv: ${cv},
+cvHistory: ${cvHistory},
 isLoading: ${isLoading},
 hasLoadError: ${hasLoadError},
 error: ${error}

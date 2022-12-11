@@ -2,7 +2,7 @@ import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/presentation/pages/auth/auth_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/cv/cv_creator_page.dart';
-import 'package:cviewer_frontend/presentation/pages/session/cv/cv_page.dart';
+import 'package:cviewer_frontend/presentation/pages/session/cv/cv_history_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/main/main_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/session_page.dart';
 import 'package:cviewer_frontend/presentation/pages/splash/splash_page.dart';
@@ -45,9 +45,10 @@ final _appRouter = GoRouter(
       builder: (_, __) => const AuthPage(),
     ),
     // Session
-    GoRoute(
-      path: RoutePaths.session,
-      builder: (_, __) => const SessionPage(),
+    ShellRoute(
+      // path: RoutePaths.session,
+      // name: RouteNames.session,
+      builder: (_, __, child) => SessionPage(child: child),
       routes: [
         // Main
         GoRoute(
@@ -55,11 +56,11 @@ final _appRouter = GoRouter(
           name: RouteNames.main,
           builder: (_, __) => const MainPage(),
         ),
-        // CV details
+        // CV history
         GoRoute(
-          path: RoutePaths.cvDetails,
-          name: RouteNames.cvDetails,
-          builder: (_, s) => CVPage(
+          path: RoutePaths.cvHistory,
+          name: RouteNames.cvHistory,
+          builder: (_, s) => CVHistoryPage(
             cvId: int.parse(s.params[RouteParams.cvId]!),
           ),
         ),

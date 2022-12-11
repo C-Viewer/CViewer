@@ -49,8 +49,9 @@ abstract class RealAssemble {
   @injectable
   ProfileRepository profileRepository(
     CViewerService service,
+    SharedPreferences storage,
   ) =>
-      RealProfileRepository(service);
+      RealProfileRepository(service, storage);
 
   @dev
   @prod

@@ -1,5 +1,4 @@
 import 'package:cviewer_frontend/domain/models/cv/cv_status.dart';
-import 'package:cviewer_frontend/domain/models/cv/date_sortable.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
 
 class CV {
@@ -11,7 +10,6 @@ class CV {
     required this.creationDate,
     required this.rating,
     required this.tags,
-    required this.history,
   });
 
   final int id;
@@ -21,5 +19,4 @@ class CV {
   final DateTime creationDate;
   final double rating;
   final List<CVTag> tags;
-  final List<DateSortable> history;
 }

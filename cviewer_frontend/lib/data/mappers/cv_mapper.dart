@@ -8,7 +8,6 @@ class CVFromDtoMapper implements Mapper<Cv, CV> {
   const CVFromDtoMapper();
 
   @override
-  // TODO: дополнить модель
   CV map(Cv data) {
     return CV(
       id: data.id,
@@ -18,8 +17,6 @@ class CVFromDtoMapper implements Mapper<Cv, CV> {
       creationDate: data.dateCreation,
       rating: data.rating ?? 0.0,
       tags: data.tags?.map(const CVTagFromDtoMapper().map).toList() ?? [],
-      // TODO: маппинг истории
-      history: [],
     );
   }
 }

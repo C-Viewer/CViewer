@@ -35,7 +35,9 @@ class RealAuthRepository implements AuthRepository {
 
     if (profileDto != null && token != null) {
       _storage.setString(StorageKeys.authToken, token);
+      _storage.setString(StorageKeys.profile, profileDto.toString());
       Loggers.authRepository.info('Auth token was saved: $token');
+      Loggers.authRepository.info('Profile was saved: $profileDto');
 
       return const ProfileFromDtoMapper().map(profileDto);
     } else {

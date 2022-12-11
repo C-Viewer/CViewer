@@ -1,17 +1,18 @@
 import 'package:cviewer_frontend/di/assemble.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
 import 'package:cviewer_frontend/utils/loggers.dart';
 import 'package:mobx/mobx.dart';
 
-part 'cv_loader.g.dart';
+part 'cv_history_loader.g.dart';
 
-class CVLoader = _CVLoader with _$CVLoader;
+class CVHistoryLoader = _CVHistoryLoader with _$CVHistoryLoader;
 
-abstract class _CVLoader with Store {
+abstract class _CVHistoryLoader with Store {
   final _cvRepository = Assemble.cvRepository;
 
   @observable
-  CV? cv;
+  CVHistory? cvHistory;
 
   @observable
   bool isLoading = false;
@@ -23,17 +24,17 @@ abstract class _CVLoader with Store {
   Object? error;
 
   @action
-  Future<void> loadCV(int cvId) async {
+  Future<void> loadCVHistory(int cvId) async {
     isLoading = true;
     try {
-      cv = await _cvRepository.getCV(cvId);
+      cvHistory = await _cvRepository.getCVHistory(cvId);
       error = null;
       hasLoadError = false;
-      Loggers.cvLoader.info('CV was loaded');
+      Loggers.cvHistoryLoader.info('CV history was loaded');
     } catch (e) {
       error = e;
       hasLoadError = true;
-      Loggers.cvLoader.warning('Error occured: $e');
+      Loggers.cvHistoryLoader.warning('Error occured: $e');
     } finally {
       isLoading = false;
     }

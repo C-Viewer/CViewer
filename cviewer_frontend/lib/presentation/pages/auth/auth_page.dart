@@ -1,8 +1,8 @@
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/constants/route_constants.dart';
-import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
 import 'package:cviewer_frontend/domain/logic/auth/auth_manager.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile_credentials.dart';
+import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
@@ -81,7 +81,7 @@ class _AuthPageState extends State<AuthPage> {
               const SizedBox(height: 48),
               ElevatedButton(
                 onPressed: _onSignInButtonPressed,
-                child:  Padding(
+                child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Text(
                     S.of(context).signIn,

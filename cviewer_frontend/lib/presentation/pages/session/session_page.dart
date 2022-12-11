@@ -1,21 +1,29 @@
-import 'package:cviewer_frontend/domain/logic/auth/auth_manager.dart';
+import 'package:cviewer_frontend/di/assemble.dart';
+import 'package:cviewer_frontend/presentation/widgets/profile/profile_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SessionPage extends StatefulWidget {
-  const SessionPage({super.key});
+  const SessionPage({
+    super.key,
+    required this.child,
+  });
+
+  final Widget child;
 
   @override
   State<SessionPage> createState() => _SessionPageState();
 }
 
 class _SessionPageState extends State<SessionPage> {
-  final _authManager = AuthManager();
+  final _profile = Assemble.profileRepository.getCachedProfile();
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (_) => _authManager,
-    );
+    return (_profile != null)
+        ? ProfileProvider(
+            profile: _profile!,
+            child: widget.child,
+          )
+        : widget.child;
   }
 }

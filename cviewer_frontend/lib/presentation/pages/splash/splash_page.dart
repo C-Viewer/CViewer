@@ -1,6 +1,6 @@
 import 'package:cviewer_frontend/constants/route_constants.dart';
-import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
 import 'package:cviewer_frontend/domain/logic/auth/auth_manager.dart';
+import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';

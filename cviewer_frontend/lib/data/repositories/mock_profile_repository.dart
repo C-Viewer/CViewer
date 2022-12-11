@@ -8,6 +8,11 @@ class MockProfileRepository implements ProfileRepository {
   Future<Profile> getProfile() async {
     return _mockUser;
   }
+
+  @override
+  Profile? getCachedProfile() {
+    return _mockUser;
+  }
 }
 
 const _mockUser = Profile(

@@ -1,4 +1,6 @@
-class Profile {
+import 'package:equatable/equatable.dart';
+
+class Profile extends Equatable {
   const Profile({
     required this.id,
     required this.firstName,
@@ -16,4 +18,17 @@ class Profile {
   final double? rating;
   final bool isExpert;
   final String speciality;
+
+  @override
+  List<Object?> get props => [
+        id,
+        firstName,
+        lastName,
+        biography,
+        rating,
+        isExpert,
+        speciality,
+      ];
+
+  String get fullName => '$firstName $lastName';
 }

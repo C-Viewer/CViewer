@@ -55,6 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Введите название CV"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Повторить"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
-            "Неизвестная ошибка, пожалуйста, обратитесь в службу поддержки")
+            "Неизвестная ошибка, пожалуйста, обратитесь в службу поддержки"),
+        "you": MessageLookupByLibrary.simpleMessage("Вы")
       };
 }

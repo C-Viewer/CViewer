@@ -69,7 +69,10 @@ extension GetItInjectableX on _i1.GetIt {
       },
     );
     gh.factory<_i4.ProfileRepository>(
-      () => realAssemble.profileRepository(gh<_i6.CViewerService>()),
+      () => realAssemble.profileRepository(
+        gh<_i6.CViewerService>(),
+        gh<_i5.SharedPreferences>(),
+      ),
       registerFor: {
         _dev,
         _prod,

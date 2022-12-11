@@ -180,6 +180,16 @@ class S {
     );
   }
 
+  /// `Вы`
+  String get you {
+    return Intl.message(
+      'Вы',
+      name: 'you',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Создание CV`
   String get cvCreator {
     return Intl.message(
