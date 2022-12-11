@@ -1,5 +1,6 @@
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_status.dart';
+import 'package:cviewer_frontend/presentation/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CVStatusLabel extends StatelessWidget {
@@ -13,15 +14,15 @@ class CVStatusLabel extends StatelessWidget {
   Color _getColor() {
     switch (status) {
       case CVStatus.draft:
-        return Colors.grey;
+        return AppColors.grey;
       case CVStatus.sentToReview:
-        return Colors.lightBlue;
+        return AppColors.green;
       case CVStatus.takenOnReview:
-        return Colors.blue;
+        return AppColors.blue;
       case CVStatus.needFix:
-        return Colors.orange;
+        return AppColors.red;
       case CVStatus.finished:
-        return Colors.purple;
+        return AppColors.black;
     }
   }
 
