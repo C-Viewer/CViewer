@@ -2,12 +2,16 @@
 
 namespace CViewer.DataAccess.Entities
 {
-    public class Specialization
+    public class Token
     {
-        [Required]
-        public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public int Id { get; set; }
+        
+        [Required]
+        public string Value { get; set; }
+        
+        [Required]
+        public DateTime ExpirationDateTime { get; set; }
     }
 }

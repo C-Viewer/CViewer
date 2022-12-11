@@ -1,5 +1,6 @@
-﻿using System.Net;
-using CViewer.DataAccess.Entities;
+﻿using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.Repositories;
+using static CViewer.DataAccess.EntitiesHelper;
 
 namespace CViewer.Services
 {
@@ -12,10 +13,13 @@ namespace CViewer.Services
         public List<CVHistory> ListCVHistories(int cvId);
         public List<AttachedFile> ListAttachedFiles();
         public List<CV> ListCVs();
+        public List<CV> ListCVsForProfile(string applicantOrExpertToken);
+        public CVStatusType GetCVStatus(int cvId);
         public CV GetCV(int id);
         public CVHistory GetCVHistory(int id);
         public AttachedFile GetAttachedFile(int id);
         public List<CVTag> ListCVTags();
+        public List<CVStatusTypeObject> ListCVStatuses();
         public List<Specialization> ListSpecializations();
         //public bool Delete(int id);
     }

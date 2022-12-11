@@ -6,7 +6,7 @@ namespace CViewer.Validation
 {
     internal static class Validator
     {
-        internal static bool ValidateTokenWithProfiles(string token, List<int> profilesIds)
+        internal static bool ValidateTokenWithProfiles(string tokenValue, List<int> profilesIds)
         {
             if (TemporaryConfiguration.UseDb)
             {
@@ -17,7 +17,7 @@ namespace CViewer.Validation
                 foreach (int profileId in profilesIds)
                 {
                     ProfileToToken profileToToken = ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p =>
-                        p.ProfileId == profileId && p.Token.Equals(token));
+                        p.ProfileId == profileId && p.Token != null && p.Token.Value.Equals(tokenValue));
                     if (profileToToken != null)
                     {
                         return true;

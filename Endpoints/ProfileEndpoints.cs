@@ -1,6 +1,11 @@
 ﻿using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
 using CViewer.Utils;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using System.ComponentModel.DataAnnotations;
 
 namespace CViewer.Endpoints
 {
@@ -13,17 +18,24 @@ namespace CViewer.Endpoints
             _builder = builder;
 
             app.MapPost("/sign_in",
-                    (UserCredentials user, IProfileService service) => SignIn(user, service))
+                    ([Required] UserCredentials user, IProfileService service) => SignIn(user, service))
                 .Accepts<UserCredentials>("application/json")
-                .Produces<string>();
+                .Produces<ComplexObjectProfileAndToken>();
 
             app.MapPost("/sign_up",
-                (UserCredentials userCredentials, IProfileService service) => SignUp(userCredentials, service))
-                .Produces<string>();
+                ([Required] UserCredentials userCredentials, IProfileService service) => SignUp(userCredentials, service))
+                .Produces<ComplexObjectProfileAndToken>();
+
+            app.MapPost("/logout",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                (HttpContext context, ISecurityService securityService, IProfileService service) =>
+                    Logout(context, securityService, service));
+            
 
             app.MapPut("/update_profile",
-                (int profileId, IProfileService service, string firstName, string lastName, string biography,
-                double? rating, string email, string password, int? specializationId) => UpdateProfile(profileId: profileId, firstName: firstName,
+                ([Required] int profileId, string firstName, string lastName, string biography,
+                double? rating, string email, string password, Specialization specializationId, IProfileService service) => UpdateProfile(profileId: profileId, firstName: firstName,
                     lastName: lastName, biography: biography, rating: rating, email: email, password: password, specializationId: specializationId, 
                     service: service))
                 .Produces<Profile>();
@@ -33,54 +45,81 @@ namespace CViewer.Endpoints
                 .Produces<List<Profile>>();
 
             app.MapGet("/get_profile",
-                    (int profileId, IProfileService service) => GetProfile(profileId, service))
+                    [EnableCors(Configuration.CorsPolicyName)]
+                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                    (HttpContext context, ISecurityService securityService, IProfileService service) => GetProfile(context, securityService, service))
+                .Produces<Profile>();
+
+            app.MapGet("/get_expert_profile",
+                    [EnableCors(Configuration.CorsPolicyName)]
+                    ([Required] int expertId, IProfileService service) => GetExpertProfile(expertId, service))
+                .Produces<Profile>();
+
+            app.MapGet("/get_applicant_profile",
+                    [EnableCors(Configuration.CorsPolicyName)]
+                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+            ([Required] int applicantId, HttpContext context, ISecurityService securityService, IProfileService service) => 
+                GetApplicantProfile(applicantId, context, securityService, service))
                 .Produces<Profile>();
         }
 
         private static IResult SignIn(UserCredentials user, IProfileService service)
         {
-            int status = service.SignIn(user, out var tokenOrMessage, _builder);
+            int status = service.SignIn(user, out Profile profile, out Token token, out string errorMessage, _builder);
             switch (status)
             {
                 case ErrorCodes.BadRequest:
                 {
-                    return Results.BadRequest(tokenOrMessage);
+                    return Results.BadRequest(errorMessage);
                 }
                 case ErrorCodes.NotFound:
                 {
-                    return Results.NotFound(tokenOrMessage);
+                    return Results.NotFound(errorMessage);
                 }
                 case ErrorCodes.Ok:
                 {
-                    return Results.Ok(tokenOrMessage);
+                    return Results.Ok(new ComplexObjectProfileAndToken { Profile = profile, Token = token });
                 }
                 default:
                 {
                     return Results.BadRequest("Unexpected behaviour");
                 }
             }
+        }
+
+        private static IResult Logout(HttpContext context, ISecurityService securityService, IProfileService service)
+        {
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token))
+            {
+                return Results.Unauthorized();
+            }
+
+            service.Logout(token);
+
+            return Results.Ok("Logout success");
         }
 
         private static IResult SignUp(UserCredentials userCredentials, IProfileService service)
         {
-            int status = service.SignUp(userCredentials, out string tokenOrMessage, _builder);
+            int status = service.SignUp(userCredentials, out Profile profile, out Token token, out string errorMessage, _builder);
             switch (status)
             {
                 case ErrorCodes.Conflict:
                 {
-                    return Results.Conflict(tokenOrMessage);
+                    return Results.Conflict(errorMessage);
                 }
                 case ErrorCodes.BadRequest:
                 {
-                    return Results.BadRequest(tokenOrMessage);
+                    return Results.BadRequest(errorMessage);
                 }
                 case ErrorCodes.NotFound:
                 {
-                    return Results.NotFound(tokenOrMessage);
+                    return Results.NotFound(errorMessage);
                 }
                 case ErrorCodes.Ok:
                 {
-                    return Results.Ok(tokenOrMessage);
+                    return Results.Ok(new ComplexObjectProfileAndToken { Profile = profile, Token = token });
                 }
                 default:
                 {
@@ -89,16 +128,52 @@ namespace CViewer.Endpoints
             }
         }
 
-        private static IResult GetProfile(int profileId, IProfileService service)
+        private static IResult GetProfile(HttpContext context, ISecurityService securityService, IProfileService service)
         {
-            var profile = service.GetProfile(profileId);
-            if (profile is null) return Results.NotFound("Profile not found");
+            string applicantOrExpertToken = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(applicantOrExpertToken))
+            {
+                return Results.Unauthorized();
+            }
+
+            Profile profile = service.GetProfile(applicantOrExpertToken);
+            if (profile is null)
+            {
+                return Results.NotFound("Profile not found");
+            }
+
+            return Results.Ok(profile);
+        }
+
+        private static IResult GetExpertProfile(int expertId, IProfileService service)
+        {
+            Profile profile = service.GetExpertProfile(expertId);
+            if (profile is null)
+            {
+                return Results.NotFound("Expert profile not found");
+            }
+
+            return Results.Ok(profile);
+        }
+
+        private static IResult GetApplicantProfile(int applicantId, HttpContext context, ISecurityService securityService, IProfileService service)
+        {
+            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            {
+                return Results.Unauthorized();
+            }
+
+            Profile profile = service.GetApplicantProfile(applicantId);
+            if (profile is null)
+            {
+                return Results.NotFound("Applicant profile not found");
+            }
 
             return Results.Ok(profile);
         }
 
         private static IResult UpdateProfile(int profileId, IProfileService service, string firstName = null, string lastName = null, string biography = null,
-            double? rating = null, string email = null, string password = null, int? specializationId = null)
+            double? rating = null, string email = null, string password = null, Specialization specializationId = null)
         {
             var updatedProfile = service.UpdateProfile(profileId: profileId, firstName: firstName, lastName: lastName, 
                 biography: biography, rating: rating, email: email, password: password, specializationId: specializationId);

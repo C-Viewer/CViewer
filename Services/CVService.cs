@@ -1,6 +1,7 @@
 ﻿using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.Repositories;
+using static CViewer.DataAccess.EntitiesHelper;
 
 namespace CViewer.Services
 {
@@ -78,6 +79,11 @@ namespace CViewer.Services
             return cvHistory;
         }
 
+        public CVStatusType GetCVStatus(int cvId)
+        {
+            return DataManager.GetCv(cvId).StatusId;
+        }
+
         public CV GetCV(int cvId)
         {
             var cv = CVRepository.CVs.FirstOrDefault(o => o.Id == cvId);
@@ -110,6 +116,11 @@ namespace CViewer.Services
             return CVTagRepository.CVTags;
         }
 
+        public List<CVStatusTypeObject> ListCVStatuses()
+        {
+            return DataManager.GetCVStatuses().Select(status => new CVStatusTypeObject(status)).ToList();
+        }
+
         public List<Specialization> ListSpecializations()
         {
             return SpecializationRepository.Specializations;
@@ -137,6 +148,17 @@ namespace CViewer.Services
         {
             var cvs = CVRepository.CVs;
             return cvs;
+        }
+
+        public List<CV> ListCVsForProfile(string applicantOrExpertToken)
+        {
+            ProfileToToken profileToToken = DataManager.GetProfileAndToken(applicantOrExpertToken);
+            if (profileToToken == null)
+            {
+                return null;
+            }
+
+            return DataManager.GetCvsForProfile(profileToToken.ProfileId);
         }
 
         //public bool Delete(int id)
