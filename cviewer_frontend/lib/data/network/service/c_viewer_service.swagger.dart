@@ -64,6 +64,18 @@ abstract class CViewerService extends ChopperService {
       {@Body() required UserCredentials? body});
 
   ///
+  Future<chopper.Response> logoutPost() {
+    return _logoutPost();
+  }
+
+  ///
+  @Post(
+    path: '/logout',
+    optionalBody: true,
+  )
+  Future<chopper.Response> _logoutPost();
+
+  ///
   ///@param profileId
   ///@param firstName
   ///@param lastName

@@ -61,6 +61,18 @@
         }
       }
     },
+    "/logout": {
+      "post": {
+        "tags": [
+          "CViewer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/update_profile": {
       "put": {
         "tags": [
@@ -788,6 +800,9 @@
           "dateCreation": {
             "type": "string",
             "format": "date-time"
+          },
+          "goodCv": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -843,11 +858,8 @@
           "Draft",
           "SentToReview",
           "TakenToReview",
-          "CommentedGradedNeedFix",
-          "MaxGrade",
-          "FinishedWithGrade",
-          "FinishWithCompany",
-          "PublishedInGoodStore"
+          "NeedFix",
+          "Finished"
         ],
         "type": "string"
       },

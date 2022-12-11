@@ -65,6 +65,7 @@ Cv _$CvFromJson(Map<String, dynamic> json) => Cv(
               .toList() ??
           [],
       dateCreation: DateTime.parse(json['dateCreation'] as String),
+      goodCv: json['goodCv'] as bool?,
     );
 
 Map<String, dynamic> _$CvToJson(Cv instance) {
@@ -87,6 +88,7 @@ Map<String, dynamic> _$CvToJson(Cv instance) {
   writeNotNull('rating', instance.rating);
   writeNotNull('tags', instance.tags?.map((e) => e.toJson()).toList());
   val['dateCreation'] = instance.dateCreation.toIso8601String();
+  writeNotNull('goodCv', instance.goodCv);
   return val;
 }
 

@@ -14,14 +14,12 @@ class CVStatusLabel extends StatelessWidget {
     switch (status) {
       case CVStatus.draft:
         return Colors.grey;
-      case CVStatus.availableForReview:
+      case CVStatus.sentToReview:
         return Colors.lightBlue;
-      case CVStatus.onReview:
+      case CVStatus.takenOnReview:
         return Colors.blue;
-      case CVStatus.fixRequired:
+      case CVStatus.needFix:
         return Colors.orange;
-      case CVStatus.marked:
-        return Colors.green;
       case CVStatus.finished:
         return Colors.purple;
     }
@@ -31,14 +29,12 @@ class CVStatusLabel extends StatelessWidget {
     switch (status) {
       case CVStatus.draft:
         return S.of(context).draft;
-      case CVStatus.availableForReview:
+      case CVStatus.sentToReview:
         return S.of(context).availableForReview;
-      case CVStatus.onReview:
+      case CVStatus.takenOnReview:
         return S.of(context).onReview;
-      case CVStatus.fixRequired:
+      case CVStatus.needFix:
         return S.of(context).fixRequired;
-      case CVStatus.marked:
-        return S.of(context).marked;
       case CVStatus.finished:
         return S.of(context).finished;
     }

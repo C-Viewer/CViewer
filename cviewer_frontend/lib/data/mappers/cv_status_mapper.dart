@@ -5,23 +5,18 @@ import 'package:cviewer_frontend/utils/mapper.dart';
 class CVStatusMapper implements Mapper<CVStatusType, CVStatus> {
   const CVStatusMapper();
 
-  // TODO: разобраться со статусами
   @override
   CVStatus map(CVStatusType data) {
     switch (data) {
       case CVStatusType.draft:
         return CVStatus.draft;
       case CVStatusType.senttoreview:
-        return CVStatus.availableForReview;
+        return CVStatus.sentToReview;
       case CVStatusType.takentoreview:
-        return CVStatus.onReview;
-      case CVStatusType.commentedgradedneedfix:
-        return CVStatus.fixRequired;
-      case CVStatusType.maxgrade:
-      case CVStatusType.finishedwithgrade:
-        return CVStatus.marked;
-      case CVStatusType.finishwithcompany:
-      case CVStatusType.publishedingoodstore:
+        return CVStatus.takenOnReview;
+      case CVStatusType.needfix:
+        return CVStatus.needFix;
+      case CVStatusType.finished:
       case CVStatusType.swaggerGeneratedUnknown:
         return CVStatus.finished;
     }

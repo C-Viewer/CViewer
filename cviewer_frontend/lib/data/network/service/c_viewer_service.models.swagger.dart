@@ -140,6 +140,7 @@ class Cv {
     this.rating,
     this.tags,
     required this.dateCreation,
+    this.goodCv,
   });
 
   factory Cv.fromJson(Map<String, dynamic> json) => _$CvFromJson(json);
@@ -168,6 +169,8 @@ class Cv {
   final List<CVTag>? tags;
   @JsonKey(name: 'dateCreation')
   final DateTime dateCreation;
+  @JsonKey(name: 'goodCv')
+  final bool? goodCv;
   static const fromJsonFactory = _$CvFromJson;
   static const toJsonFactory = _$CvToJson;
   Map<String, dynamic> toJson() => _$CvToJson(this);
@@ -201,7 +204,9 @@ class Cv {
                 const DeepCollectionEquality().equals(other.tags, tags)) &&
             (identical(other.dateCreation, dateCreation) ||
                 const DeepCollectionEquality()
-                    .equals(other.dateCreation, dateCreation)));
+                    .equals(other.dateCreation, dateCreation)) &&
+            (identical(other.goodCv, goodCv) ||
+                const DeepCollectionEquality().equals(other.goodCv, goodCv)));
   }
 
   @override
@@ -219,6 +224,7 @@ class Cv {
       const DeepCollectionEquality().hash(rating) ^
       const DeepCollectionEquality().hash(tags) ^
       const DeepCollectionEquality().hash(dateCreation) ^
+      const DeepCollectionEquality().hash(goodCv) ^
       runtimeType.hashCode;
 }
 
@@ -233,7 +239,8 @@ extension $CvExtension on Cv {
       String? description,
       double? rating,
       List<CVTag>? tags,
-      DateTime? dateCreation}) {
+      DateTime? dateCreation,
+      bool? goodCv}) {
     return Cv(
         id: id ?? this.id,
         statusId: statusId ?? this.statusId,
@@ -244,7 +251,8 @@ extension $CvExtension on Cv {
         description: description ?? this.description,
         rating: rating ?? this.rating,
         tags: tags ?? this.tags,
-        dateCreation: dateCreation ?? this.dateCreation);
+        dateCreation: dateCreation ?? this.dateCreation,
+        goodCv: goodCv ?? this.goodCv);
   }
 
   Cv copyWithWrapped(
@@ -257,7 +265,8 @@ extension $CvExtension on Cv {
       Wrapped<String?>? description,
       Wrapped<double?>? rating,
       Wrapped<List<CVTag>?>? tags,
-      Wrapped<DateTime>? dateCreation}) {
+      Wrapped<DateTime>? dateCreation,
+      Wrapped<bool?>? goodCv}) {
     return Cv(
         id: (id != null ? id.value : this.id),
         statusId: (statusId != null ? statusId.value : this.statusId),
@@ -274,7 +283,8 @@ extension $CvExtension on Cv {
         rating: (rating != null ? rating.value : this.rating),
         tags: (tags != null ? tags.value : this.tags),
         dateCreation:
-            (dateCreation != null ? dateCreation.value : this.dateCreation));
+            (dateCreation != null ? dateCreation.value : this.dateCreation),
+        goodCv: (goodCv != null ? goodCv.value : this.goodCv));
   }
 }
 

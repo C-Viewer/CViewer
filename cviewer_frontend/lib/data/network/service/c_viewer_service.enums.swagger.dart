@@ -9,25 +9,16 @@ enum CVStatusType {
   senttoreview,
   @JsonValue('TakenToReview')
   takentoreview,
-  @JsonValue('CommentedGradedNeedFix')
-  commentedgradedneedfix,
-  @JsonValue('MaxGrade')
-  maxgrade,
-  @JsonValue('FinishedWithGrade')
-  finishedwithgrade,
-  @JsonValue('FinishWithCompany')
-  finishwithcompany,
-  @JsonValue('PublishedInGoodStore')
-  publishedingoodstore
+  @JsonValue('NeedFix')
+  needfix,
+  @JsonValue('Finished')
+  finished
 }
 
 const $CVStatusTypeMap = {
   CVStatusType.draft: 'Draft',
   CVStatusType.senttoreview: 'SentToReview',
   CVStatusType.takentoreview: 'TakenToReview',
-  CVStatusType.commentedgradedneedfix: 'CommentedGradedNeedFix',
-  CVStatusType.maxgrade: 'MaxGrade',
-  CVStatusType.finishedwithgrade: 'FinishedWithGrade',
-  CVStatusType.finishwithcompany: 'FinishWithCompany',
-  CVStatusType.publishedingoodstore: 'PublishedInGoodStore'
+  CVStatusType.needfix: 'NeedFix',
+  CVStatusType.finished: 'Finished'
 };

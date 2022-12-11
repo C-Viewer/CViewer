@@ -47,6 +47,17 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
+  Future<Response<dynamic>> _logoutPost() {
+    final String $url = '/logout';
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<Profile>> _updateProfilePut({
     required int? profileId,
     String? firstName,
