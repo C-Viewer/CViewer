@@ -2,6 +2,7 @@
 using CViewer.DataAccess;
 using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.InnerEntities;
 using CViewer.DataAccess.Repositories;
 using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
@@ -47,12 +48,8 @@ namespace CViewer.Endpoints
             app.MapGet("/add_event_to_history",
                 [EnableCors(Configuration.CorsPolicyName)]
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                ([Required] int cvId, string fileName, string comment, [Required] DateTime dateTime, double? grade,
-                        int? expertId,
-                        HttpContext context, ISecurityService securityService, ICVService service) =>
-                    AddEventToHistory(cvId: cvId, fileName: fileName, comment: comment, dateTime: dateTime,
-                        grade: grade, expertId: expertId,
-                        service: service, context: context, securityService: securityService));
+                ([Required] CVHistoryParameter cvHistoryParameter, HttpContext context, ISecurityService securityService, ICVService service) =>
+                    AddEventToHistory(cvHistoryParameter: cvHistoryParameter, service: service, context: context, securityService: securityService));
 
             app.MapGet("/list_CVs",
                     [EnableCors(Configuration.CorsPolicyName)]
@@ -123,16 +120,15 @@ namespace CViewer.Endpoints
             return Results.Ok(updatedCV);
         }
 
-        private static IResult AddEventToHistory(int cvId, string fileName, string comment, DateTime dateTime, double? grade, int? expertId,
-            HttpContext context, ISecurityService securityService, ICVService service)
+        private static IResult AddEventToHistory(CVHistoryParameter cvHistoryParameter, HttpContext context, ISecurityService securityService, 
+            ICVService service)
         {
             if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
             {
                 return Results.Unauthorized();
             }
 
-            CVHistory cvHistory = service.AddEventToHistory(cvId: cvId, fileName: fileName, comment: comment, 
-                dateTime: dateTime, grade: grade, expertId: expertId, service: service);
+            CVHistory cvHistory = service.AddEventToHistory(cvHistoryParameter);
 
             return Results.Ok(cvHistory);
         }

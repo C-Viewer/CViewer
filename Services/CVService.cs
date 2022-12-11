@@ -1,5 +1,7 @@
-﻿using CViewer.DataAccess.DataManager;
+﻿using System.Data;
+using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.InnerEntities;
 using CViewer.DataAccess.Repositories;
 using static CViewer.DataAccess.EntitiesHelper;
 
@@ -45,38 +47,22 @@ namespace CViewer.Services
         }
 
         // ToDo: Add validation on empty data
-        public CVHistory AddEventToHistory(int cvId, DateTime dateTime, ICVService service, string fileName = null, string comment = null, 
-            double? grade = null, int? expertId = null)
+        public CVHistory AddEventToHistory(CVHistoryParameter cvHistoryParameter)
         {
-            CVHistory cvHistory = new CVHistory
+            CVHistory newCvHistory = new CVHistory
             {
-                Id = CVHistoryRepository.CVHistories.Count + 1,
-                CVId = cvId,
-                Comment = comment,
-                ExpertId = expertId,
-                DateTime = dateTime,
+                Id = DataManager.GetCVHistoriesCount() + 1,
+                CVId = cvHistoryParameter.CVId,
+                Comment = cvHistoryParameter.Comment,
+                ExpertId = cvHistoryParameter.ExpertId,
+                DateTime = DateTime.UtcNow,
                 
-                Grade = grade
+                Grade = cvHistoryParameter.Grade,
+                AmazonPathToFile = cvHistoryParameter.AmazonPathToFile,
+                FileName = cvHistoryParameter.FileName,
             };
 
-            // ToDo: Change to Amazon Path
-            if (fileName != null)
-            {
-                // ToDo: Add adding file path to Amazaon S3.
-                int newAttachedFileId = AttachedFileRepository.AttachedFiles.Count + 1;
-                var attachedFile = new AttachedFile()
-                {
-                    Id = newAttachedFileId,
-                    FileName = fileName,
-                    FilePath = $"HardCodePath/{fileName}"
-                };
-                AttachedFileRepository.AttachedFiles.Add(attachedFile);
-
-                cvHistory.AttachedFileId = newAttachedFileId;
-                cvHistory.AmazonPathToFile = fileName;
-            }
-
-            return cvHistory;
+            return newCvHistory;
         }
 
         public CVStatusType GetCVStatus(int cvId)

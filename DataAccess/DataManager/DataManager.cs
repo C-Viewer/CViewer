@@ -205,5 +205,17 @@ namespace CViewer.DataAccess.DataManager
                  }
             }
         }
+
+        public static int GetCVHistoriesCount()
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return CVHistoryRepository.CVHistories.Count;
+            }
+        }
     }
 }

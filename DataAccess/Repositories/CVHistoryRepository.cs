@@ -12,7 +12,6 @@ namespace CViewer.DataAccess.Repositories
                 CVId = 1,
                 Comment = "You choose the wrong door",
                 DateTime = new DateTime(2022, 12, 1, 17, 13, 33),
-                AttachedFileId = 1,
                 Grade = 9.8
             },
 
