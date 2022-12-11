@@ -10,6 +10,7 @@ using CViewer.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Validator = CViewer.Validation.Validator;
 
 namespace CViewer.Endpoints
@@ -29,6 +30,13 @@ namespace CViewer.Endpoints
             app.MapGet("/get_attached_file",
                     ([Required] int attachedFileId, ICVService service) => GetAttachedFile(attachedFileId, service))
                 .Produces<AttachedFile>();
+
+            app.MapPost("/pin_file_to_draft",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                ([Required] IFormFile fileData, [Required] string fileName,
+                    HttpContext context, ISecurityService securityService, ICVService service) => Results.Ok());
+                    //PinFileToDraft(fileData, fileName, context, securityService, service));
 
             app.MapPost("/create_cv_draft",
                     [EnableCors(Configuration.CorsPolicyName)]
