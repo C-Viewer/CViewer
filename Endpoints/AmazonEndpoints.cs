@@ -1,52 +1,70 @@
 ﻿using CViewer.Services;
+using CViewer.Utils;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using System.ComponentModel.DataAnnotations;
 
 namespace CViewer.Endpoints
 {
     internal static class AmazonEndpoints
     {
+
         public static void MapAmazonEndpoints(this WebApplication app)
         {
-            app.MapGet("/get_all_files",
-                    (IAmazonS3Service service) => GetFiles(service))
+            app.MapGet("/list_all_files",
+                    (IAmazonS3Service service) => GetFileNames(service))
                 .Produces<List<string>>();
 
-            app.MapPost("/add_file",
-                    (FileStream stream, string path, IAmazonS3Service service) => AddFile(stream, path, service))
+            app.MapPut("/add_file",
+                [EnableCors(Configuration.CorsPolicyName)]
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+            ([Required] FileStream stream, [Required] string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service) => AddFile(stream, path, context, securityService, service))
                 .Produces<bool>();
 
             app.MapGet("/get_file",
-                    (string path, IAmazonS3Service service) => GetFile(path, service))
+            //[EnableCors(Configuration.CorsPolicyName)]
+            //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+            ([Required] string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service) => GetFile(path, context, securityService, service))
                 .Produces<Stream>();
 
-            app.MapGet("/delete_file",
-                    (string path, IAmazonS3Service service) => DeletetFile(path, service))
+            app.MapDelete("/delete_file",
+                //[EnableCors(Configuration.CorsPolicyName)]
+            //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+            ([Required] string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service) => DeletetFile(path, context, securityService, service))
                 .Produces<bool>();
         }
 
-        private static IResult GetFiles(IAmazonS3Service service)
+        private static IResult GetFileNames(IAmazonS3Service service)
         {
-            return Results.Ok(service.GetFiles());
+            return Results.Ok(service.GetFileNames());
         }
 
-        private static IResult AddFile(FileStream stream, string path, IAmazonS3Service service)
+        private static IResult AddFile(FileStream stream, string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
         {
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
             bool status = service.AddFile(stream, path);
             if (!status) return Results.BadRequest("File upload failed");
-            return Results.Ok();
+            return Results.Ok(true);
         }
 
-        private static IResult GetFile(string path, IAmazonS3Service service)
+        private static IResult GetFile(string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
         {
+            //string token = TokenHelper.GetToken(context);
+            //if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
             Stream status = service.GetFile(path);
             if (status == null) return Results.NotFound("File not found");
             return Results.Ok(status);
         }
 
-        private static IResult DeletetFile(string path, IAmazonS3Service service)
+        private static IResult DeletetFile(string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
         {
+            //string token = TokenHelper.GetToken(context);
+            //if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
             bool status = service.DeleteFile(path);
             if (!status) return Results.NotFound("File not found");
-            return Results.Ok();
+            return Results.Ok(true);
         }
     }
 }

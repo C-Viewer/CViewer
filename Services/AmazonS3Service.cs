@@ -4,25 +4,25 @@ using Amazon.S3.Model;
 
 namespace CViewer.Services
 {
-    internal sealed class AmazonS3Service
+    internal sealed class AmazonS3Service : IAmazonS3Service
     {
         private readonly string _bucketName = "cviewercvs";
-        private readonly string _accessKey;
-        private readonly string _secretKey;
+        private readonly string _accessKey = "AKIASC4V2PC2FUWPA4MS";
+        private readonly string _secretKey = "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";
         private readonly AmazonS3Config _amazonS3Config = new();
         private readonly string _amazonRegionEndpoint = "eu-north-1";
         private readonly string _amazonSignatureVersion = "4";
 
-        public AmazonS3Service(string access, string secret)
+        public AmazonS3Service()
         {
-            _accessKey = access;
-            _secretKey = secret;
+            _accessKey = "AKIASC4V2PC2FUWPA4MS";
+            _secretKey = "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";
             _amazonS3Config.RegionEndpoint = RegionEndpoint.GetBySystemName(_amazonRegionEndpoint);
             _amazonS3Config.SignatureVersion = _amazonSignatureVersion;
             _amazonS3Config.SignatureMethod = Amazon.Runtime.SigningAlgorithm.HmacSHA256;
         }
 
-        public List<string> GetFiles()
+        public List<string> GetFileNames()
         {
             try
             {
@@ -43,7 +43,7 @@ namespace CViewer.Services
                     return fileNames;
                 }
             }
-            catch
+            catch (Exception e)
             {
                 return null;
             }

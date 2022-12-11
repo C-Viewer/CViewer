@@ -1,3 +1,4 @@
+using Amazon.S3;
 using CViewer.Endpoints;
 using CViewer.Services;
 using CViewer.Utils;
@@ -61,6 +62,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<ICVService, CVService>();
 builder.Services.AddSingleton<IProfileService, ProfileService>();
 builder.Services.AddSingleton<ISecurityService, SecurityService>();
+builder.Services.AddSingleton<IAmazonS3Service, AmazonS3Service>();
 
 builder.Services.AddCors(p => p.AddPolicy(Configuration.CorsPolicyName, builder =>
 {
@@ -79,6 +81,7 @@ app.MapGet("/", () => "Nice CV, Awesome skills!!!")
 app.MapProfileEndpoints(builder);
 app.MapCVEndpoints();
 app.MapSecurityEndpoints();
+app.MapAmazonEndpoints();
 
 app.UseSwaggerUI();
 
