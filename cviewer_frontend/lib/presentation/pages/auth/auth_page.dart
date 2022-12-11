@@ -1,3 +1,4 @@
+import 'package:cviewer_frontend/assets/images/image_paths.dart';
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/domain/logic/auth/auth_manager.dart';
@@ -51,6 +52,12 @@ class _AuthPageState extends State<AuthPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // Logo
+              Center(
+                child: Image.asset(
+                  ImagePaths.logo,
+                ),
+              ),
               // Title
               Text(
                 S.of(context).authTitle,

@@ -1,6 +1,6 @@
+import 'package:cviewer_frontend/assets/images/image_paths.dart';
 import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/domain/logic/auth/auth_manager.dart';
-import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +17,7 @@ class _SplashPageState extends State<SplashPage> {
   final _authManager = AuthManager();
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
     _authManager.checkAccess();
   }
@@ -39,11 +39,10 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return ReactionBuilder(
       builder: _reactionBuilder,
-      child: const Scaffold(
+      child: Scaffold(
         body: Center(
-          child: Text(
-            'CViewer',
-            style: TextStyles.titleXXL,
+          child: Image.asset(
+            ImagePaths.logo,
           ),
         ),
       ),
