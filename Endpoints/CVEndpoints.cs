@@ -56,7 +56,7 @@ namespace CViewer.Endpoints
             app.MapGet("/add_event_to_history",
                 [EnableCors(Configuration.CorsPolicyName)]
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                ([Required] CVHistoryParameter cvHistoryParameter, HttpContext context, ISecurityService securityService, ICVService service) =>
+                ([Required] [FromBody] CVHistoryParameter cvHistoryParameter, HttpContext context, ISecurityService securityService, ICVService service) =>
                     AddEventToHistory(cvHistoryParameter: cvHistoryParameter, service: service, context: context, securityService: securityService));
 
             app.MapGet("/list_CVs",
