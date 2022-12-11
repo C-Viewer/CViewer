@@ -1,20 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CViewer.DataAccess.Entities
+namespace CViewer.DataAccess.InnerEntities
 {
-    /// <summary>
-    /// I assume, UI could be able retrieve main CV info from CV table not CVHistory table
-    /// </summary>
-    public class CVHistory
+    public class CVHistoryParameter
     {
         [Required]
-        public int Id { get; set; }
-
-        [Required]
         public int CVId { get; set; }
-
-        [Required]
-        public DateTime DateTime { get; set; }
 
         /// <summary>
         /// If null, then event is created by applicant

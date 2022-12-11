@@ -2,6 +2,7 @@
 using CViewer.DataAccess;
 using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.InnerEntities;
 using CViewer.DataAccess.Repositories;
 using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
@@ -9,6 +10,7 @@ using CViewer.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Validator = CViewer.Validation.Validator;
 
 namespace CViewer.Endpoints
@@ -29,8 +31,19 @@ namespace CViewer.Endpoints
                     ([Required] int attachedFileId, ICVService service) => GetAttachedFile(attachedFileId, service))
                 .Produces<AttachedFile>();
 
+            app.MapPost("/pin_file_to_draft",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                ([Required] IFormFile fileData, [Required] string fileName,
+                    HttpContext context, ISecurityService securityService, ICVService service) => Results.Ok());
+                    //PinFileToDraft(fileData, fileName, context, securityService, service));
+
             app.MapPost("/create_cv_draft",
-                    ([Required] CV cv, [Required] int applicantId, ICVService service) => CreateCVDraft(cv, applicantId, service))
+                    [EnableCors(Configuration.CorsPolicyName)]
+                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                    ([Required] CV cv, [Required] int applicantId,
+                            HttpContext context, ISecurityService securityService, ICVService service) =>
+                        CreateCVDraft(cv, applicantId, context, securityService, service))
                 .Accepts<CV>("application/json")
                 .Produces<CV>(statusCode: 200, contentType: "application/json");
 
@@ -41,9 +54,10 @@ namespace CViewer.Endpoints
                         specialization: updateCVInfoParams.Specialization, tags: updateCVInfoParams.CVTags, description: description));
 
             app.MapGet("/add_event_to_history",
-                ([Required] int cvId, string fileName, string comment, [Required] DateTime dateTime, double? grade, int? expertId, ICVService service) => 
-                    AddEventToHistory(cvId: cvId, fileName: fileName, comment: comment, dateTime: dateTime, grade: grade, expertId: expertId,
-                service: service));
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                ([Required] [FromBody] CVHistoryParameter cvHistoryParameter, HttpContext context, ISecurityService securityService, ICVService service) =>
+                    AddEventToHistory(cvHistoryParameter: cvHistoryParameter, service: service, context: context, securityService: securityService));
 
             app.MapGet("/list_CVs",
                     [EnableCors(Configuration.CorsPolicyName)]
@@ -92,8 +106,14 @@ namespace CViewer.Endpoints
             //    (int id, ICVService service) => Delete(id, service));
         }
 
-        private static IResult CreateCVDraft(CV cv, int applicantId, ICVService service)
+        private static IResult CreateCVDraft(CV cv, int applicantId, HttpContext context, ISecurityService securityService, 
+            ICVService service)
         {
+            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            {
+                return Results.Unauthorized();
+            }
+
             var result = service.CreateCVDraft(cv, applicantId);
             return Results.Ok(result);
         }
@@ -108,10 +128,15 @@ namespace CViewer.Endpoints
             return Results.Ok(updatedCV);
         }
 
-        private static IResult AddEventToHistory(int cvId, string fileName, string comment, DateTime dateTime, double? grade, int? expertId, ICVService service)
+        private static IResult AddEventToHistory(CVHistoryParameter cvHistoryParameter, HttpContext context, ISecurityService securityService, 
+            ICVService service)
         {
-            CVHistory cvHistory = service.AddEventToHistory(cvId: cvId, fileName: fileName, comment: comment, 
-                dateTime: dateTime, grade: grade, expertId: expertId, service: service);
+            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            {
+                return Results.Unauthorized();
+            }
+
+            CVHistory cvHistory = service.AddEventToHistory(cvHistoryParameter);
 
             return Results.Ok(cvHistory);
         }
