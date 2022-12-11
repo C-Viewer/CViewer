@@ -30,7 +30,11 @@ namespace CViewer.Endpoints
                 .Produces<AttachedFile>();
 
             app.MapPost("/create_cv_draft",
-                    ([Required] CV cv, [Required] int applicantId, ICVService service) => CreateCVDraft(cv, applicantId, service))
+                    [EnableCors(Configuration.CorsPolicyName)]
+                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                    ([Required] CV cv, [Required] int applicantId,
+                            HttpContext context, ISecurityService securityService, ICVService service) =>
+                        CreateCVDraft(cv, applicantId, context, securityService, service))
                 .Accepts<CV>("application/json")
                 .Produces<CV>(statusCode: 200, contentType: "application/json");
 
@@ -41,9 +45,14 @@ namespace CViewer.Endpoints
                         specialization: updateCVInfoParams.Specialization, tags: updateCVInfoParams.CVTags, description: description));
 
             app.MapGet("/add_event_to_history",
-                ([Required] int cvId, string fileName, string comment, [Required] DateTime dateTime, double? grade, int? expertId, ICVService service) => 
-                    AddEventToHistory(cvId: cvId, fileName: fileName, comment: comment, dateTime: dateTime, grade: grade, expertId: expertId,
-                service: service));
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                ([Required] int cvId, string fileName, string comment, [Required] DateTime dateTime, double? grade,
+                        int? expertId,
+                        HttpContext context, ISecurityService securityService, ICVService service) =>
+                    AddEventToHistory(cvId: cvId, fileName: fileName, comment: comment, dateTime: dateTime,
+                        grade: grade, expertId: expertId,
+                        service: service, context: context, securityService: securityService));
 
             app.MapGet("/list_CVs",
                     [EnableCors(Configuration.CorsPolicyName)]
@@ -92,8 +101,14 @@ namespace CViewer.Endpoints
             //    (int id, ICVService service) => Delete(id, service));
         }
 
-        private static IResult CreateCVDraft(CV cv, int applicantId, ICVService service)
+        private static IResult CreateCVDraft(CV cv, int applicantId, HttpContext context, ISecurityService securityService, 
+            ICVService service)
         {
+            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            {
+                return Results.Unauthorized();
+            }
+
             var result = service.CreateCVDraft(cv, applicantId);
             return Results.Ok(result);
         }
@@ -108,8 +123,14 @@ namespace CViewer.Endpoints
             return Results.Ok(updatedCV);
         }
 
-        private static IResult AddEventToHistory(int cvId, string fileName, string comment, DateTime dateTime, double? grade, int? expertId, ICVService service)
+        private static IResult AddEventToHistory(int cvId, string fileName, string comment, DateTime dateTime, double? grade, int? expertId,
+            HttpContext context, ISecurityService securityService, ICVService service)
         {
+            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            {
+                return Results.Unauthorized();
+            }
+
             CVHistory cvHistory = service.AddEventToHistory(cvId: cvId, fileName: fileName, comment: comment, 
                 dateTime: dateTime, grade: grade, expertId: expertId, service: service);
 
