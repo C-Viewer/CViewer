@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Опубликовано"),
         "biography": MessageLookupByLibrary.simpleMessage("Биография"),
         "cv": MessageLookupByLibrary.simpleMessage("CV"),
+        "cvBase": MessageLookupByLibrary.simpleMessage("База CV"),
         "cvCreator": MessageLookupByLibrary.simpleMessage("Создание CV"),
         "draft": MessageLookupByLibrary.simpleMessage("Черновик"),
         "edit": MessageLookupByLibrary.simpleMessage("Редактировать"),
@@ -34,10 +35,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "finished": MessageLookupByLibrary.simpleMessage("Завершено"),
         "firstName": MessageLookupByLibrary.simpleMessage("Имя"),
         "fixRequired": MessageLookupByLibrary.simpleMessage("Нужно исправить"),
-        "home": MessageLookupByLibrary.simpleMessage("Главная"),
         "lastName": MessageLookupByLibrary.simpleMessage("Фамилия"),
         "marked": MessageLookupByLibrary.simpleMessage("Оценено"),
         "myCV": MessageLookupByLibrary.simpleMessage("Мои CV"),
+        "myReview": MessageLookupByLibrary.simpleMessage("Мои ревью"),
         "noAccessError": MessageLookupByLibrary.simpleMessage(
             "Доступ запрещен, пожалуйста, попробуйте заново авторизоваться"),
         "noDataError": MessageLookupByLibrary.simpleMessage(
@@ -45,6 +46,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "onReview": MessageLookupByLibrary.simpleMessage("На проверке"),
         "password": MessageLookupByLibrary.simpleMessage("Пароль"),
         "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
+        "propertyPlaceholder":
+            MessageLookupByLibrary.simpleMessage("Не указано"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "signIn": MessageLookupByLibrary.simpleMessage("Войти"),
         "signUp": MessageLookupByLibrary.simpleMessage("Зарегистрироваться"),
@@ -53,6 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "title": MessageLookupByLibrary.simpleMessage("Название"),
         "titleHint":
             MessageLookupByLibrary.simpleMessage("Введите название CV"),
+        "topCV": MessageLookupByLibrary.simpleMessage("Топ CV"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Повторить"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Неизвестная ошибка, пожалуйста, обратитесь в службу поддержки"),

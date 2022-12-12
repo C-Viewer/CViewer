@@ -46,9 +46,9 @@ final _appRouter = GoRouter(
     ),
     // Session
     ShellRoute(
-      // path: RoutePaths.session,
-      // name: RouteNames.session,
-      builder: (_, __, child) => SessionPage(child: child),
+      builder: (_, __, child) => SessionPage(
+        child: child,
+      ),
       routes: [
         // Main
         GoRoute(

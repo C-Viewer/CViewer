@@ -1,9 +1,10 @@
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
-import 'package:cviewer_frontend/di/assemble.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history_event.dart';
+import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
 import 'package:cviewer_frontend/utils/date_time_formatters.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CVHistoryEventTile extends StatelessWidget {
   const CVHistoryEventTile({
@@ -15,10 +16,7 @@ class CVHistoryEventTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profile = Assemble.profileRepository.getCachedProfile();
-
-    // TODO: не работает ProfileProvider
-    // final profile = ProfileProvider.of(context);
+    final profile = Provider.of<Profile?>(context);
 
     return Card(
       elevation: 8,

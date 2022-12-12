@@ -26,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
     return reaction(
       (_) => _authManager.isAuthorized,
       (isAuthorized) {
-        context.replaceNamed(
+        context.goNamed(
           isAuthorized ? RouteNames.main : RouteNames.auth,
         );
       },
@@ -35,7 +35,6 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   @override
-  // TODO: добавить лого
   Widget build(BuildContext context) {
     return ReactionBuilder(
       builder: _reactionBuilder,

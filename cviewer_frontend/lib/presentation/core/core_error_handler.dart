@@ -9,7 +9,7 @@ class CoreErrorHandler {
   void onErrorOccured(BuildContext context, Object? error) {
     // TODO: show toast/snackbar
     if (error is NoAccessError) {
-      context.replaceNamed(RouteNames.auth);
+      context.goNamed(RouteNames.auth);
     }
   }
 }

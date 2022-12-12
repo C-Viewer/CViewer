@@ -10,6 +10,7 @@ import 'package:cviewer_frontend/presentation/widgets/loaders/default_loader.dar
 import 'package:cviewer_frontend/presentation/widgets/placeholders/load_error_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -19,11 +20,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final _profileLoader = ProfileLoader();
+  late ProfileLoader _profileLoader;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _profileLoader = Provider.of<ProfileLoader>(context);
     _profileLoader.loadProfile();
   }
 
@@ -146,7 +148,7 @@ class _ProfilePropertyTile extends StatelessWidget {
         const SizedBox(height: 12),
         // Property
         Text(
-          property,
+          property.isNotEmpty ? property : S.of(context).propertyPlaceholder,
           style: Theme.of(context).textTheme.subtitle1?.copyWith(
                 fontSize: 22,
               ),

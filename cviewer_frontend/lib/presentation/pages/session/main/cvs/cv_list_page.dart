@@ -11,7 +11,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 
 class CVListPage extends StatefulWidget {
-  const CVListPage({super.key});
+  const CVListPage({
+    super.key,
+    required this.title,
+  });
+
+  final String title;
 
   @override
   State<CVListPage> createState() => _CVListPageState();
@@ -39,7 +44,7 @@ class _CVListPageState extends State<CVListPage> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).myCV),
+          title: Text(widget.title),
           automaticallyImplyLeading: false,
         ),
         body: Observer(
@@ -65,7 +70,7 @@ class _CVListPageState extends State<CVListPage> {
         floatingActionButton: Observer(
           builder: (_) => !_cvsLoader.isLoading && !_cvsLoader.hasLoadError
               ? FloatingActionButton(
-                  onPressed: () => context.pushNamed(RouteNames.cvCreator),
+                  onPressed: () => context.goNamed(RouteNames.cvCreator),
                   child: const Icon(
                     Icons.create_rounded,
                   ),

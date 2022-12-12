@@ -26,7 +26,7 @@ class _AuthPageState extends State<AuthPage> {
       (_) => _authManager.isAuthorized,
       (isAuthorized) {
         if (isAuthorized) {
-          context.replaceNamed(RouteNames.main);
+          context.goNamed(RouteNames.main);
         }
       },
     );

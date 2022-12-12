@@ -100,11 +100,21 @@ class S {
     );
   }
 
-  /// `Главная`
-  String get home {
+  /// `База CV`
+  String get cvBase {
     return Intl.message(
-      'Главная',
-      name: 'home',
+      'База CV',
+      name: 'cvBase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Топ CV`
+  String get topCV {
+    return Intl.message(
+      'Топ CV',
+      name: 'topCV',
       desc: '',
       args: [],
     );
@@ -115,6 +125,16 @@ class S {
     return Intl.message(
       'Мои CV',
       name: 'myCV',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Мои ревью`
+  String get myReview {
+    return Intl.message(
+      'Мои ревью',
+      name: 'myReview',
       desc: '',
       args: [],
     );
@@ -305,6 +325,16 @@ class S {
     return Intl.message(
       'Сохранить',
       name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не указано`
+  String get propertyPlaceholder {
+    return Intl.message(
+      'Не указано',
+      name: 'propertyPlaceholder',
       desc: '',
       args: [],
     );

@@ -19,7 +19,7 @@ class CVTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.pushNamed(
+      onTap: () => context.goNamed(
         RouteNames.cvHistory,
         params: {
           RouteParams.cvId: cv.id.toString(),
