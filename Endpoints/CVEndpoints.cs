@@ -27,9 +27,9 @@ namespace CViewer.Endpoints
                     ([Required] int cvHistoryId, ICVService service) => GetCVHistory(cvHistoryId, service))
                 .Produces<CVHistory>();
 
-            app.MapGet("/get_attached_file",
-                    ([Required] int attachedFileId, ICVService service) => GetAttachedFile(attachedFileId, service))
-                .Produces<AttachedFile>();
+            //app.MapGet("/get_attached_file",
+            //        ([Required] int attachedFileId, ICVService service) => GetAttachedFile(attachedFileId, service))
+            //    .Produces<AttachedFile>();
 
             app.MapPost("/pin_file_to_draft",
                 [EnableCors(Configuration.CorsPolicyName)]
@@ -97,9 +97,9 @@ namespace CViewer.Endpoints
                     ([Required] int cvId, HttpContext context, ISecurityService securityService, ICVService service) => ListCVHistories(cvId, context, securityService, service))
                 .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
 
-            app.MapGet("/list_attached_files",
-                    (ICVService service) => ListAttachedFiles(service))
-                .Produces<List<AttachedFile>>(statusCode: 200, contentType: "application/json");
+            //app.MapGet("/list_attached_files",
+            //        (ICVService service) => ListAttachedFiles(service))
+            //    .Produces<List<AttachedFile>>(statusCode: 200, contentType: "application/json");
 
             //app.MapDelete("/delete",
             //    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]

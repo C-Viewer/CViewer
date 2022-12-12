@@ -9,25 +9,49 @@ namespace CViewer.DataAccess.Repositories
             new()
             {
                 Id = 1,
-                EmailAddress = "d",
-                Password = "d", 
-                FirstName = "Ven", 
-                LastName = "Darkholm", 
+                EmailAddress = "yuriIvanov1812g@gmail.com",
+                Password = "Ghbdtn_!5", 
+                FirstName = "Юрий", 
+                LastName = "Иванов", 
                 IsExpert = true,
                 Rating = 10,
-                Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "SoftwareEngineer"),
-                Biography = "Dungeon master"
+                Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "Software Engineer"),
+                Biography = "Магистратура МФТИ"
             },
             new()
             {
                 Id = 2,
-                EmailAddress = "l", 
-                Password = "l", 
-                FirstName = "Boy",
-                LastName = "Next", 
+                EmailAddress = "olegBorov136y@gmail.com", 
+                Password = "Gjrf_!2g", 
+                FirstName = "Олег",
+                LastName = "Боров", 
                 IsExpert = false,
-                Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "DataAnalyst"),
-                Biography = "Average IT fun"
+                Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "Software Engineer"),
+                Biography = "Бакалавриат ИТМО"
+            },
+            new()
+            {
+                Id = 3,
+                EmailAddress = "ninoApakidzeG3@gmail.com", 
+                Password = "Gjrf_!2g", 
+                FirstName = "Нино",
+                LastName = "Апакидзе", 
+                IsExpert = false,
+                Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "QA"),
+                Biography = "QA. Бакалавриат СПбГУ"
+            },
+
+            new()
+            {
+                Id = 4,
+                EmailAddress = "ivanchikPrototos@gmail.com",
+                Password = "Ghbdtn_!5",
+                FirstName = "Иван",
+                LastName = "Протос",
+                IsExpert = true,
+                Rating = 9.7,
+                Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "QA"),
+                Biography = "QA в Яндекс"
             },
         };
     }

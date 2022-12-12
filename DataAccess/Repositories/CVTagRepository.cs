@@ -26,6 +26,11 @@ namespace CViewer.DataAccess.Repositories
                 Id = 4,
                 Name = "SQL",
             },
+            new CVTag()
+            {
+                Id = 5,
+                Name = "Python",
+            },
         };
     }
 }
