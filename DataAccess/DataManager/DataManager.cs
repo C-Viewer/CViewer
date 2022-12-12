@@ -32,6 +32,7 @@ namespace CViewer.DataAccess.DataManager
             {
                 ProfileToToken profileToToken = new ProfileToToken { ProfileId = profileId, Token = token };
                 ProfileToTokenRepository.ProfilesToTokens.Add(profileToToken);
+                TokenRepository.Tokens.Add(token);
             }
         }
 
