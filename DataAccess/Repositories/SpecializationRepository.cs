@@ -9,12 +9,17 @@ namespace CViewer.DataAccess.Repositories
             new Specialization()
             {
                 Id = 1,
-                Name = "SoftwareEngineer"
+                Name = "Software Engineer"
             },
             new Specialization()
             {
                 Id = 2,
-                Name = "DataAnalyst"
+                Name = "Data Analyst"
+            },
+            new Specialization()
+            {
+                Id = 3,
+                Name = "QA"
             },
         };
     }

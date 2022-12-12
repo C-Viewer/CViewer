@@ -10,17 +10,28 @@ namespace CViewer.DataAccess.Repositories
             {
                 Id = 1,
                 CVId = 1,
-                Comment = "You choose the wrong door",
+                Comment = "Вам следует исправить информацию о реализацованных проектах, а также опыт работы.",
                 DateTime = new DateTime(2022, 12, 1, 17, 13, 33),
-                Grade = 9.8
+                Grade = 6.8,
+                ExpertId = 1,
             },
 
             new()
             {
                 Id = 2,
                 CVId = 1,
-                Comment = "Sorry for what?!",
+                Comment = "Что Вас не устроило в описании проектов?",
                 DateTime = new DateTime(2022, 12, 1, 17, 12, 00),
+            },
+
+            new()
+            {
+                Id = 3,
+                CVId = 2,
+                Comment = "Отличное CV в плане навыков и истории. Более того, визуальный стиль позволяет легко читать Ваше резюме.",
+                DateTime = new DateTime(2022, 12, 12, 11, 12, 00),
+                Grade = 10.0,
+                ExpertId = 4,
             },
         };
     }
