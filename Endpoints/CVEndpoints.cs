@@ -23,9 +23,9 @@ namespace CViewer.Endpoints
                     ([Required] int cvId, ICVService service) => GetCV(cvId, service))
                 .Produces<CV>();
 
-            app.MapGet("/get_cv_history",
-                    ([Required] int cvHistoryId, ICVService service) => GetCVHistory(cvHistoryId, service))
-                .Produces<CVHistory>();
+            //app.MapGet("/get_cv_history",
+            //        ([Required] int cvHistoryId, ICVService service) => GetCVHistory(cvHistoryId, service))
+            //    .Produces<CVHistory>();
 
             //app.MapGet("/get_attached_file",
             //        ([Required] int attachedFileId, ICVService service) => GetAttachedFile(attachedFileId, service))
@@ -87,9 +87,9 @@ namespace CViewer.Endpoints
             app.MapGet("/list_specializations",
                 (ICVService service) => ListSpecializations(service));
 
-            app.MapGet("/list_CV_histories",
-                    (ICVService service) => ListCVHistories(service))
-                .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
+            //app.MapGet("/list_CV_histories",
+            //        (ICVService service) => ListCVHistories(service))
+            //    .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_concrete_CV_histories",
                     [EnableCors(Configuration.CorsPolicyName)]
