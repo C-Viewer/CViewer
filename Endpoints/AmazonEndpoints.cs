@@ -26,7 +26,7 @@ namespace CViewer.Endpoints
             //[EnableCors(Configuration.CorsPolicyName)]
             //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
             ([Required] string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service) => GetFile(path, context, securityService, service))
-                .Produces<MemoryStream>();
+                .Produces<string>();
 
             app.MapDelete("/delete_file",
                 //[EnableCors(Configuration.CorsPolicyName)]
@@ -37,15 +37,18 @@ namespace CViewer.Endpoints
 
         private static IResult GetFileNames(IAmazonS3Service service)
         {
-            return Results.Ok(service.GetFileNames());
+            Task<List<string>> status = service.GetFileNamesAsync();
+            status.Wait();
+            return Results.Ok(status.Result);
         }
 
         private static IResult AddFile(IFormFile stream, string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
         {
             //string token = TokenHelper.GetToken(context);
             //if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
-            bool status = service.AddFile(stream, path);
-            if (!status) return Results.BadRequest("File upload failed");
+            Task<bool> status = service.AddFileAsync(stream, path);
+            status.Wait();
+            if (!status.Result) return Results.BadRequest("File upload failed");
             return Results.Ok(true);
         }
 
@@ -53,17 +56,19 @@ namespace CViewer.Endpoints
         {
             //string token = TokenHelper.GetToken(context);
             //if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
-            MemoryStream status = service.GetFile(path);
+            Task<string> status = service.GetFileAsync(path);
+            status.Wait();
             if (status == null) return Results.NotFound("File not found");
-            return Results.Ok(status);
+            return Results.Ok(status.Result);
         }
 
         private static IResult DeletetFile(string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
         {
             //string token = TokenHelper.GetToken(context);
             //if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
-            bool status = service.DeleteFile(path);
-            if (!status) return Results.NotFound("File not found");
+            Task<bool> status = service.DeleteFileAsync(path);
+            status.Wait();
+            if (!status.Result) return Results.NotFound("File not found");
             return Results.Ok(true);
         }
     }

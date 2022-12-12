@@ -2,9 +2,9 @@
 {
     public interface IAmazonS3Service
     {
-        public List<string> GetFileNames();
-        public bool AddFile(IFormFile stream, string path);
-        public MemoryStream GetFile(string path);
-        public bool DeleteFile(string path);
+        public Task<List<string>> GetFileNamesAsync();
+        public Task<bool> AddFileAsync(IFormFile stream, string path);
+        public Task<string> GetFileAsync(string path);
+        public Task<bool> DeleteFileAsync(string path);
     }
 }

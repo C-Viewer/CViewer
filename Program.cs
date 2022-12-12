@@ -1,4 +1,3 @@
-using Amazon.S3;
 using CViewer.Endpoints;
 using CViewer.Services;
 using CViewer.Utils;
@@ -62,7 +61,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<ICVService, CVService>();
 builder.Services.AddSingleton<IProfileService, ProfileService>();
 builder.Services.AddSingleton<ISecurityService, SecurityService>();
-builder.Services.AddSingleton<IAmazonS3Service, AmazonS3Service>();
+builder.Services.AddSingleton<IAmazonS3Service>(x =>
+    new AmazonS3Service(args[0], args[1]));
 
 builder.Services.AddCors(p => p.AddPolicy(Configuration.CorsPolicyName, builder =>
 {

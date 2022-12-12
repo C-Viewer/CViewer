@@ -1,6 +1,7 @@
 ﻿using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Newtonsoft.Json;
 
 namespace CViewer.Services
 {
@@ -11,23 +12,22 @@ namespace CViewer.Services
         private readonly string _secretKey;
         private readonly AmazonS3Config _amazonS3Config = new();
         private readonly string _amazonRegionEndpoint = "eu-north-1";
-        private readonly string _amazonSignatureVersion = "4";
 
-        public AmazonS3Service()
+        public AmazonS3Service(string access, string secret)
         {
+            _accessKey = access;
+            _secretKey = secret;
             _amazonS3Config.RegionEndpoint = RegionEndpoint.GetBySystemName(_amazonRegionEndpoint);
-            _amazonS3Config.SignatureVersion = _amazonSignatureVersion;
-            _amazonS3Config.SignatureMethod = Amazon.Runtime.SigningAlgorithm.HmacSHA256;
         }
 
-        public List<string> GetFileNames()
+        public async Task<List<string>> GetFileNamesAsync()
         {
             try
             {
-                using (IAmazonS3 client = AWSClientFactory.CreateAmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
+                using (IAmazonS3 client = new AmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
                 {
-                    ListObjectsResponse listAmazonFiles = client.ListObjects(
-                        new ListObjectsRequest()
+                    ListObjectsV2Response listAmazonFiles = await client.ListObjectsV2Async(
+                        new ListObjectsV2Request()
                         {
                             BucketName = _bucketName
                         });
@@ -47,11 +47,11 @@ namespace CViewer.Services
             }
         }
 
-        public bool AddFile(IFormFile stream, string path)
+        public async Task<bool> AddFileAsync(IFormFile stream, string path)
         {
             try
             {
-                using (IAmazonS3 client = AWSClientFactory.CreateAmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
+                using (IAmazonS3 client = new AmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
                 {
                     PutObjectRequest request = new PutObjectRequest
                     {
@@ -61,7 +61,7 @@ namespace CViewer.Services
                         InputStream = stream.OpenReadStream()
                     };
 
-                    client.PutObject(request);
+                    await client.PutObjectAsync(request);
                     return true;
                 }
             }
@@ -71,11 +71,11 @@ namespace CViewer.Services
             }
         }
 
-        public MemoryStream GetFile(string path)
+        public async Task<string> GetFileAsync(string path)
         {
             try
             {
-                using (IAmazonS3 client = AWSClientFactory.CreateAmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
+                using (IAmazonS3 client = new AmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
                 {
                     GetObjectRequest request = new GetObjectRequest
                     {
@@ -83,13 +83,16 @@ namespace CViewer.Services
                         Key = path
                     };
 
-                    GetObjectResponse myResponse = client.GetObject(request);
+                    GetObjectResponse myResponse = await client.GetObjectAsync(request);
                     Stream myStream = myResponse.ResponseStream;
 
                     MemoryStream memStream = new();
                     myStream.CopyTo(memStream);
                     memStream.Seek(0, SeekOrigin.Begin);
-                    return memStream;
+
+                    var json = JsonConvert.SerializeObject(memStream, Newtonsoft.Json.Formatting.Indented, new MemoryStreamJsonConverter());
+
+                    return json;
 
                     //return myStream;
                     //return new FormFile(memStream, 0, memStream.Length, "MyOutput.txt", "MyOutput.txt");
@@ -103,11 +106,11 @@ namespace CViewer.Services
             }
         }
 
-        public bool DeleteFile(string path)
+        public async Task<bool> DeleteFileAsync(string path)
         {
             try
             {
-                using (IAmazonS3 client = AWSClientFactory.CreateAmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
+                using (IAmazonS3 client = new AmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
                 {
                     //DeleteObjectRequest request = new DeleteObjectRequest
                     //{
@@ -115,7 +118,7 @@ namespace CViewer.Services
                     //    Key = path
                     //};
 
-                    client.DeleteObject(_bucketName, path);
+                    await client.DeleteObjectAsync(_bucketName, path);
                     return true;
                 }
             }
