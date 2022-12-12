@@ -192,35 +192,22 @@ abstract class CViewerService extends ChopperService {
   Future<chopper.Response<Cv>> _getCvGet({@Query('cvId') required int? cvId});
 
   ///
-  ///@param cvHistoryId
-  Future<chopper.Response<CVHistory>> getCvHistoryGet(
-      {required int? cvHistoryId}) {
-    generatedMapping.putIfAbsent(CVHistory, () => CVHistory.fromJsonFactory);
-
-    return _getCvHistoryGet(cvHistoryId: cvHistoryId);
+  ///@param fileName
+  Future<chopper.Response> pinFileToDraftPost({
+    String? fileName,
+    List<int>? fileData,
+  }) {
+    return _pinFileToDraftPost(fileName: fileName, fileData: fileData);
   }
 
   ///
-  ///@param cvHistoryId
-  @Get(path: '/get_cv_history')
-  Future<chopper.Response<CVHistory>> _getCvHistoryGet(
-      {@Query('cvHistoryId') required int? cvHistoryId});
-
-  ///
-  ///@param attachedFileId
-  Future<chopper.Response<AttachedFile>> getAttachedFileGet(
-      {required int? attachedFileId}) {
-    generatedMapping.putIfAbsent(
-        AttachedFile, () => AttachedFile.fromJsonFactory);
-
-    return _getAttachedFileGet(attachedFileId: attachedFileId);
-  }
-
-  ///
-  ///@param attachedFileId
-  @Get(path: '/get_attached_file')
-  Future<chopper.Response<AttachedFile>> _getAttachedFileGet(
-      {@Query('attachedFileId') required int? attachedFileId});
+  ///@param fileName
+  @Post(path: '/pin_file_to_draft')
+  @Multipart()
+  Future<chopper.Response> _pinFileToDraftPost({
+    @Query('fileName') String? fileName,
+    @PartFile() List<int>? fileData,
+  });
 
   ///
   ///@param applicantId
@@ -268,45 +255,15 @@ abstract class CViewerService extends ChopperService {
   });
 
   ///
-  ///@param cvId
-  ///@param fileName
-  ///@param comment
-  ///@param dateTime
-  ///@param grade
-  ///@param expertId
-  Future<chopper.Response> addEventToHistoryGet({
-    required int? cvId,
-    String? fileName,
-    String? comment,
-    required String? dateTime,
-    num? grade,
-    int? expertId,
-  }) {
-    return _addEventToHistoryGet(
-        cvId: cvId,
-        fileName: fileName,
-        comment: comment,
-        dateTime: dateTime,
-        grade: grade,
-        expertId: expertId);
+  Future<chopper.Response> addEventToHistoryGet(
+      {required CVHistoryParameter? body}) {
+    return _addEventToHistoryGet(body: body);
   }
 
   ///
-  ///@param cvId
-  ///@param fileName
-  ///@param comment
-  ///@param dateTime
-  ///@param grade
-  ///@param expertId
   @Get(path: '/add_event_to_history')
-  Future<chopper.Response> _addEventToHistoryGet({
-    @Query('cvId') required int? cvId,
-    @Query('fileName') String? fileName,
-    @Query('comment') String? comment,
-    @Query('dateTime') required String? dateTime,
-    @Query('grade') num? grade,
-    @Query('expertId') int? expertId,
-  });
+  Future<chopper.Response> _addEventToHistoryGet(
+      {@Body() required CVHistoryParameter? body});
 
   ///
   Future<chopper.Response<List<Cv>>> listCVsGet() {
@@ -363,17 +320,6 @@ abstract class CViewerService extends ChopperService {
   Future<chopper.Response> _listSpecializationsGet();
 
   ///
-  Future<chopper.Response<List<CVHistory>>> listCVHistoriesGet() {
-    generatedMapping.putIfAbsent(CVHistory, () => CVHistory.fromJsonFactory);
-
-    return _listCVHistoriesGet();
-  }
-
-  ///
-  @Get(path: '/list_CV_histories')
-  Future<chopper.Response<List<CVHistory>>> _listCVHistoriesGet();
-
-  ///
   ///@param cvId
   Future<chopper.Response<List<CVHistory>>> listConcreteCVHistoriesGet(
       {required int? cvId}) {
@@ -387,18 +333,6 @@ abstract class CViewerService extends ChopperService {
   @Get(path: '/list_concrete_CV_histories')
   Future<chopper.Response<List<CVHistory>>> _listConcreteCVHistoriesGet(
       {@Query('cvId') required int? cvId});
-
-  ///
-  Future<chopper.Response<List<AttachedFile>>> listAttachedFilesGet() {
-    generatedMapping.putIfAbsent(
-        AttachedFile, () => AttachedFile.fromJsonFactory);
-
-    return _listAttachedFilesGet();
-  }
-
-  ///
-  @Get(path: '/list_attached_files')
-  Future<chopper.Response<List<AttachedFile>>> _listAttachedFilesGet();
 
   ///
   Future<chopper.Response> checkAccessGet() {

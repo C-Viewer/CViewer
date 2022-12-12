@@ -6,19 +6,6 @@ part of 'c_viewer_service.models.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AttachedFile _$AttachedFileFromJson(Map<String, dynamic> json) => AttachedFile(
-      id: json['id'] as int,
-      fileName: json['fileName'] as String,
-      filePath: json['filePath'] as String,
-    );
-
-Map<String, dynamic> _$AttachedFileToJson(AttachedFile instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'fileName': instance.fileName,
-      'filePath': instance.filePath,
-    };
-
 ComplexObjectProfileAndToken _$ComplexObjectProfileAndTokenFromJson(
         Map<String, dynamic> json) =>
     ComplexObjectProfileAndToken(
@@ -94,18 +81,20 @@ Map<String, dynamic> _$CvToJson(Cv instance) {
 
 CVHistory _$CVHistoryFromJson(Map<String, dynamic> json) => CVHistory(
       id: json['id'] as int,
-      attachedFileId: json['attachedFileId'] as int?,
       cvId: json['cvId'] as int,
+      dateTime: DateTime.parse(json['dateTime'] as String),
       expertId: json['expertId'] as int?,
+      fileName: json['fileName'] as String?,
       amazonPathToFile: json['amazonPathToFile'] as String?,
       comment: json['comment'] as String?,
       grade: (json['grade'] as num?)?.toDouble(),
-      dateTime: DateTime.parse(json['dateTime'] as String),
     );
 
 Map<String, dynamic> _$CVHistoryToJson(CVHistory instance) {
   final val = <String, dynamic>{
     'id': instance.id,
+    'cvId': instance.cvId,
+    'dateTime': instance.dateTime.toIso8601String(),
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -114,13 +103,40 @@ Map<String, dynamic> _$CVHistoryToJson(CVHistory instance) {
     }
   }
 
-  writeNotNull('attachedFileId', instance.attachedFileId);
-  val['cvId'] = instance.cvId;
   writeNotNull('expertId', instance.expertId);
+  writeNotNull('fileName', instance.fileName);
   writeNotNull('amazonPathToFile', instance.amazonPathToFile);
   writeNotNull('comment', instance.comment);
   writeNotNull('grade', instance.grade);
-  val['dateTime'] = instance.dateTime.toIso8601String();
+  return val;
+}
+
+CVHistoryParameter _$CVHistoryParameterFromJson(Map<String, dynamic> json) =>
+    CVHistoryParameter(
+      cvId: json['cvId'] as int,
+      expertId: json['expertId'] as int?,
+      fileName: json['fileName'] as String?,
+      amazonPathToFile: json['amazonPathToFile'] as String?,
+      comment: json['comment'] as String?,
+      grade: (json['grade'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$CVHistoryParameterToJson(CVHistoryParameter instance) {
+  final val = <String, dynamic>{
+    'cvId': instance.cvId,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('expertId', instance.expertId);
+  writeNotNull('fileName', instance.fileName);
+  writeNotNull('amazonPathToFile', instance.amazonPathToFile);
+  writeNotNull('comment', instance.comment);
+  writeNotNull('grade', instance.grade);
   return val;
 }
 
@@ -252,3 +268,23 @@ Map<String, dynamic> _$UserCredentialsToJson(UserCredentials instance) =>
       'emailAddress': instance.emailAddress,
       'password': instance.password,
     };
+
+PinFileToDraftPost$RequestBody _$PinFileToDraftPost$RequestBodyFromJson(
+        Map<String, dynamic> json) =>
+    PinFileToDraftPost$RequestBody(
+      fileData: json['fileData'] as String?,
+    );
+
+Map<String, dynamic> _$PinFileToDraftPost$RequestBodyToJson(
+    PinFileToDraftPost$RequestBody instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fileData', instance.fileData);
+  return val;
+}

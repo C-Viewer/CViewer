@@ -156,34 +156,29 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<CVHistory>> _getCvHistoryGet({required int? cvHistoryId}) {
-    final String $url = '/get_cv_history';
+  Future<Response<dynamic>> _pinFileToDraftPost({
+    String? fileName,
+    List<int>? fileData,
+  }) {
+    final String $url = '/pin_file_to_draft';
     final Map<String, dynamic> $params = <String, dynamic>{
-      'cvHistoryId': cvHistoryId
+      'fileName': fileName
     };
+    final List<PartValue> $parts = <PartValue>[
+      PartValueFile<List<int>?>(
+        'fileData',
+        fileData,
+      )
+    ];
     final Request $request = Request(
-      'GET',
+      'POST',
       $url,
       client.baseUrl,
+      parts: $parts,
+      multipart: true,
       parameters: $params,
     );
-    return client.send<CVHistory, CVHistory>($request);
-  }
-
-  @override
-  Future<Response<AttachedFile>> _getAttachedFileGet(
-      {required int? attachedFileId}) {
-    final String $url = '/get_attached_file';
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'attachedFileId': attachedFileId
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<AttachedFile, AttachedFile>($request);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override
@@ -231,28 +226,15 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<dynamic>> _addEventToHistoryGet({
-    required int? cvId,
-    String? fileName,
-    String? comment,
-    required String? dateTime,
-    num? grade,
-    int? expertId,
-  }) {
+  Future<Response<dynamic>> _addEventToHistoryGet(
+      {required CVHistoryParameter? body}) {
     final String $url = '/add_event_to_history';
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'cvId': cvId,
-      'fileName': fileName,
-      'comment': comment,
-      'dateTime': dateTime,
-      'grade': grade,
-      'expertId': expertId,
-    };
+    final $body = body;
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
-      parameters: $params,
+      body: $body,
     );
     return client.send<dynamic, dynamic>($request);
   }
@@ -315,17 +297,6 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<List<CVHistory>>> _listCVHistoriesGet() {
-    final String $url = '/list_CV_histories';
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<List<CVHistory>, CVHistory>($request);
-  }
-
-  @override
   Future<Response<List<CVHistory>>> _listConcreteCVHistoriesGet(
       {required int? cvId}) {
     final String $url = '/list_concrete_CV_histories';
@@ -337,17 +308,6 @@ class _$CViewerService extends CViewerService {
       parameters: $params,
     );
     return client.send<List<CVHistory>, CVHistory>($request);
-  }
-
-  @override
-  Future<Response<List<AttachedFile>>> _listAttachedFilesGet() {
-    final String $url = '/list_attached_files';
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<List<AttachedFile>, AttachedFile>($request);
   }
 
   @override

@@ -9,71 +9,6 @@ import 'c_viewer_service.enums.swagger.dart' as enums;
 part 'c_viewer_service.models.swagger.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class AttachedFile {
-  AttachedFile({
-    required this.id,
-    required this.fileName,
-    required this.filePath,
-  });
-
-  factory AttachedFile.fromJson(Map<String, dynamic> json) =>
-      _$AttachedFileFromJson(json);
-
-  @JsonKey(name: 'id')
-  final int id;
-  @JsonKey(name: 'fileName')
-  final String fileName;
-  @JsonKey(name: 'filePath')
-  final String filePath;
-  static const fromJsonFactory = _$AttachedFileFromJson;
-  static const toJsonFactory = _$AttachedFileToJson;
-  Map<String, dynamic> toJson() => _$AttachedFileToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is AttachedFile &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.fileName, fileName) ||
-                const DeepCollectionEquality()
-                    .equals(other.fileName, fileName)) &&
-            (identical(other.filePath, filePath) ||
-                const DeepCollectionEquality()
-                    .equals(other.filePath, filePath)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(fileName) ^
-      const DeepCollectionEquality().hash(filePath) ^
-      runtimeType.hashCode;
-}
-
-extension $AttachedFileExtension on AttachedFile {
-  AttachedFile copyWith({int? id, String? fileName, String? filePath}) {
-    return AttachedFile(
-        id: id ?? this.id,
-        fileName: fileName ?? this.fileName,
-        filePath: filePath ?? this.filePath);
-  }
-
-  AttachedFile copyWithWrapped(
-      {Wrapped<int>? id,
-      Wrapped<String>? fileName,
-      Wrapped<String>? filePath}) {
-    return AttachedFile(
-        id: (id != null ? id.value : this.id),
-        fileName: (fileName != null ? fileName.value : this.fileName),
-        filePath: (filePath != null ? filePath.value : this.filePath));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class ComplexObjectProfileAndToken {
   ComplexObjectProfileAndToken({
     this.profile,
@@ -292,13 +227,13 @@ extension $CvExtension on Cv {
 class CVHistory {
   CVHistory({
     required this.id,
-    this.attachedFileId,
     required this.cvId,
+    required this.dateTime,
     this.expertId,
+    this.fileName,
     this.amazonPathToFile,
     this.comment,
     this.grade,
-    required this.dateTime,
   });
 
   factory CVHistory.fromJson(Map<String, dynamic> json) =>
@@ -306,20 +241,20 @@ class CVHistory {
 
   @JsonKey(name: 'id')
   final int id;
-  @JsonKey(name: 'attachedFileId')
-  final int? attachedFileId;
   @JsonKey(name: 'cvId')
   final int cvId;
+  @JsonKey(name: 'dateTime')
+  final DateTime dateTime;
   @JsonKey(name: 'expertId')
   final int? expertId;
+  @JsonKey(name: 'fileName')
+  final String? fileName;
   @JsonKey(name: 'amazonPathToFile')
   final String? amazonPathToFile;
   @JsonKey(name: 'comment')
   final String? comment;
   @JsonKey(name: 'grade')
   final double? grade;
-  @JsonKey(name: 'dateTime')
-  final DateTime dateTime;
   static const fromJsonFactory = _$CVHistoryFromJson;
   static const toJsonFactory = _$CVHistoryToJson;
   Map<String, dynamic> toJson() => _$CVHistoryToJson(this);
@@ -330,14 +265,17 @@ class CVHistory {
         (other is CVHistory &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.attachedFileId, attachedFileId) ||
-                const DeepCollectionEquality()
-                    .equals(other.attachedFileId, attachedFileId)) &&
             (identical(other.cvId, cvId) ||
                 const DeepCollectionEquality().equals(other.cvId, cvId)) &&
+            (identical(other.dateTime, dateTime) ||
+                const DeepCollectionEquality()
+                    .equals(other.dateTime, dateTime)) &&
             (identical(other.expertId, expertId) ||
                 const DeepCollectionEquality()
                     .equals(other.expertId, expertId)) &&
+            (identical(other.fileName, fileName) ||
+                const DeepCollectionEquality()
+                    .equals(other.fileName, fileName)) &&
             (identical(other.amazonPathToFile, amazonPathToFile) ||
                 const DeepCollectionEquality()
                     .equals(other.amazonPathToFile, amazonPathToFile)) &&
@@ -345,10 +283,7 @@ class CVHistory {
                 const DeepCollectionEquality()
                     .equals(other.comment, comment)) &&
             (identical(other.grade, grade) ||
-                const DeepCollectionEquality().equals(other.grade, grade)) &&
-            (identical(other.dateTime, dateTime) ||
-                const DeepCollectionEquality()
-                    .equals(other.dateTime, dateTime)));
+                const DeepCollectionEquality().equals(other.grade, grade)));
   }
 
   @override
@@ -357,59 +292,159 @@ class CVHistory {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(attachedFileId) ^
       const DeepCollectionEquality().hash(cvId) ^
+      const DeepCollectionEquality().hash(dateTime) ^
       const DeepCollectionEquality().hash(expertId) ^
+      const DeepCollectionEquality().hash(fileName) ^
       const DeepCollectionEquality().hash(amazonPathToFile) ^
       const DeepCollectionEquality().hash(comment) ^
       const DeepCollectionEquality().hash(grade) ^
-      const DeepCollectionEquality().hash(dateTime) ^
       runtimeType.hashCode;
 }
 
 extension $CVHistoryExtension on CVHistory {
   CVHistory copyWith(
       {int? id,
-      int? attachedFileId,
       int? cvId,
+      DateTime? dateTime,
       int? expertId,
+      String? fileName,
       String? amazonPathToFile,
       String? comment,
-      double? grade,
-      DateTime? dateTime}) {
+      double? grade}) {
     return CVHistory(
         id: id ?? this.id,
-        attachedFileId: attachedFileId ?? this.attachedFileId,
         cvId: cvId ?? this.cvId,
+        dateTime: dateTime ?? this.dateTime,
         expertId: expertId ?? this.expertId,
+        fileName: fileName ?? this.fileName,
         amazonPathToFile: amazonPathToFile ?? this.amazonPathToFile,
         comment: comment ?? this.comment,
-        grade: grade ?? this.grade,
-        dateTime: dateTime ?? this.dateTime);
+        grade: grade ?? this.grade);
   }
 
   CVHistory copyWithWrapped(
       {Wrapped<int>? id,
-      Wrapped<int?>? attachedFileId,
       Wrapped<int>? cvId,
+      Wrapped<DateTime>? dateTime,
       Wrapped<int?>? expertId,
+      Wrapped<String?>? fileName,
       Wrapped<String?>? amazonPathToFile,
       Wrapped<String?>? comment,
-      Wrapped<double?>? grade,
-      Wrapped<DateTime>? dateTime}) {
+      Wrapped<double?>? grade}) {
     return CVHistory(
         id: (id != null ? id.value : this.id),
-        attachedFileId: (attachedFileId != null
-            ? attachedFileId.value
-            : this.attachedFileId),
         cvId: (cvId != null ? cvId.value : this.cvId),
+        dateTime: (dateTime != null ? dateTime.value : this.dateTime),
         expertId: (expertId != null ? expertId.value : this.expertId),
+        fileName: (fileName != null ? fileName.value : this.fileName),
         amazonPathToFile: (amazonPathToFile != null
             ? amazonPathToFile.value
             : this.amazonPathToFile),
         comment: (comment != null ? comment.value : this.comment),
-        grade: (grade != null ? grade.value : this.grade),
-        dateTime: (dateTime != null ? dateTime.value : this.dateTime));
+        grade: (grade != null ? grade.value : this.grade));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CVHistoryParameter {
+  CVHistoryParameter({
+    required this.cvId,
+    this.expertId,
+    this.fileName,
+    this.amazonPathToFile,
+    this.comment,
+    this.grade,
+  });
+
+  factory CVHistoryParameter.fromJson(Map<String, dynamic> json) =>
+      _$CVHistoryParameterFromJson(json);
+
+  @JsonKey(name: 'cvId')
+  final int cvId;
+  @JsonKey(name: 'expertId')
+  final int? expertId;
+  @JsonKey(name: 'fileName')
+  final String? fileName;
+  @JsonKey(name: 'amazonPathToFile')
+  final String? amazonPathToFile;
+  @JsonKey(name: 'comment')
+  final String? comment;
+  @JsonKey(name: 'grade')
+  final double? grade;
+  static const fromJsonFactory = _$CVHistoryParameterFromJson;
+  static const toJsonFactory = _$CVHistoryParameterToJson;
+  Map<String, dynamic> toJson() => _$CVHistoryParameterToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CVHistoryParameter &&
+            (identical(other.cvId, cvId) ||
+                const DeepCollectionEquality().equals(other.cvId, cvId)) &&
+            (identical(other.expertId, expertId) ||
+                const DeepCollectionEquality()
+                    .equals(other.expertId, expertId)) &&
+            (identical(other.fileName, fileName) ||
+                const DeepCollectionEquality()
+                    .equals(other.fileName, fileName)) &&
+            (identical(other.amazonPathToFile, amazonPathToFile) ||
+                const DeepCollectionEquality()
+                    .equals(other.amazonPathToFile, amazonPathToFile)) &&
+            (identical(other.comment, comment) ||
+                const DeepCollectionEquality()
+                    .equals(other.comment, comment)) &&
+            (identical(other.grade, grade) ||
+                const DeepCollectionEquality().equals(other.grade, grade)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(cvId) ^
+      const DeepCollectionEquality().hash(expertId) ^
+      const DeepCollectionEquality().hash(fileName) ^
+      const DeepCollectionEquality().hash(amazonPathToFile) ^
+      const DeepCollectionEquality().hash(comment) ^
+      const DeepCollectionEquality().hash(grade) ^
+      runtimeType.hashCode;
+}
+
+extension $CVHistoryParameterExtension on CVHistoryParameter {
+  CVHistoryParameter copyWith(
+      {int? cvId,
+      int? expertId,
+      String? fileName,
+      String? amazonPathToFile,
+      String? comment,
+      double? grade}) {
+    return CVHistoryParameter(
+        cvId: cvId ?? this.cvId,
+        expertId: expertId ?? this.expertId,
+        fileName: fileName ?? this.fileName,
+        amazonPathToFile: amazonPathToFile ?? this.amazonPathToFile,
+        comment: comment ?? this.comment,
+        grade: grade ?? this.grade);
+  }
+
+  CVHistoryParameter copyWithWrapped(
+      {Wrapped<int>? cvId,
+      Wrapped<int?>? expertId,
+      Wrapped<String?>? fileName,
+      Wrapped<String?>? amazonPathToFile,
+      Wrapped<String?>? comment,
+      Wrapped<double?>? grade}) {
+    return CVHistoryParameter(
+        cvId: (cvId != null ? cvId.value : this.cvId),
+        expertId: (expertId != null ? expertId.value : this.expertId),
+        fileName: (fileName != null ? fileName.value : this.fileName),
+        amazonPathToFile: (amazonPathToFile != null
+            ? amazonPathToFile.value
+            : this.amazonPathToFile),
+        comment: (comment != null ? comment.value : this.comment),
+        grade: (grade != null ? grade.value : this.grade));
   }
 }
 
@@ -936,6 +971,50 @@ List<enums.CVStatusType>? cVStatusTypeNullableListFromJson(
   }
 
   return cVStatusType.map((e) => cVStatusTypeFromJson(e.toString())).toList();
+}
+
+@JsonSerializable(explicitToJson: true)
+class PinFileToDraftPost$RequestBody {
+  PinFileToDraftPost$RequestBody({
+    this.fileData,
+  });
+
+  factory PinFileToDraftPost$RequestBody.fromJson(Map<String, dynamic> json) =>
+      _$PinFileToDraftPost$RequestBodyFromJson(json);
+
+  @JsonKey(name: 'fileData')
+  final String? fileData;
+  static const fromJsonFactory = _$PinFileToDraftPost$RequestBodyFromJson;
+  static const toJsonFactory = _$PinFileToDraftPost$RequestBodyToJson;
+  Map<String, dynamic> toJson() => _$PinFileToDraftPost$RequestBodyToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is PinFileToDraftPost$RequestBody &&
+            (identical(other.fileData, fileData) ||
+                const DeepCollectionEquality()
+                    .equals(other.fileData, fileData)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(fileData) ^ runtimeType.hashCode;
+}
+
+extension $PinFileToDraftPost$RequestBodyExtension
+    on PinFileToDraftPost$RequestBody {
+  PinFileToDraftPost$RequestBody copyWith({String? fileData}) {
+    return PinFileToDraftPost$RequestBody(fileData: fileData ?? this.fileData);
+  }
+
+  PinFileToDraftPost$RequestBody copyWithWrapped({Wrapped<String?>? fileData}) {
+    return PinFileToDraftPost$RequestBody(
+        fileData: (fileData != null ? fileData.value : this.fileData));
+  }
 }
 
 // ignore: unused_element

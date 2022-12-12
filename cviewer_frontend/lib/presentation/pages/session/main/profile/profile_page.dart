@@ -111,12 +111,12 @@ class _ProfileContent extends StatelessWidget {
           ),
         ),
         // Button
-        const Positioned(
-          bottom: 20,
-          left: 0,
-          right: 0,
-          child: _Button(),
-        ),
+        // const Positioned(
+        //   bottom: 20,
+        //   left: 0,
+        //   right: 0,
+        //   child: _Button(),
+        // ),
       ],
     );
   }

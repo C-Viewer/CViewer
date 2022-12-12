@@ -286,62 +286,43 @@
         }
       }
     },
-    "/get_cv_history": {
-      "get": {
+    "/pin_file_to_draft": {
+      "post": {
         "tags": [
           "CViewer"
         ],
         "parameters": [
           {
-            "name": "cvHistoryId",
+            "name": "fileName",
             "in": "query",
-            "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CVHistory"
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fileData": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "fileData": {
+                  "style": "form"
                 }
               }
             }
           }
-        }
-      }
-    },
-    "/get_attached_file": {
-      "get": {
-        "tags": [
-          "CViewer"
-        ],
-        "parameters": [
-          {
-            "name": "attachedFileId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
+        },
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AttachedFile"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -436,55 +417,15 @@
         "tags": [
           "CViewer"
         ],
-        "parameters": [
-          {
-            "name": "cvId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "fileName",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "comment",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "dateTime",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "grade",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "name": "expertId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CVHistoryParameter"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Success"
@@ -622,28 +563,6 @@
         }
       }
     },
-    "/list_CV_histories": {
-      "get": {
-        "tags": [
-          "CViewer"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CVHistory"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/list_concrete_CV_histories": {
       "get": {
         "tags": [
@@ -677,28 +596,6 @@
         }
       }
     },
-    "/list_attached_files": {
-      "get": {
-        "tags": [
-          "CViewer"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AttachedFile"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/check_access": {
       "get": {
         "tags": [
@@ -714,27 +611,6 @@
   },
   "components": {
     "schemas": {
-      "AttachedFile": {
-        "required": [
-          "fileName",
-          "filePath",
-          "id"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "fileName": {
-            "type": "string"
-          },
-          "filePath": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
       "ComplexObjectProfileAndToken": {
         "type": "object",
         "properties": {
@@ -819,18 +695,21 @@
             "type": "integer",
             "format": "int32"
           },
-          "attachedFileId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
           "cvId": {
             "type": "integer",
             "format": "int32"
           },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
           "expertId": {
             "type": "integer",
             "format": "int32",
+            "nullable": true
+          },
+          "fileName": {
+            "type": "string",
             "nullable": true
           },
           "amazonPathToFile": {
@@ -845,10 +724,41 @@
             "type": "number",
             "format": "double",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CVHistoryParameter": {
+        "required": [
+          "cvId"
+        ],
+        "type": "object",
+        "properties": {
+          "cvId": {
+            "type": "integer",
+            "format": "int32"
           },
-          "dateTime": {
+          "expertId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "fileName": {
             "type": "string",
-            "format": "date-time"
+            "nullable": true
+          },
+          "amazonPathToFile": {
+            "type": "string",
+            "nullable": true
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
           }
         },
         "additionalProperties": false
