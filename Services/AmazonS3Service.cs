@@ -7,16 +7,14 @@ namespace CViewer.Services
     internal sealed class AmazonS3Service : IAmazonS3Service
     {
         private readonly string _bucketName = "cviewercvs";
-        private readonly string _accessKey = "AKIASC4V2PC2FUWPA4MS";
-        private readonly string _secretKey = "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";
+        private readonly string _accessKey;
+        private readonly string _secretKey;
         private readonly AmazonS3Config _amazonS3Config = new();
         private readonly string _amazonRegionEndpoint = "eu-north-1";
         private readonly string _amazonSignatureVersion = "4";
 
         public AmazonS3Service()
         {
-            _accessKey = "AKIASC4V2PC2FUWPA4MS";
-            _secretKey = "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";
             _amazonS3Config.RegionEndpoint = RegionEndpoint.GetBySystemName(_amazonRegionEndpoint);
             _amazonS3Config.SignatureVersion = _amazonSignatureVersion;
             _amazonS3Config.SignatureMethod = Amazon.Runtime.SigningAlgorithm.HmacSHA256;
@@ -49,7 +47,7 @@ namespace CViewer.Services
             }
         }
 
-        public bool AddFile(FileStream stream, string path)
+        public bool AddFile(IFormFile stream, string path)
         {
             try
             {
@@ -60,7 +58,7 @@ namespace CViewer.Services
                         BucketName = _bucketName,
                         CannedACL = S3CannedACL.PublicRead,
                         Key = path,
-                        InputStream = stream
+                        InputStream = stream.OpenReadStream()
                     };
 
                     client.PutObject(request);
@@ -73,7 +71,7 @@ namespace CViewer.Services
             }
         }
 
-        public Stream GetFile(string path)
+        public MemoryStream GetFile(string path)
         {
             try
             {
@@ -87,7 +85,16 @@ namespace CViewer.Services
 
                     GetObjectResponse myResponse = client.GetObject(request);
                     Stream myStream = myResponse.ResponseStream;
-                    return myStream;
+
+                    MemoryStream memStream = new();
+                    myStream.CopyTo(memStream);
+                    memStream.Seek(0, SeekOrigin.Begin);
+                    return memStream;
+
+                    //return myStream;
+                    //return new FormFile(memStream, 0, memStream.Length, "MyOutput.txt", "MyOutput.txt");
+                    //byte[] data = memStream.ToArray();
+                    //return Convert.ToBase64String(data);
                 }
             }
             catch
@@ -102,17 +109,17 @@ namespace CViewer.Services
             {
                 using (IAmazonS3 client = AWSClientFactory.CreateAmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
                 {
-                    DeleteObjectRequest request = new DeleteObjectRequest
-                    {
-                        BucketName = _bucketName,
-                        Key = path
-                    };
+                    //DeleteObjectRequest request = new DeleteObjectRequest
+                    //{
+                    //    BucketName = _bucketName,
+                    //    Key = path
+                    //};
 
-                    client.DeleteObject(request);
+                    client.DeleteObject(_bucketName, path);
                     return true;
                 }
             }
-            catch
+            catch (Exception e)
             {
                 return false;
             }

@@ -17,16 +17,16 @@ namespace CViewer.Endpoints
                 .Produces<List<string>>();
 
             app.MapPut("/add_file",
-                [EnableCors(Configuration.CorsPolicyName)]
-            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-            ([Required] FileStream stream, [Required] string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service) => AddFile(stream, path, context, securityService, service))
+                //[EnableCors(Configuration.CorsPolicyName)]
+            //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+            ([Required] IFormFile stream, [Required] string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service) => AddFile(stream, path, context, securityService, service))
                 .Produces<bool>();
 
             app.MapGet("/get_file",
             //[EnableCors(Configuration.CorsPolicyName)]
             //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
             ([Required] string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service) => GetFile(path, context, securityService, service))
-                .Produces<Stream>();
+                .Produces<MemoryStream>();
 
             app.MapDelete("/delete_file",
                 //[EnableCors(Configuration.CorsPolicyName)]
@@ -40,10 +40,10 @@ namespace CViewer.Endpoints
             return Results.Ok(service.GetFileNames());
         }
 
-        private static IResult AddFile(FileStream stream, string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
+        private static IResult AddFile(IFormFile stream, string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
         {
-            string token = TokenHelper.GetToken(context);
-            if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
+            //string token = TokenHelper.GetToken(context);
+            //if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
             bool status = service.AddFile(stream, path);
             if (!status) return Results.BadRequest("File upload failed");
             return Results.Ok(true);
@@ -53,7 +53,7 @@ namespace CViewer.Endpoints
         {
             //string token = TokenHelper.GetToken(context);
             //if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
-            Stream status = service.GetFile(path);
+            MemoryStream status = service.GetFile(path);
             if (status == null) return Results.NotFound("File not found");
             return Results.Ok(status);
         }
