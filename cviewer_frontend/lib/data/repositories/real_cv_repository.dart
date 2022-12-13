@@ -19,7 +19,7 @@ class RealCVRepository implements CVRepository {
 
   @override
   Future<List<CV>> getCVs() async {
-    final response = await _service.listCVsGet();
+    final response = await _service.listCVsForProfileGet();
     final dto = response.body;
 
     if (dto != null) {

@@ -70,7 +70,7 @@ class _CVListPageState extends State<CVListPage> {
         floatingActionButton: Observer(
           builder: (_) => !_cvsLoader.isLoading && !_cvsLoader.hasLoadError
               ? FloatingActionButton(
-                  onPressed: () => context.goNamed(RouteNames.cvCreator),
+                  onPressed: () => context.pushNamed(RouteNames.cvCreator),
                   child: const Icon(
                     Icons.create_rounded,
                   ),
