@@ -23,8 +23,8 @@ namespace CViewer.Endpoints
                 .Produces<bool>();
 
             app.MapGet("/get_file",
-                //[EnableCors(Configuration.CorsPolicyName)]
-            //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                [EnableCors(Configuration.CorsPolicyName)]
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
             ([Required] string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service) => GetFile(path, context, securityService, service))
                 .Produces<string>();
 
@@ -54,8 +54,8 @@ namespace CViewer.Endpoints
 
         private static IResult GetFile(string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
         {
-            //string token = TokenHelper.GetToken(context);
-            //if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
             Task<string> status = service.GetFileAsync(path);
             status.Wait();
             if (status == null) return Results.NotFound("File not found");
