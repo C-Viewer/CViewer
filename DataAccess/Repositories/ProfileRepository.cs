@@ -9,8 +9,8 @@ namespace CViewer.DataAccess.Repositories
             new()
             {
                 Id = 1,
-                EmailAddress = "yuriIvanov1812g@gmail.com",
-                Password = "Ghbdtn_!5", 
+                EmailAddress = "y",
+                Password = "y", 
                 FirstName = "Юрий", 
                 LastName = "Иванов", 
                 IsExpert = true,
@@ -21,8 +21,8 @@ namespace CViewer.DataAccess.Repositories
             new()
             {
                 Id = 2,
-                EmailAddress = "olegBorov136y@gmail.com", 
-                Password = "Gjrf_!2g", 
+                EmailAddress = "o", 
+                Password = "o", 
                 FirstName = "Олег",
                 LastName = "Боров", 
                 IsExpert = false,
@@ -32,8 +32,8 @@ namespace CViewer.DataAccess.Repositories
             new()
             {
                 Id = 3,
-                EmailAddress = "ninoApakidzeG3@gmail.com", 
-                Password = "Gjrf_!2g", 
+                EmailAddress = "n", 
+                Password = "n", 
                 FirstName = "Нино",
                 LastName = "Апакидзе", 
                 IsExpert = false,
@@ -44,8 +44,8 @@ namespace CViewer.DataAccess.Repositories
             new()
             {
                 Id = 4,
-                EmailAddress = "ivanchikPrototos@gmail.com",
-                Password = "Ghbdtn_!5",
+                EmailAddress = "i",
+                Password = "i",
                 FirstName = "Иван",
                 LastName = "Протос",
                 IsExpert = true,
