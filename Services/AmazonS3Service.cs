@@ -41,7 +41,7 @@ namespace CViewer.Services
                     return fileNames;
                 }
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }
@@ -90,14 +90,8 @@ namespace CViewer.Services
                     myStream.CopyTo(memStream);
                     memStream.Seek(0, SeekOrigin.Begin);
 
-                    var json = JsonConvert.SerializeObject(memStream, Newtonsoft.Json.Formatting.Indented, new MemoryStreamJsonConverter());
-
+                    var json = JsonConvert.SerializeObject(memStream, Formatting.Indented, new MemoryStreamJsonConverter());
                     return json;
-
-                    //return myStream;
-                    //return new FormFile(memStream, 0, memStream.Length, "MyOutput.txt", "MyOutput.txt");
-                    //byte[] data = memStream.ToArray();
-                    //return Convert.ToBase64String(data);
                 }
             }
             catch
@@ -112,17 +106,17 @@ namespace CViewer.Services
             {
                 using (IAmazonS3 client = new AmazonS3Client(_accessKey, _secretKey, _amazonS3Config))
                 {
-                    //DeleteObjectRequest request = new DeleteObjectRequest
-                    //{
-                    //    BucketName = _bucketName,
-                    //    Key = path
-                    //};
+                    DeleteObjectRequest request = new DeleteObjectRequest
+                    {
+                        BucketName = _bucketName,
+                        Key = path
+                    };
 
-                    await client.DeleteObjectAsync(_bucketName, path);
+                    await client.DeleteObjectAsync(request);
                     return true;
                 }
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
