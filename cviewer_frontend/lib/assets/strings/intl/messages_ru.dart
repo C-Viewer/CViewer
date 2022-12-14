@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "availableForReview":
             MessageLookupByLibrary.simpleMessage("Опубликовано"),
         "biography": MessageLookupByLibrary.simpleMessage("Биография"),
+        "createCV": MessageLookupByLibrary.simpleMessage("Создать CV"),
         "cv": MessageLookupByLibrary.simpleMessage("CV"),
         "cvBase": MessageLookupByLibrary.simpleMessage("База CV"),
         "cvCreator": MessageLookupByLibrary.simpleMessage("Создание CV"),

@@ -149,7 +149,6 @@ class _ContentState extends State<_Content> {
           ),
         ),
         // Button panel
-        // TODO: cliprrect
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           decoration: Decorations.buttonPanel,

@@ -220,6 +220,16 @@ class S {
     );
   }
 
+  /// `Создать CV`
+  String get createCV {
+    return Intl.message(
+      'Создать CV',
+      name: 'createCV',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Название`
   String get title {
     return Intl.message(

@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/domain/logic/cv/cv_list_loader.dart';
+import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/presentation/core/core_error_disposer.dart';
+import 'package:cviewer_frontend/presentation/resources/decorations.dart';
 import 'package:cviewer_frontend/presentation/ui_adapters/error_ui_adapter.dart';
 import 'package:cviewer_frontend/presentation/widgets/cvs/cv_list.dart';
 import 'package:cviewer_frontend/presentation/widgets/loaders/default_loader.dart';
@@ -9,6 +13,7 @@ import 'package:cviewer_frontend/presentation/widgets/placeholders/load_error_pl
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class CVListPage extends StatefulWidget {
   const CVListPage({
@@ -37,6 +42,9 @@ class _CVListPageState extends State<CVListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final profile = Provider.of<Profile?>(context);
+    final isExpert = profile?.isExpert ?? false;
+
     return ReactionBuilder(
       builder: (_) => coreErrorDisposer(
         context,
@@ -62,20 +70,43 @@ class _CVListPageState extends State<CVListPage> {
                           onReload: _onReload,
                         )
                       // Content
-                      : CVList(
-                          cvs: _cvsLoader.cvList,
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            // List
+                            Expanded(
+                              child: CVList(
+                                cvs: _cvsLoader.cvList,
+                              ),
+                            ),
+                            // Button panel
+                            if (!isExpert)
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 20,
+                                ),
+                                decoration: Decorations.buttonPanel,
+                                child: Center(
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints.tightFor(
+                                      width: min(
+                                        MediaQuery.of(context).size.width * 0.5,
+                                        500,
+                                      ),
+                                    ),
+                                    child: ElevatedButton(
+                                      onPressed: () => context
+                                          .pushNamed(RouteNames.cvCreator),
+                                      child: Text(
+                                        S.of(context).createCV,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
-        ),
-        // TODO: заменить на обычную кнопку
-        floatingActionButton: Observer(
-          builder: (_) => !_cvsLoader.isLoading && !_cvsLoader.hasLoadError
-              ? FloatingActionButton(
-                  onPressed: () => context.pushNamed(RouteNames.cvCreator),
-                  child: const Icon(
-                    Icons.create_rounded,
-                  ),
-                )
-              : const SizedBox(),
         ),
       ),
     );

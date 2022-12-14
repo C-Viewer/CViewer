@@ -13,6 +13,7 @@ class CVList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      shrinkWrap: true,
       itemCount: cvs.length,
       padding: const EdgeInsets.all(32),
       itemBuilder: (_, i) => CVTile(cv: cvs[i]),
