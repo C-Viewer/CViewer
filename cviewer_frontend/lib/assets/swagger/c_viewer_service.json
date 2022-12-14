@@ -332,36 +332,19 @@
         "tags": [
           "CViewer"
         ],
-        "parameters": [
-          {
-            "name": "applicantId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/CV"
+                "$ref": "#/components/schemas/ComplexCVAndIFormFile"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CV"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -611,6 +594,20 @@
   },
   "components": {
     "schemas": {
+      "ComplexCVAndIFormFile": {
+        "type": "object",
+        "properties": {
+          "cvDraft": {
+            "$ref": "#/components/schemas/CVDraftParameter"
+          },
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ComplexObjectProfileAndToken": {
         "type": "object",
         "properties": {
@@ -679,6 +676,30 @@
           },
           "goodCv": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CVDraftParameter": {
+        "required": [
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "fileName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

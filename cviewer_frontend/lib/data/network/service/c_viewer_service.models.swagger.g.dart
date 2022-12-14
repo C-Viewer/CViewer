@@ -6,6 +6,30 @@ part of 'c_viewer_service.models.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+ComplexCVAndIFormFile _$ComplexCVAndIFormFileFromJson(
+        Map<String, dynamic> json) =>
+    ComplexCVAndIFormFile(
+      cvDraft: json['cvDraft'] == null
+          ? null
+          : CVDraftParameter.fromJson(json['cvDraft'] as Map<String, dynamic>),
+      file: json['file'] as String?,
+    );
+
+Map<String, dynamic> _$ComplexCVAndIFormFileToJson(
+    ComplexCVAndIFormFile instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cvDraft', instance.cvDraft?.toJson());
+  writeNotNull('file', instance.file);
+  return val;
+}
+
 ComplexObjectProfileAndToken _$ComplexObjectProfileAndTokenFromJson(
         Map<String, dynamic> json) =>
     ComplexObjectProfileAndToken(
@@ -76,6 +100,30 @@ Map<String, dynamic> _$CvToJson(Cv instance) {
   writeNotNull('tags', instance.tags?.map((e) => e.toJson()).toList());
   val['dateCreation'] = instance.dateCreation.toIso8601String();
   writeNotNull('goodCv', instance.goodCv);
+  return val;
+}
+
+CVDraftParameter _$CVDraftParameterFromJson(Map<String, dynamic> json) =>
+    CVDraftParameter(
+      title: json['title'] as String,
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e as int).toList() ?? [],
+      fileName: json['fileName'] as String?,
+    );
+
+Map<String, dynamic> _$CVDraftParameterToJson(CVDraftParameter instance) {
+  final val = <String, dynamic>{
+    'title': instance.title,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  writeNotNull('fileName', instance.fileName);
   return val;
 }
 

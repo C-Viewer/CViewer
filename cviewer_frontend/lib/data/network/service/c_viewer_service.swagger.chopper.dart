@@ -182,23 +182,29 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<Cv>> _createCvDraftPost({
-    required int? applicantId,
-    required Cv? body,
+  Future<Response<dynamic>> _createCvDraftPost({
+    ComplexCVAndIFormFile? cvDraft,
+    List<int>? file,
   }) {
     final String $url = '/create_cv_draft';
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'applicantId': applicantId
-    };
-    final $body = body;
+    final List<PartValue> $parts = <PartValue>[
+      PartValue<ComplexCVAndIFormFile?>(
+        'cvDraft',
+        cvDraft,
+      ),
+      PartValueFile<List<int>?>(
+        'file',
+        file,
+      ),
+    ];
     final Request $request = Request(
       'POST',
       $url,
       client.baseUrl,
-      body: $body,
-      parameters: $params,
+      parts: $parts,
+      multipart: true,
     );
-    return client.send<Cv, Cv>($request);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override

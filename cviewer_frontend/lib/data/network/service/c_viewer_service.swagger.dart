@@ -210,22 +210,19 @@ abstract class CViewerService extends ChopperService {
   });
 
   ///
-  ///@param applicantId
-  Future<chopper.Response<Cv>> createCvDraftPost({
-    required int? applicantId,
-    required Cv? body,
+  Future<chopper.Response> createCvDraftPost({
+    ComplexCVAndIFormFile? cvDraft,
+    List<int>? file,
   }) {
-    generatedMapping.putIfAbsent(Cv, () => Cv.fromJsonFactory);
-
-    return _createCvDraftPost(applicantId: applicantId, body: body);
+    return _createCvDraftPost(cvDraft: cvDraft, file: file);
   }
 
   ///
-  ///@param applicantId
   @Post(path: '/create_cv_draft')
-  Future<chopper.Response<Cv>> _createCvDraftPost({
-    @Query('applicantId') required int? applicantId,
-    @Body() required Cv? body,
+  @Multipart()
+  Future<chopper.Response> _createCvDraftPost({
+    @Part() ComplexCVAndIFormFile? cvDraft,
+    @PartFile() List<int>? file,
   });
 
   ///

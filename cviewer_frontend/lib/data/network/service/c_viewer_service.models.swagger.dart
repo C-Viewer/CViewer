@@ -9,6 +9,59 @@ import 'c_viewer_service.enums.swagger.dart' as enums;
 part 'c_viewer_service.models.swagger.g.dart';
 
 @JsonSerializable(explicitToJson: true)
+class ComplexCVAndIFormFile {
+  ComplexCVAndIFormFile({
+    this.cvDraft,
+    this.file,
+  });
+
+  factory ComplexCVAndIFormFile.fromJson(Map<String, dynamic> json) =>
+      _$ComplexCVAndIFormFileFromJson(json);
+
+  @JsonKey(name: 'cvDraft')
+  final CVDraftParameter? cvDraft;
+  @JsonKey(name: 'file')
+  final String? file;
+  static const fromJsonFactory = _$ComplexCVAndIFormFileFromJson;
+  static const toJsonFactory = _$ComplexCVAndIFormFileToJson;
+  Map<String, dynamic> toJson() => _$ComplexCVAndIFormFileToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ComplexCVAndIFormFile &&
+            (identical(other.cvDraft, cvDraft) ||
+                const DeepCollectionEquality()
+                    .equals(other.cvDraft, cvDraft)) &&
+            (identical(other.file, file) ||
+                const DeepCollectionEquality().equals(other.file, file)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(cvDraft) ^
+      const DeepCollectionEquality().hash(file) ^
+      runtimeType.hashCode;
+}
+
+extension $ComplexCVAndIFormFileExtension on ComplexCVAndIFormFile {
+  ComplexCVAndIFormFile copyWith({CVDraftParameter? cvDraft, String? file}) {
+    return ComplexCVAndIFormFile(
+        cvDraft: cvDraft ?? this.cvDraft, file: file ?? this.file);
+  }
+
+  ComplexCVAndIFormFile copyWithWrapped(
+      {Wrapped<CVDraftParameter?>? cvDraft, Wrapped<String?>? file}) {
+    return ComplexCVAndIFormFile(
+        cvDraft: (cvDraft != null ? cvDraft.value : this.cvDraft),
+        file: (file != null ? file.value : this.file));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ComplexObjectProfileAndToken {
   ComplexObjectProfileAndToken({
     this.profile,
@@ -220,6 +273,71 @@ extension $CvExtension on Cv {
         dateCreation:
             (dateCreation != null ? dateCreation.value : this.dateCreation),
         goodCv: (goodCv != null ? goodCv.value : this.goodCv));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CVDraftParameter {
+  CVDraftParameter({
+    required this.title,
+    this.tags,
+    this.fileName,
+  });
+
+  factory CVDraftParameter.fromJson(Map<String, dynamic> json) =>
+      _$CVDraftParameterFromJson(json);
+
+  @JsonKey(name: 'title')
+  final String title;
+  @JsonKey(name: 'tags', defaultValue: <int>[])
+  final List<int>? tags;
+  @JsonKey(name: 'fileName')
+  final String? fileName;
+  static const fromJsonFactory = _$CVDraftParameterFromJson;
+  static const toJsonFactory = _$CVDraftParameterToJson;
+  Map<String, dynamic> toJson() => _$CVDraftParameterToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CVDraftParameter &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.tags, tags) ||
+                const DeepCollectionEquality().equals(other.tags, tags)) &&
+            (identical(other.fileName, fileName) ||
+                const DeepCollectionEquality()
+                    .equals(other.fileName, fileName)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(tags) ^
+      const DeepCollectionEquality().hash(fileName) ^
+      runtimeType.hashCode;
+}
+
+extension $CVDraftParameterExtension on CVDraftParameter {
+  CVDraftParameter copyWith(
+      {String? title, List<int>? tags, String? fileName}) {
+    return CVDraftParameter(
+        title: title ?? this.title,
+        tags: tags ?? this.tags,
+        fileName: fileName ?? this.fileName);
+  }
+
+  CVDraftParameter copyWithWrapped(
+      {Wrapped<String>? title,
+      Wrapped<List<int>?>? tags,
+      Wrapped<String?>? fileName}) {
+    return CVDraftParameter(
+        title: (title != null ? title.value : this.title),
+        tags: (tags != null ? tags.value : this.tags),
+        fileName: (fileName != null ? fileName.value : this.fileName));
   }
 }
 
