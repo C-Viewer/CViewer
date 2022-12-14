@@ -17,6 +17,22 @@ namespace CViewer.DataAccess.TransitObjects
             string serializedCv = form[nameof(CvDraft)];
             CVDraftParameter cvDraft = JsonConvert.DeserializeObject<CVDraftParameter>(serializedCv);
             IFormFile file = form.Files[nameof(File)];
+
+            if (file != null)
+            {
+                using (Stream stream = file.OpenReadStream())
+                {
+                    int el;
+                    int step = 0;
+                    while ((el = stream.ReadByte()) != -1 && step < 10)
+                    {
+                        Console.Write(el);
+                        step++;
+                    }
+                    Console.WriteLine();
+                }
+            }
+
             return new ComplexCVAndIFormFile
             {
                 File = file,

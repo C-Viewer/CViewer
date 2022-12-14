@@ -21,8 +21,8 @@ namespace CViewer.DataAccess.Repositories
             new()
             {
                 Id = 2,
-                EmailAddress = "o", 
-                Password = "o", 
+                EmailAddress = "string", 
+                Password = "string", 
                 FirstName = "Олег",
                 LastName = "Боров", 
                 IsExpert = false,
