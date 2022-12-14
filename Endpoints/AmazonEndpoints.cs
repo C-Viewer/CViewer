@@ -37,7 +37,7 @@ namespace CViewer.Endpoints
                 [EnableCors(Configuration.CorsPolicyName)]
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                 ([Required] string fileKeyInAmazonBucket, HttpContext context, ISecurityService securityService, IAmazonS3Service service) =>
-                DeletetFileAsync(fileKeyInAmazonBucket, context, securityService, service));
+                DeleteFileAsync(fileKeyInAmazonBucket, context, securityService, service));
         }
 
         private static async Task<IResult> ListAllCvFileNamesAsync(IAmazonS3Service service)
@@ -69,7 +69,7 @@ namespace CViewer.Endpoints
             return Results.Ok(serializedFileStream);
         }
 
-        private static async Task<IResult> DeletetFileAsync(string fileKeyInAmazonBucket, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
+        private static async Task<IResult> DeleteFileAsync(string fileKeyInAmazonBucket, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
         {
             string token = TokenHelper.GetToken(context);
             if (!securityService.CheckAccess(token)) return Results.Unauthorized();
