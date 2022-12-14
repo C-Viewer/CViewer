@@ -8,6 +8,10 @@ namespace CViewer.Services
     public interface ICVService
     {
         public CV CreateCVDraft(CVDraftParameter cvDraft, Profile applicant);
+
+        /// <returns>URL for download</returns>
+        public string StoreFile(IFormFile file);
+        public CV PinToHistory(string fileName, string urlForDownload, CV newCv);
         public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null);
         public CVHistory AddEventToHistory(CVHistoryParameter cvHistoryParameter);
         public List<CVHistory> ListCVHistories();

@@ -1,5 +1,4 @@
-﻿using System.Data;
-using CViewer.DataAccess.DataManager;
+﻿using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.InnerEntities;
 using CViewer.DataAccess.Repositories;
@@ -18,13 +17,24 @@ namespace CViewer.Services
                 DateCreation = DateTime.UtcNow,
                 Specialization = applicant.Specialization,
                 StatusId = CVStatusType.Draft,
-                Tags = DataManager.GetTags(cvDraft.Tags),
+                Tags = cvDraft.Tags != null ? DataManager.GetTags(cvDraft.Tags) : null,
                 Title = cvDraft.Title,
             };
 
             DataManager.AddCV(newCv);
 
             return newCv;
+        }
+
+        public string StoreFile(IFormFile file)
+        {
+            // ToDo: Use Amazon here.
+            return string.Empty;
+        }
+
+        public CV PinToHistory(string fileName, string urlForDownload, CV newCv)
+        {
+            throw new NotImplementedException();
         }
 
         public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null)

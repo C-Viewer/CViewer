@@ -126,6 +126,8 @@ namespace CViewer.Endpoints
             }
 
             CV newCv = service.CreateCVDraft(complexCVAndIFormFile.CvDraft, applicant);
+            string urlToStoreFile = service.StoreFile(complexCVAndIFormFile.File);
+
             return Results.Ok(newCv);
         }
 
