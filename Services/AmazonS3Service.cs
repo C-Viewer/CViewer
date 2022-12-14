@@ -71,7 +71,12 @@ namespace CViewer.Services
             }
         }
 
-        public async Task<string> GetFileAsync(string path)
+        public string GetAmazonFileURL(string path)
+        {
+            return "https://da728kfevltdk.cloudfront.net/" + path;
+        }
+
+        public async Task<string> GetSerializedFileStreamAsync(string path)
         {
             try
             {

@@ -9,67 +9,73 @@ namespace CViewer.Endpoints
 {
     internal static class AmazonEndpoints
     {
-
         public static void MapAmazonEndpoints(this WebApplication app)
         {
-            app.MapGet("/list_all_files",
-                    (IAmazonS3Service service) => GetFileNames(service))
+            app.MapGet("/list_all_cv_file_names-test",
+                 (IAmazonS3Service service) => ListAllCvFileNamesAsync(service))
                 .Produces<List<string>>();
 
-            app.MapPut("/add_file",
+            app.MapPut("/store_file",
                 [EnableCors(Configuration.CorsPolicyName)]
-            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-            ([Required] IFormFile stream, [Required] string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service) => AddFile(stream, path, context, securityService, service))
-                .Produces<bool>();
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                ([Required] IFormFile stream, [Required] string fileKeyInAmazonBucket, HttpContext context, ISecurityService securityService, IAmazonS3Service service) =>
+                StoreFileAsync(stream, fileKeyInAmazonBucket, context, securityService, service));
 
-            app.MapGet("/get_file",
-                [EnableCors(Configuration.CorsPolicyName)]
-            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-            ([Required] string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service) => GetFile(path, context, securityService, service))
+            app.MapGet("/get_url_to_cv_file",
+                ([Required] string fileKeyInAmazonBucket, IAmazonS3Service service) =>
+                GetUrlToCvFile(fileKeyInAmazonBucket, service))
                 .Produces<string>();
 
-            app.MapDelete("/delete_file",
+            app.MapGet("/get_serialized_file_stream-test",
                 [EnableCors(Configuration.CorsPolicyName)]
-            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-            ([Required] string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service) => DeletetFile(path, context, securityService, service))
-                .Produces<bool>();
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                ([Required] string fileKeyInAmazonBucket, HttpContext context, ISecurityService securityService, IAmazonS3Service service) =>
+                GetSerializedFileStreamAsync(fileKeyInAmazonBucket, context, securityService, service))
+                .Produces<string>();
+
+            app.MapDelete("/delete_file-test",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                ([Required] string fileKeyInAmazonBucket, HttpContext context, ISecurityService securityService, IAmazonS3Service service) =>
+                DeletetFileAsync(fileKeyInAmazonBucket, context, securityService, service));
         }
 
-        private static IResult GetFileNames(IAmazonS3Service service)
+        private static async Task<IResult> ListAllCvFileNamesAsync(IAmazonS3Service service)
         {
-            Task<List<string>> status = service.GetFileNamesAsync();
-            status.Wait();
-            return Results.Ok(status.Result);
+            List<string> allCVFileNames = await service.GetFileNamesAsync();
+            return Results.Ok(allCVFileNames);
         }
 
-        private static IResult AddFile(IFormFile stream, string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
-        {
-            string token = TokenHelper.GetToken(context);
-            if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
-            Task<bool> status = service.AddFileAsync(stream, path);
-            status.Wait();
-            if (!status.Result) return Results.BadRequest("File upload failed");
-            return Results.Ok(true);
-        }
-
-        private static IResult GetFile(string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
+        private static async Task<IResult> StoreFileAsync(IFormFile stream, string fileKeyInAmazonBucket, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
         {
             string token = TokenHelper.GetToken(context);
-            if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
-            Task<string> status = service.GetFileAsync(path);
-            status.Wait();
-            if (status == null) return Results.NotFound("File not found");
-            return Results.Ok(status.Result);
+            if (!securityService.CheckAccess(token)) return Results.Unauthorized();
+            bool status = await service.AddFileAsync(stream, fileKeyInAmazonBucket);
+            if (!status) return Results.BadRequest("File upload failed");
+            return Results.Ok();
         }
 
-        private static IResult DeletetFile(string path, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
+        private static IResult GetUrlToCvFile(string fileKeyInAmazonBucket, IAmazonS3Service service)
+        {
+            return Results.Ok(service.GetAmazonFileURL(fileKeyInAmazonBucket));
+        }
+
+        private static async Task<IResult> GetSerializedFileStreamAsync(string fileKeyInAmazonBucket, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
         {
             string token = TokenHelper.GetToken(context);
-            if (!securityService.CheckAccess(token)) { return Results.Unauthorized(); }
-            Task<bool> status = service.DeleteFileAsync(path);
-            status.Wait();
-            if (!status.Result) return Results.NotFound("File not found");
-            return Results.Ok(true);
+            if (!securityService.CheckAccess(token)) return Results.Unauthorized();
+            string serializedFileStream = await service.GetSerializedFileStreamAsync(fileKeyInAmazonBucket);
+            if (serializedFileStream == null) return Results.NotFound("File not found");
+            return Results.Ok(serializedFileStream);
+        }
+
+        private static async Task<IResult> DeletetFileAsync(string fileKeyInAmazonBucket, HttpContext context, ISecurityService securityService, IAmazonS3Service service)
+        {
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token)) return Results.Unauthorized();
+            bool status = await service.DeleteFileAsync(fileKeyInAmazonBucket);
+            if (!status) return Results.NotFound("File not found");
+            return Results.Ok();
         }
     }
 }
