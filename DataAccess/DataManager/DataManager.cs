@@ -277,5 +277,26 @@ namespace CViewer.DataAccess.DataManager
                 CVRepository.CVs.Add(newCV);
             }
         }
+
+        public static void AddCVHistory(string fileName, string urlForDownload, int cvId)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                CVHistory cvHistory = new CVHistory
+                {
+                    Id = GetCVHistoriesCount() + 1,
+                    FileName = fileName,
+                    AmazonPathToFile = urlForDownload,
+                    CVId = cvId,
+                    DateTime = DateTime.UtcNow,
+                };
+
+                CVHistoryRepository.CVHistories.Add(cvHistory);
+            }
+        }
     }
 }

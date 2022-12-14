@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Validator = CViewer.Validation.Validator;
 
 namespace CViewer.Endpoints
@@ -126,7 +127,17 @@ namespace CViewer.Endpoints
             }
 
             CV newCv = service.CreateCVDraft(complexCVAndIFormFile.CvDraft, applicant);
-            string urlToStoreFile = service.StoreFile(complexCVAndIFormFile.File);
+
+            if (complexCVAndIFormFile.File != null)
+            {
+                string urlToStoreFile = service.StoreFile(complexCVAndIFormFile.File);
+                
+                // If we cannot upload file to the Amazon.
+                if (!urlToStoreFile.IsNullOrEmpty())
+                {
+                    service.PinToHistory(complexCVAndIFormFile.CvDraft.FileName, urlToStoreFile, newCv.Id);
+                }
+            }
 
             return Results.Ok(newCv);
         }

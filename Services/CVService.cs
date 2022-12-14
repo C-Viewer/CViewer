@@ -32,9 +32,9 @@ namespace CViewer.Services
             return string.Empty;
         }
 
-        public CV PinToHistory(string fileName, string urlForDownload, CV newCv)
+        public void PinToHistory(string fileName, string urlForDownload, int cvId)
         {
-            throw new NotImplementedException();
+            DataManager.AddCVHistory(fileName, urlForDownload, cvId);
         }
 
         public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null)

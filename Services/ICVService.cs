@@ -11,7 +11,7 @@ namespace CViewer.Services
 
         /// <returns>URL for download</returns>
         public string StoreFile(IFormFile file);
-        public CV PinToHistory(string fileName, string urlForDownload, CV newCv);
+        public void PinToHistory(string fileName, string urlForDownload, int cvId);
         public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null);
         public CVHistory AddEventToHistory(CVHistoryParameter cvHistoryParameter);
         public List<CVHistory> ListCVHistories();
