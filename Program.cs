@@ -61,6 +61,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<ICVService, CVService>();
 builder.Services.AddSingleton<IProfileService, ProfileService>();
 builder.Services.AddSingleton<ISecurityService, SecurityService>();
+builder.Services.AddSingleton<IAmazonS3Service>(x =>
+    new AmazonS3Service(args[0], args[1]));
 
 builder.Services.AddCors(p => p.AddPolicy(Configuration.CorsPolicyName, builder =>
 {
@@ -79,6 +81,7 @@ app.MapGet("/", () => "Nice CV, Awesome skills!!!")
 app.MapProfileEndpoints(builder);
 app.MapCVEndpoints();
 app.MapSecurityEndpoints();
+app.MapAmazonEndpoints();
 
 app.UseSwaggerUI();
 
