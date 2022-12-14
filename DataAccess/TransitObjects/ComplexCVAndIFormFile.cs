@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using CViewer.DataAccess.InnerEntities;
 using Newtonsoft.Json;
+using Serilog;
+using Serilog.Events;
 
 namespace CViewer.DataAccess.TransitObjects
 {
@@ -13,8 +15,15 @@ namespace CViewer.DataAccess.TransitObjects
         public static async ValueTask<ComplexCVAndIFormFile?> BindAsync(HttpContext context,
             ParameterInfo parameter)
         {
+            var logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
+
             IFormCollection form = await context.Request.ReadFormAsync();
             string serializedCv = form[nameof(CvDraft)];
+
+            logger.Write(LogEventLevel.Information, serializedCv);
+
             CVDraftParameter cvDraft = JsonConvert.DeserializeObject<CVDraftParameter>(serializedCv);
             IFormFile file = form.Files[nameof(File)];
 
