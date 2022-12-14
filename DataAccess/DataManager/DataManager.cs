@@ -60,6 +60,25 @@ namespace CViewer.DataAccess.DataManager
             }
         }
 
+        internal static Profile GetProfile(string applicantOrExpertTokenValue)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                ProfileToToken profileToToken = ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p =>
+                    p.Token != null && p.Token.Value == applicantOrExpertTokenValue);
+                if (profileToToken == null)
+                {
+                    return null;
+                }
+
+                return GetProfile(profileToToken.ProfileId);
+            }
+        }
+
         internal static Profile GetProfile(int profileId)
         {
             if (TemporaryConfiguration.UseDb)
@@ -216,6 +235,46 @@ namespace CViewer.DataAccess.DataManager
             else
             {
                 return CVHistoryRepository.CVHistories.Count;
+            }
+        }
+
+        public static int GetCVCount()
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return CVRepository.CVs.Count;
+            }
+        }
+
+        public static List<CVTag> GetTags(List<int> cvTags)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                // ToDo: Adding Dictionary<int, string> will be better.
+                return cvTags
+                    .Where(id => CVTagRepository.CVTagIds.Contains(id))
+                    .Select(id => CVTagRepository.CVTags.FirstOrDefault(t => t.Id == id))
+                    .ToList();
+            }
+        }
+
+        public static void AddCV(CV newCV)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                CVRepository.CVs.Add(newCV);
             }
         }
     }

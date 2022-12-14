@@ -32,5 +32,7 @@ namespace CViewer.DataAccess.Repositories
                 Name = "Python",
             },
         };
+
+        public static HashSet<int> CVTagIds = CVTags.Select(tag => tag.Id).ToHashSet();
     }
 }

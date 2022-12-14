@@ -9,12 +9,22 @@ namespace CViewer.Services
 {
     internal sealed class CVService : ICVService
     {
-        public CV CreateCVDraft(CV cv, int applicantId)
+        public CV CreateCVDraft(CVDraftParameter cvDraft, Profile applicant)
         {
-            cv.Id = CVRepository.CVs.Count + 1;
-            CVRepository.CVs.Add(cv);
+            CV newCv = new CV
+            {
+                Id = DataManager.GetCVCount() + 1,
+                PeopleCreatedId = applicant.Id,
+                DateCreation = DateTime.UtcNow,
+                Specialization = applicant.Specialization,
+                StatusId = CVStatusType.Draft,
+                Tags = DataManager.GetTags(cvDraft.Tags),
+                Title = cvDraft.Title,
+            };
 
-            return cv;
+            DataManager.AddCV(newCv);
+
+            return newCv;
         }
 
         public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null)

@@ -7,7 +7,7 @@ namespace CViewer.Services
 {
     public interface ICVService
     {
-        public CV CreateCVDraft(CV cv, int applicantId);
+        public CV CreateCVDraft(CVDraftParameter cvDraft, Profile applicant);
         public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null);
         public CVHistory AddEventToHistory(CVHistoryParameter cvHistoryParameter);
         public List<CVHistory> ListCVHistories();

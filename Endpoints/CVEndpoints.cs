@@ -41,11 +41,10 @@ namespace CViewer.Endpoints
             app.MapPost("/create_cv_draft",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                    ([Required] CV cv, [Required] int applicantId,
-                            HttpContext context, ISecurityService securityService, ICVService service) =>
-                        CreateCVDraft(cv, applicantId, context, securityService, service))
-                .Accepts<CV>("application/json")
-                .Produces<CV>(statusCode: 200, contentType: "application/json");
+                    (ComplexCVAndIFormFile complexCVAndIFormFile, HttpContext context,
+                            ISecurityService securityService, ICVService service) =>
+                        CreateCVDraft(complexCVAndIFormFile, context, securityService, service))
+                .Accepts<ComplexCVAndIFormFile>("multipart/form-data");
 
             app.MapPost("/update_cv_info",
                 ([Required] int cvId, string title, TransitObjectSpecializationAndCVTags updateCVInfoParams,
@@ -106,16 +105,28 @@ namespace CViewer.Endpoints
             //    (int id, ICVService service) => Delete(id, service));
         }
 
-        private static IResult CreateCVDraft(CV cv, int applicantId, HttpContext context, ISecurityService securityService, 
+        private static IResult CreateCVDraft(ComplexCVAndIFormFile complexCVAndIFormFile, HttpContext context, ISecurityService securityService, 
             ICVService service)
         {
-            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token))
             {
                 return Results.Unauthorized();
             }
 
-            var result = service.CreateCVDraft(cv, applicantId);
-            return Results.Ok(result);
+            Profile applicant = DataManager.GetProfile(token);
+            if (applicant == null)
+            {
+                return Results.BadRequest("How you can access to this method without token? :O");
+            }
+
+            if (applicant.IsExpert)
+            {
+                return Results.BadRequest("Experts cannot create resume draft");
+            }
+
+            CV newCv = service.CreateCVDraft(complexCVAndIFormFile.CvDraft, applicant);
+            return Results.Ok(newCv);
         }
 
         private static IResult UpdateCVInfo(int cvId, ICVService service, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null)
