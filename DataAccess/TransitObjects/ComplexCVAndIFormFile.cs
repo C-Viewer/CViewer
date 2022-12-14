@@ -22,7 +22,7 @@ namespace CViewer.DataAccess.TransitObjects
             IFormCollection form = await context.Request.ReadFormAsync();
             string serializedCv = form[nameof(CvDraft)];
 
-            logger.Write(LogEventLevel.Information, serializedCv);
+            logger.Write(LogEventLevel.Information, $"{nameof(serializedCv)}: {serializedCv}");
 
             CVDraftParameter cvDraft = JsonConvert.DeserializeObject<CVDraftParameter>(serializedCv);
             IFormFile file = form.Files[nameof(File)];
@@ -31,11 +31,11 @@ namespace CViewer.DataAccess.TransitObjects
             {
                 using (Stream stream = file.OpenReadStream())
                 {
-                    int el;
+                    int byteValue;
                     int step = 0;
-                    while ((el = stream.ReadByte()) != -1 && step < 10)
+                    while ((byteValue = stream.ReadByte()) != -1 && step < 10)
                     {
-                        Console.Write(el);
+                        logger.Write(LogEventLevel.Information, byteValue.ToString());
                         step++;
                     }
                     Console.WriteLine();
