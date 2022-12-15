@@ -134,7 +134,7 @@ namespace CViewer.DataAccess.DataManager
 
         internal static List<CVHistory> GetCVHistories(int cvId)
         {
-            return CVHistoryRepository.CVHistories.Where(h => h.CVId == cvId).ToList();
+            return CVHistoryRepository.CVHistories.Where(h => h.CVId == cvId).OrderByDescending(el => el.DateTime).ToList();
         }
 
         internal static List<CV> GetCvsForProfile(int profileId)
