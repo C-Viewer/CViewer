@@ -133,6 +133,11 @@ namespace CViewer.Services
             return SpecializationRepository.Specializations;
         }
 
+        public List<CV> ListCvsOpenedForReview()
+        {
+            return DataManager.ListCvsOpenedForReview();
+        }
+
         public List<CVHistory> ListCVHistories()
         {
             List<CVHistory> cvHistories = CVHistoryRepository.CVHistories;

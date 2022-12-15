@@ -27,5 +27,6 @@ namespace CViewer.Services
         public List<CVStatusTypeObject> ListCVStatuses();
         public List<Specialization> ListSpecializations();
         //public bool Delete(int id);
+        List<CV> ListCvsOpenedForReview();
     }
 }

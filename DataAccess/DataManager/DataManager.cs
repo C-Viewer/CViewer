@@ -298,5 +298,17 @@ namespace CViewer.DataAccess.DataManager
                 CVHistoryRepository.CVHistories.Add(cvHistory);
             }
         }
+
+        public static List<CV> ListCvsOpenedForReview()
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return CVRepository.CVs.Where(cv => cv.OpenToReview).ToList();
+            }
+        }
     }
 }

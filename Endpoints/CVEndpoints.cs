@@ -47,6 +47,12 @@ namespace CViewer.Endpoints
                         CreateCVDraft(complexCVAndIFormFile, context, securityService, service))
                 .Accepts<ComplexCVAndIFormFile>("multipart/form-data");
 
+            app.MapGet("/list_cvs_opened_for_review",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                (HttpContext context, ISecurityService securityService, ICVService service) =>
+                    ListCvsOpenedForReview(context, securityService, service));
+
             app.MapPost("/update_cv_info",
                 ([Required] int cvId, string title, TransitObjectSpecializationAndCVTags updateCVInfoParams,
                         string description, ICVService service) =>
@@ -106,6 +112,28 @@ namespace CViewer.Endpoints
             //    (int id, ICVService service) => Delete(id, service));
         }
 
+        private static IResult ListCvsOpenedForReview(HttpContext context, ISecurityService securityService, ICVService service)
+        {
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token))
+            {
+                return Results.Unauthorized();
+            }
+
+            Profile profile = DataManager.GetProfile(token);
+            if (profile == null)
+            {
+                return Results.BadRequest("How can you access to this method without token? :O");
+            }
+
+            if (!profile.IsExpert)
+            {
+                return Results.BadRequest("This method is allowed only for expert profile.");
+            }
+
+            return Results.Ok(service.ListCvsOpenedForReview());
+        }
+
         private static IResult CreateCVDraft(ComplexCVAndIFormFile complexCVAndIFormFile, HttpContext context, ISecurityService securityService, 
             ICVService service)
         {
@@ -118,7 +146,7 @@ namespace CViewer.Endpoints
             Profile applicant = DataManager.GetProfile(token);
             if (applicant == null)
             {
-                return Results.BadRequest("How you can access to this method without token? :O");
+                return Results.BadRequest("");
             }
 
             if (applicant.IsExpert)
