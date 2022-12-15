@@ -22,9 +22,15 @@ namespace CViewer.DataAccess.TransitObjects
             IFormCollection form = await context.Request.ReadFormAsync();
             string serializedCv = form[nameof(CvDraft)];
 
-            logger.Write(LogEventLevel.Information, $"{nameof(serializedCv)}: {serializedCv}");
+            logger.Write(LogEventLevel.Information, $"BindAsync {nameof(ComplexCVAndIFormFile)}: {nameof(serializedCv)}: {serializedCv}\n");
 
             CVDraftParameter cvDraft = JsonConvert.DeserializeObject<CVDraftParameter>(serializedCv);
+
+            logger.Write(LogEventLevel.Information, $"BindAsync {nameof(ComplexCVAndIFormFile)}: {nameof(cvDraft)} is null?: {cvDraft == null}\n");
+
+            logger.Write(LogEventLevel.Information,
+                $"BindAsync {nameof(ComplexCVAndIFormFile)}: {nameof(cvDraft.Title)}: {cvDraft.Title}\n{nameof(cvDraft.FileName)}: {cvDraft.FileName}\nCount of {nameof(cvDraft.Tags)}: {cvDraft.Tags.Count}\n");
+
             IFormFile file = form.Files[nameof(File)];
 
             if (file != null)

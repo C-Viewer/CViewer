@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Serilog.Events;
 using Validator = CViewer.Validation.Validator;
 
 namespace CViewer.Endpoints
@@ -184,7 +186,15 @@ namespace CViewer.Endpoints
                 return Results.BadRequest("Experts cannot create resume draft");
             }
 
-            CV newCv = service.CreateCVForReview(complexCVAndIFormFile.CvDraft, applicant);
+            CVDraftParameter cvDraft = complexCVAndIFormFile.CvDraft;
+            CV newCv = service.CreateCVForReview(cvDraft, applicant);
+
+            var logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            logger.Write(LogEventLevel.Information, 
+                $"{nameof(CreateCVForReview)}: {nameof(cvDraft.Title)}: {cvDraft.Title}\n{nameof(cvDraft.FileName)}: {cvDraft.FileName}\nCount of {nameof(cvDraft.Tags)}: {cvDraft.Tags.Count}\n");
 
             if (complexCVAndIFormFile.File != null)
             {
@@ -193,7 +203,7 @@ namespace CViewer.Endpoints
                 // If we cannot upload file to the Amazon.
                 if (!urlToStoreFile.IsNullOrEmpty())
                 {
-                    service.PinToHistory(complexCVAndIFormFile.CvDraft.FileName, urlToStoreFile, newCv.Id);
+                    service.PinToHistory(cvDraft.FileName, urlToStoreFile, newCv.Id);
                 }
             }
 
