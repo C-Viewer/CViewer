@@ -49,6 +49,18 @@ namespace CViewer.Endpoints
                         CreateCVForReview(complexCVAndIFormFile, context, securityService, service))
                 .Accepts<ComplexCVAndIFormFile>("multipart/form-data");
 
+            app.MapPut("/make_cv_as_good",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                (int cvId, HttpContext context, ISecurityService securityService, ICVService service) =>
+                    MakeCvAsGood(cvId, context, securityService, service));
+
+            app.MapPut("/list_good_cvs",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                (HttpContext context, ISecurityService securityService, ICVService service) =>
+                    ListGoodCvs(context, securityService, service));
+
             app.MapGet("/list_cvs_opened_for_review",
                 [EnableCors(Configuration.CorsPolicyName)]
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -122,7 +134,25 @@ namespace CViewer.Endpoints
             //    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
             //    (int id, ICVService service) => Delete(id, service));
         }
-        
+
+        private static IResult ListGoodCvs(HttpContext context, ISecurityService securityService, ICVService service)
+        {
+            return Results.Ok(service.ListGoodCvs());
+        }
+
+        private static IResult MakeCvAsGood(int cvId, HttpContext context, ISecurityService securityService, ICVService service)
+        {
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token))
+            {
+                return Results.Unauthorized();
+            }
+
+            service.MakeCvAsGood(cvId);
+
+            return Results.Ok();
+        }
+
         private static IResult TakeCVToReview(int cvId, HttpContext context, ISecurityService securityService, ICVService service)
         {
             string token = TokenHelper.GetToken(context);

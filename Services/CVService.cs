@@ -159,6 +159,16 @@ namespace CViewer.Services
             return true;
         }
 
+        public void MakeCvAsGood(int cvId)
+        {
+            DataManager.MakeCvAsGood(cvId);
+        }
+
+        public List<CV> ListGoodCvs()
+        {
+            return DataManager.ListGoodCvs();
+        }
+
         public List<CVHistory> ListCVHistories()
         {
             List<CVHistory> cvHistories = CVHistoryRepository.CVHistories;

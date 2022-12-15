@@ -321,5 +321,30 @@ namespace CViewer.DataAccess.DataManager
                 return CVRepository.CVs.Where(cv => cv.OpenToReview).ToList();
             }
         }
+
+        public static void MakeCvAsGood(int cvId)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                CV cv = CVRepository.CVs.FirstOrDefault(cv => cv.Id == cvId);
+                cv.GoodCv = true;
+            }
+        }
+
+        public static List<CV> ListGoodCvs()
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return CVRepository.CVs.Where(cv => cv.GoodCv).OrderByDescending(cv => cv.Grade).ToList();
+            }
+        }
     }
 }

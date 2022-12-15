@@ -33,5 +33,9 @@ namespace CViewer.DataAccess.Entities
         public bool GoodCv { get; set; }
 
         public bool OpenToReview { get; set; }
+
+        public string UrlFileForDownload { get; set; }
+        public string PinnedFileName { get; set; }
+        public double? Grade { get; set; }
     }
 }

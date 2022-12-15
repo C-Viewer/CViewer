@@ -29,5 +29,7 @@ namespace CViewer.Services
         //public bool Delete(int id);
         List<CV> ListCvsOpenedForReview();
         bool TakeCvToReview(int cvId, int expertId, out string errorMessage);
+        void MakeCvAsGood(int cvId);
+        List<CV> ListGoodCvs();
     }
 }
