@@ -15,8 +15,8 @@ class CVFromDtoMapper implements Mapper<Cv, CV> {
       description: data.description ?? '',
       status: const CVStatusMapper().map(data.statusId),
       creationDate: data.dateCreation,
-      rating: data.rating ?? 0.0,
       tags: data.tags?.map(const CVTagFromDtoMapper().map).toList() ?? [],
+      rating: data.rating,
     );
   }
 }

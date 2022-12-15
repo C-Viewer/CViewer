@@ -8,8 +8,8 @@ class CV {
     required this.description,
     required this.status,
     required this.creationDate,
-    required this.rating,
     required this.tags,
+    this.rating,
   });
 
   final int id;
@@ -17,6 +17,6 @@ class CV {
   final String description;
   final CVStatus status;
   final DateTime creationDate;
-  final double rating;
   final List<CVTag> tags;
+  final double? rating;
 }
