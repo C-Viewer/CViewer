@@ -3,6 +3,7 @@ import 'package:cviewer_frontend/domain/models/cv/cv_history_event.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/presentation/resources/app_colors.dart';
 import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
+import 'package:cviewer_frontend/presentation/widgets/cvs/cv_file_label.dart';
 import 'package:cviewer_frontend/presentation/widgets/cvs/cv_rating_label.dart';
 import 'package:cviewer_frontend/utils/date_time_formatters.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,10 @@ class CVHistoryEventTile extends StatelessWidget {
                 child: Row(
                   children: [
                     const Spacer(),
-                    // TODO: file
+                    CVFileLabel(
+                      fileName: 'file',
+                      fileUrl: event.filePath!,
+                    ),
                   ],
                 ),
               ),

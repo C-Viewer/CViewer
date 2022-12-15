@@ -3,6 +3,7 @@ import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
 import 'package:cviewer_frontend/presentation/core/core_error_disposer.dart';
 import 'package:cviewer_frontend/presentation/ui_adapters/error_ui_adapter.dart';
 import 'package:cviewer_frontend/presentation/widgets/cv_tags/cv_tag_group.dart';
+import 'package:cviewer_frontend/presentation/widgets/cvs/cv_file_label.dart';
 import 'package:cviewer_frontend/presentation/widgets/cvs/cv_history_list.dart';
 import 'package:cviewer_frontend/presentation/widgets/cvs/cv_status_label.dart';
 import 'package:cviewer_frontend/presentation/widgets/loaders/default_loader.dart';
@@ -94,6 +95,14 @@ class _Content extends StatelessWidget {
             tags: cvHistory.cv.tags,
           ),
           const SizedBox(height: 15),
+          if (cvHistory.cv.pinnedFileName != null &&
+              cvHistory.cv.pinnedFileUrl != null) ...[
+            CVFileLabel(
+              fileName: cvHistory.cv.pinnedFileName!,
+              fileUrl: cvHistory.cv.pinnedFileUrl!,
+            ),
+            const SizedBox(height: 15),
+          ],
           // History
           CVHistoryList(
             cvHistory: cvHistory,

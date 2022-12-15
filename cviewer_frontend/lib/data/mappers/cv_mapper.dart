@@ -17,6 +17,10 @@ class CVFromDtoMapper implements Mapper<Cv, CV> {
       creationDate: data.dateCreation,
       tags: data.tags?.map(const CVTagFromDtoMapper().map).toList() ?? [],
       rating: data.rating,
+      pinnedFileName: 'mock-file.txt' ?? data.pinnedFileName,
+      pinnedFileUrl: 'https://da728kfevltdk.cloudfront.net/hi.txt' ??
+          data.urlFileForDownload,
     );
+    // TODO: убрать мок данные
   }
 }

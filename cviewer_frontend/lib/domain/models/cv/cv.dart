@@ -10,6 +10,8 @@ class CV {
     required this.creationDate,
     required this.tags,
     this.rating,
+    this.pinnedFileName,
+    this.pinnedFileUrl,
   });
 
   final int id;
@@ -19,4 +21,6 @@ class CV {
   final DateTime creationDate;
   final List<CVTag> tags;
   final double? rating;
+  final String? pinnedFileName;
+  final String? pinnedFileUrl;
 }
