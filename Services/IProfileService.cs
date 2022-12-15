@@ -8,6 +8,7 @@ namespace CViewer.Services
         public int SignIn(UserCredentials userCredentials, out Profile existingProfile, out Token token, out string errorMessage, WebApplicationBuilder builder);
         public void Logout(string applicantOrExpertTokenValue);
         public Profile GetProfile(string applicantOrExpertTokenValue);
+        public Profile GetProfile(int profileId);
 
         /// <summary>
         /// Token is not necessary because of public access.

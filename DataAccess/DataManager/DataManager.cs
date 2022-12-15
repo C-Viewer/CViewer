@@ -1,7 +1,5 @@
-﻿
-using CViewer.DataAccess.Entities;
+﻿using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.Repositories;
-using CViewer.DataAccess.TransitObjects;
 using CViewer.Utils;
 
 namespace CViewer.DataAccess.DataManager

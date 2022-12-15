@@ -50,17 +50,24 @@ namespace CViewer.Endpoints
                     (HttpContext context, ISecurityService securityService, IProfileService service) => GetProfile(context, securityService, service))
                 .Produces<Profile>();
 
-            app.MapGet("/get_expert_profile",
-                    [EnableCors(Configuration.CorsPolicyName)]
-                    ([Required] int expertId, IProfileService service) => GetExpertProfile(expertId, service))
-                .Produces<Profile>();
-
-            app.MapGet("/get_applicant_profile",
+            app.MapGet("/get_profile_by_id",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-            ([Required] int applicantId, HttpContext context, ISecurityService securityService, IProfileService service) => 
-                GetApplicantProfile(applicantId, context, securityService, service))
+                    (int profileId, HttpContext context, ISecurityService securityService, IProfileService service) =>
+                        GetProfile(profileId, context, securityService, service))
                 .Produces<Profile>();
+
+            //app.MapGet("/get_expert_profile",
+            //        [EnableCors(Configuration.CorsPolicyName)]
+            //        ([Required] int expertId, IProfileService service) => GetExpertProfile(expertId, service))
+            //    .Produces<Profile>();
+            //
+            //app.MapGet("/get_applicant_profile",
+            //        [EnableCors(Configuration.CorsPolicyName)]
+            //        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+            //([Required] int applicantId, HttpContext context, ISecurityService securityService, IProfileService service) => 
+            //    GetApplicantProfile(applicantId, context, securityService, service))
+            //    .Produces<Profile>();
         }
 
         private static IResult SignIn(UserCredentials user, IProfileService service)
@@ -137,6 +144,23 @@ namespace CViewer.Endpoints
             }
 
             Profile profile = service.GetProfile(applicantOrExpertToken);
+            if (profile is null)
+            {
+                return Results.NotFound("Profile not found");
+            }
+
+            return Results.Ok(profile);
+        }
+
+        private static IResult GetProfile(int profileId, HttpContext context, ISecurityService securityService, IProfileService service)
+        {
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token))
+            {
+                return Results.Unauthorized();
+            }
+
+            Profile profile = service.GetProfile(profileId);
             if (profile is null)
             {
                 return Results.NotFound("Profile not found");

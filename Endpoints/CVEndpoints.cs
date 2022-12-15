@@ -76,11 +76,11 @@ namespace CViewer.Endpoints
                         securityService: securityService))
                 .Accepts<ComplexCVHistoryParameterAndFIle>("multipart/form-data"); ;
 
-                app.MapGet("/list_CVs",
-                    [EnableCors(Configuration.CorsPolicyName)]
-                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                    (HttpContext context, ISecurityService securityService, ICVService service) => ListCVs(context, securityService, service))
-                .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
+            app.MapGet("/list_CVs",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                (HttpContext context, ISecurityService securityService, ICVService service) => ListCVs(context, securityService, service))
+            .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/get_cv_status",
                     [EnableCors(Configuration.CorsPolicyName)]

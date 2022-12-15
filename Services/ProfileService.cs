@@ -86,12 +86,13 @@ namespace CViewer.Services
             }
 
             Profile profile = DataManager.GetProfile(profileToToken.ProfileId);
-            if (profile == null)
-            {
-                return null;
-            }
 
             return profile;
+        }
+
+        public Profile GetProfile(int profileId)
+        {
+            return DataManager.GetProfile(profileId);
         }
 
         public Profile GetExpertProfile(int expertId)
