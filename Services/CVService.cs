@@ -19,6 +19,7 @@ namespace CViewer.Services
                 StatusId = CVStatusType.Draft,
                 Tags = cvDraft.Tags != null ? DataManager.GetTags(cvDraft.Tags) : null,
                 Title = cvDraft.Title,
+                OpenToReview = true,
             };
 
             DataManager.AddCV(newCv);
@@ -28,7 +29,7 @@ namespace CViewer.Services
 
         public string StoreFile(IFormFile file)
         {
-            // ToDo: Use Amazon here.
+            // ToDo: MIRONTER, Use Amazon here.
             return string.Empty;
         }
 

@@ -26,5 +26,7 @@ namespace CViewer.DataAccess.Entities
         [Required]
         public DateTime DateCreation { get; set; }
         public bool GoodCv { get; set; }
+
+        public bool OpenToReview { get; set; }
     }
 }
