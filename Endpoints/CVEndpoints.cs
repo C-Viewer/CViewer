@@ -39,7 +39,7 @@ namespace CViewer.Endpoints
                     HttpContext context, ISecurityService securityService, ICVService service) => Results.Ok());
                     //PinFileToDraft(fileData, fileName, context, securityService, service));
 
-            app.MapPost("/create_cv_draft",
+            app.MapPost("/create_cv_for_review",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (ComplexCVAndIFormFile complexCVAndIFormFile, HttpContext context,
