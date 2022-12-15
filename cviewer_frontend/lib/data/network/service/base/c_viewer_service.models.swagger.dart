@@ -62,6 +62,67 @@ extension $ComplexCVAndIFormFileExtension on ComplexCVAndIFormFile {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ComplexCVHistoryParameterAndFIle {
+  ComplexCVHistoryParameterAndFIle({
+    this.cvHistoryParameter,
+    this.file,
+  });
+
+  factory ComplexCVHistoryParameterAndFIle.fromJson(
+          Map<String, dynamic> json) =>
+      _$ComplexCVHistoryParameterAndFIleFromJson(json);
+
+  @JsonKey(name: 'cvHistoryParameter')
+  final CVHistoryParameter? cvHistoryParameter;
+  @JsonKey(name: 'file')
+  final String? file;
+  static const fromJsonFactory = _$ComplexCVHistoryParameterAndFIleFromJson;
+  static const toJsonFactory = _$ComplexCVHistoryParameterAndFIleToJson;
+  Map<String, dynamic> toJson() =>
+      _$ComplexCVHistoryParameterAndFIleToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ComplexCVHistoryParameterAndFIle &&
+            (identical(other.cvHistoryParameter, cvHistoryParameter) ||
+                const DeepCollectionEquality()
+                    .equals(other.cvHistoryParameter, cvHistoryParameter)) &&
+            (identical(other.file, file) ||
+                const DeepCollectionEquality().equals(other.file, file)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(cvHistoryParameter) ^
+      const DeepCollectionEquality().hash(file) ^
+      runtimeType.hashCode;
+}
+
+extension $ComplexCVHistoryParameterAndFIleExtension
+    on ComplexCVHistoryParameterAndFIle {
+  ComplexCVHistoryParameterAndFIle copyWith(
+      {CVHistoryParameter? cvHistoryParameter, String? file}) {
+    return ComplexCVHistoryParameterAndFIle(
+        cvHistoryParameter: cvHistoryParameter ?? this.cvHistoryParameter,
+        file: file ?? this.file);
+  }
+
+  ComplexCVHistoryParameterAndFIle copyWithWrapped(
+      {Wrapped<CVHistoryParameter?>? cvHistoryParameter,
+      Wrapped<String?>? file}) {
+    return ComplexCVHistoryParameterAndFIle(
+        cvHistoryParameter: (cvHistoryParameter != null
+            ? cvHistoryParameter.value
+            : this.cvHistoryParameter),
+        file: (file != null ? file.value : this.file));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ComplexObjectProfileAndToken {
   ComplexObjectProfileAndToken({
     this.profile,
@@ -130,6 +191,9 @@ class Cv {
     required this.dateCreation,
     this.goodCv,
     this.openToReview,
+    this.urlFileForDownload,
+    this.pinnedFileName,
+    this.grade,
   });
 
   factory Cv.fromJson(Map<String, dynamic> json) => _$CvFromJson(json);
@@ -162,6 +226,12 @@ class Cv {
   final bool? goodCv;
   @JsonKey(name: 'openToReview')
   final bool? openToReview;
+  @JsonKey(name: 'urlFileForDownload')
+  final String? urlFileForDownload;
+  @JsonKey(name: 'pinnedFileName')
+  final String? pinnedFileName;
+  @JsonKey(name: 'grade')
+  final double? grade;
   static const fromJsonFactory = _$CvFromJson;
   static const toJsonFactory = _$CvToJson;
   Map<String, dynamic> toJson() => _$CvToJson(this);
@@ -200,7 +270,15 @@ class Cv {
                 const DeepCollectionEquality().equals(other.goodCv, goodCv)) &&
             (identical(other.openToReview, openToReview) ||
                 const DeepCollectionEquality()
-                    .equals(other.openToReview, openToReview)));
+                    .equals(other.openToReview, openToReview)) &&
+            (identical(other.urlFileForDownload, urlFileForDownload) ||
+                const DeepCollectionEquality()
+                    .equals(other.urlFileForDownload, urlFileForDownload)) &&
+            (identical(other.pinnedFileName, pinnedFileName) ||
+                const DeepCollectionEquality()
+                    .equals(other.pinnedFileName, pinnedFileName)) &&
+            (identical(other.grade, grade) ||
+                const DeepCollectionEquality().equals(other.grade, grade)));
   }
 
   @override
@@ -220,6 +298,9 @@ class Cv {
       const DeepCollectionEquality().hash(dateCreation) ^
       const DeepCollectionEquality().hash(goodCv) ^
       const DeepCollectionEquality().hash(openToReview) ^
+      const DeepCollectionEquality().hash(urlFileForDownload) ^
+      const DeepCollectionEquality().hash(pinnedFileName) ^
+      const DeepCollectionEquality().hash(grade) ^
       runtimeType.hashCode;
 }
 
@@ -236,7 +317,10 @@ extension $CvExtension on Cv {
       List<CVTag>? tags,
       DateTime? dateCreation,
       bool? goodCv,
-      bool? openToReview}) {
+      bool? openToReview,
+      String? urlFileForDownload,
+      String? pinnedFileName,
+      double? grade}) {
     return Cv(
         id: id ?? this.id,
         statusId: statusId ?? this.statusId,
@@ -249,7 +333,10 @@ extension $CvExtension on Cv {
         tags: tags ?? this.tags,
         dateCreation: dateCreation ?? this.dateCreation,
         goodCv: goodCv ?? this.goodCv,
-        openToReview: openToReview ?? this.openToReview);
+        openToReview: openToReview ?? this.openToReview,
+        urlFileForDownload: urlFileForDownload ?? this.urlFileForDownload,
+        pinnedFileName: pinnedFileName ?? this.pinnedFileName,
+        grade: grade ?? this.grade);
   }
 
   Cv copyWithWrapped(
@@ -264,7 +351,10 @@ extension $CvExtension on Cv {
       Wrapped<List<CVTag>?>? tags,
       Wrapped<DateTime>? dateCreation,
       Wrapped<bool?>? goodCv,
-      Wrapped<bool?>? openToReview}) {
+      Wrapped<bool?>? openToReview,
+      Wrapped<String?>? urlFileForDownload,
+      Wrapped<String?>? pinnedFileName,
+      Wrapped<double?>? grade}) {
     return Cv(
         id: (id != null ? id.value : this.id),
         statusId: (statusId != null ? statusId.value : this.statusId),
@@ -284,7 +374,14 @@ extension $CvExtension on Cv {
             (dateCreation != null ? dateCreation.value : this.dateCreation),
         goodCv: (goodCv != null ? goodCv.value : this.goodCv),
         openToReview:
-            (openToReview != null ? openToReview.value : this.openToReview));
+            (openToReview != null ? openToReview.value : this.openToReview),
+        urlFileForDownload: (urlFileForDownload != null
+            ? urlFileForDownload.value
+            : this.urlFileForDownload),
+        pinnedFileName: (pinnedFileName != null
+            ? pinnedFileName.value
+            : this.pinnedFileName),
+        grade: (grade != null ? grade.value : this.grade));
   }
 }
 
@@ -359,7 +456,7 @@ class CVHistory {
     required this.id,
     required this.cvId,
     required this.dateTime,
-    this.expertId,
+    this.authorId,
     this.fileName,
     this.amazonPathToFile,
     this.comment,
@@ -375,8 +472,8 @@ class CVHistory {
   final int cvId;
   @JsonKey(name: 'dateTime')
   final DateTime dateTime;
-  @JsonKey(name: 'expertId')
-  final int? expertId;
+  @JsonKey(name: 'authorId')
+  final int? authorId;
   @JsonKey(name: 'fileName')
   final String? fileName;
   @JsonKey(name: 'amazonPathToFile')
@@ -400,9 +497,9 @@ class CVHistory {
             (identical(other.dateTime, dateTime) ||
                 const DeepCollectionEquality()
                     .equals(other.dateTime, dateTime)) &&
-            (identical(other.expertId, expertId) ||
+            (identical(other.authorId, authorId) ||
                 const DeepCollectionEquality()
-                    .equals(other.expertId, expertId)) &&
+                    .equals(other.authorId, authorId)) &&
             (identical(other.fileName, fileName) ||
                 const DeepCollectionEquality()
                     .equals(other.fileName, fileName)) &&
@@ -424,7 +521,7 @@ class CVHistory {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(cvId) ^
       const DeepCollectionEquality().hash(dateTime) ^
-      const DeepCollectionEquality().hash(expertId) ^
+      const DeepCollectionEquality().hash(authorId) ^
       const DeepCollectionEquality().hash(fileName) ^
       const DeepCollectionEquality().hash(amazonPathToFile) ^
       const DeepCollectionEquality().hash(comment) ^
@@ -437,7 +534,7 @@ extension $CVHistoryExtension on CVHistory {
       {int? id,
       int? cvId,
       DateTime? dateTime,
-      int? expertId,
+      int? authorId,
       String? fileName,
       String? amazonPathToFile,
       String? comment,
@@ -446,7 +543,7 @@ extension $CVHistoryExtension on CVHistory {
         id: id ?? this.id,
         cvId: cvId ?? this.cvId,
         dateTime: dateTime ?? this.dateTime,
-        expertId: expertId ?? this.expertId,
+        authorId: authorId ?? this.authorId,
         fileName: fileName ?? this.fileName,
         amazonPathToFile: amazonPathToFile ?? this.amazonPathToFile,
         comment: comment ?? this.comment,
@@ -457,7 +554,7 @@ extension $CVHistoryExtension on CVHistory {
       {Wrapped<int>? id,
       Wrapped<int>? cvId,
       Wrapped<DateTime>? dateTime,
-      Wrapped<int?>? expertId,
+      Wrapped<int?>? authorId,
       Wrapped<String?>? fileName,
       Wrapped<String?>? amazonPathToFile,
       Wrapped<String?>? comment,
@@ -466,7 +563,7 @@ extension $CVHistoryExtension on CVHistory {
         id: (id != null ? id.value : this.id),
         cvId: (cvId != null ? cvId.value : this.cvId),
         dateTime: (dateTime != null ? dateTime.value : this.dateTime),
-        expertId: (expertId != null ? expertId.value : this.expertId),
+        authorId: (authorId != null ? authorId.value : this.authorId),
         fileName: (fileName != null ? fileName.value : this.fileName),
         amazonPathToFile: (amazonPathToFile != null
             ? amazonPathToFile.value
@@ -480,9 +577,8 @@ extension $CVHistoryExtension on CVHistory {
 class CVHistoryParameter {
   CVHistoryParameter({
     required this.cvId,
-    this.expertId,
+    required this.authorId,
     this.fileName,
-    this.amazonPathToFile,
     this.comment,
     this.grade,
   });
@@ -492,12 +588,10 @@ class CVHistoryParameter {
 
   @JsonKey(name: 'cvId')
   final int cvId;
-  @JsonKey(name: 'expertId')
-  final int? expertId;
+  @JsonKey(name: 'authorId')
+  final int authorId;
   @JsonKey(name: 'fileName')
   final String? fileName;
-  @JsonKey(name: 'amazonPathToFile')
-  final String? amazonPathToFile;
   @JsonKey(name: 'comment')
   final String? comment;
   @JsonKey(name: 'grade')
@@ -512,15 +606,12 @@ class CVHistoryParameter {
         (other is CVHistoryParameter &&
             (identical(other.cvId, cvId) ||
                 const DeepCollectionEquality().equals(other.cvId, cvId)) &&
-            (identical(other.expertId, expertId) ||
+            (identical(other.authorId, authorId) ||
                 const DeepCollectionEquality()
-                    .equals(other.expertId, expertId)) &&
+                    .equals(other.authorId, authorId)) &&
             (identical(other.fileName, fileName) ||
                 const DeepCollectionEquality()
                     .equals(other.fileName, fileName)) &&
-            (identical(other.amazonPathToFile, amazonPathToFile) ||
-                const DeepCollectionEquality()
-                    .equals(other.amazonPathToFile, amazonPathToFile)) &&
             (identical(other.comment, comment) ||
                 const DeepCollectionEquality()
                     .equals(other.comment, comment)) &&
@@ -534,9 +625,8 @@ class CVHistoryParameter {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(cvId) ^
-      const DeepCollectionEquality().hash(expertId) ^
+      const DeepCollectionEquality().hash(authorId) ^
       const DeepCollectionEquality().hash(fileName) ^
-      const DeepCollectionEquality().hash(amazonPathToFile) ^
       const DeepCollectionEquality().hash(comment) ^
       const DeepCollectionEquality().hash(grade) ^
       runtimeType.hashCode;
@@ -545,34 +635,28 @@ class CVHistoryParameter {
 extension $CVHistoryParameterExtension on CVHistoryParameter {
   CVHistoryParameter copyWith(
       {int? cvId,
-      int? expertId,
+      int? authorId,
       String? fileName,
-      String? amazonPathToFile,
       String? comment,
       double? grade}) {
     return CVHistoryParameter(
         cvId: cvId ?? this.cvId,
-        expertId: expertId ?? this.expertId,
+        authorId: authorId ?? this.authorId,
         fileName: fileName ?? this.fileName,
-        amazonPathToFile: amazonPathToFile ?? this.amazonPathToFile,
         comment: comment ?? this.comment,
         grade: grade ?? this.grade);
   }
 
   CVHistoryParameter copyWithWrapped(
       {Wrapped<int>? cvId,
-      Wrapped<int?>? expertId,
+      Wrapped<int>? authorId,
       Wrapped<String?>? fileName,
-      Wrapped<String?>? amazonPathToFile,
       Wrapped<String?>? comment,
       Wrapped<double?>? grade}) {
     return CVHistoryParameter(
         cvId: (cvId != null ? cvId.value : this.cvId),
-        expertId: (expertId != null ? expertId.value : this.expertId),
+        authorId: (authorId != null ? authorId.value : this.authorId),
         fileName: (fileName != null ? fileName.value : this.fileName),
-        amazonPathToFile: (amazonPathToFile != null
-            ? amazonPathToFile.value
-            : this.amazonPathToFile),
         comment: (comment != null ? comment.value : this.comment),
         grade: (grade != null ? grade.value : this.grade));
   }

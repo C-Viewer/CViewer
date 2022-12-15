@@ -196,44 +196,14 @@
         }
       }
     },
-    "/get_expert_profile": {
+    "/get_profile_by_id": {
       "get": {
         "tags": [
           "CViewer"
         ],
         "parameters": [
           {
-            "name": "expertId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Profile"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/get_applicant_profile": {
-      "get": {
-        "tags": [
-          "CViewer"
-        ],
-        "parameters": [
-          {
-            "name": "applicantId",
+            "name": "profileId",
             "in": "query",
             "required": true,
             "schema": {
@@ -349,6 +319,41 @@
         }
       }
     },
+    "/make_cv_as_good": {
+      "put": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "cvId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/list_good_cvs": {
+      "put": {
+        "tags": [
+          "CViewer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/list_cvs_opened_for_review": {
       "get": {
         "tags": [
@@ -431,18 +436,19 @@
       }
     },
     "/add_event_to_history": {
-      "get": {
+      "post": {
         "tags": [
           "CViewer"
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/CVHistoryParameter"
+                "$ref": "#/components/schemas/ComplexCVHistoryParameterAndFIle"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -783,6 +789,20 @@
         },
         "additionalProperties": false
       },
+      "ComplexCVHistoryParameterAndFIle": {
+        "type": "object",
+        "properties": {
+          "cvHistoryParameter": {
+            "$ref": "#/components/schemas/CVHistoryParameter"
+          },
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ComplexObjectProfileAndToken": {
         "type": "object",
         "properties": {
@@ -855,6 +875,19 @@
           },
           "openToReview": {
             "type": "boolean"
+          },
+          "urlFileForDownload": {
+            "type": "string",
+            "nullable": true
+          },
+          "pinnedFileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -903,10 +936,9 @@
             "type": "string",
             "format": "date-time"
           },
-          "expertId": {
+          "authorId": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "fileName": {
             "type": "string",
@@ -930,6 +962,7 @@
       },
       "CVHistoryParameter": {
         "required": [
+          "authorId",
           "cvId"
         ],
         "type": "object",
@@ -938,16 +971,11 @@
             "type": "integer",
             "format": "int32"
           },
-          "expertId": {
+          "authorId": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "fileName": {
-            "type": "string",
-            "nullable": true
-          },
-          "amazonPathToFile": {
             "type": "string",
             "nullable": true
           },

@@ -47,9 +47,8 @@ class RealCVRepository implements CVRepository {
     if (dto != null) {
       final applicantId = dto.peopleCreatedId;
       final expertId = dto.expertIds?.firstOrNull;
-      final applicant = await _getProfile(applicantId, false);
-      final expert =
-          (expertId != null) ? await _getProfile(expertId, true) : null;
+      final applicant = await _getProfile(applicantId);
+      final expert = (expertId != null) ? await _getProfile(expertId) : null;
 
       return CVHistory(
         cv: const CVFromDtoMapper().map(dto),
@@ -87,9 +86,9 @@ class RealCVRepository implements CVRepository {
     if (dto != null) {
       return dto
           .map((it) => CVHistoryEventFromDtoMapper(
-                author: (it.expertId == null || expert == null)
-                    ? applicant
-                    : expert,
+                author: (expert != null && it.authorId == expert.id)
+                    ? expert
+                    : applicant,
               ).map(it))
           .toList();
     } else {
@@ -112,10 +111,10 @@ class RealCVRepository implements CVRepository {
     );
   }
 
-  Future<Profile> _getProfile(int profileId, bool isExpert) async {
-    final response = isExpert
-        ? await _service.getExpertProfileGet(expertId: profileId)
-        : await _service.getApplicantProfileGet(applicantId: profileId);
+  Future<Profile> _getProfile(int profileId) async {
+    final response = await _service.getProfileByIdGet(
+      profileId: profileId,
+    );
     final dto = response.body;
 
     if (dto != null) {

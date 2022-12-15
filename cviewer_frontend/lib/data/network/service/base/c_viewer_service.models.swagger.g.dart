@@ -30,6 +30,31 @@ Map<String, dynamic> _$ComplexCVAndIFormFileToJson(
   return val;
 }
 
+ComplexCVHistoryParameterAndFIle _$ComplexCVHistoryParameterAndFIleFromJson(
+        Map<String, dynamic> json) =>
+    ComplexCVHistoryParameterAndFIle(
+      cvHistoryParameter: json['cvHistoryParameter'] == null
+          ? null
+          : CVHistoryParameter.fromJson(
+              json['cvHistoryParameter'] as Map<String, dynamic>),
+      file: json['file'] as String?,
+    );
+
+Map<String, dynamic> _$ComplexCVHistoryParameterAndFIleToJson(
+    ComplexCVHistoryParameterAndFIle instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cvHistoryParameter', instance.cvHistoryParameter?.toJson());
+  writeNotNull('file', instance.file);
+  return val;
+}
+
 ComplexObjectProfileAndToken _$ComplexObjectProfileAndTokenFromJson(
         Map<String, dynamic> json) =>
     ComplexObjectProfileAndToken(
@@ -78,6 +103,9 @@ Cv _$CvFromJson(Map<String, dynamic> json) => Cv(
       dateCreation: DateTime.parse(json['dateCreation'] as String),
       goodCv: json['goodCv'] as bool?,
       openToReview: json['openToReview'] as bool?,
+      urlFileForDownload: json['urlFileForDownload'] as String?,
+      pinnedFileName: json['pinnedFileName'] as String?,
+      grade: (json['grade'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$CvToJson(Cv instance) {
@@ -102,6 +130,9 @@ Map<String, dynamic> _$CvToJson(Cv instance) {
   val['dateCreation'] = instance.dateCreation.toIso8601String();
   writeNotNull('goodCv', instance.goodCv);
   writeNotNull('openToReview', instance.openToReview);
+  writeNotNull('urlFileForDownload', instance.urlFileForDownload);
+  writeNotNull('pinnedFileName', instance.pinnedFileName);
+  writeNotNull('grade', instance.grade);
   return val;
 }
 
@@ -133,7 +164,7 @@ CVHistory _$CVHistoryFromJson(Map<String, dynamic> json) => CVHistory(
       id: json['id'] as int,
       cvId: json['cvId'] as int,
       dateTime: DateTime.parse(json['dateTime'] as String),
-      expertId: json['expertId'] as int?,
+      authorId: json['authorId'] as int?,
       fileName: json['fileName'] as String?,
       amazonPathToFile: json['amazonPathToFile'] as String?,
       comment: json['comment'] as String?,
@@ -153,7 +184,7 @@ Map<String, dynamic> _$CVHistoryToJson(CVHistory instance) {
     }
   }
 
-  writeNotNull('expertId', instance.expertId);
+  writeNotNull('authorId', instance.authorId);
   writeNotNull('fileName', instance.fileName);
   writeNotNull('amazonPathToFile', instance.amazonPathToFile);
   writeNotNull('comment', instance.comment);
@@ -164,9 +195,8 @@ Map<String, dynamic> _$CVHistoryToJson(CVHistory instance) {
 CVHistoryParameter _$CVHistoryParameterFromJson(Map<String, dynamic> json) =>
     CVHistoryParameter(
       cvId: json['cvId'] as int,
-      expertId: json['expertId'] as int?,
+      authorId: json['authorId'] as int,
       fileName: json['fileName'] as String?,
-      amazonPathToFile: json['amazonPathToFile'] as String?,
       comment: json['comment'] as String?,
       grade: (json['grade'] as num?)?.toDouble(),
     );
@@ -174,6 +204,7 @@ CVHistoryParameter _$CVHistoryParameterFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CVHistoryParameterToJson(CVHistoryParameter instance) {
   final val = <String, dynamic>{
     'cvId': instance.cvId,
+    'authorId': instance.authorId,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -182,9 +213,7 @@ Map<String, dynamic> _$CVHistoryParameterToJson(CVHistoryParameter instance) {
     }
   }
 
-  writeNotNull('expertId', instance.expertId);
   writeNotNull('fileName', instance.fileName);
-  writeNotNull('amazonPathToFile', instance.amazonPathToFile);
   writeNotNull('comment', instance.comment);
   writeNotNull('grade', instance.grade);
   return val;

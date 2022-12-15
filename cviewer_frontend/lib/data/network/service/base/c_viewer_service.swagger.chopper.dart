@@ -112,26 +112,10 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<Profile>> _getExpertProfileGet({required int? expertId}) {
-    final String $url = '/get_expert_profile';
+  Future<Response<Profile>> _getProfileByIdGet({required int? profileId}) {
+    final String $url = '/get_profile_by_id';
     final Map<String, dynamic> $params = <String, dynamic>{
-      'expertId': expertId
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<Profile, Profile>($request);
-  }
-
-  @override
-  Future<Response<Profile>> _getApplicantProfileGet(
-      {required int? applicantId}) {
-    final String $url = '/get_applicant_profile';
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'applicantId': applicantId
+      'profileId': profileId
     };
     final Request $request = Request(
       'GET',
@@ -208,6 +192,30 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
+  Future<Response<dynamic>> _makeCvAsGoodPut({required int? cvId}) {
+    final String $url = '/make_cv_as_good';
+    final Map<String, dynamic> $params = <String, dynamic>{'cvId': cvId};
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _listGoodCvsPut() {
+    final String $url = '/list_good_cvs';
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _listCvsOpenedForReviewGet() {
     final String $url = '/list_cvs_opened_for_review';
     final Request $request = Request(
@@ -256,15 +264,27 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<dynamic>> _addEventToHistoryGet(
-      {required CVHistoryParameter? body}) {
+  Future<Response<dynamic>> _addEventToHistoryPost({
+    ComplexCVHistoryParameterAndFIle? cvHistoryParameter,
+    List<int>? file,
+  }) {
     final String $url = '/add_event_to_history';
-    final $body = body;
+    final List<PartValue> $parts = <PartValue>[
+      PartValue<ComplexCVHistoryParameterAndFIle?>(
+        'cvHistoryParameter',
+        cvHistoryParameter,
+      ),
+      PartValueFile<List<int>?>(
+        'file',
+        file,
+      ),
+    ];
     final Request $request = Request(
-      'GET',
+      'POST',
       $url,
       client.baseUrl,
-      body: $body,
+      parts: $parts,
+      multipart: true,
     );
     return client.send<dynamic, dynamic>($request);
   }
