@@ -145,7 +145,7 @@ namespace CViewer.DataAccess.DataManager
             }
             else
             {
-                return CVRepository.CVs.Where(cv => cv.PeopleCreatedId == profileId || cv.ExpertIds.Contains(profileId)).ToList();
+                return CVRepository.CVs.Where(cv => cv.PeopleCreatedId == profileId || (cv.ExpertIds != null && cv.ExpertIds.Contains(profileId))).ToList();
             }
         }
 

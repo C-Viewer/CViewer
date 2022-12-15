@@ -34,7 +34,7 @@ namespace CViewer.Services
 
         public void PinToHistory(string fileName, string urlForDownload, int cvId, int authorId)
         {
-            DataManager.AddCVHistory(fileName, urlForDownload, cvId);
+            DataManager.AddCVHistory(fileName, urlForDownload, cvId, authorId);
         }
 
         public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null)
