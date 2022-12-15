@@ -99,7 +99,7 @@ class _CVListPageState extends State<CVListPage> {
                                       onPressed: () => context
                                           .pushNamed(RouteNames.cvCreator),
                                       child: Text(
-                                        S.of(context).createCV,
+                                        S.of(context).createCV.toUpperCase(),
                                       ),
                                     ),
                                   ),

@@ -327,7 +327,7 @@
         }
       }
     },
-    "/create_cv_draft": {
+    "/create_cv_for_review": {
       "post": {
         "tags": [
           "CViewer"
@@ -342,6 +342,41 @@
           },
           "required": true
         },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/list_cvs_opened_for_review": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/take_cv_to_review": {
+      "put": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "cvId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -590,6 +625,146 @@
           }
         }
       }
+    },
+    "/list_all_cv_file_names-test": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/store_file": {
+      "put": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "fileKeyInAmazonBucket",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stream": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "stream": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/get_url_to_cv_file": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "fileKeyInAmazonBucket",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_serialized_file_stream-test": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "fileKeyInAmazonBucket",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/delete_file-test": {
+      "delete": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "fileKeyInAmazonBucket",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -632,7 +807,8 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "readOnly": true
           },
           "statusId": {
             "$ref": "#/components/schemas/CVStatusType"
@@ -675,6 +851,9 @@
             "format": "date-time"
           },
           "goodCv": {
+            "type": "boolean"
+          },
+          "openToReview": {
             "type": "boolean"
           }
         },

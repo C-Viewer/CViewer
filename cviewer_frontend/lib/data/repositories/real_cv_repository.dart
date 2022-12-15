@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
 import 'package:cviewer_frontend/data/mappers/cv_history_event_mapper.dart';
 import 'package:cviewer_frontend/data/mappers/cv_mapper.dart';
 import 'package:cviewer_frontend/data/mappers/cv_tag_mapper.dart';
 import 'package:cviewer_frontend/data/mappers/profile_mapper.dart';
+import 'package:cviewer_frontend/data/network/service/c_viewer_service.models.swagger.dart'
+    as dto;
 import 'package:cviewer_frontend/data/network/service/client_index.dart';
+import 'package:cviewer_frontend/data/network/service/file/file_c_viewer_service.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_draft.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history_event.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
@@ -13,9 +19,13 @@ import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/domain/repositories/cv_repository.dart';
 
 class RealCVRepository implements CVRepository {
-  const RealCVRepository(this._service);
+  const RealCVRepository(
+    this._service,
+    this._fileService,
+  );
 
   final CViewerService _service;
+  final FileCViewerService _fileService;
 
   @override
   Future<List<CV>> getCVs() async {
@@ -84,6 +94,28 @@ class RealCVRepository implements CVRepository {
                     : expert,
               ).map(it))
           .toList();
+    } else {
+      throw const NoDataError();
+    }
+  }
+
+  @override
+  Future<CV> createDraftCV(CVDraft draft) async {
+    final response = await _fileService.uploadFile(
+      path: '/create_cv_for_review',
+      draft: dto.ComplexCVAndIFormFile(
+        cvDraft: dto.CVDraftParameter(
+          title: draft.title,
+          tags: draft.tags.map((it) => it.id).toList(),
+          fileName: draft.fileName,
+        ),
+      ),
+      file: draft.file,
+    );
+    final cvDto = dto.Cv.fromJson(jsonDecode(response.body));
+
+    if (cvDto != null) {
+      return const CVFromDtoMapper().map(cvDto);
     } else {
       throw const NoDataError();
     }

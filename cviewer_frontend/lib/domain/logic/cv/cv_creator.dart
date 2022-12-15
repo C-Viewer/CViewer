@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:cviewer_frontend/di/assemble.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_draft.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
+import 'package:cviewer_frontend/domain/models/errors.dart';
 import 'package:cviewer_frontend/utils/loggers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:mobx/mobx.dart';
@@ -65,5 +65,36 @@ abstract class _CVCreator with Store {
   Future<void> removeCVFile() async {
     _file = null;
     fileName = null;
+  }
+
+  @action
+  Future<void> createDraft({
+    required String title,
+    required List<bool> selectedTags,
+  }) async {
+    isLoading = true;
+    try {
+      final f = _file?.bytes;
+      final fn = fileName;
+      final t = tags?.where((it) => selectedTags[tags!.indexOf(it)]).toList();
+
+      if (f == null || fn == null || t == null) {
+        throw const ValidationError();
+      } else {
+        final cv = await _cvRepository.createDraftCV(
+          CVDraft(
+            title: title,
+            tags: t,
+            fileName: fn,
+            file: f,
+          ),
+        );
+      }
+      error = null;
+    } catch (e) {
+      error = e;
+    } finally {
+      isLoading = false;
+    }
   }
 }

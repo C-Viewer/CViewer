@@ -86,6 +86,7 @@ class _Content extends StatefulWidget {
 
 class _ContentState extends State<_Content> {
   late final List<bool> _selectedTags;
+  final _titleController = TextEditingController();
 
   CVCreator get _cvCreator => widget.cvCreator;
 
@@ -122,6 +123,7 @@ class _ContentState extends State<_Content> {
                 ),
                 // Title
                 TextField(
+                  controller: _titleController,
                   decoration: InputDecoration(
                     hintText: S.of(context).titleHint,
                   ),
@@ -207,7 +209,10 @@ class _ContentState extends State<_Content> {
               // Save button
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () => {},
+                  onPressed: () => _cvCreator.createDraft(
+                    title: _titleController.text,
+                    selectedTags: _selectedTags,
+                  ),
                   child: Text(
                     S.of(context).save.toUpperCase(),
                   ),

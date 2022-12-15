@@ -6,10 +6,12 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:cviewer_frontend/data/network/service/client_index.dart' as _i6;
-import 'package:cviewer_frontend/di/mock_assemble.dart' as _i8;
-import 'package:cviewer_frontend/di/real_assemble.dart' as _i9;
-import 'package:cviewer_frontend/domain/repositories/auth_repository.dart'
+import 'package:cviewer_frontend/data/network/service/file/file_c_viewer_service.dart'
     as _i7;
+import 'package:cviewer_frontend/di/mock_assemble.dart' as _i9;
+import 'package:cviewer_frontend/di/real_assemble.dart' as _i10;
+import 'package:cviewer_frontend/domain/repositories/auth_repository.dart'
+    as _i8;
 import 'package:cviewer_frontend/domain/repositories/cv_repository.dart' as _i3;
 import 'package:cviewer_frontend/domain/repositories/profile_repository.dart'
     as _i4;
@@ -68,6 +70,16 @@ extension GetItInjectableX on _i1.GetIt {
         _prod,
       },
     );
+    gh.factory<_i7.FileCViewerService>(
+      () => realAssemble.fileService(
+        gh<String>(),
+        gh<_i5.SharedPreferences>(),
+      ),
+      registerFor: {
+        _dev,
+        _prod,
+      },
+    );
     gh.factory<_i4.ProfileRepository>(
       () => realAssemble.profileRepository(
         gh<_i6.CViewerService>(),
@@ -78,7 +90,7 @@ extension GetItInjectableX on _i1.GetIt {
         _prod,
       },
     );
-    gh.factory<_i7.AuthRepository>(
+    gh.factory<_i8.AuthRepository>(
       () => realAssemble.authRepository(
         gh<_i6.CViewerService>(),
         gh<_i5.SharedPreferences>(),
@@ -89,7 +101,10 @@ extension GetItInjectableX on _i1.GetIt {
       },
     );
     gh.factory<_i3.CVRepository>(
-      () => realAssemble.cvRepository(gh<_i6.CViewerService>()),
+      () => realAssemble.cvRepository(
+        gh<_i6.CViewerService>(),
+        gh<_i7.FileCViewerService>(),
+      ),
       registerFor: {
         _dev,
         _prod,
@@ -99,6 +114,6 @@ extension GetItInjectableX on _i1.GetIt {
   }
 }
 
-class _$MockAssemble extends _i8.MockAssemble {}
+class _$MockAssemble extends _i9.MockAssemble {}
 
-class _$RealAssemble extends _i9.RealAssemble {}
+class _$RealAssemble extends _i10.RealAssemble {}

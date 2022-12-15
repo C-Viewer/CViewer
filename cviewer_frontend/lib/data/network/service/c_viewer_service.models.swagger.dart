@@ -129,6 +129,7 @@ class Cv {
     this.tags,
     required this.dateCreation,
     this.goodCv,
+    this.openToReview,
   });
 
   factory Cv.fromJson(Map<String, dynamic> json) => _$CvFromJson(json);
@@ -159,6 +160,8 @@ class Cv {
   final DateTime dateCreation;
   @JsonKey(name: 'goodCv')
   final bool? goodCv;
+  @JsonKey(name: 'openToReview')
+  final bool? openToReview;
   static const fromJsonFactory = _$CvFromJson;
   static const toJsonFactory = _$CvToJson;
   Map<String, dynamic> toJson() => _$CvToJson(this);
@@ -194,7 +197,10 @@ class Cv {
                 const DeepCollectionEquality()
                     .equals(other.dateCreation, dateCreation)) &&
             (identical(other.goodCv, goodCv) ||
-                const DeepCollectionEquality().equals(other.goodCv, goodCv)));
+                const DeepCollectionEquality().equals(other.goodCv, goodCv)) &&
+            (identical(other.openToReview, openToReview) ||
+                const DeepCollectionEquality()
+                    .equals(other.openToReview, openToReview)));
   }
 
   @override
@@ -213,6 +219,7 @@ class Cv {
       const DeepCollectionEquality().hash(tags) ^
       const DeepCollectionEquality().hash(dateCreation) ^
       const DeepCollectionEquality().hash(goodCv) ^
+      const DeepCollectionEquality().hash(openToReview) ^
       runtimeType.hashCode;
 }
 
@@ -228,7 +235,8 @@ extension $CvExtension on Cv {
       double? rating,
       List<CVTag>? tags,
       DateTime? dateCreation,
-      bool? goodCv}) {
+      bool? goodCv,
+      bool? openToReview}) {
     return Cv(
         id: id ?? this.id,
         statusId: statusId ?? this.statusId,
@@ -240,7 +248,8 @@ extension $CvExtension on Cv {
         rating: rating ?? this.rating,
         tags: tags ?? this.tags,
         dateCreation: dateCreation ?? this.dateCreation,
-        goodCv: goodCv ?? this.goodCv);
+        goodCv: goodCv ?? this.goodCv,
+        openToReview: openToReview ?? this.openToReview);
   }
 
   Cv copyWithWrapped(
@@ -254,7 +263,8 @@ extension $CvExtension on Cv {
       Wrapped<double?>? rating,
       Wrapped<List<CVTag>?>? tags,
       Wrapped<DateTime>? dateCreation,
-      Wrapped<bool?>? goodCv}) {
+      Wrapped<bool?>? goodCv,
+      Wrapped<bool?>? openToReview}) {
     return Cv(
         id: (id != null ? id.value : this.id),
         statusId: (statusId != null ? statusId.value : this.statusId),
@@ -272,7 +282,9 @@ extension $CvExtension on Cv {
         tags: (tags != null ? tags.value : this.tags),
         dateCreation:
             (dateCreation != null ? dateCreation.value : this.dateCreation),
-        goodCv: (goodCv != null ? goodCv.value : this.goodCv));
+        goodCv: (goodCv != null ? goodCv.value : this.goodCv),
+        openToReview:
+            (openToReview != null ? openToReview.value : this.openToReview));
   }
 }
 
@@ -1132,6 +1144,48 @@ extension $PinFileToDraftPost$RequestBodyExtension
   PinFileToDraftPost$RequestBody copyWithWrapped({Wrapped<String?>? fileData}) {
     return PinFileToDraftPost$RequestBody(
         fileData: (fileData != null ? fileData.value : this.fileData));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class StoreFilePut$RequestBody {
+  StoreFilePut$RequestBody({
+    this.stream,
+  });
+
+  factory StoreFilePut$RequestBody.fromJson(Map<String, dynamic> json) =>
+      _$StoreFilePut$RequestBodyFromJson(json);
+
+  @JsonKey(name: 'stream')
+  final String? stream;
+  static const fromJsonFactory = _$StoreFilePut$RequestBodyFromJson;
+  static const toJsonFactory = _$StoreFilePut$RequestBodyToJson;
+  Map<String, dynamic> toJson() => _$StoreFilePut$RequestBodyToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is StoreFilePut$RequestBody &&
+            (identical(other.stream, stream) ||
+                const DeepCollectionEquality().equals(other.stream, stream)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(stream) ^ runtimeType.hashCode;
+}
+
+extension $StoreFilePut$RequestBodyExtension on StoreFilePut$RequestBody {
+  StoreFilePut$RequestBody copyWith({String? stream}) {
+    return StoreFilePut$RequestBody(stream: stream ?? this.stream);
+  }
+
+  StoreFilePut$RequestBody copyWithWrapped({Wrapped<String?>? stream}) {
+    return StoreFilePut$RequestBody(
+        stream: (stream != null ? stream.value : this.stream));
   }
 }
 

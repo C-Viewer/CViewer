@@ -1,4 +1,5 @@
 import 'package:cviewer_frontend/domain/models/cv/cv.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_draft.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
 import 'package:cviewer_frontend/domain/repositories/cv_repository.dart';
@@ -22,6 +23,12 @@ class MockCVRepository implements CVRepository {
   @override
   Future<List<CVTag>> getTags() async {
     return [];
+  }
+
+  @override
+  Future<CV> createDraftCV(CVDraft draft) {
+    // TODO: implement createDraftCV
+    throw UnimplementedError();
   }
 }
 

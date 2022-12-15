@@ -210,20 +210,44 @@ abstract class CViewerService extends ChopperService {
   });
 
   ///
-  Future<chopper.Response> createCvDraftPost({
+  Future<chopper.Response> createCvForReviewPost({
     ComplexCVAndIFormFile? cvDraft,
     List<int>? file,
   }) {
-    return _createCvDraftPost(cvDraft: cvDraft, file: file);
+    return _createCvForReviewPost(cvDraft: cvDraft, file: file);
   }
 
   ///
-  @Post(path: '/create_cv_draft')
+  @Post(path: '/create_cv_for_review')
   @Multipart()
-  Future<chopper.Response> _createCvDraftPost({
+  Future<chopper.Response> _createCvForReviewPost({
     @Part() ComplexCVAndIFormFile? cvDraft,
     @PartFile() List<int>? file,
   });
+
+  ///
+  Future<chopper.Response> listCvsOpenedForReviewGet() {
+    return _listCvsOpenedForReviewGet();
+  }
+
+  ///
+  @Get(path: '/list_cvs_opened_for_review')
+  Future<chopper.Response> _listCvsOpenedForReviewGet();
+
+  ///
+  ///@param cvId
+  Future<chopper.Response> takeCvToReviewPut({required int? cvId}) {
+    return _takeCvToReviewPut(cvId: cvId);
+  }
+
+  ///
+  ///@param cvId
+  @Put(
+    path: '/take_cv_to_review',
+    optionalBody: true,
+  )
+  Future<chopper.Response> _takeCvToReviewPut(
+      {@Query('cvId') required int? cvId});
 
   ///
   ///@param cvId
@@ -339,6 +363,74 @@ abstract class CViewerService extends ChopperService {
   ///
   @Get(path: '/check_access')
   Future<chopper.Response> _checkAccessGet();
+
+  ///
+  Future<chopper.Response<List<String>>> listAllCvFileNamesTestGet() {
+    return _listAllCvFileNamesTestGet();
+  }
+
+  ///
+  @Get(path: '/list_all_cv_file_names-test')
+  Future<chopper.Response<List<String>>> _listAllCvFileNamesTestGet();
+
+  ///
+  ///@param fileKeyInAmazonBucket
+  Future<chopper.Response> storeFilePut({
+    String? fileKeyInAmazonBucket,
+    List<int>? stream,
+  }) {
+    return _storeFilePut(
+        fileKeyInAmazonBucket: fileKeyInAmazonBucket, stream: stream);
+  }
+
+  ///
+  ///@param fileKeyInAmazonBucket
+  @Put(path: '/store_file')
+  @Multipart()
+  Future<chopper.Response> _storeFilePut({
+    @Query('fileKeyInAmazonBucket') String? fileKeyInAmazonBucket,
+    @PartFile() List<int>? stream,
+  });
+
+  ///
+  ///@param fileKeyInAmazonBucket
+  Future<chopper.Response<String>> getUrlToCvFileGet(
+      {String? fileKeyInAmazonBucket}) {
+    return _getUrlToCvFileGet(fileKeyInAmazonBucket: fileKeyInAmazonBucket);
+  }
+
+  ///
+  ///@param fileKeyInAmazonBucket
+  @Get(path: '/get_url_to_cv_file')
+  Future<chopper.Response<String>> _getUrlToCvFileGet(
+      {@Query('fileKeyInAmazonBucket') String? fileKeyInAmazonBucket});
+
+  ///
+  ///@param fileKeyInAmazonBucket
+  Future<chopper.Response<String>> getSerializedFileStreamTestGet(
+      {String? fileKeyInAmazonBucket}) {
+    return _getSerializedFileStreamTestGet(
+        fileKeyInAmazonBucket: fileKeyInAmazonBucket);
+  }
+
+  ///
+  ///@param fileKeyInAmazonBucket
+  @Get(path: '/get_serialized_file_stream-test')
+  Future<chopper.Response<String>> _getSerializedFileStreamTestGet(
+      {@Query('fileKeyInAmazonBucket') String? fileKeyInAmazonBucket});
+
+  ///
+  ///@param fileKeyInAmazonBucket
+  Future<chopper.Response> deleteFileTestDelete(
+      {String? fileKeyInAmazonBucket}) {
+    return _deleteFileTestDelete(fileKeyInAmazonBucket: fileKeyInAmazonBucket);
+  }
+
+  ///
+  ///@param fileKeyInAmazonBucket
+  @Delete(path: '/delete_file-test')
+  Future<chopper.Response> _deleteFileTestDelete(
+      {@Query('fileKeyInAmazonBucket') String? fileKeyInAmazonBucket});
 }
 
 typedef $JsonFactory<T> = T Function(Map<String, dynamic> json);

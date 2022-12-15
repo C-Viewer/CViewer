@@ -182,11 +182,11 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<dynamic>> _createCvDraftPost({
+  Future<Response<dynamic>> _createCvForReviewPost({
     ComplexCVAndIFormFile? cvDraft,
     List<int>? file,
   }) {
-    final String $url = '/create_cv_draft';
+    final String $url = '/create_cv_for_review';
     final List<PartValue> $parts = <PartValue>[
       PartValue<ComplexCVAndIFormFile?>(
         'cvDraft',
@@ -203,6 +203,30 @@ class _$CViewerService extends CViewerService {
       client.baseUrl,
       parts: $parts,
       multipart: true,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _listCvsOpenedForReviewGet() {
+    final String $url = '/list_cvs_opened_for_review';
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _takeCvToReviewPut({required int? cvId}) {
+    final String $url = '/take_cv_to_review';
+    final Map<String, dynamic> $params = <String, dynamic>{'cvId': cvId};
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      parameters: $params,
     );
     return client.send<dynamic, dynamic>($request);
   }
@@ -323,6 +347,90 @@ class _$CViewerService extends CViewerService {
       'GET',
       $url,
       client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<List<String>>> _listAllCvFileNamesTestGet() {
+    final String $url = '/list_all_cv_file_names-test';
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<List<String>, String>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _storeFilePut({
+    String? fileKeyInAmazonBucket,
+    List<int>? stream,
+  }) {
+    final String $url = '/store_file';
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'fileKeyInAmazonBucket': fileKeyInAmazonBucket
+    };
+    final List<PartValue> $parts = <PartValue>[
+      PartValueFile<List<int>?>(
+        'stream',
+        stream,
+      )
+    ];
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      parts: $parts,
+      multipart: true,
+      parameters: $params,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<String>> _getUrlToCvFileGet({String? fileKeyInAmazonBucket}) {
+    final String $url = '/get_url_to_cv_file';
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'fileKeyInAmazonBucket': fileKeyInAmazonBucket
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<String, String>($request);
+  }
+
+  @override
+  Future<Response<String>> _getSerializedFileStreamTestGet(
+      {String? fileKeyInAmazonBucket}) {
+    final String $url = '/get_serialized_file_stream-test';
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'fileKeyInAmazonBucket': fileKeyInAmazonBucket
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<String, String>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _deleteFileTestDelete(
+      {String? fileKeyInAmazonBucket}) {
+    final String $url = '/delete_file-test';
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'fileKeyInAmazonBucket': fileKeyInAmazonBucket
+    };
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      parameters: $params,
     );
     return client.send<dynamic, dynamic>($request);
   }

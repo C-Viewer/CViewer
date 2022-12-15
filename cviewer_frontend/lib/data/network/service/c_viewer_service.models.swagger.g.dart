@@ -77,6 +77,7 @@ Cv _$CvFromJson(Map<String, dynamic> json) => Cv(
           [],
       dateCreation: DateTime.parse(json['dateCreation'] as String),
       goodCv: json['goodCv'] as bool?,
+      openToReview: json['openToReview'] as bool?,
     );
 
 Map<String, dynamic> _$CvToJson(Cv instance) {
@@ -100,6 +101,7 @@ Map<String, dynamic> _$CvToJson(Cv instance) {
   writeNotNull('tags', instance.tags?.map((e) => e.toJson()).toList());
   val['dateCreation'] = instance.dateCreation.toIso8601String();
   writeNotNull('goodCv', instance.goodCv);
+  writeNotNull('openToReview', instance.openToReview);
   return val;
 }
 
@@ -334,5 +336,25 @@ Map<String, dynamic> _$PinFileToDraftPost$RequestBodyToJson(
   }
 
   writeNotNull('fileData', instance.fileData);
+  return val;
+}
+
+StoreFilePut$RequestBody _$StoreFilePut$RequestBodyFromJson(
+        Map<String, dynamic> json) =>
+    StoreFilePut$RequestBody(
+      stream: json['stream'] as String?,
+    );
+
+Map<String, dynamic> _$StoreFilePut$RequestBodyToJson(
+    StoreFilePut$RequestBody instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('stream', instance.stream);
   return val;
 }

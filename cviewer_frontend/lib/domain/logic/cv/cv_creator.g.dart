@@ -111,6 +111,16 @@ mixin _$CVCreator on _CVCreator, Store {
     return _$removeCVFileAsyncAction.run(() => super.removeCVFile());
   }
 
+  late final _$createDraftAsyncAction =
+      AsyncAction('_CVCreator.createDraft', context: context);
+
+  @override
+  Future<void> createDraft(
+      {required String title, required List<bool> selectedTags}) {
+    return _$createDraftAsyncAction
+        .run(() => super.createDraft(title: title, selectedTags: selectedTags));
+  }
+
   @override
   String toString() {
     return '''
