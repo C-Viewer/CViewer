@@ -5,9 +5,14 @@ namespace CViewer.DataAccess.Entities
 {
     public class CV
     {
+        // ToDo: Made All Ids as readonly
+        public CV(int cvId)
+        {
+            Id = cvId;
+        }
 
         [Required]
-        public int Id { get; set; }
+        public int Id { get; }
 
         [Required]
         public CVStatusType StatusId { get; set; }

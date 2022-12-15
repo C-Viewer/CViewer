@@ -8,15 +8,14 @@ namespace CViewer.Services
 {
     internal sealed class CVService : ICVService
     {
-        public CV CreateCVDraft(CVDraftParameter cvDraft, Profile applicant)
+        public CV CreateCVForReview(CVDraftParameter cvDraft, Profile applicant)
         {
-            CV newCv = new CV
+            CV newCv = new CV(DataManager.GetCVCount() + 1)
             {
-                Id = DataManager.GetCVCount() + 1,
                 PeopleCreatedId = applicant.Id,
                 DateCreation = DateTime.UtcNow,
                 Specialization = applicant.Specialization,
-                StatusId = CVStatusType.Draft,
+                StatusId = CVStatusType.SentToReview,
                 Tags = cvDraft.Tags != null ? DataManager.GetTags(cvDraft.Tags) : null,
                 Title = cvDraft.Title,
                 OpenToReview = true,
@@ -136,6 +135,14 @@ namespace CViewer.Services
         public List<CV> ListCvsOpenedForReview()
         {
             return DataManager.ListCvsOpenedForReview();
+        }
+
+        public void TakeCvToReview(int cvId, int expertId)
+        {
+            CV takenCv = DataManager.GetCv(cvId);
+            takenCv.OpenToReview = false;
+            takenCv.ExpertIds = new List<int> { expertId };
+            takenCv.StatusId = CVStatusType.TakenToReview;
         }
 
         public List<CVHistory> ListCVHistories()

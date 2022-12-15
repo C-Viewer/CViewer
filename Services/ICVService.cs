@@ -7,7 +7,7 @@ namespace CViewer.Services
 {
     public interface ICVService
     {
-        public CV CreateCVDraft(CVDraftParameter cvDraft, Profile applicant);
+        public CV CreateCVForReview(CVDraftParameter cvDraft, Profile applicant);
 
         /// <returns>URL for download</returns>
         public string StoreFile(IFormFile file);
@@ -28,5 +28,6 @@ namespace CViewer.Services
         public List<Specialization> ListSpecializations();
         //public bool Delete(int id);
         List<CV> ListCvsOpenedForReview();
+        void TakeCvToReview(int cvId, int expertId);
     }
 }

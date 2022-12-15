@@ -6,8 +6,7 @@ namespace CViewer.DataAccess.Repositories
     {
         public static List<CV> CVs = new()
         {
-            new() { 
-                Id = 1, 
+            new(1) { 
                 StatusId = CVStatusType.NeedFix,
                 Title = ".NET Software Engineer", 
                 Description = "2 года опыта работы на должности .NET Software Engineer. Помимо .NET владею SQL-подобными языками.", 
@@ -23,8 +22,7 @@ namespace CViewer.DataAccess.Repositories
                 },
             },
 
-            new() { 
-                Id = 2, 
+            new(2) { 
                 StatusId = CVStatusType.Finished,
                 Title = "QA", 
                 Description = "Тестирую программы на качество.", 

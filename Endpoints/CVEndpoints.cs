@@ -44,7 +44,7 @@ namespace CViewer.Endpoints
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (ComplexCVAndIFormFile complexCVAndIFormFile, HttpContext context,
                             ISecurityService securityService, ICVService service) =>
-                        CreateCVDraft(complexCVAndIFormFile, context, securityService, service))
+                        CreateCVForReview(complexCVAndIFormFile, context, securityService, service))
                 .Accepts<ComplexCVAndIFormFile>("multipart/form-data");
 
             app.MapGet("/list_cvs_opened_for_review",
@@ -52,6 +52,12 @@ namespace CViewer.Endpoints
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                 (HttpContext context, ISecurityService securityService, ICVService service) =>
                     ListCvsOpenedForReview(context, securityService, service));
+
+            app.MapPut("/take_cv_to_review",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                (int cvId, HttpContext context, ISecurityService securityService, ICVService service) =>
+                    TakeCVToReview(cvId, context, securityService, service));
 
             app.MapPost("/update_cv_info",
                 ([Required] int cvId, string title, TransitObjectSpecializationAndCVTags updateCVInfoParams,
@@ -111,6 +117,30 @@ namespace CViewer.Endpoints
             //    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
             //    (int id, ICVService service) => Delete(id, service));
         }
+        
+        private static IResult TakeCVToReview(int cvId, HttpContext context, ISecurityService securityService, ICVService service)
+        {
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token))
+            {
+                return Results.Unauthorized();
+            }
+
+            Profile profile = DataManager.GetProfile(token);
+            if (profile == null)
+            {
+                return Results.BadRequest("How can you access to this method without token? :O");
+            }
+
+            if (!profile.IsExpert)
+            {
+                return Results.BadRequest("This method is allowed only for expert profile.");
+            }
+
+            service.TakeCvToReview(cvId, profile.Id);
+
+            return Results.Ok();
+        }
 
         private static IResult ListCvsOpenedForReview(HttpContext context, ISecurityService securityService, ICVService service)
         {
@@ -134,7 +164,7 @@ namespace CViewer.Endpoints
             return Results.Ok(service.ListCvsOpenedForReview());
         }
 
-        private static IResult CreateCVDraft(ComplexCVAndIFormFile complexCVAndIFormFile, HttpContext context, ISecurityService securityService, 
+        private static IResult CreateCVForReview(ComplexCVAndIFormFile complexCVAndIFormFile, HttpContext context, ISecurityService securityService, 
             ICVService service)
         {
             string token = TokenHelper.GetToken(context);
@@ -154,7 +184,7 @@ namespace CViewer.Endpoints
                 return Results.BadRequest("Experts cannot create resume draft");
             }
 
-            CV newCv = service.CreateCVDraft(complexCVAndIFormFile.CvDraft, applicant);
+            CV newCv = service.CreateCVForReview(complexCVAndIFormFile.CvDraft, applicant);
 
             if (complexCVAndIFormFile.File != null)
             {
