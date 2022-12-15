@@ -13,7 +13,7 @@ namespace CViewer.Services
         public string StoreFile(IFormFile file);
         public void PinToHistory(string fileName, string urlForDownload, int cvId);
         public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null);
-        public CVHistory AddEventToHistory(CVHistoryParameter cvHistoryParameter, out string errMsg);
+        public CVHistory CreateCVEventForHistory(CVHistoryParameter cvHistoryParameter, out string errMsg);
         public List<CVHistory> ListCVHistories();
         public List<CVHistory> ListCVHistories(int cvId);
         public List<AttachedFile> ListAttachedFiles();

@@ -29,7 +29,7 @@ namespace CViewer.Services
         public string StoreFile(IFormFile file)
         {
             // ToDo: MIRONTER, Use Amazon here.
-            return string.Empty;
+            return "STUB";
         }
 
         public void PinToHistory(string fileName, string urlForDownload, int cvId)
@@ -67,7 +67,7 @@ namespace CViewer.Services
         }
 
         // ToDo: Add validation on empty data
-        public CVHistory AddEventToHistory(CVHistoryParameter cvHistoryParameter, out string errMsg)
+        public CVHistory CreateCVEventForHistory(CVHistoryParameter cvHistoryParameter, out string errMsg)
         {
             errMsg = String.Empty;
             Profile profile = DataManager.GetProfile(cvHistoryParameter.AuthorId);
@@ -84,10 +84,7 @@ namespace CViewer.Services
                 Comment = cvHistoryParameter.Comment,
                 DateTime = DateTime.UtcNow,
                 AuthorId = cvHistoryParameter.AuthorId,
-
                 Grade = cvHistoryParameter.Grade,
-                AmazonPathToFile = cvHistoryParameter.AmazonPathToFile,
-                FileName = cvHistoryParameter.FileName,
             };
 
             return newCvHistory;

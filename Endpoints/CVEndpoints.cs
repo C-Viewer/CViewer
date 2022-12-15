@@ -67,13 +67,16 @@ namespace CViewer.Endpoints
                     UpdateCVInfo(cvId: cvId, service: service, title: title, 
                         specialization: updateCVInfoParams.Specialization, tags: updateCVInfoParams.CVTags, description: description));
 
-            app.MapGet("/add_event_to_history",
+            app.MapPost("/add_event_to_history",
                 [EnableCors(Configuration.CorsPolicyName)]
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                ([Required] [FromBody] CVHistoryParameter cvHistoryParameter, HttpContext context, ISecurityService securityService, ICVService service) =>
-                    AddEventToHistory(cvHistoryParameter: cvHistoryParameter, service: service, context: context, securityService: securityService));
+                (ComplexCVHistoryParameterAndFIle complexCVHistoryParameterAndFIle, HttpContext context,
+                        ISecurityService securityService, ICVService service) =>
+                    AddEventToHistory(complexCVHistoryParameterAndFIle, service: service, context: context,
+                        securityService: securityService))
+                .Accepts<ComplexCVHistoryParameterAndFIle>("multipart/form-data"); ;
 
-            app.MapGet("/list_CVs",
+                app.MapGet("/list_CVs",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (HttpContext context, ISecurityService securityService, ICVService service) => ListCVs(context, securityService, service))
@@ -224,7 +227,7 @@ namespace CViewer.Endpoints
             return Results.Ok(updatedCV);
         }
 
-        private static IResult AddEventToHistory(CVHistoryParameter cvHistoryParameter, HttpContext context, ISecurityService securityService, 
+        private static IResult AddEventToHistory(ComplexCVHistoryParameterAndFIle complexCVHistoryParameterAndFIle, HttpContext context, ISecurityService securityService, 
             ICVService service)
         {
             if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
@@ -232,13 +235,22 @@ namespace CViewer.Endpoints
                 return Results.Unauthorized();
             }
 
-            CVHistory cvHistory = service.AddEventToHistory(cvHistoryParameter, out string errMsg);
-            if (cvHistory == null)
+            CVHistory cvEventForHistory = service.CreateCVEventForHistory(complexCVHistoryParameterAndFIle.CVHistoryParameter, out string errMsg);
+            if (cvEventForHistory == null)
             {
                 return Results.BadRequest(errMsg);
             }
 
-            return Results.Ok(cvHistory);
+            if (complexCVHistoryParameterAndFIle.File != null)
+            {
+                string urlToStoreFile = service.StoreFile(complexCVHistoryParameterAndFIle.File);
+                cvEventForHistory.AmazonPathToFile = urlToStoreFile;
+                cvEventForHistory.FileName = complexCVHistoryParameterAndFIle.CVHistoryParameter.FileName;
+            }
+
+            DataManager.AddCVHistory(cvEventForHistory);
+
+            return Results.Ok(cvEventForHistory);
         }
 
         private static IResult GetCV(int cvId, ICVService service)

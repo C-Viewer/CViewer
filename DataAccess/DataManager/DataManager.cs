@@ -1,6 +1,7 @@
 ﻿
 using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.Repositories;
+using CViewer.DataAccess.TransitObjects;
 using CViewer.Utils;
 
 namespace CViewer.DataAccess.DataManager
@@ -296,6 +297,18 @@ namespace CViewer.DataAccess.DataManager
                 };
 
                 CVHistoryRepository.CVHistories.Add(cvHistory);
+            }
+        }
+
+        public static void AddCVHistory(CVHistory cvEventForHistory)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                CVHistoryRepository.CVHistories.Add(cvEventForHistory);
             }
         }
 
