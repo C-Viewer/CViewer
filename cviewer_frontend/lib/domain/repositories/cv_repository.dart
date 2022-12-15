@@ -7,5 +7,5 @@ abstract class CVRepository {
   Future<List<CV>> getCVs();
   Future<CVHistory> getCVHistory(int cvId);
   Future<List<CVTag>> getTags();
-  Future<CV> createDraftCV(CVDraft draft);
+  Future<void> createCV(CVDraft draft);
 }

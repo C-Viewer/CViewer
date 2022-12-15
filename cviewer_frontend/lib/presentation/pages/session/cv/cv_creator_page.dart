@@ -10,6 +10,7 @@ import 'package:cviewer_frontend/presentation/widgets/loaders/default_loader.dar
 import 'package:cviewer_frontend/presentation/widgets/placeholders/load_error_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 
 class CVCreatorPage extends StatefulWidget {
   const CVCreatorPage({
@@ -64,6 +65,7 @@ class _CVCreatorPageState extends State<CVCreatorPage> {
                       : _Content(
                           tags: _cvCreator.tags!,
                           cvCreator: _cvCreator,
+                          onCreated: context.pop,
                         ),
         ),
       ),
@@ -75,10 +77,12 @@ class _Content extends StatefulWidget {
   const _Content({
     required this.tags,
     required this.cvCreator,
+    required this.onCreated,
   });
 
   final List<CVTag> tags;
   final CVCreator cvCreator;
+  final void Function() onCreated;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -209,10 +213,13 @@ class _ContentState extends State<_Content> {
               // Save button
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () => _cvCreator.createDraft(
-                    title: _titleController.text,
-                    selectedTags: _selectedTags,
-                  ),
+                  onPressed: () async {
+                    final isUploaded = await _cvCreator.createDraft(
+                      title: _titleController.text,
+                      selectedTags: _selectedTags,
+                    );
+                    if (isUploaded) widget.onCreated();
+                  },
                   child: Text(
                     S.of(context).save.toUpperCase(),
                   ),

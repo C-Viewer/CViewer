@@ -115,7 +115,7 @@ mixin _$CVCreator on _CVCreator, Store {
       AsyncAction('_CVCreator.createDraft', context: context);
 
   @override
-  Future<void> createDraft(
+  Future<bool> createDraft(
       {required String title, required List<bool> selectedTags}) {
     return _$createDraftAsyncAction
         .run(() => super.createDraft(title: title, selectedTags: selectedTags));

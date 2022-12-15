@@ -68,7 +68,7 @@ abstract class _CVCreator with Store {
   }
 
   @action
-  Future<void> createDraft({
+  Future<bool> createDraft({
     required String title,
     required List<bool> selectedTags,
   }) async {
@@ -81,7 +81,7 @@ abstract class _CVCreator with Store {
       if (f == null || fn == null || t == null) {
         throw const ValidationError();
       } else {
-        final cv = await _cvRepository.createDraftCV(
+        await _cvRepository.createCV(
           CVDraft(
             title: title,
             tags: t,
@@ -96,5 +96,7 @@ abstract class _CVCreator with Store {
     } finally {
       isLoading = false;
     }
+
+    return error == null;
   }
 }

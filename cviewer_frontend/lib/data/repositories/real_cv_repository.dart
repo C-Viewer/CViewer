@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:collection/collection.dart';
 import 'package:cviewer_frontend/data/mappers/cv_history_event_mapper.dart';
 import 'package:cviewer_frontend/data/mappers/cv_mapper.dart';
@@ -100,8 +98,8 @@ class RealCVRepository implements CVRepository {
   }
 
   @override
-  Future<CV> createDraftCV(CVDraft draft) async {
-    final response = await _fileService.uploadFile(
+  Future<void> createCV(CVDraft draft) async {
+    await _fileService.uploadFile(
       path: '/create_cv_for_review',
       draft: dto.ComplexCVAndIFormFile(
         cvDraft: dto.CVDraftParameter(
@@ -112,13 +110,6 @@ class RealCVRepository implements CVRepository {
       ),
       file: draft.file,
     );
-    final cvDto = dto.Cv.fromJson(jsonDecode(response.body));
-
-    if (cvDto != null) {
-      return const CVFromDtoMapper().map(cvDto);
-    } else {
-      throw const NoDataError();
-    }
   }
 
   Future<Profile> _getProfile(int profileId, bool isExpert) async {
