@@ -1,4 +1,5 @@
 import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
+import 'package:cviewer_frontend/presentation/resources/app_colors.dart';
 import 'package:cviewer_frontend/presentation/widgets/cv_tags/cv_tag_chip.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,10 @@ class CVTagGroup extends StatelessWidget {
     return Wrap(
       children: [
         for (final it in tags) ...[
-          CVTagChip(item: it),
+          CVTagChip(
+            item: it,
+            color: AppColors.mint20,
+          ),
           const SizedBox(width: 10),
         ],
       ],

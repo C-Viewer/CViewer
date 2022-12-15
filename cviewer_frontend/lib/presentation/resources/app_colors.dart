@@ -8,6 +8,7 @@ class AppColors {
   static const white = Color(0xFFFFFFFF);
   static const mint = Color(0xFF00BD9D);
   static const mint15 = Color(0x2600BD9D);
+  static const mint20 = Color(0x3300BD9D);
   static const emerald = Color(0xFF19384D);
   static const grey = Color(0xFF666666);
   static const lightGrey = Color(0xFFEDEDED);

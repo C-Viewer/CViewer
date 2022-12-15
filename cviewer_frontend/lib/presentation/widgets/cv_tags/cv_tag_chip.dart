@@ -1,4 +1,5 @@
 import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
+import 'package:cviewer_frontend/presentation/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CVTagChip extends StatelessWidget {
@@ -14,7 +15,12 @@ class CVTagChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Chip(
-      label: Text(item.name),
+      label: Text(
+        item.name,
+        style: const TextStyle(
+          color: AppColors.black,
+        ),
+      ),
       backgroundColor: color,
     );
   }
