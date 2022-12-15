@@ -5,9 +5,9 @@ import 'package:cviewer_frontend/data/mappers/cv_history_event_mapper.dart';
 import 'package:cviewer_frontend/data/mappers/cv_mapper.dart';
 import 'package:cviewer_frontend/data/mappers/cv_tag_mapper.dart';
 import 'package:cviewer_frontend/data/mappers/profile_mapper.dart';
-import 'package:cviewer_frontend/data/network/service/c_viewer_service.models.swagger.dart'
+import 'package:cviewer_frontend/data/network/service/base/c_viewer_service.models.swagger.dart'
     as dto;
-import 'package:cviewer_frontend/data/network/service/client_index.dart';
+import 'package:cviewer_frontend/data/network/service/base/client_index.dart';
 import 'package:cviewer_frontend/data/network/service/file/file_c_viewer_service.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_draft.dart';

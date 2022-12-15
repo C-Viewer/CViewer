@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:cviewer_frontend/constants/storage_keys.dart';
 import 'package:cviewer_frontend/data/mappers/profile_mapper.dart';
-import 'package:cviewer_frontend/data/network/service/c_viewer_service.models.swagger.dart' as dto;
-import 'package:cviewer_frontend/data/network/service/client_index.dart';
+import 'package:cviewer_frontend/data/network/service/base/c_viewer_service.models.swagger.dart' as dto;
+import 'package:cviewer_frontend/data/network/service/base/client_index.dart';
 import 'package:cviewer_frontend/domain/models/errors.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/domain/repositories/profile_repository.dart';

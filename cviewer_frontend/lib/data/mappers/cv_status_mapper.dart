@@ -1,4 +1,4 @@
-import 'package:cviewer_frontend/data/network/service/c_viewer_service.enums.swagger.dart';
+import 'package:cviewer_frontend/data/network/service/base/c_viewer_service.enums.swagger.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_status.dart';
 import 'package:cviewer_frontend/utils/mapper.dart';
 

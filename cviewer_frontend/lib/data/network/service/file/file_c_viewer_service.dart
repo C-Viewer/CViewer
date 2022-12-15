@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cviewer_frontend/constants/storage_keys.dart';
-import 'package:cviewer_frontend/data/network/service/c_viewer_service.models.swagger.dart';
+import 'package:cviewer_frontend/data/network/service/base/c_viewer_service.models.swagger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';

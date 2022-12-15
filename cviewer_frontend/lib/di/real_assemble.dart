@@ -1,5 +1,5 @@
 import 'package:cviewer_frontend/data/network/network_client.dart';
-import 'package:cviewer_frontend/data/network/service/client_index.dart';
+import 'package:cviewer_frontend/data/network/service/base/client_index.dart';
 import 'package:cviewer_frontend/data/network/service/file/file_c_viewer_service.dart';
 import 'package:cviewer_frontend/data/repositories/real_auth_repository.dart';
 import 'package:cviewer_frontend/data/repositories/real_cv_repository.dart';
