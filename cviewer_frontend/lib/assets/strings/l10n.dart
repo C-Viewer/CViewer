@@ -360,6 +360,26 @@ class S {
     );
   }
 
+  /// `Комментарий`
+  String get comment {
+    return Intl.message(
+      'Комментарий',
+      name: 'comment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Завершить`
+  String get finish {
+    return Intl.message(
+      'Завершить',
+      name: 'finish',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Доступ запрещен, пожалуйста, попробуйте заново авторизоваться`
   String get noAccessError {
     return Intl.message(

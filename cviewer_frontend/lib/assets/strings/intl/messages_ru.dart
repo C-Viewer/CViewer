@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "availableForReview":
             MessageLookupByLibrary.simpleMessage("Опубликовано"),
         "biography": MessageLookupByLibrary.simpleMessage("Биография"),
+        "comment": MessageLookupByLibrary.simpleMessage("Комментарий"),
         "createCV": MessageLookupByLibrary.simpleMessage("Создать CV"),
         "cv": MessageLookupByLibrary.simpleMessage("CV"),
         "cvBase": MessageLookupByLibrary.simpleMessage("База CV"),
@@ -33,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "draft": MessageLookupByLibrary.simpleMessage("Черновик"),
         "edit": MessageLookupByLibrary.simpleMessage("Редактировать"),
         "email": MessageLookupByLibrary.simpleMessage("Почта"),
+        "finish": MessageLookupByLibrary.simpleMessage("Завершить"),
         "finished": MessageLookupByLibrary.simpleMessage("Завершено"),
         "firstName": MessageLookupByLibrary.simpleMessage("Имя"),
         "fixRequired": MessageLookupByLibrary.simpleMessage("Нужно исправить"),

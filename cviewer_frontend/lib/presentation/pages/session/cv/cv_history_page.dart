@@ -1,6 +1,12 @@
+import 'dart:math';
+
+import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/domain/logic/cv/cv_history_loader.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
+import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/presentation/core/core_error_disposer.dart';
+import 'package:cviewer_frontend/presentation/resources/app_colors.dart';
+import 'package:cviewer_frontend/presentation/resources/decorations.dart';
 import 'package:cviewer_frontend/presentation/ui_adapters/error_ui_adapter.dart';
 import 'package:cviewer_frontend/presentation/widgets/cv_tags/cv_tag_group.dart';
 import 'package:cviewer_frontend/presentation/widgets/cvs/cv_file_label.dart';
@@ -10,6 +16,7 @@ import 'package:cviewer_frontend/presentation/widgets/loaders/default_loader.dar
 import 'package:cviewer_frontend/presentation/widgets/placeholders/load_error_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 class CVHistoryPage extends StatefulWidget {
   const CVHistoryPage({
@@ -82,33 +89,86 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(36),
-      child: Column(
-        children: [
-          // Header
-          CVStatusLabel(
-            status: cvHistory.cv.status,
-          ),
-          const SizedBox(height: 15),
-          CVTagGroup(
-            tags: cvHistory.cv.tags,
-          ),
-          const SizedBox(height: 15),
-          if (cvHistory.cv.pinnedFileName != null &&
-              cvHistory.cv.pinnedFileUrl != null) ...[
-            CVFileLabel(
-              fileName: cvHistory.cv.pinnedFileName!,
-              fileUrl: cvHistory.cv.pinnedFileUrl!,
+    final profile = Provider.of<Profile?>(context);
+
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(36),
+            child: Column(
+              children: [
+                // Header
+                CVStatusLabel(
+                  status: cvHistory.cv.status,
+                ),
+                const SizedBox(height: 15),
+                CVTagGroup(
+                  tags: cvHistory.cv.tags,
+                ),
+                const SizedBox(height: 15),
+                if (cvHistory.cv.pinnedFileName != null &&
+                    cvHistory.cv.pinnedFileUrl != null) ...[
+                  CVFileLabel(
+                    fileName: cvHistory.cv.pinnedFileName!,
+                    fileUrl: cvHistory.cv.pinnedFileUrl!,
+                  ),
+                  const SizedBox(height: 15),
+                ],
+                // History
+                CVHistoryList(
+                  cvHistory: cvHistory,
+                ),
+              ],
             ),
-            const SizedBox(height: 15),
-          ],
-          // History
-          CVHistoryList(
-            cvHistory: cvHistory,
           ),
-        ],
-      ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          decoration: Decorations.buttonPanel,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Comment button
+              ConstrainedBox(
+                constraints: BoxConstraints.tightFor(
+                  width: min(
+                    MediaQuery.of(context).size.width * 0.5,
+                    500,
+                  ),
+                ),
+                child: ElevatedButton(
+                  onPressed: () => {},
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(AppColors.mint),
+                  ),
+                  child: Text(
+                    S.of(context).comment.toUpperCase(),
+                  ),
+                ),
+              ),
+              // Finish button
+              if (profile?.isExpert == false) ...[
+                const SizedBox(width: 30),
+                ConstrainedBox(
+                  constraints: BoxConstraints.tightFor(
+                    width: min(
+                      MediaQuery.of(context).size.width * 0.5,
+                      500,
+                    ),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () => {},
+                    child: Text(
+                      S.of(context).finish.toUpperCase(),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

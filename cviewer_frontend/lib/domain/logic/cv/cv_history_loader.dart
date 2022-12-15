@@ -1,5 +1,4 @@
 import 'package:cviewer_frontend/di/assemble.dart';
-import 'package:cviewer_frontend/domain/models/cv/cv.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
 import 'package:cviewer_frontend/utils/loggers.dart';
 import 'package:mobx/mobx.dart';

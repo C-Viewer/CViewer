@@ -1,5 +1,4 @@
 import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
-import 'package:cviewer_frontend/domain/models/cv/cv_history_event.dart';
 import 'package:cviewer_frontend/presentation/widgets/cvs/cv_history_event_tile.dart';
 import 'package:flutter/material.dart';
 
