@@ -67,16 +67,24 @@ namespace CViewer.Services
         }
 
         // ToDo: Add validation on empty data
-        public CVHistory AddEventToHistory(CVHistoryParameter cvHistoryParameter)
+        public CVHistory AddEventToHistory(CVHistoryParameter cvHistoryParameter, out string errMsg)
         {
+            errMsg = String.Empty;
+            Profile profile = DataManager.GetProfile(cvHistoryParameter.AuthorId);
+            if (profile == null)
+            {
+                errMsg = "Profile which is chosen as author does not found.";
+                return null;
+            }
+
             CVHistory newCvHistory = new CVHistory
             {
                 Id = DataManager.GetCVHistoriesCount() + 1,
                 CVId = cvHistoryParameter.CVId,
                 Comment = cvHistoryParameter.Comment,
-                ExpertId = cvHistoryParameter.ExpertId,
                 DateTime = DateTime.UtcNow,
-                
+                AuthorId = cvHistoryParameter.AuthorId,
+
                 Grade = cvHistoryParameter.Grade,
                 AmazonPathToFile = cvHistoryParameter.AmazonPathToFile,
                 FileName = cvHistoryParameter.FileName,

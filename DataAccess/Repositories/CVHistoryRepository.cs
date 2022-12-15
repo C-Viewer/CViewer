@@ -13,7 +13,7 @@ namespace CViewer.DataAccess.Repositories
                 Comment = "Вам следует исправить информацию о реализацованных проектах, а также опыт работы.",
                 DateTime = new DateTime(2022, 12, 1, 17, 13, 33),
                 Grade = 6.8,
-                ExpertId = 1,
+                AuthorId = 1,
             },
 
             new()
@@ -22,6 +22,7 @@ namespace CViewer.DataAccess.Repositories
                 CVId = 1,
                 Comment = "Что Вас не устроило в описании проектов?",
                 DateTime = new DateTime(2022, 12, 1, 17, 12, 00),
+                AuthorId = 2,
             },
 
             new()
@@ -31,7 +32,7 @@ namespace CViewer.DataAccess.Repositories
                 Comment = "Отличное CV в плане навыков и истории. Более того, визуальный стиль позволяет легко читать Ваше резюме.",
                 DateTime = new DateTime(2022, 12, 12, 11, 12, 00),
                 Grade = 10.0,
-                ExpertId = 4,
+                AuthorId = 4,
             },
         };
     }

@@ -232,7 +232,11 @@ namespace CViewer.Endpoints
                 return Results.Unauthorized();
             }
 
-            CVHistory cvHistory = service.AddEventToHistory(cvHistoryParameter);
+            CVHistory cvHistory = service.AddEventToHistory(cvHistoryParameter, out string errMsg);
+            if (cvHistory == null)
+            {
+                return Results.BadRequest(errMsg);
+            }
 
             return Results.Ok(cvHistory);
         }

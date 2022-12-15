@@ -15,11 +15,8 @@ namespace CViewer.DataAccess.Entities
 
         [Required]
         public DateTime DateTime { get; set; }
-
-        /// <summary>
-        /// If null, then event is created by applicant
-        /// </summary>
-        public int? ExpertId { get; set; }
+      
+        public int AuthorId { get; set; }
         public string FileName { get; set; }
         public string AmazonPathToFile { get; set; }
         public string Comment { get; set; }
