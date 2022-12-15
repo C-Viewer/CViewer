@@ -6,6 +6,7 @@ import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/presentation/core/core_error_disposer.dart';
 import 'package:cviewer_frontend/presentation/resources/app_colors.dart';
 import 'package:cviewer_frontend/presentation/ui_adapters/error_ui_adapter.dart';
+import 'package:cviewer_frontend/presentation/widgets/cvs/cv_rating_label.dart';
 import 'package:cviewer_frontend/presentation/widgets/loaders/default_loader.dart';
 import 'package:cviewer_frontend/presentation/widgets/placeholders/load_error_placeholder.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +87,16 @@ class _ProfileContent extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Rating
+              if (profile.rating != null)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CVRatingLabel(
+                      rating: profile.rating!,
+                    ),
+                  ],
+                ),
               // First name
               _ProfilePropertyTile(
                 title: S.of(context).firstName,
