@@ -55,7 +55,7 @@ namespace CViewer.Endpoints
                 (int cvId, HttpContext context, ISecurityService securityService, ICVService service) =>
                     MakeCvAsGood(cvId, context, securityService, service));
 
-            app.MapPut("/list_good_cvs",
+            app.MapGet("/list_good_cvs",
                 [EnableCors(Configuration.CorsPolicyName)]
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                 (HttpContext context, ISecurityService securityService, ICVService service) =>
@@ -126,6 +126,12 @@ namespace CViewer.Endpoints
                     ([Required] int cvId, HttpContext context, ISecurityService securityService, ICVService service) => ListCVHistories(cvId, context, securityService, service))
                 .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
 
+            app.MapPut("/finish_cv_review",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                (int cvId, HttpContext context, ISecurityService securityService, ICVService service) =>
+                    FinishCvReview(cvId, context, securityService, service));
+
             //app.MapGet("/list_attached_files",
             //        (ICVService service) => ListAttachedFiles(service))
             //    .Produces<List<AttachedFile>>(statusCode: 200, contentType: "application/json");
@@ -133,6 +139,11 @@ namespace CViewer.Endpoints
             //app.MapDelete("/delete",
             //    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
             //    (int id, ICVService service) => Delete(id, service));
+        }
+
+        private static IResult FinishCvReview(int cvId, HttpContext context, ISecurityService securityService, ICVService service)
+        {
+            return Results.BadRequest("Not implement yet");
         }
 
         private static IResult ListGoodCvs(HttpContext context, ISecurityService securityService, ICVService service)
@@ -237,10 +248,10 @@ namespace CViewer.Endpoints
             {
                 string urlToStoreFile = service.StoreFile(complexCVAndIFormFile.File);
                 
-                // If we cannot upload file to the Amazon.
                 if (!urlToStoreFile.IsNullOrEmpty())
                 {
-                    service.PinToHistory(cvDraft.FileName, urlToStoreFile, newCv.Id);
+                    // If we can upload file to the Amazon.
+                    service.PinToHistory(cvDraft.FileName, urlToStoreFile, newCv.Id, applicant.Id);
                 }
             }
 

@@ -277,7 +277,7 @@ namespace CViewer.DataAccess.DataManager
             }
         }
 
-        public static void AddCVHistory(string fileName, string urlForDownload, int cvId)
+        public static void AddCVHistory(string fileName, string urlForDownload, int cvId, int authorId)
         {
             if (TemporaryConfiguration.UseDb)
             {
@@ -292,6 +292,7 @@ namespace CViewer.DataAccess.DataManager
                     AmazonPathToFile = urlForDownload,
                     CVId = cvId,
                     DateTime = DateTime.UtcNow,
+                    AuthorId = authorId,
                 };
 
                 CVHistoryRepository.CVHistories.Add(cvHistory);

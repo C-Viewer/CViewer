@@ -32,7 +32,7 @@ namespace CViewer.Services
             return "STUB";
         }
 
-        public void PinToHistory(string fileName, string urlForDownload, int cvId)
+        public void PinToHistory(string fileName, string urlForDownload, int cvId, int authorId)
         {
             DataManager.AddCVHistory(fileName, urlForDownload, cvId);
         }
