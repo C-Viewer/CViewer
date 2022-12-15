@@ -137,12 +137,21 @@ namespace CViewer.Services
             return DataManager.ListCvsOpenedForReview();
         }
 
-        public void TakeCvToReview(int cvId, int expertId)
+        public bool TakeCvToReview(int cvId, int expertId, out string errorMessage)
         {
+            errorMessage = string.Empty;
             CV takenCv = DataManager.GetCv(cvId);
+            if (!takenCv.OpenToReview)
+            {
+                errorMessage = "Chosen CV was already taken to review.";
+                return false;
+            }
+
             takenCv.OpenToReview = false;
             takenCv.ExpertIds = new List<int> { expertId };
             takenCv.StatusId = CVStatusType.TakenToReview;
+
+            return true;
         }
 
         public List<CVHistory> ListCVHistories()

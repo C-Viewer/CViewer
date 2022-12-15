@@ -139,7 +139,11 @@ namespace CViewer.Endpoints
                 return Results.BadRequest("This method is allowed only for expert profile.");
             }
 
-            service.TakeCvToReview(cvId, profile.Id);
+            bool success = service.TakeCvToReview(cvId, profile.Id, out string errorMessage);
+            if (!success)
+            {
+                return Results.BadRequest(errorMessage);
+            }
 
             return Results.Ok();
         }

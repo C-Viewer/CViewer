@@ -28,6 +28,6 @@ namespace CViewer.Services
         public List<Specialization> ListSpecializations();
         //public bool Delete(int id);
         List<CV> ListCvsOpenedForReview();
-        void TakeCvToReview(int cvId, int expertId);
+        bool TakeCvToReview(int cvId, int expertId, out string errorMessage);
     }
 }
