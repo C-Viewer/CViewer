@@ -20,6 +20,6 @@ namespace CViewer.DataAccess.Entities
         public string FileName { get; set; }
         public string AmazonPathToFile { get; set; }
         public string Comment { get; set; }
-        public int? Grade { get; set; }
+        public double? Grade { get; set; }
     }
 }
