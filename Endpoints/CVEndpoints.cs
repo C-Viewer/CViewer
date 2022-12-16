@@ -252,6 +252,7 @@ namespace CViewer.Endpoints
                 {
                     // If we can upload file to the Amazon.
                     service.PinToHistory(cvDraft.FileName, urlToStoreFile, newCv.Id, applicant.Id);
+                    service.PinFileToCv(newCv.Id, cvDraft.FileName, urlToStoreFile);
                 }
             }
 
