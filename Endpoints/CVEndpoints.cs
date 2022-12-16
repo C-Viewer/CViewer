@@ -143,7 +143,8 @@ namespace CViewer.Endpoints
 
         private static IResult FinishCvReview(int cvId, HttpContext context, ISecurityService securityService, ICVService service)
         {
-            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token))
             {
                 return Results.Unauthorized();
             }
@@ -152,6 +153,12 @@ namespace CViewer.Endpoints
             if (cv == null)
             {
                 return Results.BadRequest("Chosen CV does not found");
+            }
+
+            Profile applicantProfile = DataManager.GetProfile(token);
+            if (cv.PeopleCreatedId != applicantProfile.Id)
+            {
+                return Results.BadRequest("This CV is not yours. You cannot change its status");
             }
 
             service.FinishCvReview(cv);
