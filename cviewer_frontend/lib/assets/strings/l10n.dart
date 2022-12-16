@@ -390,6 +390,16 @@ class S {
     );
   }
 
+  /// `Оценить`
+  String get rate {
+    return Intl.message(
+      'Оценить',
+      name: 'rate',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Доступ запрещен, пожалуйста, попробуйте заново авторизоваться`
   String get noAccessError {
     return Intl.message(

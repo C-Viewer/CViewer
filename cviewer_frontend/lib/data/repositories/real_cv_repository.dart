@@ -8,9 +8,10 @@ import 'package:cviewer_frontend/data/network/service/base/c_viewer_service.mode
 import 'package:cviewer_frontend/data/network/service/base/client_index.dart';
 import 'package:cviewer_frontend/data/network/service/file/file_c_viewer_service.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv.dart';
-import 'package:cviewer_frontend/domain/models/cv/cv_draft.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_data.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history_event.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_history_event_data.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
 import 'package:cviewer_frontend/domain/models/errors.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
@@ -97,17 +98,24 @@ class RealCVRepository implements CVRepository {
   }
 
   @override
-  Future<void> createCV(CVDraft draft) async {
+  Future<void> createCV(CVData cvData) async {
     await _fileService.uploadFile(
       path: '/create_cv_for_review',
       draft: dto.ComplexCVAndIFormFile(
         cvDraft: dto.CVDraftParameter(
-          title: draft.title,
-          tags: draft.tags.map((it) => it.id).toList(),
-          fileName: draft.fileName,
+          title: cvData.title,
+          tags: cvData.tags.map((it) => it.id).toList(),
+          fileName: cvData.fileName,
         ),
       ),
-      file: draft.file,
+      file: cvData.file,
+    );
+  }
+
+  @override
+  Future<void> addHistoryEvent(CVHistoryEventData eventData) async {
+    await _service.addEventToHistoryPost(
+      cvHistoryParameter: dto.ComplexCVHistoryParameterAndFIle(),
     );
   }
 

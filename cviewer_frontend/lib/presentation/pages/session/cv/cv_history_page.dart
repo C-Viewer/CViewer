@@ -5,6 +5,7 @@ import 'package:cviewer_frontend/domain/logic/cv/cv_history_loader.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/presentation/core/core_error_disposer.dart';
+import 'package:cviewer_frontend/presentation/pages/session/cv/cv_history_event_bottom_sheet.dart';
 import 'package:cviewer_frontend/presentation/resources/app_colors.dart';
 import 'package:cviewer_frontend/presentation/resources/decorations.dart';
 import 'package:cviewer_frontend/presentation/ui_adapters/error_ui_adapter.dart';
@@ -133,12 +134,16 @@ class _Content extends StatelessWidget {
               ConstrainedBox(
                 constraints: BoxConstraints.tightFor(
                   width: min(
-                    MediaQuery.of(context).size.width * 0.5,
+                    MediaQuery.of(context).size.width * 0.4,
                     500,
                   ),
                 ),
                 child: ElevatedButton(
-                  onPressed: () => {},
+                  onPressed: () => CVHistoryEventBottomSheet.show(
+                    context,
+                    enableGrade: profile?.isExpert == true,
+                    enableFileAttachment: profile?.isExpert == false,
+                  ),
                   style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(AppColors.mint),
                   ),
@@ -153,7 +158,7 @@ class _Content extends StatelessWidget {
                 ConstrainedBox(
                   constraints: BoxConstraints.tightFor(
                     width: min(
-                      MediaQuery.of(context).size.width * 0.5,
+                      MediaQuery.of(context).size.width * 0.4,
                       500,
                     ),
                   ),

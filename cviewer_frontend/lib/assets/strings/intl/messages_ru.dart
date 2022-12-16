@@ -51,6 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
         "propertyPlaceholder":
             MessageLookupByLibrary.simpleMessage("Не указано"),
+        "rate": MessageLookupByLibrary.simpleMessage("Оценить"),
         "reviewed": MessageLookupByLibrary.simpleMessage("Проверено"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "signIn": MessageLookupByLibrary.simpleMessage("Войти"),

@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
 
-class CVDraft {
-  const CVDraft({
+class CVData {
+  const CVData({
     required this.title,
     required this.tags,
     required this.fileName,

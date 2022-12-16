@@ -1,5 +1,5 @@
 import 'package:cviewer_frontend/di/assemble.dart';
-import 'package:cviewer_frontend/domain/models/cv/cv_draft.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_data.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
 import 'package:cviewer_frontend/domain/models/errors.dart';
 import 'package:cviewer_frontend/utils/loggers.dart';
@@ -82,7 +82,7 @@ abstract class _CVCreator with Store {
         throw const ValidationError();
       } else {
         await _cvRepository.createCV(
-          CVDraft(
+          CVData(
             title: title,
             tags: t,
             fileName: fn,
