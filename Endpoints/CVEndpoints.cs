@@ -282,11 +282,19 @@ namespace CViewer.Endpoints
                 return Results.BadRequest(errMsg);
             }
 
+            service.UpdateCvStatusIfNecessary(cvEventForHistory);
+
             if (complexCVHistoryParameterAndFIle.File != null)
             {
                 string urlToStoreFile = service.StoreFile(complexCVHistoryParameterAndFIle.File);
-                cvEventForHistory.AmazonPathToFile = urlToStoreFile;
-                cvEventForHistory.FileName = complexCVHistoryParameterAndFIle.CVHistoryParameter.FileName;
+
+                if (!urlToStoreFile.IsNullOrEmpty())
+                {
+                    cvEventForHistory.AmazonPathToFile = urlToStoreFile;
+                    cvEventForHistory.FileName = complexCVHistoryParameterAndFIle.CVHistoryParameter.FileName;
+
+                    service.PinFileToCv(cvEventForHistory.CVId, complexCVHistoryParameterAndFIle.CVHistoryParameter.FileName, urlToStoreFile);
+                }
             }
 
             DataManager.AddCVHistory(cvEventForHistory);

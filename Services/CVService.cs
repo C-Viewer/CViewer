@@ -77,6 +77,13 @@ namespace CViewer.Services
                 return null;
             }
 
+            CV cv = DataManager.GetCv(cvHistoryParameter.CVId);
+            if (cv == null)
+            {
+                errMsg = "CV which is chosen does not found.";
+                return null;
+            }
+
             CVHistory newCvHistory = new CVHistory
             {
                 Id = DataManager.GetCVHistoriesCount() + 1,
@@ -167,6 +174,30 @@ namespace CViewer.Services
         public List<CV> ListGoodCvs()
         {
             return DataManager.ListGoodCvs();
+        }
+
+        public void UpdateCvStatusIfNecessary(CVHistory cvEventForHistory)
+        {
+            CV cv = DataManager.GetCv(cvEventForHistory.CVId);
+            if (cvEventForHistory.Grade == null)
+            {
+                return;
+            }
+
+            if (cvEventForHistory.Grade >= 4)
+            {
+                cv.StatusId = CVStatusType.Reviewed;
+                return;
+            }
+
+            cv.StatusId = CVStatusType.NeedFix;
+        }
+
+        public void PinFileToCv(int cvId, string fileName, string urlToStoreFile)
+        {
+            CV cv = DataManager.GetCv(cvId);
+            cv.PinnedFileName = fileName;
+            cv.UrlFileForDownload = urlToStoreFile;
         }
 
         public List<CVHistory> ListCVHistories()

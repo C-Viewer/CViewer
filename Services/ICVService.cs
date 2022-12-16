@@ -31,5 +31,7 @@ namespace CViewer.Services
         bool TakeCvToReview(int cvId, int expertId, out string errorMessage);
         void MakeCvAsGood(int cvId);
         List<CV> ListGoodCvs();
+        void UpdateCvStatusIfNecessary(CVHistory cvEventForHistory);
+        void PinFileToCv(int cvId, string fileName, string urlToStoreFile);
     }
 }

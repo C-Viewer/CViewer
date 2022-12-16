@@ -6,6 +6,7 @@
         SentToReview,
         TakenToReview,
         NeedFix,
+        Reviewed,
         Finished,
     }
 
