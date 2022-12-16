@@ -3,5 +3,6 @@ enum CVStatus {
   sentToReview,
   takenOnReview,
   needFix,
+  reviewed,
   finished,
 }

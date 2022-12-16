@@ -343,7 +343,7 @@
       }
     },
     "/list_good_cvs": {
-      "put": {
+      "get": {
         "tags": [
           "CViewer"
         ],
@@ -620,6 +620,29 @@
         }
       }
     },
+    "/finish_cv_review": {
+      "put": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "cvId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/check_access": {
       "get": {
         "tags": [
@@ -857,7 +880,8 @@
           },
           "rating": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "array",
@@ -953,8 +977,8 @@
             "nullable": true
           },
           "grade": {
-            "type": "number",
-            "format": "double",
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           }
         },
@@ -984,8 +1008,8 @@
             "nullable": true
           },
           "grade": {
-            "type": "number",
-            "format": "double",
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           }
         },
@@ -997,6 +1021,7 @@
           "SentToReview",
           "TakenToReview",
           "NeedFix",
+          "Reviewed",
           "Finished"
         ],
         "type": "string"

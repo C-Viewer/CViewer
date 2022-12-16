@@ -180,6 +180,16 @@ class S {
     );
   }
 
+  /// `Проверено`
+  String get reviewed {
+    return Intl.message(
+      'Проверено',
+      name: 'reviewed',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Оценено`
   String get marked {
     return Intl.message(

@@ -16,6 +16,8 @@ class CVStatusMapper implements Mapper<CVStatusType, CVStatus> {
         return CVStatus.takenOnReview;
       case CVStatusType.needfix:
         return CVStatus.needFix;
+      case CVStatusType.reviewed:
+        return CVStatus.reviewed;
       case CVStatusType.finished:
       case CVStatusType.swaggerGeneratedUnknown:
         return CVStatus.finished;

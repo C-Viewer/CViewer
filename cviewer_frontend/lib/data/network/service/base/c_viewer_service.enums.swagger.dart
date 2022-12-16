@@ -11,6 +11,8 @@ enum CVStatusType {
   takentoreview,
   @JsonValue('NeedFix')
   needfix,
+  @JsonValue('Reviewed')
+  reviewed,
   @JsonValue('Finished')
   finished
 }
@@ -20,5 +22,6 @@ const $CVStatusTypeMap = {
   CVStatusType.senttoreview: 'SentToReview',
   CVStatusType.takentoreview: 'TakenToReview',
   CVStatusType.needfix: 'NeedFix',
+  CVStatusType.reviewed: 'Reviewed',
   CVStatusType.finished: 'Finished'
 };

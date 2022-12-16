@@ -21,6 +21,8 @@ class CVStatusLabel extends StatelessWidget {
         return AppColors.blue;
       case CVStatus.needFix:
         return AppColors.red;
+      case CVStatus.reviewed:
+        return AppColors.mint;
       case CVStatus.finished:
         return AppColors.black;
     }
@@ -36,6 +38,8 @@ class CVStatusLabel extends StatelessWidget {
         return S.of(context).onReview;
       case CVStatus.needFix:
         return S.of(context).fixRequired;
+      case CVStatus.reviewed:
+        return S.of(context).reviewed;
       case CVStatus.finished:
         return S.of(context).finished;
     }

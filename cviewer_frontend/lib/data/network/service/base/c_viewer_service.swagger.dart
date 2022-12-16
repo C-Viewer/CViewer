@@ -226,16 +226,13 @@ abstract class CViewerService extends ChopperService {
       {@Query('cvId') required int? cvId});
 
   ///
-  Future<chopper.Response> listGoodCvsPut() {
-    return _listGoodCvsPut();
+  Future<chopper.Response> listGoodCvsGet() {
+    return _listGoodCvsGet();
   }
 
   ///
-  @Put(
-    path: '/list_good_cvs',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _listGoodCvsPut();
+  @Get(path: '/list_good_cvs')
+  Future<chopper.Response> _listGoodCvsGet();
 
   ///
   Future<chopper.Response> listCvsOpenedForReviewGet() {
@@ -371,6 +368,21 @@ abstract class CViewerService extends ChopperService {
   ///@param cvId
   @Get(path: '/list_concrete_CV_histories')
   Future<chopper.Response<List<CVHistory>>> _listConcreteCVHistoriesGet(
+      {@Query('cvId') required int? cvId});
+
+  ///
+  ///@param cvId
+  Future<chopper.Response> finishCvReviewPut({required int? cvId}) {
+    return _finishCvReviewPut(cvId: cvId);
+  }
+
+  ///
+  ///@param cvId
+  @Put(
+    path: '/finish_cv_review',
+    optionalBody: true,
+  )
+  Future<chopper.Response> _finishCvReviewPut(
       {@Query('cvId') required int? cvId});
 
   ///

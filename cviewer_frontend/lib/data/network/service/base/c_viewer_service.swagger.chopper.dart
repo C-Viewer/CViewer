@@ -205,10 +205,10 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<dynamic>> _listGoodCvsPut() {
+  Future<Response<dynamic>> _listGoodCvsGet() {
     final String $url = '/list_good_cvs';
     final Request $request = Request(
-      'PUT',
+      'GET',
       $url,
       client.baseUrl,
     );
@@ -358,6 +358,19 @@ class _$CViewerService extends CViewerService {
       parameters: $params,
     );
     return client.send<List<CVHistory>, CVHistory>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _finishCvReviewPut({required int? cvId}) {
+    final String $url = '/finish_cv_review';
+    final Map<String, dynamic> $params = <String, dynamic>{'cvId': cvId};
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override

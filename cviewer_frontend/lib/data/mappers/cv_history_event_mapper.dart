@@ -17,7 +17,7 @@ class CVHistoryEventFromDtoMapper implements Mapper<dto.CVHistory, CVHistoryEven
       creationDate: data.dateTime,
       author: author,
       comment: data.comment,
-      grade: data.grade,
+      grade: data.grade?.toDouble(),
       filePath: data.amazonPathToFile,
     );
   }
