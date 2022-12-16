@@ -154,7 +154,7 @@ namespace CViewer.Endpoints
                 return Results.BadRequest("Chosen CV does not found");
             }
 
-            service.FinishCvReview(cvId);
+            service.FinishCvReview(cv);
 
             return Results.Ok();
         }
