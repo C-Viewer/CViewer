@@ -200,6 +200,11 @@ namespace CViewer.Services
             cv.UrlFileForDownload = urlToStoreFile;
         }
 
+        public void FinishCvReview(CV cv)
+        {
+            cv.StatusId = CVStatusType.Finished;
+        }
+
         public List<CVHistory> ListCVHistories()
         {
             List<CVHistory> cvHistories = CVHistoryRepository.CVHistories;

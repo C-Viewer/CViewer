@@ -33,5 +33,6 @@ namespace CViewer.Services
         List<CV> ListGoodCvs();
         void UpdateCvStatusIfNecessary(CVHistory cvEventForHistory);
         void PinFileToCv(int cvId, string fileName, string urlToStoreFile);
+        void FinishCvReview(CV cv);
     }
 }

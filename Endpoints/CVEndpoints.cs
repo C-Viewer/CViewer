@@ -143,7 +143,20 @@ namespace CViewer.Endpoints
 
         private static IResult FinishCvReview(int cvId, HttpContext context, ISecurityService securityService, ICVService service)
         {
-            return Results.BadRequest("Not implement yet");
+            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            {
+                return Results.Unauthorized();
+            }
+
+            CV cv = DataManager.GetCv(cvId);
+            if (cv == null)
+            {
+                return Results.BadRequest("Chosen CV does not found");
+            }
+
+            service.FinishCvReview(cvId);
+
+            return Results.Ok();
         }
 
         private static IResult ListGoodCvs(HttpContext context, ISecurityService securityService, ICVService service)
