@@ -32,13 +32,23 @@ class CVTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Title
-              Text(
-                cv.title,
-                style: const TextStyle(
-                  color: AppColors.grey,
-                  fontSize: 20,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Title
+                  Text(
+                    cv.title,
+                    style: const TextStyle(
+                      color: AppColors.grey,
+                      fontSize: 20,
+                    ),
+                  ),
+                  // Rating
+                  if (cv.rating != null)
+                    CVRatingLabel(
+                      rating: cv.rating ?? 0,
+                    ),
+                ],
               ),
               const SizedBox(height: 12),
               // Tags
@@ -60,14 +70,11 @@ class CVTile extends StatelessWidget {
                     ),
                   ),
                   // Status
-                  CVStatusLabel(
-                    status: cv.status,
-                  ),
-                  // Rating
-                  if (cv.rating != null)
-                    CVRatingLabel(
-                      rating: cv.rating!,
+                  Center(
+                    child: CVStatusLabel(
+                      status: cv.status,
                     ),
+                  ),
                 ],
               ),
             ],

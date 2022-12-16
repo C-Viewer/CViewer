@@ -8,6 +8,11 @@ part 'cv_history_loader.g.dart';
 class CVHistoryLoader = _CVHistoryLoader with _$CVHistoryLoader;
 
 abstract class _CVHistoryLoader with Store {
+  _CVHistoryLoader({
+    required this.cvId,
+  });
+
+  final int cvId;
   final _cvRepository = Assemble.cvRepository;
 
   @observable
@@ -23,7 +28,7 @@ abstract class _CVHistoryLoader with Store {
   Object? error;
 
   @action
-  Future<void> loadCVHistory(int cvId) async {
+  Future<void> loadCVHistory() async {
     isLoading = true;
     try {
       cvHistory = await _cvRepository.getCVHistory(cvId);

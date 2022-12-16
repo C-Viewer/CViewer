@@ -96,8 +96,9 @@ class _CVListPageState extends State<CVListPage> {
                                       ),
                                     ),
                                     child: ElevatedButton(
-                                      onPressed: () => context
-                                          .pushNamed(RouteNames.cvCreator),
+                                      onPressed: () => context.pushNamed(
+                                        RouteNames.cvCreator,
+                                      ),
                                       child: Text(
                                         S.of(context).createCV.toUpperCase(),
                                       ),

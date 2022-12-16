@@ -18,14 +18,13 @@ class FileCViewerService {
   final String _baseUrl;
   final SharedPreferences _storage;
 
-  Future<Response> uploadFile({
-    required String path,
-    required ComplexCVAndIFormFile draft,
+  Future<Response> createCV({
     required Uint8List file,
+    required CVDraftParameter data,
   }) async {
     final request = MultipartRequest(
       'POST',
-      Uri.parse('$_baseUrl$path'),
+      Uri.parse('$_baseUrl/create_cv_for_review'),
     );
 
     request.files.addAll(
@@ -33,19 +32,43 @@ class FileCViewerService {
         MultipartFile.fromBytes(
           'file',
           file,
+          filename: data.fileName,
         ),
         MultipartFile.fromString(
           'cvDraft',
-          jsonEncode(draft.cvDraft?.toJson()),
+          jsonEncode(data.toJson()),
         ),
       ],
     );
 
-    final authToken = _storage.getString(StorageKeys.authToken);
+    final response = await _send(request);
 
-    request.headers.addAll({
-      'Authorization': 'Bearer $authToken',
-    });
+    return response;
+  }
+
+  Future<Response> createCVHistoryEvent({
+    required Uint8List? file,
+    required CVHistoryParameter data,
+  }) async {
+    final request = MultipartRequest(
+      'POST',
+      Uri.parse('$_baseUrl/add_event_to_history'),
+    );
+
+    request.files.addAll(
+      [
+        if (file != null)
+          MultipartFile.fromBytes(
+            'file',
+            file,
+            filename: data.fileName,
+          ),
+        MultipartFile.fromString(
+          'cvHistoryParameter',
+          jsonEncode(data.toJson()),
+        ),
+      ],
+    );
 
     final response = await _send(request);
 
@@ -53,6 +76,12 @@ class FileCViewerService {
   }
 
   Future<Response> _send(BaseRequest request) async {
+    final authToken = _storage.getString(StorageKeys.authToken);
+
+    request.headers.addAll({
+      'Authorization': 'Bearer $authToken',
+    });
+
     final streamResponse = await _client.send(request);
 
     return Response.fromStream(streamResponse);

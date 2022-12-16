@@ -13,5 +13,5 @@ class CVHistoryEventData {
   final int authorId;
   final FileInfo? fileInfo;
   final String? comment;
-  final double? grade;
+  final int? grade;
 }

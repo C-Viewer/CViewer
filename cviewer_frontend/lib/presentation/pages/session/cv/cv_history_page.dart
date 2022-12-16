@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
+import 'package:cviewer_frontend/domain/logic/cv/cv_history_event_creator.dart';
 import 'package:cviewer_frontend/domain/logic/cv/cv_history_loader.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
@@ -32,16 +33,17 @@ class CVHistoryPage extends StatefulWidget {
 }
 
 class _CVHistoryPageState extends State<CVHistoryPage> {
-  final _cvHistoryLoader = CVHistoryLoader();
+  late final CVHistoryLoader _cvHistoryLoader;
 
   @override
   void initState() {
     super.initState();
-    _cvHistoryLoader.loadCVHistory(widget.cvId);
+    _cvHistoryLoader = CVHistoryLoader(cvId: widget.cvId);
+    _cvHistoryLoader.loadCVHistory();
   }
 
   void _onReload() {
-    _cvHistoryLoader.loadCVHistory(widget.cvId);
+    _cvHistoryLoader.loadCVHistory();
   }
 
   @override
@@ -74,6 +76,7 @@ class _CVHistoryPageState extends State<CVHistoryPage> {
                       // Content
                       : _Content(
                           cvHistory: _cvHistoryLoader.cvHistory!,
+                          cvHistoryLoader: _cvHistoryLoader,
                         ),
         ),
       ),
@@ -84,9 +87,11 @@ class _CVHistoryPageState extends State<CVHistoryPage> {
 class _Content extends StatelessWidget {
   const _Content({
     required this.cvHistory,
+    required this.cvHistoryLoader,
   });
 
   final CVHistory cvHistory;
+  final CVHistoryLoader cvHistoryLoader;
 
   @override
   Widget build(BuildContext context) {
@@ -139,11 +144,20 @@ class _Content extends StatelessWidget {
                   ),
                 ),
                 child: ElevatedButton(
-                  onPressed: () => CVHistoryEventBottomSheet.show(
-                    context,
-                    enableGrade: profile?.isExpert == true,
-                    enableFileAttachment: profile?.isExpert == false,
-                  ),
+                  onPressed: () async {
+                    final isUpdated = await CVHistoryEventBottomSheet.show(
+                      context,
+                      enableGrade: profile?.isExpert == true,
+                      enableFileAttachment: profile?.isExpert == false,
+                      eventCreator: CVHistoryEventCreator(
+                        cvId: cvHistory.cv.id,
+                        authorId: profile!.id,
+                      ),
+                    );
+                    if (isUpdated == true) {
+                      cvHistoryLoader.loadCVHistory();
+                    }
+                  },
                   style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(AppColors.mint),
                   ),

@@ -99,23 +99,27 @@ class RealCVRepository implements CVRepository {
 
   @override
   Future<void> createCV(CVData cvData) async {
-    await _fileService.uploadFile(
-      path: '/create_cv_for_review',
-      draft: dto.ComplexCVAndIFormFile(
-        cvDraft: dto.CVDraftParameter(
-          title: cvData.title,
-          tags: cvData.tags.map((it) => it.id).toList(),
-          fileName: cvData.fileName,
-        ),
-      ),
+    await _fileService.createCV(
       file: cvData.file,
+      data: dto.CVDraftParameter(
+        title: cvData.title,
+        tags: cvData.tags.map((it) => it.id).toList(),
+        fileName: cvData.fileName,
+      ),
     );
   }
 
   @override
-  Future<void> addHistoryEvent(CVHistoryEventData eventData) async {
-    await _service.addEventToHistoryPost(
-      cvHistoryParameter: dto.ComplexCVHistoryParameterAndFIle(),
+  Future<void> createHistoryEvent(CVHistoryEventData eventData) async {
+    await _fileService.createCVHistoryEvent(
+      file: eventData.fileInfo?.file,
+      data: dto.CVHistoryParameter(
+        cvId: eventData.cvId,
+        authorId: eventData.authorId,
+        fileName: eventData.fileInfo?.fileName,
+        comment: eventData.comment,
+        grade: eventData.grade,
+      ),
     );
   }
 

@@ -77,8 +77,8 @@ mixin _$CVHistoryLoader on _CVHistoryLoader, Store {
       AsyncAction('_CVHistoryLoader.loadCVHistory', context: context);
 
   @override
-  Future<void> loadCVHistory(int cvId) {
-    return _$loadCVHistoryAsyncAction.run(() => super.loadCVHistory(cvId));
+  Future<void> loadCVHistory() {
+    return _$loadCVHistoryAsyncAction.run(() => super.loadCVHistory());
   }
 
   @override
