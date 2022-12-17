@@ -4,6 +4,7 @@ using CViewer.DataAccess.InnerEntities;
 using CViewer.DataAccess.Repositories;
 using CViewer.Utils;
 using static CViewer.DataAccess.EntitiesHelper;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CViewer.Services
 {
@@ -29,12 +30,12 @@ namespace CViewer.Services
 
         public async Task<string> StoreFileAsync(IFormFile file, IAmazonS3Service service)
         {
-            int id = CVHistoryRepository.CVHistories.Count() + 1;
-            string path = id.ToString() + file.FileName;
+            string date = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow).ToString();
+            string path = Path.GetFileNameWithoutExtension(file.FileName) + "_" + date + Path.GetExtension(file.FileName);
 
             bool status = await service.AddFileAsync(file, path);
             if (status) return service.GetAmazonFileURL(path);
-            else return "File upload failed";
+            else return null;
         }
 
         public void PinToHistory(string fileName, string urlForDownload, int cvId, int authorId)
