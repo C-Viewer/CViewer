@@ -101,20 +101,20 @@ class S {
   }
 
   /// `База CV`
-  String get cvBase {
+  String get freeCV {
     return Intl.message(
       'База CV',
-      name: 'cvBase',
+      name: 'freeCV',
       desc: '',
       args: [],
     );
   }
 
-  /// `Топ CV`
-  String get topCV {
+  /// `Лучшие CV`
+  String get bestCV {
     return Intl.message(
-      'Топ CV',
-      name: 'topCV',
+      'Лучшие CV',
+      name: 'bestCV',
       desc: '',
       args: [],
     );

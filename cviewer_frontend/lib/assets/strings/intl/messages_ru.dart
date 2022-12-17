@@ -25,11 +25,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "authTitle": MessageLookupByLibrary.simpleMessage("Вход в CViewer"),
         "availableForReview":
             MessageLookupByLibrary.simpleMessage("Опубликовано"),
+        "bestCV": MessageLookupByLibrary.simpleMessage("Лучшие CV"),
         "biography": MessageLookupByLibrary.simpleMessage("Биография"),
         "comment": MessageLookupByLibrary.simpleMessage("Комментарий"),
         "createCV": MessageLookupByLibrary.simpleMessage("Создать CV"),
         "cv": MessageLookupByLibrary.simpleMessage("CV"),
-        "cvBase": MessageLookupByLibrary.simpleMessage("База CV"),
         "cvCreator": MessageLookupByLibrary.simpleMessage("Создание CV"),
         "draft": MessageLookupByLibrary.simpleMessage("Черновик"),
         "edit": MessageLookupByLibrary.simpleMessage("Редактировать"),
@@ -38,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "finished": MessageLookupByLibrary.simpleMessage("Завершено"),
         "firstName": MessageLookupByLibrary.simpleMessage("Имя"),
         "fixRequired": MessageLookupByLibrary.simpleMessage("Нужно исправить"),
+        "freeCV": MessageLookupByLibrary.simpleMessage("База CV"),
         "lastName": MessageLookupByLibrary.simpleMessage("Фамилия"),
         "marked": MessageLookupByLibrary.simpleMessage("Оценено"),
         "myCV": MessageLookupByLibrary.simpleMessage("Мои CV"),
@@ -64,7 +65,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "title": MessageLookupByLibrary.simpleMessage("Название"),
         "titleHint":
             MessageLookupByLibrary.simpleMessage("Введите название CV"),
-        "topCV": MessageLookupByLibrary.simpleMessage("Топ CV"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Повторить"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Неизвестная ошибка, пожалуйста, обратитесь в службу поддержки"),
