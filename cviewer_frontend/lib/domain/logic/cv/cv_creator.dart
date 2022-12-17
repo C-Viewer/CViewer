@@ -79,7 +79,7 @@ abstract class _CVCreator with Store {
       final t = tags?.where((it) => selectedTags[tags!.indexOf(it)]).toList();
 
       if (f == null || fn == null || t == null) {
-        throw const ValidationError();
+        throw ValidationError();
       } else {
         await _cvRepository.createCV(
           CVData(

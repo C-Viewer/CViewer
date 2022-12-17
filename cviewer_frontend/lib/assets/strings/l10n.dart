@@ -420,6 +420,26 @@ class S {
     );
   }
 
+  /// `Ошибка валидации введенных данных`
+  String get validationError {
+    return Intl.message(
+      'Ошибка валидации введенных данных',
+      name: 'validationError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `По вашему запросу ничего не найдено`
+  String get noFoundError {
+    return Intl.message(
+      'По вашему запросу ничего не найдено',
+      name: 'noFoundError',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Неизвестная ошибка, пожалуйста, обратитесь в службу поддержки`
   String get unknownError {
     return Intl.message(

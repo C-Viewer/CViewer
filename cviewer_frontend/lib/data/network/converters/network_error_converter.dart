@@ -12,7 +12,9 @@ class NetworkErrorConverter implements ErrorConverter {
   ) async {
     switch (response.statusCode) {
       case 401:
-        throw const NoAccessError();
+        throw NoAccessError();
+      case 404:
+        throw NoFoundError();
     }
     return response;
   }

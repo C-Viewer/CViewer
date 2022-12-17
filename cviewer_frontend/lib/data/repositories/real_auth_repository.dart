@@ -41,7 +41,7 @@ class RealAuthRepository implements AuthRepository {
 
       return const ProfileFromDtoMapper().map(profileDto);
     } else {
-      throw const NoDataError();
+      throw NoDataError();
     }
   }
 }

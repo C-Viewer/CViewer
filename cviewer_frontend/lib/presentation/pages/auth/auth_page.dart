@@ -3,6 +3,7 @@ import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/domain/logic/auth/auth_manager.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile_credentials.dart';
+import 'package:cviewer_frontend/presentation/core/core_error_disposer.dart';
 import 'package:cviewer_frontend/presentation/resources/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -45,58 +46,64 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     return ReactionBuilder(
       builder: _reactionBuilder,
-      child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 64),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Logo
-              Center(
-                child: Image.asset(
-                  ImagePaths.logo,
-                ),
-              ),
-              // Title
-              Text(
-                S.of(context).authTitle,
-                textAlign: TextAlign.center,
-                style: TextStyles.titleXXL,
-              ),
-              const SizedBox(height: 48),
-              // Email field
-              TextFormField(
-                controller: _emailTextController,
-                decoration: InputDecoration(
-                  label: Text(
-                    S.of(context).email,
+      child: ReactionBuilder(
+        builder: (context) => coreErrorDisposer(
+          context,
+          (_) => _authManager.error,
+        ),
+        child: Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 64),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Logo
+                Center(
+                  child: Image.asset(
+                    ImagePaths.logo,
                   ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              // Password field
-              TextFormField(
-                controller: _passwordTextController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  label: Text(
-                    S.of(context).password,
+                // Title
+                Text(
+                  S.of(context).authTitle,
+                  textAlign: TextAlign.center,
+                  style: TextStyles.titleXXL,
+                ),
+                const SizedBox(height: 48),
+                // Email field
+                TextFormField(
+                  controller: _emailTextController,
+                  decoration: InputDecoration(
+                    label: Text(
+                      S.of(context).email,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 48),
-              ElevatedButton(
-                onPressed: _onSignInButtonPressed,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    S.of(context).signIn,
-                    style: TextStyles.titleL,
+                const SizedBox(height: 24),
+                // Password field
+                TextFormField(
+                  controller: _passwordTextController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    label: Text(
+                      S.of(context).password,
+                    ),
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 48),
+                ElevatedButton(
+                  onPressed: _onSignInButtonPressed,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      S.of(context).signIn,
+                      style: TextStyles.titleL,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

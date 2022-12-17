@@ -1,11 +1,15 @@
 class NoDataError implements Exception {
-  const NoDataError();
+  NoDataError();
 }
 
 class NoAccessError implements Exception {
-  const NoAccessError();
+  NoAccessError();
+}
+
+class NoFoundError implements Exception {
+  NoFoundError();
 }
 
 class ValidationError implements Exception {
-  const ValidationError();
+  ValidationError();
 }

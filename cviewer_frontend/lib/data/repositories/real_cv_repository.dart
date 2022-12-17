@@ -34,7 +34,7 @@ class RealCVRepository implements CVRepository {
     if (dto != null) {
       return dto.map(const CVFromDtoMapper().map).toList();
     } else {
-      throw const NoDataError();
+      throw NoDataError();
     }
   }
 
@@ -58,7 +58,7 @@ class RealCVRepository implements CVRepository {
         expert: expert,
       );
     } else {
-      throw const NoDataError();
+      throw NoDataError();
     }
   }
 
@@ -70,7 +70,7 @@ class RealCVRepository implements CVRepository {
     if (dto != null) {
       return dto.map(const CVTagFromDtoMapper().map).toList();
     } else {
-      throw const NoDataError();
+      throw NoDataError();
     }
   }
 
@@ -93,7 +93,7 @@ class RealCVRepository implements CVRepository {
               ).map(it))
           .toList();
     } else {
-      throw const NoDataError();
+      throw NoDataError();
     }
   }
 
@@ -137,7 +137,7 @@ class RealCVRepository implements CVRepository {
     if (dto != null) {
       return const ProfileFromDtoMapper().map(dto);
     } else {
-      throw const NoDataError();
+      throw NoDataError();
     }
   }
 }

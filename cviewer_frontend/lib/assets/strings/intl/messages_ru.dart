@@ -46,6 +46,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Доступ запрещен, пожалуйста, попробуйте заново авторизоваться"),
         "noDataError": MessageLookupByLibrary.simpleMessage(
             "Не удалось загрузить данные, пожалуйста, повторите попытку"),
+        "noFoundError": MessageLookupByLibrary.simpleMessage(
+            "По вашему запросу ничего не найдено"),
         "onReview": MessageLookupByLibrary.simpleMessage("На проверке"),
         "password": MessageLookupByLibrary.simpleMessage("Пароль"),
         "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
@@ -65,6 +67,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "tryAgain": MessageLookupByLibrary.simpleMessage("Повторить"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Неизвестная ошибка, пожалуйста, обратитесь в службу поддержки"),
+        "validationError": MessageLookupByLibrary.simpleMessage(
+            "Ошибка валидации введенных данных"),
         "you": MessageLookupByLibrary.simpleMessage("Вы")
       };
 }

@@ -19,6 +19,10 @@ class ErrorUiAdapter implements ErrorUiModel {
         return S.of(context).noAccessError;
       case NoDataError:
         return S.of(context).noDataError;
+      case ValidationError:
+        return S.of(context).validationError;
+      case NoFoundError:
+        return S.of(context).noFoundError;
       default:
         return S.of(context).unknownError;
     }
