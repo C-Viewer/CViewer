@@ -291,7 +291,7 @@ namespace CViewer.DataAccess.DataManager
                     FileName = fileName,
                     AmazonPathToFile = urlForDownload,
                     CVId = cvId,
-                    DateTime = DateTime.UtcNow,
+                    DateTime = DateTime.Now,
                     AuthorId = authorId,
                 };
 

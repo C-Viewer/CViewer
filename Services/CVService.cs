@@ -13,7 +13,7 @@ namespace CViewer.Services
             CV newCv = new CV(DataManager.GetCVCount() + 1)
             {
                 PeopleCreatedId = applicant.Id,
-                DateCreation = DateTime.UtcNow,
+                DateCreation = DateTime.Now,
                 Specialization = applicant.Specialization,
                 StatusId = CVStatusType.SentToReview,
                 Tags = cvDraft.Tags != null ? DataManager.GetTags(cvDraft.Tags) : null,
@@ -89,7 +89,7 @@ namespace CViewer.Services
                 Id = DataManager.GetCVHistoriesCount() + 1,
                 CVId = cvHistoryParameter.CVId,
                 Comment = cvHistoryParameter.Comment,
-                DateTime = DateTime.UtcNow,
+                DateTime = DateTime.Now,
                 AuthorId = cvHistoryParameter.AuthorId,
                 Grade = cvHistoryParameter.Grade,
             };
