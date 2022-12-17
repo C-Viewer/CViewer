@@ -385,7 +385,7 @@ namespace CViewer.Endpoints
 
             if (!Validator.ValidateTokenWithProfiles(applicantOrExpertToken, profilesIds))
             {
-                return Results.BadRequest("You have not access to this CV history");
+                return Results.Unauthorized();
             }
 
             List<CVHistory> concreteCvHistories = service.ListCVHistories(cvId);
