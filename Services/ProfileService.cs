@@ -19,7 +19,6 @@ namespace CViewer.Services
             Profile existingProfile = DataManager.GetProfileFromMemory(userCredentials.EmailAddress, userCredentials.Password);
             if (existingProfile != null)
             {
-
                 errorMessage = "Email is already used for another account";
                 return ErrorCodes.Conflict;
             }
@@ -106,7 +105,7 @@ namespace CViewer.Services
         }
 
         public Profile UpdateProfile(int profileId, string firstName = null, string lastName = null, string biography = null,
-            double? rating = null, string email = null, string password = null, Specialization specializationId = null)
+            int? rating = null, string email = null, string password = null, Specialization specializationId = null)
         {
             var profileForUpdate = ProfileRepository.Profiles.FirstOrDefault(o => o.Id == profileId);
 
@@ -129,7 +128,7 @@ namespace CViewer.Services
 
             if (rating != null)
             {
-                profileForUpdate.Rating = (double)rating;
+                profileForUpdate.Rating = rating;
             }
 
             if (email != null)
@@ -183,6 +182,11 @@ namespace CViewer.Services
             );
 
             return token;
+        }
+
+        public void AddReportToProfile(string? comment, int peopleId, int authorId, int mark)
+        {
+            DataManager.AddReport(comment, peopleId, authorId, mark);
         }
     }
 }

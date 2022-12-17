@@ -20,7 +20,8 @@ namespace CViewer.Services
         /// </summary>
         public Profile GetApplicantProfile(int applicantId);
         public Profile UpdateProfile(int profileId, string firstName = null, string lastName = null, string biography = null,
-            double? rating = null, string email = null, string password = null, Specialization specializationId = null);
+            int? rating = null, string email = null, string password = null, Specialization specializationId = null);
         public List<Profile> ListProfiles();
+        public void AddReportToProfile(string? comment, int peopleId, int authorId, int mark);
     }
 }

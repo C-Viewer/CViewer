@@ -347,5 +347,44 @@ namespace CViewer.DataAccess.DataManager
                 return CVRepository.CVs.Where(cv => cv.GoodCv).OrderByDescending(cv => cv.Grade).ToList();
             }
         }
+
+        public static int GetReportsCount()
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return ReportRepository.Reports.Count;
+            }
+        }
+
+        public static void AddReport(string? comment, int peopleId, int authorId, int mark)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                Report report = new Report
+                {
+                    Id = GetReportsCount() + 1,
+                    Text = comment,
+                    PeopleId = peopleId,
+                    CreatedDate = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),
+                    AuthorId = authorId,
+                    Rating = mark
+                };
+
+                ReportRepository.Reports.Add(report);
+
+                Profile profile = ProfileRepository.Profiles.Where(p => p.Id == peopleId).First();
+                int marks = ReportRepository.Reports.Where(r => r.PeopleId == peopleId).Select(r => r.Rating).Sum();
+                int count = ReportRepository.Reports.Where(r => r.PeopleId == peopleId).Count();
+                profile.Rating = marks/count;
+            }
+        }
     }
 }

@@ -35,7 +35,7 @@ namespace CViewer.Endpoints
 
             app.MapPut("/update_profile",
                 ([Required] int profileId, string firstName, string lastName, string biography,
-                double? rating, string email, string password, Specialization specializationId, IProfileService service) => UpdateProfile(profileId: profileId, firstName: firstName,
+                int? rating, string email, string password, Specialization specializationId, IProfileService service) => UpdateProfile(profileId: profileId, firstName: firstName,
                     lastName: lastName, biography: biography, rating: rating, email: email, password: password, specializationId: specializationId, 
                     service: service))
                 .Produces<Profile>();
@@ -56,6 +56,12 @@ namespace CViewer.Endpoints
                     (int profileId, HttpContext context, ISecurityService securityService, IProfileService service) =>
                         GetProfile(profileId, context, securityService, service))
                 .Produces<Profile>();
+
+            app.MapPost("/add_report_to_profile",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                (string? comment, [Required] int peopleId, [Required] int authorId, [Required] int mark, HttpContext context, ISecurityService securityService, IProfileService service) => 
+                AddReportToProfile(comment, peopleId, authorId, mark, context, securityService, service));
 
             //app.MapGet("/get_expert_profile",
             //        [EnableCors(Configuration.CorsPolicyName)]
@@ -197,7 +203,7 @@ namespace CViewer.Endpoints
         }
 
         private static IResult UpdateProfile(int profileId, IProfileService service, string firstName = null, string lastName = null, string biography = null,
-            double? rating = null, string email = null, string password = null, Specialization specializationId = null)
+            int? rating = null, string email = null, string password = null, Specialization specializationId = null)
         {
             var updatedProfile = service.UpdateProfile(profileId: profileId, firstName: firstName, lastName: lastName, 
                 biography: biography, rating: rating, email: email, password: password, specializationId: specializationId);
@@ -210,6 +216,14 @@ namespace CViewer.Endpoints
         private static IResult ListProfiles(IProfileService service)
         {
             return Results.Ok(service.ListProfiles());
+        }
+
+        private static IResult AddReportToProfile(string? comment, int peopleId, int authorId, int mark, HttpContext context, ISecurityService securityService, IProfileService service)
+        {
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token)) return Results.Unauthorized();
+            service.AddReportToProfile(comment, peopleId, authorId, mark);
+            return Results.Ok();
         }
     }
 }
