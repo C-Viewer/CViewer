@@ -11,6 +11,6 @@ namespace CViewer.DataAccess.InnerEntities
         public int AuthorId { get; set; }
         public string FileName { get; set; }
         public string Comment { get; set; }
-        public double? Grade { get; set; }
+        public int? Grade { get; set; }
     }
 }

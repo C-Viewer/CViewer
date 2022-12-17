@@ -36,6 +36,6 @@ namespace CViewer.DataAccess.Entities
 
         public string UrlFileForDownload { get; set; }
         public string PinnedFileName { get; set; }
-        public double? Grade { get; set; }
+        public int? Grade { get; set; }
     }
 }
