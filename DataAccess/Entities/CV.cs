@@ -25,7 +25,7 @@ namespace CViewer.DataAccess.Entities
         public List<int> ExpertIds { get; set; }
         public Specialization Specialization { get; set; }
         public string Description { get; set; }
-        public double? Rating { get; set; }
+        public int? Rating { get; set; }
         public List<CVTag> Tags { get; set; }
         
         [Required]
