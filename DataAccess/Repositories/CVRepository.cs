@@ -51,6 +51,8 @@ namespace CViewer.DataAccess.Repositories
                     CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 3),
                 },
                 GoodCv = true,
+                PinnedFileName = "my_cv_flutter.pdf",
+                UrlFileForDownload = "STUB",
             },
 
             new(4) { 
@@ -67,6 +69,23 @@ namespace CViewer.DataAccess.Repositories
                     CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 4),
                 },
                 GoodCv = true,
+                PinnedFileName = "my_cv_database.pdf",
+                UrlFileForDownload = "STUB",
+            },
+
+            new(5) { 
+                StatusId = CVStatusType.SentToReview,
+                Title = "Java", 
+                Description = "Разработка ПО на java.", 
+                DateCreation = new DateTime(2022, 12, 08, 18, 25, 01),
+                PeopleCreatedId = 2,
+                ExpertIds = new List<int>() { 1 },
+                Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 1),            
+                Tags = new List<CVTag>
+                {
+                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 2),
+                },
+                OpenToReview = true,
             },
         };
     }
