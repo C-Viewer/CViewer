@@ -1,9 +1,12 @@
-import 'package:cviewer_frontend/data/network/service/base/c_viewer_service.models.swagger.dart' as dto;
+import 'package:cviewer_frontend/data/network/service/base/c_viewer_service.models.swagger.dart'
+    as dto;
 import 'package:cviewer_frontend/domain/models/cv/cv_history_event.dart';
+import 'package:cviewer_frontend/domain/models/file/file_info.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/utils/mapper.dart';
 
-class CVHistoryEventFromDtoMapper implements Mapper<dto.CVHistory, CVHistoryEvent> {
+class CVHistoryEventFromDtoMapper
+    implements Mapper<dto.CVHistory, CVHistoryEvent> {
   const CVHistoryEventFromDtoMapper({
     required this.author,
   });
@@ -18,7 +21,12 @@ class CVHistoryEventFromDtoMapper implements Mapper<dto.CVHistory, CVHistoryEven
       author: author,
       comment: data.comment,
       grade: data.grade?.toDouble(),
-      filePath: data.amazonPathToFile,
+      fileInfo: (data.fileName != null && data.amazonPathToFile != null)
+          ? FileInfo(
+              fileUrl: data.amazonPathToFile!,
+              fileName: data.fileName!,
+            )
+          : null,
     );
   }
 }

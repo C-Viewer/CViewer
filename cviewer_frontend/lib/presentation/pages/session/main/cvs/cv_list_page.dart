@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/domain/logic/cv/cv_list_loader.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_list_type.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/presentation/core/core_error_disposer.dart';
 import 'package:cviewer_frontend/presentation/resources/decorations.dart';
@@ -19,20 +20,23 @@ class CVListPage extends StatefulWidget {
   const CVListPage({
     super.key,
     required this.title,
+    required this.type,
   });
 
   final String title;
+  final CVListType type;
 
   @override
   State<CVListPage> createState() => _CVListPageState();
 }
 
 class _CVListPageState extends State<CVListPage> {
-  final _cvsLoader = CVListLoader();
+  late final CVListLoader _cvsLoader;
 
   @override
   void initState() {
     super.initState();
+    _cvsLoader = CVListLoader(type: widget.type);
     _cvsLoader.loadCVs();
   }
 
@@ -77,10 +81,11 @@ class _CVListPageState extends State<CVListPage> {
                             Expanded(
                               child: CVList(
                                 cvs: _cvsLoader.cvList,
+                                type: widget.type,
                               ),
                             ),
                             // Button panel
-                            if (!isExpert)
+                            if (!isExpert && widget.type == CVListType.myCVs)
                               Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 16,

@@ -1,6 +1,6 @@
 import 'package:cviewer_frontend/di/assemble.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history_event_data.dart';
-import 'package:cviewer_frontend/domain/models/file/file_info.dart';
+import 'package:cviewer_frontend/domain/models/file/file_data.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:mobx/mobx.dart';
 
@@ -67,8 +67,8 @@ abstract class _CVHistoryEventCreator with Store {
         CVHistoryEventData(
           cvId: cvId,
           authorId: authorId,
-          fileInfo: (f != null && fn != null)
-              ? FileInfo(
+          fileData: (f != null && fn != null)
+              ? FileData(
                   fileName: fn,
                   file: f,
                 )

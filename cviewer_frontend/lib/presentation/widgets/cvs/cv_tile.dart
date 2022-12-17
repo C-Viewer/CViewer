@@ -1,5 +1,6 @@
 import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_list_type.dart';
 import 'package:cviewer_frontend/presentation/resources/app_colors.dart';
 import 'package:cviewer_frontend/presentation/widgets/cv_tags/cv_tag_group.dart';
 import 'package:cviewer_frontend/presentation/widgets/cvs/cv_rating_label.dart';
@@ -12,9 +13,11 @@ class CVTile extends StatelessWidget {
   const CVTile({
     super.key,
     required this.cv,
+    required this.type,
   });
 
   final CV cv;
+  final CVListType type;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +27,7 @@ class CVTile extends StatelessWidget {
         params: {
           RouteParams.cvId: cv.id.toString(),
         },
+        extra: type,
       ),
       child: Card(
         elevation: 10,

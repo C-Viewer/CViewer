@@ -1,3 +1,4 @@
+import 'package:cviewer_frontend/domain/models/file/file_info.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 
 class CVHistoryEvent {
@@ -7,7 +8,7 @@ class CVHistoryEvent {
     required this.author,
     this.comment,
     this.grade,
-    this.filePath,
+    this.fileInfo,
   });
 
   final int id;
@@ -15,5 +16,5 @@ class CVHistoryEvent {
   final Profile author;
   final String? comment;
   final double? grade;
-  final String? filePath;
+  final FileInfo? fileInfo;
 }

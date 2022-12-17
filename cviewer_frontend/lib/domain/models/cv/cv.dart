@@ -1,5 +1,6 @@
 import 'package:cviewer_frontend/domain/models/cv/cv_status.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
+import 'package:cviewer_frontend/domain/models/file/file_info.dart';
 
 class CV {
   const CV({
@@ -10,8 +11,7 @@ class CV {
     required this.creationDate,
     required this.tags,
     this.rating,
-    this.pinnedFileName,
-    this.pinnedFileUrl,
+    this.pinnedFileInfo,
   });
 
   final int id;
@@ -21,6 +21,5 @@ class CV {
   final DateTime creationDate;
   final List<CVTag> tags;
   final double? rating;
-  final String? pinnedFileName;
-  final String? pinnedFileUrl;
+  final FileInfo? pinnedFileInfo;
 }

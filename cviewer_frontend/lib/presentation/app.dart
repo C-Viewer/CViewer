@@ -1,5 +1,6 @@
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
 import 'package:cviewer_frontend/constants/route_constants.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_list_type.dart';
 import 'package:cviewer_frontend/presentation/pages/auth/auth_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/cv/cv_creator_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/cv/cv_history_page.dart';
@@ -62,6 +63,7 @@ final _appRouter = GoRouter(
           name: RouteNames.cvHistory,
           builder: (_, s) => CVHistoryPage(
             cvId: int.parse(s.params[RouteParams.cvId]!),
+            type: s.extra as CVListType,
           ),
         ),
         // CV creator

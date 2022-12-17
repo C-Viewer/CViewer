@@ -71,15 +71,14 @@ class CVHistoryEventTile extends StatelessWidget {
                 ),
               ),
             // File
-            if (event.filePath != null)
+            if (event.fileInfo != null)
               Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: Row(
                   children: [
                     const Spacer(),
                     CVFileLabel(
-                      fileName: 'file',
-                      fileUrl: event.filePath!,
+                      fileInfo: event.fileInfo!,
                     ),
                   ],
                 ),

@@ -59,6 +59,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "signIn": MessageLookupByLibrary.simpleMessage("Войти"),
         "signUp": MessageLookupByLibrary.simpleMessage("Зарегистрироваться"),
         "speciality": MessageLookupByLibrary.simpleMessage("Специальность"),
+        "startReview": MessageLookupByLibrary.simpleMessage("Взять на ревью"),
         "tags": MessageLookupByLibrary.simpleMessage("Теги"),
         "title": MessageLookupByLibrary.simpleMessage("Название"),
         "titleHint":

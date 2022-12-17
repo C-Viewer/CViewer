@@ -1,5 +1,6 @@
 import 'package:cviewer_frontend/di/assemble.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_list_type.dart';
 import 'package:cviewer_frontend/utils/loggers.dart';
 import 'package:mobx/mobx.dart';
 
@@ -10,9 +11,11 @@ class CVHistoryLoader = _CVHistoryLoader with _$CVHistoryLoader;
 abstract class _CVHistoryLoader with Store {
   _CVHistoryLoader({
     required this.cvId,
+    required this.type,
   });
 
   final int cvId;
+  final CVListType type;
   final _cvRepository = Assemble.cvRepository;
 
   @observable
@@ -31,7 +34,7 @@ abstract class _CVHistoryLoader with Store {
   Future<void> loadCVHistory() async {
     isLoading = true;
     try {
-      cvHistory = await _cvRepository.getCVHistory(cvId);
+      cvHistory = await _cvRepository.getCVHistory(cvId, type);
       error = null;
       hasLoadError = false;
       Loggers.cvHistoryLoader.info('CV history was loaded');
@@ -60,5 +63,5 @@ abstract class _CVHistoryLoader with Store {
     }
 
     return error == null;
-  } 
+  }
 }

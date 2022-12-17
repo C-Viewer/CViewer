@@ -400,6 +400,16 @@ class S {
     );
   }
 
+  /// `Взять на ревью`
+  String get startReview {
+    return Intl.message(
+      'Взять на ревью',
+      name: 'startReview',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Доступ запрещен, пожалуйста, попробуйте заново авторизоваться`
   String get noAccessError {
     return Intl.message(

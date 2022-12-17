@@ -1,3 +1,4 @@
+import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
 import 'package:cviewer_frontend/data/mappers/cv_history_event_mapper.dart';
 import 'package:cviewer_frontend/data/mappers/cv_mapper.dart';
@@ -12,6 +13,7 @@ import 'package:cviewer_frontend/domain/models/cv/cv_data.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history_event.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history_event_data.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_list_type.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_tag.dart';
 import 'package:cviewer_frontend/domain/models/errors.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
@@ -27,19 +29,31 @@ class RealCVRepository implements CVRepository {
   final FileCViewerService _fileService;
 
   @override
-  Future<List<CV>> getCVs() async {
-    final response = await _service.listCVsForProfileGet();
-    final dto = response.body;
+  Future<List<CV>> getCVs(CVListType type) async {
+    late final Response<List<dto.Cv>> response;
 
-    if (dto != null) {
-      return dto.map(const CVFromDtoMapper().map).toList();
+    switch (type) {
+      case CVListType.myCVs:
+        response = await _service.listCVsForProfileGet();
+        break;
+      case CVListType.freeCV:
+        response = await _service.listCvsOpenedForReviewGet();
+        break;
+      case CVListType.bestCV:
+        response = await _service.listGoodCvsGet();
+        break;
+    }
+    final cvsDto = response.body;
+
+    if (cvsDto != null) {
+      return cvsDto.map(const CVFromDtoMapper().map).toList();
     } else {
       throw NoDataError();
     }
   }
 
   @override
-  Future<CVHistory> getCVHistory(int cvId) async {
+  Future<CVHistory> getCVHistory(int cvId, CVListType type) async {
     final response = await _service.getCvGet(
       cvId: cvId,
     );
@@ -53,7 +67,9 @@ class RealCVRepository implements CVRepository {
 
       return CVHistory(
         cv: const CVFromDtoMapper().map(dto),
-        events: await _getCVHistoryEvents(dto.id, applicant, expert),
+        events: (type == CVListType.myCVs)
+            ? await _getCVHistoryEvents(dto.id, applicant, expert)
+            : [],
         applicant: applicant,
         expert: expert,
       );
@@ -112,11 +128,11 @@ class RealCVRepository implements CVRepository {
   @override
   Future<void> createHistoryEvent(CVHistoryEventData eventData) async {
     await _fileService.createCVHistoryEvent(
-      file: eventData.fileInfo?.file,
+      file: eventData.fileData?.file,
       data: dto.CVHistoryParameter(
         cvId: eventData.cvId,
         authorId: eventData.authorId,
-        fileName: eventData.fileInfo?.fileName,
+        fileName: eventData.fileData?.fileName,
         comment: eventData.comment,
         grade: eventData.grade?.toDouble(),
       ),

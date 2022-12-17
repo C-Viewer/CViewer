@@ -1,7 +1,7 @@
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
+import 'package:cviewer_frontend/domain/models/cv/cv_list_type.dart';
 import 'package:cviewer_frontend/domain/models/profile/profile.dart';
 import 'package:cviewer_frontend/presentation/pages/session/main/cvs/cv_list_page.dart';
-import 'package:cviewer_frontend/presentation/pages/session/main/home/home_page.dart';
 import 'package:cviewer_frontend/presentation/pages/session/main/profile/profile_page.dart';
 import 'package:cviewer_frontend/presentation/ui_adapters/tab_label_ui_adapter.dart';
 import 'package:cviewer_frontend/presentation/ui_models/tab_label_ui_model.dart';
@@ -18,23 +18,30 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   var _currentTabIndex = 1;
   late TabLabelUiModel _tabLabelUiModel;
+  Profile? _profile;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final profile = Provider.of<Profile?>(context);
-    _tabLabelUiModel = TabLabelUiAdapter(context, profile: profile);
+    _profile = Provider.of<Profile?>(context);
+    _tabLabelUiModel = TabLabelUiAdapter(context, profile: _profile);
   }
 
   Widget _buildTab(BuildContext context) {
     switch (_currentTabIndex) {
       case 0:
-        return HomePage(
+        return CVListPage(
+          key: const ValueKey(0),
           title: _tabLabelUiModel.homeLabel,
+          type: (_profile?.isExpert == true)
+              ? CVListType.freeCV
+              : CVListType.bestCV,
         );
       case 1:
         return CVListPage(
+          key: const ValueKey(1),
           title: _tabLabelUiModel.cvListLabel,
+          type: CVListType.myCVs,
         );
       default:
         return const ProfilePage();

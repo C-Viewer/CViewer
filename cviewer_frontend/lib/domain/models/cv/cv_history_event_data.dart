@@ -1,17 +1,17 @@
-import 'package:cviewer_frontend/domain/models/file/file_info.dart';
+import 'package:cviewer_frontend/domain/models/file/file_data.dart';
 
 class CVHistoryEventData {
   const CVHistoryEventData({
     required this.cvId,
     required this.authorId,
-    this.fileInfo,
+    this.fileData,
     this.comment,
     this.grade,
   });
 
   final int cvId;
   final int authorId;
-  final FileInfo? fileInfo;
+  final FileData? fileData;
   final String? comment;
   final int? grade;
 }

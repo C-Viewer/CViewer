@@ -14,10 +14,9 @@ class TabLabelUiAdapter implements TabLabelUiModel {
 
   @override
   String get homeLabel =>
-      (profile?.isExpert ?? false) ? S.of(context).cvBase : S.of(context).topCV;
+      (profile?.isExpert == true) ? S.of(context).cvBase : S.of(context).topCV;
 
   @override
-  String get cvListLabel => (profile?.isExpert ?? false)
-      ? S.of(context).myReview
-      : S.of(context).myCV;
+  String get cvListLabel =>
+      (profile?.isExpert == true) ? S.of(context).myReview : S.of(context).myCV;
 }

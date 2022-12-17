@@ -1,21 +1,22 @@
 import 'dart:html';
 
+import 'package:cviewer_frontend/domain/models/file/file_info.dart';
 import 'package:cviewer_frontend/presentation/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CVFileLabel extends StatelessWidget {
   const CVFileLabel({
     super.key,
-    required this.fileName,
-    required this.fileUrl,
+    required this.fileInfo,
   });
 
-  final String fileName;
-  final String fileUrl;
+  final FileInfo fileInfo;
 
   void _onPressed() {
-    final anchorElement = AnchorElement(href: fileUrl);
-    anchorElement.download = fileUrl;
+    final anchorElement = AnchorElement(
+      href: fileInfo.fileUrl,
+    );
+    anchorElement.download = fileInfo.fileUrl;
     anchorElement.click();
   }
 
@@ -32,7 +33,7 @@ class CVFileLabel extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            fileName,
+            fileInfo.fileName,
             style: const TextStyle(
               fontSize: 16,
             ),
