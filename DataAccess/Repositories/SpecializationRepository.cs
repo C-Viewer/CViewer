@@ -21,6 +21,11 @@ namespace CViewer.DataAccess.Repositories
                 Id = 3,
                 Name = "QA"
             },
+            new Specialization()
+            {
+                Id = 4,
+                Name = "Database"
+            },
         };
     }
 }

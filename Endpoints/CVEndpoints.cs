@@ -57,9 +57,8 @@ namespace CViewer.Endpoints
 
             app.MapGet("/list_good_cvs",
                 [EnableCors(Configuration.CorsPolicyName)]
-                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                (HttpContext context, ISecurityService securityService, ICVService service) =>
-                    ListGoodCvs(context, securityService, service))
+                (ISecurityService securityService, ICVService service) =>
+                    ListGoodCvs(service))
                 .Produces<List<CV>>();
 
             app.MapGet("/list_cvs_opened_for_review",
@@ -171,7 +170,7 @@ namespace CViewer.Endpoints
             return Results.Ok();
         }
 
-        private static IResult ListGoodCvs(HttpContext context, ISecurityService securityService, ICVService service)
+        private static IResult ListGoodCvs(ICVService service)
         {
             return Results.Ok(service.ListGoodCvs());
         }

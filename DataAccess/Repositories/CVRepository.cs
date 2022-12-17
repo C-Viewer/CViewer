@@ -10,7 +10,7 @@ namespace CViewer.DataAccess.Repositories
                 StatusId = CVStatusType.NeedFix,
                 Title = ".NET Software Engineer", 
                 Description = "2 года опыта работы на должности .NET Software Engineer. Помимо .NET владею SQL-подобными языками.", 
-                Rating = 6.8,
+                Rating = 3,
                 DateCreation = new DateTime(2022, 12, 1, 16, 13, 33),
                 PeopleCreatedId = 2,
                 ExpertIds = new List<int>() { 1 },
@@ -26,7 +26,7 @@ namespace CViewer.DataAccess.Repositories
                 StatusId = CVStatusType.Finished,
                 Title = "QA", 
                 Description = "Тестирую программы на качество.", 
-                Rating = 10.0,
+                Rating = 5,
                 DateCreation = new DateTime(2022, 12, 05, 17, 05, 01),
                 PeopleCreatedId = 3,
                 ExpertIds = new List<int>() { 4 },
@@ -35,6 +35,38 @@ namespace CViewer.DataAccess.Repositories
                 {
                     CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 5),
                 },
+            },
+
+            new(3) { 
+                StatusId = CVStatusType.Finished,
+                Title = "Flutter developer", 
+                Description = "Разработка ПО.", 
+                Rating = 5,
+                DateCreation = new DateTime(2022, 12, 07, 13, 01, 01),
+                PeopleCreatedId = 2,
+                ExpertIds = new List<int>() { 1 },
+                Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 1),            
+                Tags = new List<CVTag>
+                {
+                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 3),
+                },
+                GoodCv = true,
+            },
+
+            new(4) { 
+                StatusId = CVStatusType.Finished,
+                Title = "Database developer", 
+                Description = "Разработка баз данных.", 
+                Rating = 5,
+                DateCreation = new DateTime(2022, 12, 06, 19, 15, 01),
+                PeopleCreatedId = 2,
+                ExpertIds = new List<int>() { 1 },
+                Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 4),            
+                Tags = new List<CVTag>
+                {
+                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 4),
+                },
+                GoodCv = true,
             },
         };
     }
