@@ -10,7 +10,7 @@ namespace CViewer.Services
         public CV CreateCVForReview(CVDraftParameter cvDraft, Profile applicant);
 
         /// <returns>URL for download</returns>
-        public string StoreFile(IFormFile file);
+        public Task<string> StoreFileAsync(IFormFile file, IAmazonS3Service service);
         public void PinToHistory(string fileName, string urlForDownload, int cvId, int authorId);
         public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null);
         public CVHistory CreateCVEventForHistory(CVHistoryParameter cvHistoryParameter, out string errMsg);

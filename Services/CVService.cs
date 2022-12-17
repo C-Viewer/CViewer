@@ -26,10 +26,14 @@ namespace CViewer.Services
             return newCv;
         }
 
-        public string StoreFile(IFormFile file)
+        public async Task<string> StoreFileAsync(IFormFile file, IAmazonS3Service service)
         {
-            // ToDo: MIRONTER, Use Amazon here.
-            return "STUB";
+            int id = CVHistoryRepository.CVHistories.Count() + 1;
+            string path = id.ToString() + file.FileName;
+
+            bool status = await service.AddFileAsync(file, path);
+            if (status) return service.GetAmazonFileURL(path);
+            else return "File upload failed";
         }
 
         public void PinToHistory(string fileName, string urlForDownload, int cvId, int authorId)

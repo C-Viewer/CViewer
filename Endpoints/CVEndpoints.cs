@@ -44,8 +44,8 @@ namespace CViewer.Endpoints
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (ComplexCVAndIFormFile complexCVAndIFormFile, HttpContext context,
-                            ISecurityService securityService, ICVService service) =>
-                        CreateCVForReview(complexCVAndIFormFile, context, securityService, service))
+                            ISecurityService securityService, ICVService service, IAmazonS3Service amazonS3Service) =>
+                        CreateCVForReviewAsync(complexCVAndIFormFile, context, securityService, service, amazonS3Service))
                 .Accepts<ComplexCVAndIFormFile>("multipart/form-data")
                 .Produces<CV>();
 
@@ -85,9 +85,9 @@ namespace CViewer.Endpoints
                 [EnableCors(Configuration.CorsPolicyName)]
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                 (ComplexCVHistoryParameterAndFIle complexCVHistoryParameterAndFIle, HttpContext context,
-                        ISecurityService securityService, ICVService service) =>
-                    AddEventToHistory(complexCVHistoryParameterAndFIle, service: service, context: context,
-                        securityService: securityService))
+                        ISecurityService securityService, ICVService service, IAmazonS3Service amazonS3Service) =>
+                    AddEventToHistoryAsync(complexCVHistoryParameterAndFIle, service: service, context: context,
+                        securityService: securityService, amazonS3Service: amazonS3Service))
                 .Accepts<ComplexCVHistoryParameterAndFIle>("multipart/form-data")
                 .Produces<CVHistory>();
 
@@ -239,8 +239,8 @@ namespace CViewer.Endpoints
             return Results.Ok(service.ListCvsOpenedForReview());
         }
 
-        private static IResult CreateCVForReview(ComplexCVAndIFormFile complexCVAndIFormFile, HttpContext context, ISecurityService securityService, 
-            ICVService service)
+        private static async Task<IResult> CreateCVForReviewAsync(ComplexCVAndIFormFile complexCVAndIFormFile, HttpContext context, ISecurityService securityService, 
+            ICVService service, IAmazonS3Service amazonS3Service)
         {
             string token = TokenHelper.GetToken(context);
             if (!securityService.CheckAccess(token))
@@ -267,11 +267,11 @@ namespace CViewer.Endpoints
                 .CreateLogger();
 
             logger.Write(LogEventLevel.Information, 
-                $"{nameof(CreateCVForReview)}: {nameof(cvDraft.Title)}: {cvDraft.Title}\n{nameof(cvDraft.FileName)}: {cvDraft.FileName}\nCount of {nameof(cvDraft.Tags)}: {cvDraft.Tags.Count}\n");
+                $"{nameof(CreateCVForReviewAsync)}: {nameof(cvDraft.Title)}: {cvDraft.Title}\n{nameof(cvDraft.FileName)}: {cvDraft.FileName}\nCount of {nameof(cvDraft.Tags)}: {cvDraft.Tags.Count}\n");
 
             if (complexCVAndIFormFile.File != null)
             {
-                string urlToStoreFile = service.StoreFile(complexCVAndIFormFile.File);
+                string urlToStoreFile = await service.StoreFileAsync(complexCVAndIFormFile.File, amazonS3Service);
                 
                 if (!urlToStoreFile.IsNullOrEmpty())
                 {
@@ -294,8 +294,8 @@ namespace CViewer.Endpoints
             return Results.Ok(updatedCV);
         }
 
-        private static IResult AddEventToHistory(ComplexCVHistoryParameterAndFIle complexCVHistoryParameterAndFIle, HttpContext context, ISecurityService securityService, 
-            ICVService service)
+        private static async Task<IResult> AddEventToHistoryAsync(ComplexCVHistoryParameterAndFIle complexCVHistoryParameterAndFIle, HttpContext context, ISecurityService securityService, 
+            ICVService service, IAmazonS3Service amazonS3Service)
         {
             if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
             {
@@ -312,7 +312,7 @@ namespace CViewer.Endpoints
 
             if (complexCVHistoryParameterAndFIle.File != null)
             {
-                string urlToStoreFile = service.StoreFile(complexCVHistoryParameterAndFIle.File);
+                string urlToStoreFile = await service.StoreFileAsync(complexCVHistoryParameterAndFIle.File, amazonS3Service);
 
                 if (!urlToStoreFile.IsNullOrEmpty())
                 {
