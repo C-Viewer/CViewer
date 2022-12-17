@@ -4,9 +4,9 @@ namespace CViewer.Utils
 {
     internal static class TokenHelper
     {
-        internal static Func<DateTime> TokenLifeTimeExpires = () => LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow.AddMinutes(360));
-        internal static Func<DateTime> TokenLifeTimeNotBefore = () => LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow);
-        internal static Func<DateTime> TokenLifeTimeForSessionWindow = () => LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow.AddMinutes(10));
+        internal static Func<DateTime> TokenLifeTimeExpires = () => DateTime.UtcNow.AddMinutes(360);
+        internal static Func<DateTime> TokenLifeTimeNotBefore = () => DateTime.UtcNow;
+        internal static Func<DateTime> TokenLifeTimeForSessionWindow = () => DateTime.UtcNow.AddMinutes(10);
 
         internal static string GetToken(HttpContext context)
         {
