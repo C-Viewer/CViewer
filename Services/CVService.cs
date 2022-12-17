@@ -30,12 +30,8 @@ namespace CViewer.Services
 
         public async Task<string> StoreFileAsync(IFormFile file, IAmazonS3Service service)
         {
-            string date = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow).ToString();
-            var charsToRemove = new string[] { ".", ":" };
-            foreach (var c in charsToRemove)
-            {
-                date = date.Replace(c, string.Empty);
-            }
+            WorkWithFiles workWithFiles = new WorkWithFiles();
+            string date = workWithFiles.GetDateForName();
 
             string path = Path.GetFileNameWithoutExtension(file.FileName) + "_" + date.Replace(' ', '_') + Path.GetExtension(file.FileName);
 
@@ -252,9 +248,9 @@ namespace CViewer.Services
             return DataManager.GetCvsForProfile(profileToToken.ProfileId);
         }
 
-        public CviewerReport GenerateCViewerReport(DateTime date)
+        public async Task<string> GenerateCViewerReportAsync(DateTime date, IAmazonS3Service amazonS3Service)
         {
-            return DataManager.GenerateCViewerReport(date);
+            return await DataManager.GenerateCViewerReportAsync(date, amazonS3Service);
         }
 
         //public bool Delete(int id)

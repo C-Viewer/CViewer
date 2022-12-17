@@ -1,6 +1,10 @@
 ﻿using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.Repositories;
 using CViewer.Utils;
+using System.Xml.Serialization;
+using System.Xml;
+using CViewer.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CViewer.DataAccess.DataManager
 {
@@ -381,13 +385,13 @@ namespace CViewer.DataAccess.DataManager
                 ReportRepository.Reports.Add(report);
 
                 Profile profile = ProfileRepository.Profiles.Where(p => p.Id == peopleId).First();
-                int marks = ReportRepository.Reports.Where(r => r.PeopleId == peopleId).Select(r => r.Rating).Sum();
-                int count = ReportRepository.Reports.Where(r => r.PeopleId == peopleId).Count();
+                double marks = ReportRepository.Reports.Where(r => r.PeopleId == peopleId).Select(r => r.Rating).Sum();
+                double count = ReportRepository.Reports.Where(r => r.PeopleId == peopleId).Count();
                 profile.Rating = marks/count;
             }
         }
 
-        public static CviewerReport GenerateCViewerReport(DateTime date)
+        public static async Task<string> GenerateCViewerReportAsync(DateTime date, IAmazonS3Service amazonS3Service)
         {
             if (TemporaryConfiguration.UseDb)
             {
@@ -399,9 +403,42 @@ namespace CViewer.DataAccess.DataManager
                 int allCvFile = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.AmazonPathToFile != null).Count();
                 int allExpertReports = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade != null).Count();
                 int allApplicantReports = ReportRepository.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year).Count();
-                int allMaxReports = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade == 5).Count() + ReportRepository.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year && r.Rating == 10).Count();
-                CviewerReport cvReport = new CviewerReport(date, allCv, allCvFile, allExpertReports, allApplicantReports, allMaxReports);
-                return cvReport;
+                int allMaxReports = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade == 5).Count() + ReportRepository.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year && r.Rating == 5).Count();
+                CviewerReport cviewerReport = new CviewerReport();
+                cviewerReport.option0 = "Количество загруженных резюме за " + $"{date:Y}";
+                cviewerReport.option1 = "Количество загруженных файлов резюме за " + $"{date:Y}";
+                cviewerReport.option2 = "Количесво оценок экспертами за " + $"{date:Y}";
+                cviewerReport.option3 = "Количесво оценок пользователями за " + $"{date:Y}";
+                cviewerReport.option4 = "Количесво оценок на максимальный балл за " + $"{date:Y}";
+                cviewerReport.property0 = allCv;
+                cviewerReport.property1 = allCvFile;
+                cviewerReport.property2 = allExpertReports;
+                cviewerReport.property3 = allApplicantReports;
+                cviewerReport.property4 = allMaxReports;
+
+                XmlSerializer xsSubmit = new XmlSerializer(typeof(CviewerReport));
+                var xml = "";
+
+                using (var sww = new StringWriter())
+                {
+                    using (XmlWriter writer = XmlWriter.Create(sww))
+                    {
+                        xsSubmit.Serialize(writer, cviewerReport);
+                        xml = sww.ToString();
+                    }
+                }
+
+                WorkWithFiles workWithFiles = new WorkWithFiles();
+
+                string path = "";
+                using (var stream = workWithFiles.GenerateStreamFromString(xml))
+                {
+                    string dateNow = workWithFiles.GetDateForName();
+                    path = "report_" + dateNow.Replace(' ', '_') + ".xml";
+                    await amazonS3Service.AddFileAsync(workWithFiles.ReturnFormFile(stream, path), path);
+                }
+
+                return amazonS3Service.GetAmazonFileURL(path);
             }
         }
     }

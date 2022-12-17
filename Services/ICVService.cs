@@ -34,6 +34,6 @@ namespace CViewer.Services
         void UpdateCvStatusIfNecessary(CVHistory cvEventForHistory);
         void PinFileToCv(int cvId, string fileName, string urlToStoreFile);
         void FinishCvReview(CV cv);
-        public CviewerReport GenerateCViewerReport(DateTime date);
+        public Task<string> GenerateCViewerReportAsync(DateTime date, IAmazonS3Service amazonS3Service);
     }
 }

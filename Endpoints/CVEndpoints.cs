@@ -22,8 +22,8 @@ namespace CViewer.Endpoints
         public static void MapCVEndpoints(this WebApplication app)
         {
             app.MapGet("/generate_cviewer_report",
-                    ([Required] DateTime date, ICVService service) => GenerateCViewerReport(date, service))
-                .Produces<CviewerReport>();
+                    ([Required] DateTime date, ICVService service, IAmazonS3Service amazonS3Service) => GenerateCViewerReport(date, service, amazonS3Service))
+                .Produces<string>();
 
             app.MapGet("/get_cv",
                     ([Required] int cvId, ICVService service) => GetCV(cvId, service))
@@ -441,9 +441,9 @@ namespace CViewer.Endpoints
             return Results.Ok(profileCVs);
         }
 
-        private static IResult GenerateCViewerReport(DateTime date, ICVService service)
+        private static IResult GenerateCViewerReport(DateTime date, ICVService service, IAmazonS3Service amazonS3Service)
         {
-            return Results.Ok(service.GenerateCViewerReport(date));
+            return Results.Ok(service.GenerateCViewerReportAsync(date, amazonS3Service).Result);
         }
 
         //private static IResult Delete(int id, ICVService service)

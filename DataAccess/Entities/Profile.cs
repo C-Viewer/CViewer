@@ -38,7 +38,7 @@ namespace CViewer.DataAccess.Entities
         [Required]
         public bool IsExpert { get; set; }
         public Specialization Specialization { get; set; }
-        public int? Rating { get; set; }
+        public double? Rating { get; set; }
 
         // ToDo: And so on...
     }

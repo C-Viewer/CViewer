@@ -14,7 +14,7 @@ namespace CViewer.DataAccess.Repositories
                 FirstName = "Юрий", 
                 LastName = "Иванов", 
                 IsExpert = true,
-                Rating = 10,
+                Rating = 5,
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "Software Engineer"),
                 Biography = "Магистратура МФТИ"
             },
@@ -49,7 +49,7 @@ namespace CViewer.DataAccess.Repositories
                 FirstName = "Иван",
                 LastName = "Протос",
                 IsExpert = true,
-                Rating = 9,
+                Rating = 4.8,
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "QA"),
                 Biography = "QA в Яндекс"
             },
