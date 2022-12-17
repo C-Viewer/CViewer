@@ -48,6 +48,24 @@ abstract class _CVHistoryLoader with Store {
   }
 
   @action
+  @action
+  Future<bool> startReview() async {
+    isLoading = true;
+    try {
+      await _cvRepository.startReview(cvId);
+      error = null;
+      Loggers.cvHistoryLoader.info('CV review was started');
+    } catch (e) {
+      error = e;
+      Loggers.cvHistoryLoader.warning('Error occured: $e');
+    } finally {
+      isLoading = false;
+    }
+
+    return error == null;
+  }
+
+  @action
   Future<bool> finishReview() async {
     isLoading = true;
     try {

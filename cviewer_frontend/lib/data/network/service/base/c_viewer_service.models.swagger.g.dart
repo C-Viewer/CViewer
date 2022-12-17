@@ -105,7 +105,7 @@ Cv _$CvFromJson(Map<String, dynamic> json) => Cv(
       openToReview: json['openToReview'] as bool?,
       urlFileForDownload: json['urlFileForDownload'] as String?,
       pinnedFileName: json['pinnedFileName'] as String?,
-      grade: (json['grade'] as num?)?.toDouble(),
+      grade: json['grade'] as int?,
     );
 
 Map<String, dynamic> _$CvToJson(Cv instance) {
@@ -168,7 +168,7 @@ CVHistory _$CVHistoryFromJson(Map<String, dynamic> json) => CVHistory(
       fileName: json['fileName'] as String?,
       amazonPathToFile: json['amazonPathToFile'] as String?,
       comment: json['comment'] as String?,
-      grade: (json['grade'] as num?)?.toDouble(),
+      grade: json['grade'] as int?,
     );
 
 Map<String, dynamic> _$CVHistoryToJson(CVHistory instance) {
@@ -198,7 +198,7 @@ CVHistoryParameter _$CVHistoryParameterFromJson(Map<String, dynamic> json) =>
       authorId: json['authorId'] as int,
       fileName: json['fileName'] as String?,
       comment: json['comment'] as String?,
-      grade: (json['grade'] as num?)?.toDouble(),
+      grade: json['grade'] as int?,
     );
 
 Map<String, dynamic> _$CVHistoryParameterToJson(CVHistoryParameter instance) {

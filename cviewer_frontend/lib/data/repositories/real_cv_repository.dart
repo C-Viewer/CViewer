@@ -126,7 +126,7 @@ class RealCVRepository implements CVRepository {
   }
 
   @override
-  Future<void> createHistoryEvent(CVHistoryEventData eventData) async {
+  Future<void> createCVHistoryEvent(CVHistoryEventData eventData) async {
     await _fileService.createCVHistoryEvent(
       file: eventData.fileData?.file,
       data: dto.CVHistoryParameter(
@@ -134,9 +134,14 @@ class RealCVRepository implements CVRepository {
         authorId: eventData.authorId,
         fileName: eventData.fileData?.fileName,
         comment: eventData.comment,
-        grade: eventData.grade?.toDouble(),
+        grade: eventData.grade,
       ),
     );
+  }
+
+  @override
+  Future<void> startReview(int cvId) async {
+    await _service.takeCvToReviewPut(cvId: cvId);
   }
 
   @override

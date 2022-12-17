@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cviewer_frontend/assets/strings/l10n.dart';
+import 'package:cviewer_frontend/constants/route_constants.dart';
 import 'package:cviewer_frontend/domain/logic/cv/cv_history_event_creator.dart';
 import 'package:cviewer_frontend/domain/logic/cv/cv_history_loader.dart';
 import 'package:cviewer_frontend/domain/models/cv/cv_history.dart';
@@ -20,6 +21,7 @@ import 'package:cviewer_frontend/presentation/widgets/loaders/default_loader.dar
 import 'package:cviewer_frontend/presentation/widgets/placeholders/load_error_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class CVHistoryPage extends StatefulWidget {
@@ -85,6 +87,13 @@ class _CVHistoryPageState extends State<CVHistoryPage> {
                           cvHistory: _cvHistoryLoader.cvHistory!,
                           cvHistoryLoader: _cvHistoryLoader,
                           type: widget.type,
+                          onReviewStarted: (cvId) => context.replaceNamed(
+                            RouteNames.cvHistory,
+                            params: {
+                              RouteParams.cvId: cvId.toString(),
+                            },
+                            extra: CVListType.myCVs,
+                          ),
                         ),
         ),
       ),
@@ -97,11 +106,13 @@ class _Content extends StatelessWidget {
     required this.cvHistory,
     required this.cvHistoryLoader,
     required this.type,
+    required this.onReviewStarted,
   });
 
   final CVHistory cvHistory;
   final CVHistoryLoader cvHistoryLoader;
   final CVListType type;
+  final void Function(int cvId) onReviewStarted;
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +194,13 @@ class _Content extends StatelessWidget {
                           ),
                         )
                       : ElevatedButton(
-                          onPressed: () => {},
+                          onPressed: () async {
+                            final isStarted =
+                                await cvHistoryLoader.startReview();
+                            if (isStarted) {
+                              onReviewStarted(cvHistory.cv.id);
+                            }
+                          },
                           child: Text(
                             S.of(context).startReview.toUpperCase(),
                           ),

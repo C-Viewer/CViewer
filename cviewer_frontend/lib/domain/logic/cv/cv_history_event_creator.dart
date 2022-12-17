@@ -63,7 +63,7 @@ abstract class _CVHistoryEventCreator with Store {
       final f = _file?.bytes;
       final fn = fileName;
 
-      await _cvRepository.createHistoryEvent(
+      await _cvRepository.createCVHistoryEvent(
         CVHistoryEventData(
           cvId: cvId,
           authorId: authorId,

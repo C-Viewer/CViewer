@@ -81,6 +81,14 @@ mixin _$CVHistoryLoader on _CVHistoryLoader, Store {
     return _$loadCVHistoryAsyncAction.run(() => super.loadCVHistory());
   }
 
+  late final _$startReviewAsyncAction =
+      AsyncAction('_CVHistoryLoader.startReview', context: context);
+
+  @override
+  Future<bool> startReview() {
+    return _$startReviewAsyncAction.run(() => super.startReview());
+  }
+
   late final _$finishReviewAsyncAction =
       AsyncAction('_CVHistoryLoader.finishReview', context: context);
 
