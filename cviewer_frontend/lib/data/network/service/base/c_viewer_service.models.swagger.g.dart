@@ -95,7 +95,7 @@ Cv _$CvFromJson(Map<String, dynamic> json) => Cv(
           : Specialization.fromJson(
               json['specialization'] as Map<String, dynamic>),
       description: json['description'] as String?,
-      rating: (json['rating'] as num?)?.toDouble(),
+      rating: json['rating'] as int?,
       tags: (json['tags'] as List<dynamic>?)
               ?.map((e) => CVTag.fromJson(e as Map<String, dynamic>))
               .toList() ??

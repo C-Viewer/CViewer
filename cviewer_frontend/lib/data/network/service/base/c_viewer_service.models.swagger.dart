@@ -217,7 +217,7 @@ class Cv {
   @JsonKey(name: 'description')
   final String? description;
   @JsonKey(name: 'rating')
-  final double? rating;
+  final int? rating;
   @JsonKey(name: 'tags', defaultValue: <CVTag>[])
   final List<CVTag>? tags;
   @JsonKey(name: 'dateCreation')
@@ -313,7 +313,7 @@ extension $CvExtension on Cv {
       List<int>? expertIds,
       Specialization? specialization,
       String? description,
-      double? rating,
+      int? rating,
       List<CVTag>? tags,
       DateTime? dateCreation,
       bool? goodCv,
@@ -347,7 +347,7 @@ extension $CvExtension on Cv {
       Wrapped<List<int>?>? expertIds,
       Wrapped<Specialization?>? specialization,
       Wrapped<String?>? description,
-      Wrapped<double?>? rating,
+      Wrapped<int?>? rating,
       Wrapped<List<CVTag>?>? tags,
       Wrapped<DateTime>? dateCreation,
       Wrapped<bool?>? goodCv,

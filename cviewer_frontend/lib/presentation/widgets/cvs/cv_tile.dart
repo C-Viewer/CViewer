@@ -50,7 +50,7 @@ class CVTile extends StatelessWidget {
                   // Rating
                   if (cv.rating != null)
                     CVRatingLabel(
-                      rating: cv.rating ?? 0,
+                      rating: cv.rating!.toDouble(),
                     ),
                 ],
               ),

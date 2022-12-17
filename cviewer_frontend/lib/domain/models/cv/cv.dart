@@ -20,6 +20,6 @@ class CV {
   final CVStatus status;
   final DateTime creationDate;
   final List<CVTag> tags;
-  final double? rating;
+  final int? rating;
   final FileInfo? pinnedFileInfo;
 }
