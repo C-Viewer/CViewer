@@ -31,7 +31,7 @@ namespace CViewer.Services
         public async Task<string> StoreFileAsync(IFormFile file, IAmazonS3Service service)
         {
             string date = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow).ToString();
-            string path = Path.GetFileNameWithoutExtension(file.FileName) + "_" + date + Path.GetExtension(file.FileName);
+            string path = Path.GetFileNameWithoutExtension(file.FileName) + " " + date + Path.GetExtension(file.FileName);
 
             bool status = await service.AddFileAsync(file, path);
             if (status) return service.GetAmazonFileURL(path);
