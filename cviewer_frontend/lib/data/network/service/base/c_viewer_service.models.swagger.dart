@@ -481,7 +481,7 @@ class CVHistory {
   @JsonKey(name: 'comment')
   final String? comment;
   @JsonKey(name: 'grade')
-  final int? grade;
+  final double? grade;
   static const fromJsonFactory = _$CVHistoryFromJson;
   static const toJsonFactory = _$CVHistoryToJson;
   Map<String, dynamic> toJson() => _$CVHistoryToJson(this);
@@ -538,7 +538,7 @@ extension $CVHistoryExtension on CVHistory {
       String? fileName,
       String? amazonPathToFile,
       String? comment,
-      int? grade}) {
+      double? grade}) {
     return CVHistory(
         id: id ?? this.id,
         cvId: cvId ?? this.cvId,
@@ -558,7 +558,7 @@ extension $CVHistoryExtension on CVHistory {
       Wrapped<String?>? fileName,
       Wrapped<String?>? amazonPathToFile,
       Wrapped<String?>? comment,
-      Wrapped<int?>? grade}) {
+      Wrapped<double?>? grade}) {
     return CVHistory(
         id: (id != null ? id.value : this.id),
         cvId: (cvId != null ? cvId.value : this.cvId),
@@ -595,7 +595,7 @@ class CVHistoryParameter {
   @JsonKey(name: 'comment')
   final String? comment;
   @JsonKey(name: 'grade')
-  final int? grade;
+  final double? grade;
   static const fromJsonFactory = _$CVHistoryParameterFromJson;
   static const toJsonFactory = _$CVHistoryParameterToJson;
   Map<String, dynamic> toJson() => _$CVHistoryParameterToJson(this);
@@ -638,7 +638,7 @@ extension $CVHistoryParameterExtension on CVHistoryParameter {
       int? authorId,
       String? fileName,
       String? comment,
-      int? grade}) {
+      double? grade}) {
     return CVHistoryParameter(
         cvId: cvId ?? this.cvId,
         authorId: authorId ?? this.authorId,
@@ -652,7 +652,7 @@ extension $CVHistoryParameterExtension on CVHistoryParameter {
       Wrapped<int>? authorId,
       Wrapped<String?>? fileName,
       Wrapped<String?>? comment,
-      Wrapped<int?>? grade}) {
+      Wrapped<double?>? grade}) {
     return CVHistoryParameter(
         cvId: (cvId != null ? cvId.value : this.cvId),
         authorId: (authorId != null ? authorId.value : this.authorId),

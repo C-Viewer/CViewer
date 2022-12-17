@@ -977,8 +977,8 @@
             "nullable": true
           },
           "grade": {
-            "type": "integer",
-            "format": "int32",
+            "type": "number",
+            "format": "double",
             "nullable": true
           }
         },
@@ -1008,8 +1008,8 @@
             "nullable": true
           },
           "grade": {
-            "type": "integer",
-            "format": "int32",
+            "type": "number",
+            "format": "double",
             "nullable": true
           }
         },

@@ -118,7 +118,7 @@ class RealCVRepository implements CVRepository {
         authorId: eventData.authorId,
         fileName: eventData.fileInfo?.fileName,
         comment: eventData.comment,
-        grade: eventData.grade,
+        grade: eventData.grade?.toDouble(),
       ),
     );
   }
