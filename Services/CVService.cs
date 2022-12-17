@@ -252,6 +252,11 @@ namespace CViewer.Services
             return DataManager.GetCvsForProfile(profileToToken.ProfileId);
         }
 
+        public CviewerReport GenerateCViewerReport(DateTime date)
+        {
+            return DataManager.GenerateCViewerReport(date);
+        }
+
         //public bool Delete(int id)
         //{
         //    var oldMovie = CVRepository.CVs.FirstOrDefault(o => o.Id == id);

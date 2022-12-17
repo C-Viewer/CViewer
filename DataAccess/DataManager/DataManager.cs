@@ -386,5 +386,23 @@ namespace CViewer.DataAccess.DataManager
                 profile.Rating = marks/count;
             }
         }
+
+        public static CviewerReport GenerateCViewerReport(DateTime date)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                int allCv = CVRepository.CVs.Where(cv => cv.DateCreation.Month == date.Month && cv.DateCreation.Year == date.Year).Count();
+                int allCvFile = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.AmazonPathToFile != null).Count();
+                int allExpertReports = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade != null).Count();
+                int allApplicantReports = ReportRepository.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year).Count();
+                int allMaxReports = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade == 5).Count() + ReportRepository.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year && r.Rating == 10).Count();
+                CviewerReport cvReport = new CviewerReport(date, allCv, allCvFile, allExpertReports, allApplicantReports, allMaxReports);
+                return cvReport;
+            }
+        }
     }
 }

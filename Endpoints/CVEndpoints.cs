@@ -21,6 +21,10 @@ namespace CViewer.Endpoints
     {
         public static void MapCVEndpoints(this WebApplication app)
         {
+            app.MapGet("/generate_cviewer_report",
+                    ([Required] DateTime date, ICVService service) => GenerateCViewerReport(date, service))
+                .Produces<CviewerReport>();
+
             app.MapGet("/get_cv",
                     ([Required] int cvId, ICVService service) => GetCV(cvId, service))
                 .Produces<CV>();
@@ -435,6 +439,11 @@ namespace CViewer.Endpoints
             List<CV> profileCVs = service.ListCVsForProfile(applicantOrExpertToken);
 
             return Results.Ok(profileCVs);
+        }
+
+        private static IResult GenerateCViewerReport(DateTime date, ICVService service)
+        {
+            return Results.Ok(service.GenerateCViewerReport(date));
         }
 
         //private static IResult Delete(int id, ICVService service)
