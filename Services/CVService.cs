@@ -2,6 +2,7 @@
 using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.InnerEntities;
 using CViewer.DataAccess.Repositories;
+using CViewer.Utils;
 using static CViewer.DataAccess.EntitiesHelper;
 
 namespace CViewer.Services
@@ -13,7 +14,7 @@ namespace CViewer.Services
             CV newCv = new CV(DataManager.GetCVCount() + 1)
             {
                 PeopleCreatedId = applicant.Id,
-                DateCreation = DateTime.Now,
+                DateCreation = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),
                 Specialization = applicant.Specialization,
                 StatusId = CVStatusType.SentToReview,
                 Tags = cvDraft.Tags != null ? DataManager.GetTags(cvDraft.Tags) : null,
@@ -89,7 +90,7 @@ namespace CViewer.Services
                 Id = DataManager.GetCVHistoriesCount() + 1,
                 CVId = cvHistoryParameter.CVId,
                 Comment = cvHistoryParameter.Comment,
-                DateTime = DateTime.Now,
+                DateTime = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),
                 AuthorId = cvHistoryParameter.AuthorId,
                 Grade = cvHistoryParameter.Grade,
             };
