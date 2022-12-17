@@ -15,6 +15,6 @@ class CVHistoryEvent {
   final DateTime creationDate;
   final Profile author;
   final String? comment;
-  final double? grade;
+  final int? grade;
   final FileInfo? fileInfo;
 }

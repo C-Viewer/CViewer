@@ -20,7 +20,7 @@ class CVHistoryEventFromDtoMapper
       creationDate: data.dateTime,
       author: author,
       comment: data.comment,
-      grade: data.grade?.toDouble(),
+      grade: data.grade?.toInt(),
       fileInfo: (data.fileName != null && data.amazonPathToFile != null)
           ? FileInfo(
               fileUrl: data.amazonPathToFile!,

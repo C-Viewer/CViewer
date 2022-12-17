@@ -65,7 +65,7 @@ class CVHistoryEventTile extends StatelessWidget {
                   children: [
                     const Spacer(),
                     CVRatingLabel(
-                      rating: event.grade!,
+                      rating: event.grade!.toDouble(),
                     ),
                   ],
                 ),

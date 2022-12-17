@@ -162,7 +162,8 @@ class _Content extends StatelessWidget {
                             final isUpdated =
                                 await CVHistoryEventBottomSheet.show(
                               context,
-                              enableGrade: profile?.isExpert == true,
+                              enableGrade: profile?.isExpert == true &&
+                                  cvHistory.cv.status != CVStatus.finished,
                               enableFileAttachment: profile?.isExpert == false,
                               eventCreator: CVHistoryEventCreator(
                                 cvId: cvHistory.cv.id,
