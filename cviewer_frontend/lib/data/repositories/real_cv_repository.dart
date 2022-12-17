@@ -123,6 +123,11 @@ class RealCVRepository implements CVRepository {
     );
   }
 
+  @override
+  Future<void> finishReview(int cvId) async {
+    await _service.finishCvReviewPut(cvId: cvId);
+  }
+
   Future<Profile> _getProfile(int profileId) async {
     final response = await _service.getProfileByIdGet(
       profileId: profileId,
