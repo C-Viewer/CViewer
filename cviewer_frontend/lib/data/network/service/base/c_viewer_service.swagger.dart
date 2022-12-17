@@ -195,17 +195,19 @@ abstract class CViewerService extends ChopperService {
   });
 
   ///
-  Future<chopper.Response> createCvForReviewPost({
+  Future<chopper.Response<Cv>> createCvForReviewPost({
     ComplexCVAndIFormFile? cvDraft,
     List<int>? file,
   }) {
+    generatedMapping.putIfAbsent(Cv, () => Cv.fromJsonFactory);
+
     return _createCvForReviewPost(cvDraft: cvDraft, file: file);
   }
 
   ///
   @Post(path: '/create_cv_for_review')
   @Multipart()
-  Future<chopper.Response> _createCvForReviewPost({
+  Future<chopper.Response<Cv>> _createCvForReviewPost({
     @Part() ComplexCVAndIFormFile? cvDraft,
     @PartFile() List<int>? file,
   });
@@ -226,22 +228,26 @@ abstract class CViewerService extends ChopperService {
       {@Query('cvId') required int? cvId});
 
   ///
-  Future<chopper.Response> listGoodCvsGet() {
+  Future<chopper.Response<List<Cv>>> listGoodCvsGet() {
+    generatedMapping.putIfAbsent(Cv, () => Cv.fromJsonFactory);
+
     return _listGoodCvsGet();
   }
 
   ///
   @Get(path: '/list_good_cvs')
-  Future<chopper.Response> _listGoodCvsGet();
+  Future<chopper.Response<List<Cv>>> _listGoodCvsGet();
 
   ///
-  Future<chopper.Response> listCvsOpenedForReviewGet() {
+  Future<chopper.Response<List<Cv>>> listCvsOpenedForReviewGet() {
+    generatedMapping.putIfAbsent(Cv, () => Cv.fromJsonFactory);
+
     return _listCvsOpenedForReviewGet();
   }
 
   ///
   @Get(path: '/list_cvs_opened_for_review')
-  Future<chopper.Response> _listCvsOpenedForReviewGet();
+  Future<chopper.Response<List<Cv>>> _listCvsOpenedForReviewGet();
 
   ///
   ///@param cvId
@@ -285,10 +291,12 @@ abstract class CViewerService extends ChopperService {
   });
 
   ///
-  Future<chopper.Response> addEventToHistoryPost({
+  Future<chopper.Response<CVHistory>> addEventToHistoryPost({
     ComplexCVHistoryParameterAndFIle? cvHistoryParameter,
     List<int>? file,
   }) {
+    generatedMapping.putIfAbsent(CVHistory, () => CVHistory.fromJsonFactory);
+
     return _addEventToHistoryPost(
         cvHistoryParameter: cvHistoryParameter, file: file);
   }
@@ -296,7 +304,7 @@ abstract class CViewerService extends ChopperService {
   ///
   @Post(path: '/add_event_to_history')
   @Multipart()
-  Future<chopper.Response> _addEventToHistoryPost({
+  Future<chopper.Response<CVHistory>> _addEventToHistoryPost({
     @Part() ComplexCVHistoryParameterAndFIle? cvHistoryParameter,
     @PartFile() List<int>? file,
   });
@@ -347,13 +355,16 @@ abstract class CViewerService extends ChopperService {
   Future<chopper.Response<List<CVTag>>> _listCVTagsGet();
 
   ///
-  Future<chopper.Response> listSpecializationsGet() {
+  Future<chopper.Response<List<Specialization>>> listSpecializationsGet() {
+    generatedMapping.putIfAbsent(
+        Specialization, () => Specialization.fromJsonFactory);
+
     return _listSpecializationsGet();
   }
 
   ///
   @Get(path: '/list_specializations')
-  Future<chopper.Response> _listSpecializationsGet();
+  Future<chopper.Response<List<Specialization>>> _listSpecializationsGet();
 
   ///
   ///@param cvId

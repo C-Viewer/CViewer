@@ -166,7 +166,7 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<dynamic>> _createCvForReviewPost({
+  Future<Response<Cv>> _createCvForReviewPost({
     ComplexCVAndIFormFile? cvDraft,
     List<int>? file,
   }) {
@@ -188,7 +188,7 @@ class _$CViewerService extends CViewerService {
       parts: $parts,
       multipart: true,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<Cv, Cv>($request);
   }
 
   @override
@@ -205,25 +205,25 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<dynamic>> _listGoodCvsGet() {
+  Future<Response<List<Cv>>> _listGoodCvsGet() {
     final String $url = '/list_good_cvs';
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<Cv>, Cv>($request);
   }
 
   @override
-  Future<Response<dynamic>> _listCvsOpenedForReviewGet() {
+  Future<Response<List<Cv>>> _listCvsOpenedForReviewGet() {
     final String $url = '/list_cvs_opened_for_review';
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<Cv>, Cv>($request);
   }
 
   @override
@@ -264,7 +264,7 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<dynamic>> _addEventToHistoryPost({
+  Future<Response<CVHistory>> _addEventToHistoryPost({
     ComplexCVHistoryParameterAndFIle? cvHistoryParameter,
     List<int>? file,
   }) {
@@ -286,7 +286,7 @@ class _$CViewerService extends CViewerService {
       parts: $parts,
       multipart: true,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<CVHistory, CVHistory>($request);
   }
 
   @override
@@ -336,14 +336,14 @@ class _$CViewerService extends CViewerService {
   }
 
   @override
-  Future<Response<dynamic>> _listSpecializationsGet() {
+  Future<Response<List<Specialization>>> _listSpecializationsGet() {
     final String $url = '/list_specializations';
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<Specialization>, Specialization>($request);
   }
 
   @override
