@@ -10,7 +10,6 @@ using CViewer.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
@@ -47,7 +46,8 @@ namespace CViewer.Endpoints
                     (ComplexCVAndIFormFile complexCVAndIFormFile, HttpContext context,
                             ISecurityService securityService, ICVService service) =>
                         CreateCVForReview(complexCVAndIFormFile, context, securityService, service))
-                .Accepts<ComplexCVAndIFormFile>("multipart/form-data");
+                .Accepts<ComplexCVAndIFormFile>("multipart/form-data")
+                .Produces<CV>();
 
             app.MapPut("/make_cv_as_good",
                 [EnableCors(Configuration.CorsPolicyName)]
@@ -59,13 +59,15 @@ namespace CViewer.Endpoints
                 [EnableCors(Configuration.CorsPolicyName)]
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                 (HttpContext context, ISecurityService securityService, ICVService service) =>
-                    ListGoodCvs(context, securityService, service));
+                    ListGoodCvs(context, securityService, service))
+                .Produces<List<CV>>();
 
             app.MapGet("/list_cvs_opened_for_review",
                 [EnableCors(Configuration.CorsPolicyName)]
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                 (HttpContext context, ISecurityService securityService, ICVService service) =>
-                    ListCvsOpenedForReview(context, securityService, service));
+                    ListCvsOpenedForReview(context, securityService, service))
+                .Produces<List<CV>>();
 
             app.MapPut("/take_cv_to_review",
                 [EnableCors(Configuration.CorsPolicyName)]
@@ -86,13 +88,15 @@ namespace CViewer.Endpoints
                         ISecurityService securityService, ICVService service) =>
                     AddEventToHistory(complexCVHistoryParameterAndFIle, service: service, context: context,
                         securityService: securityService))
-                .Accepts<ComplexCVHistoryParameterAndFIle>("multipart/form-data"); ;
+                .Accepts<ComplexCVHistoryParameterAndFIle>("multipart/form-data")
+                .Produces<CVHistory>();
 
             app.MapGet("/list_CVs",
-                [EnableCors(Configuration.CorsPolicyName)]
-                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                (HttpContext context, ISecurityService securityService, ICVService service) => ListCVs(context, securityService, service))
-            .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
+                    [EnableCors(Configuration.CorsPolicyName)]
+                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                    (HttpContext context, ISecurityService securityService, ICVService service) =>
+                        ListCVs(context, securityService, service))
+                .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/get_cv_status",
                     [EnableCors(Configuration.CorsPolicyName)]
@@ -114,7 +118,8 @@ namespace CViewer.Endpoints
                 .Produces<List<EntitiesHelper.CVStatusTypeObject>>();
 
             app.MapGet("/list_specializations",
-                (ICVService service) => ListSpecializations(service));
+                    (ICVService service) => ListSpecializations(service))
+                .Produces<List<Specialization>>();
 
             //app.MapGet("/list_CV_histories",
             //        (ICVService service) => ListCVHistories(service))
