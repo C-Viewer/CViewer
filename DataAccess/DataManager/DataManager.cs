@@ -149,7 +149,7 @@ namespace CViewer.DataAccess.DataManager
             }
             else
             {
-                return CVRepository.CVs.Where(cv => cv.PeopleCreatedId == profileId || (cv.CvExperts.Select(cv => cv.Id) != null && cv.CvExperts.Select(cv => cv.Id).Contains(profileId))).ToList();
+                return CVRepository.CVs.Where(cv => cv.PeopleCreatedId == profileId || (!cv.OpenToReview && cv.CvExperts.Select(cv => cv.Id) != null && cv.CvExperts.Select(cv => cv.Id).Contains(profileId))).ToList();
             }
         }
 
