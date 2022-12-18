@@ -88,7 +88,7 @@ abstract class CViewerService extends ChopperService {
     String? firstName,
     String? lastName,
     String? biography,
-    num? rating,
+    int? rating,
     String? email,
     String? password,
     required Specialization? body,
@@ -120,7 +120,7 @@ abstract class CViewerService extends ChopperService {
     @Query('firstName') String? firstName,
     @Query('lastName') String? lastName,
     @Query('biography') String? biography,
-    @Query('rating') num? rating,
+    @Query('rating') int? rating,
     @Query('email') String? email,
     @Query('password') String? password,
     @Body() required Specialization? body,
@@ -162,6 +162,50 @@ abstract class CViewerService extends ChopperService {
   @Get(path: '/get_profile_by_id')
   Future<chopper.Response<Profile>> _getProfileByIdGet(
       {@Query('profileId') required int? profileId});
+
+  ///
+  ///@param comment
+  ///@param peopleId
+  ///@param authorId
+  ///@param mark
+  Future<chopper.Response> addReportToProfilePost({
+    String? comment,
+    required int? peopleId,
+    required int? authorId,
+    required int? mark,
+  }) {
+    return _addReportToProfilePost(
+        comment: comment, peopleId: peopleId, authorId: authorId, mark: mark);
+  }
+
+  ///
+  ///@param comment
+  ///@param peopleId
+  ///@param authorId
+  ///@param mark
+  @Post(
+    path: '/add_report_to_profile',
+    optionalBody: true,
+  )
+  Future<chopper.Response> _addReportToProfilePost({
+    @Query('comment') String? comment,
+    @Query('peopleId') required int? peopleId,
+    @Query('authorId') required int? authorId,
+    @Query('mark') required int? mark,
+  });
+
+  ///
+  ///@param date
+  Future<chopper.Response<String>> generateCviewerReportGet(
+      {required String? date}) {
+    return _generateCviewerReportGet(date: date);
+  }
+
+  ///
+  ///@param date
+  @Get(path: '/generate_cviewer_report')
+  Future<chopper.Response<String>> _generateCviewerReportGet(
+      {@Query('date') required String? date});
 
   ///
   ///@param cvId

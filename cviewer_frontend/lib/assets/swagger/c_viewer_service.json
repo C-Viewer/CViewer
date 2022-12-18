@@ -113,8 +113,8 @@
             "name": "rating",
             "in": "query",
             "schema": {
-              "type": "number",
-              "format": "double"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -219,6 +219,83 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/add_report_to_profile": {
+      "post": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "comment",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "peopleId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "authorId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "mark",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/generate_cviewer_report": {
+      "get": {
+        "tags": [
+          "CViewer"
+        ],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -1126,6 +1203,10 @@
           "biography": {
             "type": "string",
             "nullable": true
+          },
+          "dateRegistration": {
+            "type": "string",
+            "format": "date-time"
           },
           "isExpert": {
             "type": "boolean"

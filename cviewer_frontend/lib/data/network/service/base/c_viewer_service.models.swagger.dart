@@ -769,6 +769,7 @@ class Profile {
     required this.password,
     required this.emailAddress,
     this.biography,
+    this.dateRegistration,
     required this.isExpert,
     this.specialization,
     this.rating,
@@ -789,6 +790,8 @@ class Profile {
   final String emailAddress;
   @JsonKey(name: 'biography')
   final String? biography;
+  @JsonKey(name: 'dateRegistration')
+  final DateTime? dateRegistration;
   @JsonKey(name: 'isExpert')
   final bool isExpert;
   @JsonKey(name: 'specialization')
@@ -820,6 +823,9 @@ class Profile {
             (identical(other.biography, biography) ||
                 const DeepCollectionEquality()
                     .equals(other.biography, biography)) &&
+            (identical(other.dateRegistration, dateRegistration) ||
+                const DeepCollectionEquality()
+                    .equals(other.dateRegistration, dateRegistration)) &&
             (identical(other.isExpert, isExpert) ||
                 const DeepCollectionEquality()
                     .equals(other.isExpert, isExpert)) &&
@@ -841,6 +847,7 @@ class Profile {
       const DeepCollectionEquality().hash(password) ^
       const DeepCollectionEquality().hash(emailAddress) ^
       const DeepCollectionEquality().hash(biography) ^
+      const DeepCollectionEquality().hash(dateRegistration) ^
       const DeepCollectionEquality().hash(isExpert) ^
       const DeepCollectionEquality().hash(specialization) ^
       const DeepCollectionEquality().hash(rating) ^
@@ -855,6 +862,7 @@ extension $ProfileExtension on Profile {
       String? password,
       String? emailAddress,
       String? biography,
+      DateTime? dateRegistration,
       bool? isExpert,
       Specialization? specialization,
       double? rating}) {
@@ -865,6 +873,7 @@ extension $ProfileExtension on Profile {
         password: password ?? this.password,
         emailAddress: emailAddress ?? this.emailAddress,
         biography: biography ?? this.biography,
+        dateRegistration: dateRegistration ?? this.dateRegistration,
         isExpert: isExpert ?? this.isExpert,
         specialization: specialization ?? this.specialization,
         rating: rating ?? this.rating);
@@ -877,6 +886,7 @@ extension $ProfileExtension on Profile {
       Wrapped<String>? password,
       Wrapped<String>? emailAddress,
       Wrapped<String?>? biography,
+      Wrapped<DateTime?>? dateRegistration,
       Wrapped<bool>? isExpert,
       Wrapped<Specialization?>? specialization,
       Wrapped<double?>? rating}) {
@@ -888,6 +898,9 @@ extension $ProfileExtension on Profile {
         emailAddress:
             (emailAddress != null ? emailAddress.value : this.emailAddress),
         biography: (biography != null ? biography.value : this.biography),
+        dateRegistration: (dateRegistration != null
+            ? dateRegistration.value
+            : this.dateRegistration),
         isExpert: (isExpert != null ? isExpert.value : this.isExpert),
         specialization: (specialization != null
             ? specialization.value

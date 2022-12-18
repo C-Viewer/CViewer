@@ -63,7 +63,7 @@ class _$CViewerService extends CViewerService {
     String? firstName,
     String? lastName,
     String? biography,
-    num? rating,
+    int? rating,
     String? email,
     String? password,
     required Specialization? body,
@@ -124,6 +124,42 @@ class _$CViewerService extends CViewerService {
       parameters: $params,
     );
     return client.send<Profile, Profile>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _addReportToProfilePost({
+    String? comment,
+    required int? peopleId,
+    required int? authorId,
+    required int? mark,
+  }) {
+    final String $url = '/add_report_to_profile';
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'comment': comment,
+      'peopleId': peopleId,
+      'authorId': authorId,
+      'mark': mark,
+    };
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<String>> _generateCviewerReportGet({required String? date}) {
+    final String $url = '/generate_cviewer_report';
+    final Map<String, dynamic> $params = <String, dynamic>{'date': date};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<String, String>($request);
   }
 
   @override

@@ -254,6 +254,9 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) => Profile(
       password: json['password'] as String,
       emailAddress: json['emailAddress'] as String,
       biography: json['biography'] as String?,
+      dateRegistration: json['dateRegistration'] == null
+          ? null
+          : DateTime.parse(json['dateRegistration'] as String),
       isExpert: json['isExpert'] as bool,
       specialization: json['specialization'] == null
           ? null
@@ -278,6 +281,8 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) {
   val['password'] = instance.password;
   val['emailAddress'] = instance.emailAddress;
   writeNotNull('biography', instance.biography);
+  writeNotNull(
+      'dateRegistration', instance.dateRegistration?.toIso8601String());
   val['isExpert'] = instance.isExpert;
   writeNotNull('specialization', instance.specialization?.toJson());
   writeNotNull('rating', instance.rating);
