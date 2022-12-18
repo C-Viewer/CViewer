@@ -40,7 +40,6 @@ namespace CViewer.DataAccess.Repositories
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "QA"),
                 Biography = "QA. Бакалавриат СПбГУ"
             },
-
             new()
             {
                 Id = 4,
@@ -52,8 +51,7 @@ namespace CViewer.DataAccess.Repositories
                 Rating = 4.8,
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "QA"),
                 Biography = "QA в Яндекс"
-            },
-            
+            },        
             new()
             {
                 Id = 5,
@@ -65,7 +63,6 @@ namespace CViewer.DataAccess.Repositories
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "Frontend Developer"),
                 Biography = "Санкт-Петербургский государственный электротехнический университет имени В.И. Ленина"
             },
-            
             new()
             {
                 Id = 6,
@@ -78,6 +75,7 @@ namespace CViewer.DataAccess.Repositories
                 Biography = "Бакалавр БГТУ им. В.Г. Шухова. UX/UI Designer в Lamoda"
             },
             new()
+            {
                 Id = 7,
                 EmailAddress = "stepanov@gmail.com",
                 Password = "5432",
@@ -88,6 +86,7 @@ namespace CViewer.DataAccess.Repositories
                 Biography = "Бакалавр СибГУ им. М.Ф. Решетнева"
             },
             new()
+            {
                 Id = 8,
                 EmailAddress = "voronova@gmail.com",
                 Password = "5656",
@@ -98,13 +97,14 @@ namespace CViewer.DataAccess.Repositories
                 Biography = "Бакалавриат ИТМО, Информационные системы и технологии"
             },
            new()
+           {
                 Id = 9,
                 EmailAddress = "saveliev@gmail.com",
                 Password = "pass123",
                 FirstName = "Дмитрий",
                 LastName = "Савельев",
                 IsExpert = true,
-                Rating = 3,
+                Rating = 4.5,
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "Backend Developer"),
                 Biography = "Backend Developer в Вконтакте"
             },
