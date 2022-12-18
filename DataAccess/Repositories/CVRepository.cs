@@ -89,7 +89,7 @@ namespace CViewer.DataAccess.Repositories
             },
             
             new(6) { 
-                StatusId = CVStatusType.SentToReview,
+                StatusId = CVStatusType.Finished,
                 Title = "Frontend Developer", 
                 Description = "Разработка на React", 
                 DateCreation = new DateTime(2022, 12, 20, 18, 25, 01),
@@ -100,10 +100,8 @@ namespace CViewer.DataAccess.Repositories
                 {
                     CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 9),
                 },
-                OpenToReview = true,
-            },
-            
-           
+                GoodCv = true,
+            },            
         };
     }
 }
