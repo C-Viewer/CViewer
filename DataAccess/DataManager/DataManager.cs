@@ -364,7 +364,7 @@ namespace CViewer.DataAccess.DataManager
             }
         }
 
-        public static void AddReport(string? comment, int peopleId, int authorId, int mark)
+        public static void AddReport(string comment, int peopleId, int authorId, int mark)
         {
             if (TemporaryConfiguration.UseDb)
             {

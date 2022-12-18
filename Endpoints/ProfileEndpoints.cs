@@ -60,7 +60,7 @@ namespace CViewer.Endpoints
             app.MapPost("/add_report_to_profile",
                 [EnableCors(Configuration.CorsPolicyName)]
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-                (string? comment, [Required] int peopleId, [Required] int authorId, [Required] int mark, HttpContext context, ISecurityService securityService, IProfileService service) => 
+                (string comment, [Required] int peopleId, [Required] int authorId, [Required] int mark, HttpContext context, ISecurityService securityService, IProfileService service) => 
                 AddReportToProfile(comment, peopleId, authorId, mark, context, securityService, service));
 
             //app.MapGet("/get_expert_profile",
@@ -218,7 +218,7 @@ namespace CViewer.Endpoints
             return Results.Ok(service.ListProfiles());
         }
 
-        private static IResult AddReportToProfile(string? comment, int peopleId, int authorId, int mark, HttpContext context, ISecurityService securityService, IProfileService service)
+        private static IResult AddReportToProfile(string comment, int peopleId, int authorId, int mark, HttpContext context, ISecurityService securityService, IProfileService service)
         {
             string token = TokenHelper.GetToken(context);
             if (!securityService.CheckAccess(token)) return Results.Unauthorized();

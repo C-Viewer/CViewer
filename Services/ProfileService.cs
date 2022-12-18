@@ -184,7 +184,7 @@ namespace CViewer.Services
             return token;
         }
 
-        public void AddReportToProfile(string? comment, int peopleId, int authorId, int mark)
+        public void AddReportToProfile(string comment, int peopleId, int authorId, int mark)
         {
             DataManager.AddReport(comment, peopleId, authorId, mark);
         }

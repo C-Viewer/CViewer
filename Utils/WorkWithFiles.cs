@@ -20,7 +20,7 @@
                 result.CopyTo(ms);
                 return new FormFile(ms, 0, ms.Length, "stream", path);
             }
-            catch (Exception e)
+            catch
             {
                 ms.Dispose();
                 throw;

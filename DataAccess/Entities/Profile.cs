@@ -34,6 +34,7 @@ namespace CViewer.DataAccess.Entities
         public string EmailAddress { get; set; }
 
         public string Biography { get; set; }
+        public DateTime DateRegistration { get; set; }
 
         [Required]
         public bool IsExpert { get; set; }
