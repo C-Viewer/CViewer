@@ -140,13 +140,33 @@ class RealCVRepository implements CVRepository {
   }
 
   @override
-  Future<void> startReview(int cvId) async {
+  Future<void> startCVReview(int cvId) async {
     await _service.takeCvToReviewPut(cvId: cvId);
   }
 
   @override
-  Future<void> finishReview(int cvId) async {
+  Future<void> finishCVReview(int cvId) async {
     await _service.finishCvReviewPut(cvId: cvId);
+  }
+
+  @override
+  Future<void> markCVAsBest(int cvId) async {
+    await _service.makeCvAsGoodPut(cvId: cvId);
+  }
+
+  @override
+  Future<void> markExpert({
+    required int experdId,
+    required int authorId,
+    required int grade,
+    String? comment,
+  }) async {
+    await _service.addReportToProfilePost(
+      peopleId: experdId,
+      authorId: authorId,
+      mark: grade,
+      comment: comment,
+    );
   }
 
   Future<Profile> _getProfile(int profileId) async {

@@ -52,7 +52,7 @@ abstract class _CVHistoryLoader with Store {
   Future<bool> startReview() async {
     isLoading = true;
     try {
-      await _cvRepository.startReview(cvId);
+      await _cvRepository.startCVReview(cvId);
       error = null;
       Loggers.cvHistoryLoader.info('CV review was started');
     } catch (e) {
@@ -69,7 +69,7 @@ abstract class _CVHistoryLoader with Store {
   Future<bool> finishReview() async {
     isLoading = true;
     try {
-      await _cvRepository.finishReview(cvId);
+      await _cvRepository.finishCVReview(cvId);
       error = null;
       loadCVHistory();
       Loggers.cvHistoryLoader.info('CV review was finished');

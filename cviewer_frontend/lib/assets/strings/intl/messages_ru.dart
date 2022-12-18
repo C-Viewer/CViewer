@@ -40,6 +40,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "fixRequired": MessageLookupByLibrary.simpleMessage("Нужно исправить"),
         "freeCV": MessageLookupByLibrary.simpleMessage("База CV"),
         "lastName": MessageLookupByLibrary.simpleMessage("Фамилия"),
+        "markAsBestCVAgreement": MessageLookupByLibrary.simpleMessage(
+            "Даю согласие на публикацию своего CV в базе лучших"),
         "marked": MessageLookupByLibrary.simpleMessage("Оценено"),
         "myCV": MessageLookupByLibrary.simpleMessage("Мои CV"),
         "myReview": MessageLookupByLibrary.simpleMessage("Мои ревью"),
@@ -55,6 +57,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "propertyPlaceholder":
             MessageLookupByLibrary.simpleMessage("Не указано"),
         "rate": MessageLookupByLibrary.simpleMessage("Оценить"),
+        "rateMessage": MessageLookupByLibrary.simpleMessage(
+            "Пожалуйста, оцените, работу эксперта"),
         "reviewed": MessageLookupByLibrary.simpleMessage("Проверено"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "signIn": MessageLookupByLibrary.simpleMessage("Войти"),

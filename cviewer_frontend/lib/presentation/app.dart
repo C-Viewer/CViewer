@@ -21,6 +21,7 @@ class App extends StatelessWidget {
       theme: appTheme,
       routerConfig: _appRouter,
       supportedLocales: S.delegate.supportedLocales,
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,

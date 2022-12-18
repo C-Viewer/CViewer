@@ -5,10 +5,14 @@ import 'package:flutter/material.dart';
 class GradeForm extends StatefulWidget {
   const GradeForm({
     super.key,
+    this.initialGrade = 5,
+    this.mainAxisAlignment = MainAxisAlignment.start,
     required this.showCheckbox,
     required this.onGradeChanged,
   });
 
+  final int initialGrade;
+  final MainAxisAlignment mainAxisAlignment;
   final bool showCheckbox;
   final void Function(int?) onGradeChanged;
 
@@ -21,8 +25,16 @@ class _GradeFormState extends State<GradeForm> {
   var _isFormVisible = false;
 
   @override
+  void initState() {
+    super.initState();
+    _grade = widget.initialGrade;
+    _isFormVisible = !widget.showCheckbox;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: widget.mainAxisAlignment,
       children: [
         if (widget.showCheckbox) ...[
           Text(
@@ -78,6 +90,7 @@ class _Star extends StatelessWidget {
       onTap: onPressed,
       child: Icon(
         Icons.star_rate,
+        size: 32.0,
         color: isSelected ? AppColors.mint : AppColors.white,
       ),
     );

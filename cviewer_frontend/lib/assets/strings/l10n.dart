@@ -410,6 +410,26 @@ class S {
     );
   }
 
+  /// `Пожалуйста, оцените, работу эксперта`
+  String get rateMessage {
+    return Intl.message(
+      'Пожалуйста, оцените, работу эксперта',
+      name: 'rateMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Даю согласие на публикацию своего CV в базе лучших`
+  String get markAsBestCVAgreement {
+    return Intl.message(
+      'Даю согласие на публикацию своего CV в базе лучших',
+      name: 'markAsBestCVAgreement',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Доступ запрещен, пожалуйста, попробуйте заново авторизоваться`
   String get noAccessError {
     return Intl.message(

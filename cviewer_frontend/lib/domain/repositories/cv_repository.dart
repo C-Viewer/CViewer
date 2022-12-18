@@ -11,6 +11,13 @@ abstract class CVRepository {
   Future<List<CVTag>> getTags();
   Future<void> createCV(CVData cvData);
   Future<void> createCVHistoryEvent(CVHistoryEventData eventData);
-  Future<void> startReview(int cvId);
-  Future<void> finishReview(int cvId);
+  Future<void> startCVReview(int cvId);
+  Future<void> finishCVReview(int cvId);
+  Future<void> markCVAsBest(int cvId);
+  Future<void> markExpert({
+    required int experdId,
+    required int authorId,
+    required int grade,
+    String? comment,
+  });
 }
