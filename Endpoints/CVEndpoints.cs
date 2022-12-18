@@ -104,7 +104,7 @@ namespace CViewer.Endpoints
             app.MapGet("/get_cv_status",
                     [EnableCors(Configuration.CorsPolicyName)]
                     ([Required] int cvId, ICVService service) => GetCVStatus(cvId, service))
-                .Produces<CVStatusType>();
+                .Produces<Status>();
             
             app.MapGet("/list_CVs_for_profile",
                     [EnableCors(Configuration.CorsPolicyName)]
@@ -424,7 +424,7 @@ namespace CViewer.Endpoints
 
         private static IResult GetCVStatus(int cvId, ICVService service)
         {
-            CVStatusType cvStatus = service.GetCVStatus(cvId);
+            Status cvStatus = service.GetCVStatus(cvId);
             return Results.Ok(cvStatus);
         }
         

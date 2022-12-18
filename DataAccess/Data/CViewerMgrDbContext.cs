@@ -132,7 +132,7 @@
 //            entity.Property(e => e.Grade).HasColumnName("grade");
 
 //            entity.HasOne(d => d.CV).WithMany(p => p.CvHistories)
-//                .HasForeignKey(d => d.CvId)
+//                .HasForeignKey(d => d.CVId)
 //                .OnDelete(DeleteBehavior.ClientSetNull)
 //                .HasConstraintName("FK_cv_history_cv");
 //        });

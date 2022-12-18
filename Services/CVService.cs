@@ -4,7 +4,6 @@ using CViewer.DataAccess.InnerEntities;
 using CViewer.DataAccess.Repositories;
 using CViewer.Utils;
 using static CViewer.DataAccess.EntitiesHelper;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CViewer.Services
 {
@@ -12,16 +11,17 @@ namespace CViewer.Services
     {
         public CV CreateCVForReview(CVDraftParameter cvDraft, Profile applicant)
         {
-            CV newCv = new CV(DataManager.GetCVCount() + 1)
+            CV newCv = new CV();
+            newCv.PeopleCreatedId = applicant.Id;
+            newCv.DateCreation = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow);
+            newCv.Specialization = applicant.Specialization;
+            newCv.Status = DataManager.GetStatus(CVStatusType.SentToReview);
+            foreach(int t in cvDraft.Tags)
             {
-                PeopleCreatedId = applicant.Id,
-                DateCreation = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),
-                Specialization = applicant.Specialization,
-                StatusId = CVStatusType.SentToReview,
-                Tags = cvDraft.Tags != null ? DataManager.GetTags(cvDraft.Tags) : null,
-                Title = cvDraft.Title,
-                OpenToReview = true,
-            };
+                newCv.CvTags.Add(DataManager.GetTag(t));
+            }
+            newCv.Title = cvDraft.Title;
+            newCv.OpenToReview = true;
 
             DataManager.AddCV(newCv);
 
@@ -63,7 +63,10 @@ namespace CViewer.Services
 
             if (tags != null)
             {
-                cvForUpdating.Tags = tags;
+                foreach(Tag tag in tags)
+                {
+                    cvForUpdating.CvTags.Add(tag);
+                }
             }
 
             if (description != null)
@@ -105,9 +108,9 @@ namespace CViewer.Services
             return newCvHistory;
         }
 
-        public CVStatusType GetCVStatus(int cvId)
+        public Status GetCVStatus(int cvId)
         {
-            return DataManager.GetCv(cvId).StatusId;
+            return DataManager.GetCv(cvId).Status;
         }
 
         public CV GetCV(int cvId)
@@ -168,8 +171,8 @@ namespace CViewer.Services
             }
 
             takenCv.OpenToReview = false;
-            takenCv.ExpertIds = new List<int> { expertId };
-            takenCv.StatusId = CVStatusType.TakenToReview;
+            takenCv.CvExperts.Add(DataManager.GetProfile(expertId));
+            takenCv.Status = DataManager.GetStatus(CVStatusType.TakenToReview);
 
             return true;
         }
@@ -194,11 +197,11 @@ namespace CViewer.Services
 
             if (cvEventForHistory.Grade >= 4)
             {
-                cv.StatusId = CVStatusType.Reviewed;
+                cv.Status = DataManager.GetStatus(CVStatusType.Reviewed);
                 return;
             }
 
-            cv.StatusId = CVStatusType.NeedFix;
+            cv.Status = DataManager.GetStatus(CVStatusType.NeedFix);
         }
 
         public void PinFileToCv(int cvId, string fileName, string urlToStoreFile)
@@ -210,7 +213,7 @@ namespace CViewer.Services
 
         public void FinishCvReview(CV cv)
         {
-            cv.StatusId = CVStatusType.Finished;
+            cv.Status = DataManager.GetStatus(CVStatusType.Finished);
         }
 
         public List<CVHistory> ListCVHistories()

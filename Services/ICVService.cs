@@ -19,7 +19,7 @@ namespace CViewer.Services
         public List<AttachedFile> ListAttachedFiles();
         public List<CV> ListCVs();
         public List<CV> ListCVsForProfile(string applicantOrExpertToken);
-        public CVStatusType GetCVStatus(int cvId);
+        public Status GetCVStatus(int cvId);
         public CV GetCV(int id);
         public CVHistory GetCVHistory(int id);
         public AttachedFile GetAttachedFile(int id);

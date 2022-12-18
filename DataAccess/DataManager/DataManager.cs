@@ -14,7 +14,7 @@ namespace CViewer.DataAccess.DataManager
         internal const int EntityNotFound = -1;
 
         internal static void SetTokenToProfileBySignIn(int profileId, Token token)
-        { 
+        {
             ProfileToToken profileToToken = GetProfileAndToken(profileId);
             if (profileToToken == null)
             {
@@ -126,7 +126,7 @@ namespace CViewer.DataAccess.DataManager
                 }
 
                 List<int> peopleIds = new List<int> { cv.PeopleCreatedId };
-                List<int> expertsIds = cv.ExpertIds;
+                List<int> expertsIds = cv.CvExperts.Select(cv => cv.Id).ToList();
                 if (expertsIds != null && expertsIds.Any())
                 {
                     peopleIds.AddRange(expertsIds);
@@ -149,7 +149,7 @@ namespace CViewer.DataAccess.DataManager
             }
             else
             {
-                return CVRepository.CVs.Where(cv => cv.PeopleCreatedId == profileId || (cv.ExpertIds != null && cv.ExpertIds.Contains(profileId))).ToList();
+                return CVRepository.CVs.Where(cv => cv.PeopleCreatedId == profileId || (cv.CvExperts.Select(cv => cv.Id) != null && cv.CvExperts.Select(cv => cv.Id).Contains(profileId))).ToList();
             }
         }
 
@@ -174,6 +174,18 @@ namespace CViewer.DataAccess.DataManager
             else
             {
                 return TokenRepository.Tokens.Count;
+            }
+        }
+
+        internal static Status GetStatus(CVStatusType s)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return CVStatusRepository.Statuses.Where(st => st.Name == s).FirstOrDefault();
             }
         }
 
@@ -221,11 +233,11 @@ namespace CViewer.DataAccess.DataManager
             }
             else
             {
-                 ProfileToToken profileToToken = ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p => p.Token.Value == applicantOrExpertTokenValue);
-                 if (profileToToken != null)
-                 {
-                     ProfileToTokenRepository.ProfilesToTokens.Remove(profileToToken);
-                 }
+                ProfileToToken profileToToken = ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p => p.Token.Value == applicantOrExpertTokenValue);
+                if (profileToToken != null)
+                {
+                    ProfileToTokenRepository.ProfilesToTokens.Remove(profileToToken);
+                }
             }
         }
 
@@ -250,6 +262,18 @@ namespace CViewer.DataAccess.DataManager
             else
             {
                 return CVRepository.CVs.Count;
+            }
+        }
+
+        public static Tag GetTag(int cvTag)
+        {
+            if (TemporaryConfiguration.UseDb)
+            {
+
+            }
+            else
+            {
+                return CVTagRepository.CVTags.Where(t => t.Id == cvTag).FirstOrDefault();
             }
         }
 
@@ -323,7 +347,7 @@ namespace CViewer.DataAccess.DataManager
             }
             else
             {
-                return CVRepository.CVs.Where(cv => cv.OpenToReview).ToList();
+                return CVRepository.CVs.Where(cv => (bool)cv.OpenToReview).ToList();
             }
         }
 
@@ -387,7 +411,7 @@ namespace CViewer.DataAccess.DataManager
                 Profile profile = ProfileRepository.Profiles.Where(p => p.Id == peopleId).First();
                 double marks = ReportRepository.Reports.Where(r => r.PeopleId == peopleId).Select(r => r.Rating).Sum();
                 double count = ReportRepository.Reports.Where(r => r.PeopleId == peopleId).Count();
-                profile.Rating = marks/count;
+                profile.Rating = marks / count;
             }
         }
 

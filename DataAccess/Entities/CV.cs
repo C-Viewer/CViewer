@@ -3,39 +3,44 @@ using CViewer.DataAccess.Repositories;
 
 namespace CViewer.DataAccess.Entities
 {
-    public class CV
+    public partial class CV
     {
-        // ToDo: Made All Ids as readonly
-        public CV(int cvId)
-        {
-            Id = cvId;
-        }
+        public int Id { get; set; }
 
-        [Required]
-        public int Id { get; }
-
-        [Required]
-        public CVStatusType StatusId { get; set; }
-
-        [Required]
         public string Title { get; set; }
 
-        [Required]
-        public int PeopleCreatedId { get; set; }
-        public List<int> ExpertIds { get; set; }
-        public Specialization Specialization { get; set; }
+        public int StatusId { get; set; }
+
         public string Description { get; set; }
-        public int? Rating { get; set; }
-        public List<Tag> Tags { get; set; }
-        
-        [Required]
+
+        public int PeopleCreatedId { get; set; }
+
+        public int SpecializationId { get; set; }
+
         public DateTime DateCreation { get; set; }
+
         public bool GoodCv { get; set; }
+
+        public int? Rating { get; set; }
+
+        public int? Grade { get; set; }
+
+        public string PinnedFileName { get; set; }
+
+        public string UrlFileForDownload { get; set; }
 
         public bool OpenToReview { get; set; }
 
-        public string UrlFileForDownload { get; set; }
-        public string PinnedFileName { get; set; }
-        public int? Grade { get; set; }
+        public virtual ICollection<Profile> CvExperts { get; set; } = new List<Profile>();
+
+        public virtual ICollection<CVHistory> CvHistories { get; set; } = new List<CVHistory>();
+
+        public virtual ICollection<Tag> CvTags { get; set;  } = new List<Tag>();
+
+        public virtual Profile PeopleCreated { get; set; }
+
+        public virtual Specialization Specialization { get; set; }
+
+        public virtual Status Status { get; set; }
     }
 }
