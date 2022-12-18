@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using CViewer.DataAccess.Entities;
 
-namespace CViewer;
+namespace CViewer.DataAccess.Entities;
 
 public partial class ProfileLog
 {
