@@ -18,6 +18,7 @@ namespace CViewer.DataAccess.Repositories
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "Software Engineer"),
                 Biography = "Магистратура МФТИ"
             },
+            
             new()
             {
                 Id = 2,
@@ -29,6 +30,7 @@ namespace CViewer.DataAccess.Repositories
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "Software Engineer"),
                 Biography = "Бакалавриат ИТМО"
             },
+            
             new()
             {
                 Id = 3,
@@ -51,7 +53,8 @@ namespace CViewer.DataAccess.Repositories
                 Rating = 4.8,
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "QA"),
                 Biography = "QA в Яндекс"
-            },        
+            },    
+            
             new()
             {
                 Id = 5,
@@ -63,6 +66,7 @@ namespace CViewer.DataAccess.Repositories
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "Frontend Developer"),
                 Biography = "Санкт-Петербургский государственный электротехнический университет имени В.И. Ленина"
             },
+            
             new()
             {
                 Id = 6,
@@ -85,6 +89,7 @@ namespace CViewer.DataAccess.Repositories
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "Data Science"),
                 Biography = "Бакалавр СибГУ им. М.Ф. Решетнева"
             },
+            
             new()
             {
                 Id = 8,
@@ -96,6 +101,7 @@ namespace CViewer.DataAccess.Repositories
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "Backend Developer"),
                 Biography = "Бакалавриат ИТМО, Информационные системы и технологии"
             },
+            
            new()
            {
                 Id = 9,
@@ -106,7 +112,7 @@ namespace CViewer.DataAccess.Repositories
                 IsExpert = true,
                 Rating = 4.5,
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "Backend Developer"),
-                Biography = "Backend Developer в Вконтакте"
+                Biography = "Backend Developer в ВКонтакте"
             },
         };
     }
