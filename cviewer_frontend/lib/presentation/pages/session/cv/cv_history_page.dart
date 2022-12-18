@@ -107,7 +107,7 @@ class _CVHistoryPageState extends State<CVHistoryPage> {
                                   authorId: cvHistory.applicant.id,
                                   expertId: expertId,
                                 ),
-                                showAgreement: (cvHistory.cv.rating ?? 0) >= 4,
+                                showAgreement: (cvHistory.cv.grade ?? 0) >= 4,
                               );
                             }
                           },

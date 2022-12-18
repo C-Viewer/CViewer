@@ -95,7 +95,6 @@ Cv _$CvFromJson(Map<String, dynamic> json) => Cv(
           : Specialization.fromJson(
               json['specialization'] as Map<String, dynamic>),
       description: json['description'] as String?,
-      rating: json['rating'] as int?,
       tags: (json['tags'] as List<dynamic>?)
               ?.map((e) => CVTag.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -125,7 +124,6 @@ Map<String, dynamic> _$CvToJson(Cv instance) {
   writeNotNull('expertIds', instance.expertIds);
   writeNotNull('specialization', instance.specialization?.toJson());
   writeNotNull('description', instance.description);
-  writeNotNull('rating', instance.rating);
   writeNotNull('tags', instance.tags?.map((e) => e.toJson()).toList());
   val['dateCreation'] = instance.dateCreation.toIso8601String();
   writeNotNull('goodCv', instance.goodCv);

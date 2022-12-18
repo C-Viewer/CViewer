@@ -17,7 +17,7 @@ class CVFromDtoMapper implements Mapper<Cv, CV> {
       status: const CVStatusMapper().map(data.statusId),
       creationDate: data.dateCreation,
       tags: data.tags?.map(const CVTagFromDtoMapper().map).toList() ?? [],
-      rating: data.rating,
+      grade: data.grade,
       pinnedFileInfo:
           (data.pinnedFileName != null && data.urlFileForDownload != null)
               ? FileInfo(

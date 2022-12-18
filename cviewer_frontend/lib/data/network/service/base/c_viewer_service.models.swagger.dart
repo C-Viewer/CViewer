@@ -186,7 +186,6 @@ class Cv {
     this.expertIds,
     this.specialization,
     this.description,
-    this.rating,
     this.tags,
     required this.dateCreation,
     this.goodCv,
@@ -216,8 +215,6 @@ class Cv {
   final Specialization? specialization;
   @JsonKey(name: 'description')
   final String? description;
-  @JsonKey(name: 'rating')
-  final int? rating;
   @JsonKey(name: 'tags', defaultValue: <CVTag>[])
   final List<CVTag>? tags;
   @JsonKey(name: 'dateCreation')
@@ -259,8 +256,6 @@ class Cv {
             (identical(other.description, description) ||
                 const DeepCollectionEquality()
                     .equals(other.description, description)) &&
-            (identical(other.rating, rating) ||
-                const DeepCollectionEquality().equals(other.rating, rating)) &&
             (identical(other.tags, tags) ||
                 const DeepCollectionEquality().equals(other.tags, tags)) &&
             (identical(other.dateCreation, dateCreation) ||
@@ -293,7 +288,6 @@ class Cv {
       const DeepCollectionEquality().hash(expertIds) ^
       const DeepCollectionEquality().hash(specialization) ^
       const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(rating) ^
       const DeepCollectionEquality().hash(tags) ^
       const DeepCollectionEquality().hash(dateCreation) ^
       const DeepCollectionEquality().hash(goodCv) ^
@@ -313,7 +307,6 @@ extension $CvExtension on Cv {
       List<int>? expertIds,
       Specialization? specialization,
       String? description,
-      int? rating,
       List<CVTag>? tags,
       DateTime? dateCreation,
       bool? goodCv,
@@ -329,7 +322,6 @@ extension $CvExtension on Cv {
         expertIds: expertIds ?? this.expertIds,
         specialization: specialization ?? this.specialization,
         description: description ?? this.description,
-        rating: rating ?? this.rating,
         tags: tags ?? this.tags,
         dateCreation: dateCreation ?? this.dateCreation,
         goodCv: goodCv ?? this.goodCv,
@@ -347,7 +339,6 @@ extension $CvExtension on Cv {
       Wrapped<List<int>?>? expertIds,
       Wrapped<Specialization?>? specialization,
       Wrapped<String?>? description,
-      Wrapped<int?>? rating,
       Wrapped<List<CVTag>?>? tags,
       Wrapped<DateTime>? dateCreation,
       Wrapped<bool?>? goodCv,
@@ -368,7 +359,6 @@ extension $CvExtension on Cv {
             : this.specialization),
         description:
             (description != null ? description.value : this.description),
-        rating: (rating != null ? rating.value : this.rating),
         tags: (tags != null ? tags.value : this.tags),
         dateCreation:
             (dateCreation != null ? dateCreation.value : this.dateCreation),

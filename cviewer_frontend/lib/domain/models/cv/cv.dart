@@ -10,7 +10,7 @@ class CV {
     required this.status,
     required this.creationDate,
     required this.tags,
-    this.rating,
+    this.grade,
     this.pinnedFileInfo,
   });
 
@@ -20,6 +20,6 @@ class CV {
   final CVStatus status;
   final DateTime creationDate;
   final List<CVTag> tags;
-  final int? rating;
+  final int? grade;
   final FileInfo? pinnedFileInfo;
 }
