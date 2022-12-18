@@ -190,10 +190,8 @@ namespace CViewer.Services
         public void UpdateCvStatusIfNecessary(CVHistory cvEventForHistory)
         {
             CV cv = DataManager.GetCv(cvEventForHistory.CVId);
-            if (cvEventForHistory.Grade == null)
-            {
-                return;
-            }
+            if (cvEventForHistory.Grade == null) { return; }
+            else { cv.Grade = cvEventForHistory.Grade; }
 
             if (cvEventForHistory.Grade >= 4)
             {

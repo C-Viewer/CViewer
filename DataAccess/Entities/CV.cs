@@ -21,8 +21,6 @@ namespace CViewer.DataAccess.Entities
 
         public bool GoodCv { get; set; }
 
-        public int? Rating { get; set; }
-
         public int? Grade { get; set; }
 
         public string PinnedFileName { get; set; }
