@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using CViewer.DataAccess.Entities;
 
-namespace CViewer.DataAccess.Entities;
+namespace CViewer;
 
-public partial class Specialization
+public partial class Status
 {
     public int Id { get; set; }
 
@@ -11,5 +12,5 @@ public partial class Specialization
 
     public virtual ICollection<Cv> Cvs { get; } = new List<Cv>();
 
-    public virtual ICollection<Profile> Profiles { get; } = new List<Profile>();
+    public virtual ICollection<Report> Reports { get; } = new List<Report>();
 }

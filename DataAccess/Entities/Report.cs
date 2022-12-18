@@ -1,23 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace CViewer.DataAccess.Entities
+namespace CViewer.DataAccess.Entities;
+
+public partial class Report
 {
-    public enum ReportStatus
-    {
-        Comment,
-        Feedback,
-    }
+    public int Id { get; set; }
 
-    public class Report
-    {
-        [Required]
-        public int Id { get; set; }
-        public int PeopleId { get; set; }
-        public int AuthorId { get; set; }
-        public int Rating { get; set; }
-        public DateTime CreatedDate { get; set; }
+    public int? StatusId { get; set; }
 
-        public string Text { get; set; }
-        public ReportStatus Status { get; set; }
-    }
+    public string Text { get; set; }
+
+    public int PeopleId { get; set; }
+
+    public int Rating { get; set; }
+
+    public DateTime CreatedDate { get; set; }
+
+    public int AuthorId { get; set; }
+
+    public virtual Profile People { get; set; }
+
+    public virtual Status Status { get; set; }
 }

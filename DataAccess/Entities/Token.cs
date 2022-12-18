@@ -1,17 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace CViewer.DataAccess.Entities
+namespace CViewer.DataAccess.Entities;
+
+public partial class Token
 {
-    public class Token
-    {
+    public int Id { get; set; }
 
-        [Required]
-        public int Id { get; set; }
-        
-        [Required]
-        public string Value { get; set; }
-        
-        [Required]
-        public DateTime ExpirationDateTime { get; set; }
-    }
+    public string Value { get; set; }
+
+    public DateTime ExpirationDateTime { get; set; }
+
+    public virtual ICollection<ProfileToToken> ProfileToTokens { get; } = new List<ProfileToToken>();
 }

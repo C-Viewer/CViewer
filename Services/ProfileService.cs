@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using CViewer.DataAccess.DataManager;
 using CViewer.Utils;
+using static CViewer.DataAccess.Entities.Profile;
 
 namespace CViewer.Services
 {

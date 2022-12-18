@@ -1,6 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace CViewer.DataAccess.Entities
+namespace CViewer.DataAccess.Entities;
+
+public partial class Profile
 {
     public enum AuthenticationType
     {
@@ -15,32 +18,35 @@ namespace CViewer.DataAccess.Entities
         Expert,
     }
 
-    public class Profile
-    {
+    public int Id { get; set; }
 
-        [Required]
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+    public string FirstName { get; set; }
 
-        /// <summary>
-        /// Todo: Add some hash function with salt.
-        /// </summary>
+    public string EmailAddress { get; set; }
 
-        [Required]
-        public string Password { get; set; }
+    public string Password { get; set; }
 
-        [Required]
-        public string EmailAddress { get; set; }
+    public string Biography { get; set; }
 
-        public string Biography { get; set; }
-        public DateTime DateRegistration { get; set; }
+    public bool IsExpert { get; set; }
 
-        [Required]
-        public bool IsExpert { get; set; }
-        public Specialization Specialization { get; set; }
-        public double? Rating { get; set; }
+    public int SpecializationId { get; set; }
 
-        // ToDo: And so on...
-    }
+    public DateTime? DateRegistation { get; set; }
+
+    public double? Rating { get; set; }
+
+    public string LastName { get; set; }
+
+    public virtual ICollection<CvExpert> CvExperts { get; } = new List<CvExpert>();
+
+    public virtual ICollection<Cv> Cvs { get; } = new List<Cv>();
+
+    public virtual ICollection<ProfileLog> ProfileLogs { get; } = new List<ProfileLog>();
+
+    public virtual ICollection<ProfileToToken> ProfileToTokens { get; } = new List<ProfileToToken>();
+
+    public virtual ICollection<Report> Reports { get; } = new List<Report>();
+
+    public virtual Specialization Specialization { get; set; }
 }
