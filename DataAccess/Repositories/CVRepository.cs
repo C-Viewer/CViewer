@@ -87,6 +87,23 @@ namespace CViewer.DataAccess.Repositories
                 },
                 OpenToReview = true,
             },
+            
+            new(6) { 
+                StatusId = CVStatusType.SentToReview,
+                Title = "Frontend Developer", 
+                Description = "Разработка на React", 
+                DateCreation = new DateTime(2022, 12, 20, 18, 25, 01),
+                PeopleCreatedId = 5,
+                ExpertIds = new List<int>() { 4 },
+                Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 9),            
+                Tags = new List<CVTag>
+                {
+                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 9),
+                },
+                OpenToReview = true,
+            },
+            
+           
         };
     }
 }
