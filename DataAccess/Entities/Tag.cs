@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CViewer;
+namespace CViewer.DataAccess.Entities;
 
 public partial class Tag
 {

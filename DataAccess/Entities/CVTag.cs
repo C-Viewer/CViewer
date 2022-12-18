@@ -1,14 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace CViewer.DataAccess.Entities
+namespace CViewer.DataAccess.Entities;
+
+public partial class CvTag
 {
-    public class CVTag
-    {
+    public int Id { get; set; }
 
-        [Required]
-        public int Id { get; set; }
+    public int CvId { get; set; }
 
-        [Required]
-        public string Name { get; set; }
-    }
+    public int TagId { get; set; }
+
+    public virtual Cv Cv { get; set; }
+
+    public virtual Tag Tag { get; set; }
 }

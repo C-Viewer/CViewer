@@ -4,29 +4,29 @@ namespace CViewer.DataAccess.Repositories
 {
     internal sealed class CVTagRepository
     {
-        public static List<CVTag> CVTags = new()
+        public static List<Tag> CVTags = new()
         {
-            new CVTag()
+            new Tag()
             {
                 Id = 1,
                 Name = "DotNet",
             },
-            new CVTag()
+            new Tag()
             {
                 Id = 2,
                 Name = "Java",
             },
-            new CVTag()
+            new Tag()
             {
                 Id = 3,
                 Name = "Flutter",
             },
-            new CVTag()
+            new Tag()
             {
                 Id = 4,
                 Name = "SQL",
             },
-            new CVTag()
+            new Tag()
             {
                 Id = 5,
                 Name = "Python",

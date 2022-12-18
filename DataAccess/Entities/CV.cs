@@ -26,7 +26,7 @@ namespace CViewer.DataAccess.Entities
         public Specialization Specialization { get; set; }
         public string Description { get; set; }
         public int? Rating { get; set; }
-        public List<CVTag> Tags { get; set; }
+        public List<Tag> Tags { get; set; }
         
         [Required]
         public DateTime DateCreation { get; set; }

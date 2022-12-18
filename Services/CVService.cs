@@ -45,7 +45,7 @@ namespace CViewer.Services
             DataManager.AddCVHistory(fileName, urlForDownload, cvId, authorId);
         }
 
-        public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null)
+        public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<Tag> tags = null, string description = null)
         {
             var cvForUpdating = CVRepository.CVs.FirstOrDefault(o => o.Id == cvId);
 
@@ -137,7 +137,7 @@ namespace CViewer.Services
             return attachedFile;
         }
 
-        public List<CVTag> ListCVTags()
+        public List<Tag> ListCVTags()
         {
             return CVTagRepository.CVTags;
         }

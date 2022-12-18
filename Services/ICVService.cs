@@ -12,7 +12,7 @@ namespace CViewer.Services
         /// <returns>URL for download</returns>
         public Task<string> StoreFileAsync(IFormFile file, IAmazonS3Service service);
         public void PinToHistory(string fileName, string urlForDownload, int cvId, int authorId);
-        public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null);
+        public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<Tag> tags = null, string description = null);
         public CVHistory CreateCVEventForHistory(CVHistoryParameter cvHistoryParameter, out string errMsg);
         public List<CVHistory> ListCVHistories();
         public List<CVHistory> ListCVHistories(int cvId);
@@ -23,7 +23,7 @@ namespace CViewer.Services
         public CV GetCV(int id);
         public CVHistory GetCVHistory(int id);
         public AttachedFile GetAttachedFile(int id);
-        public List<CVTag> ListCVTags();
+        public List<Tag> ListCVTags();
         public List<CVStatusTypeObject> ListCVStatuses();
         public List<Specialization> ListSpecializations();
         //public bool Delete(int id);

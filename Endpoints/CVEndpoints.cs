@@ -114,7 +114,7 @@ namespace CViewer.Endpoints
 
             app.MapGet("/list_CV_tags",
                 (ICVService service) => ListCVTags(service))
-                .Produces<List<CVTag>>();
+                .Produces<List<Tag>>();
 
             app.MapGet("/list_CV_statuses",
                 (ICVService service) => ListCVStatusesTags(service))
@@ -287,7 +287,7 @@ namespace CViewer.Endpoints
             return Results.Ok(newCv);
         }
 
-        private static IResult UpdateCVInfo(int cvId, ICVService service, string title = null, Specialization specialization = null, List<CVTag> tags = null, string description = null)
+        private static IResult UpdateCVInfo(int cvId, ICVService service, string title = null, Specialization specialization = null, List<Tag> tags = null, string description = null)
         {
             var updatedCV = service.UpdateCVInfo(cvId: cvId, title: title, specialization: specialization, tags: tags, 
                 description: description);

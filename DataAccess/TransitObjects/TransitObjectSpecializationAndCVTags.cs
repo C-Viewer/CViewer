@@ -5,6 +5,6 @@ namespace CViewer.DataAccess.TransitObjects
     public class TransitObjectSpecializationAndCVTags
     {
         public Specialization Specialization { get; set; }
-        public List<CVTag> CVTags { get; set; }
+        public List<Tag> CVTags { get; set; }
     }
 }

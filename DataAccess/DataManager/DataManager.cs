@@ -253,7 +253,7 @@ namespace CViewer.DataAccess.DataManager
             }
         }
 
-        public static List<CVTag> GetTags(List<int> cvTags)
+        public static List<Tag> GetTags(List<int> cvTags)
         {
             if (TemporaryConfiguration.UseDb)
             {
