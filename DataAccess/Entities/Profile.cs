@@ -40,7 +40,7 @@ public partial class Profile
 
     public virtual ICollection<CvExpert> CvExperts { get; } = new List<CvExpert>();
 
-    public virtual ICollection<Cv> Cvs { get; } = new List<Cv>();
+    public virtual ICollection<CV> Cvs { get; } = new List<CV>();
 
     public virtual ICollection<ProfileLog> ProfileLogs { get; } = new List<ProfileLog>();
 

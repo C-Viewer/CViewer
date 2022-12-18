@@ -9,7 +9,7 @@ public partial class Specialization
 
     public string Name { get; set; }
 
-    public virtual ICollection<Cv> Cvs { get; } = new List<Cv>();
+    public virtual ICollection<CV> Cvs { get; } = new List<CV>();
 
     public virtual ICollection<Profile> Profiles { get; } = new List<Profile>();
 }
