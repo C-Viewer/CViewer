@@ -30,7 +30,7 @@
         public string GetDateForName()
         {
             string dateNow = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow).ToString();
-            var charsToRemove = new string[] { ".", ":" };
+            var charsToRemove = new string[] { ".", ":", "/" };
             foreach (var c in charsToRemove)
             {
                 dateNow = dateNow.Replace(c, string.Empty);
