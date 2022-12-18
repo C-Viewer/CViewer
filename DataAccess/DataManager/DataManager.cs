@@ -348,7 +348,7 @@ namespace CViewer.DataAccess.DataManager
             }
             else
             {
-                return CVRepository.CVs.Where(cv => cv.GoodCv).OrderByDescending(cv => cv.Grade).ToList();
+                return CVRepository.CVs.Where(cv => cv.GoodCv == true).OrderByDescending(cv => cv.Grade).ToList();
             }
         }
 

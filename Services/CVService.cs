@@ -208,6 +208,7 @@ namespace CViewer.Services
 
         public void FinishCvReview(CV cv)
         {
+            cv.OpenToReview = false;
             cv.StatusId = CVStatusType.Finished;
         }
 
