@@ -34,7 +34,7 @@ public partial class Cv
 
     public virtual ICollection<CvExpert> CvExperts { get; } = new List<CvExpert>();
 
-    public virtual ICollection<CvHistory> CvHistories { get; } = new List<CvHistory>();
+    public virtual ICollection<CVHistory> CvHistories { get; } = new List<CVHistory>();
 
     public virtual ICollection<CvTag> CvTags { get; } = new List<CvTag>();
 

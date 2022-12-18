@@ -1,25 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace CViewer.DataAccess.Entities
+namespace CViewer.DataAccess.Entities;
+
+public partial class CVHistory
 {
-    /// <summary>
-    /// I assume, UI could be able retrieve main CV info from CV table not CVHistory table
-    /// </summary>
-    public class CVHistory
-    {
-        [Required]
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        [Required]
-        public int CVId { get; set; }
+    public string FileName { get; set; }
 
-        [Required]
-        public DateTime DateTime { get; set; }
-      
-        public int AuthorId { get; set; }
-        public string FileName { get; set; }
-        public string AmazonPathToFile { get; set; }
-        public string Comment { get; set; }
-        public int? Grade { get; set; }
-    }
+    public int CVId { get; set; }
+
+    public string Comment { get; set; }
+
+    public DateTime DateTime { get; set; }
+
+    public int? AuthorId { get; set; }
+
+    public int? Grade { get; set; }
+
+    public string AmazonPathToFile { get; set; }
+
+    public virtual CV CV { get; set; }
 }
