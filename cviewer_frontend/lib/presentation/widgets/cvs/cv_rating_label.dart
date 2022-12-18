@@ -14,7 +14,7 @@ class CVRatingLabel extends StatelessWidget {
     return Row(
       children: [
         Text(
-          rating.toString(),
+          rating.toStringAsFixed(rating.truncateToDouble() == rating ? 0 : 1),
           style: const TextStyle(
             color: AppColors.mint,
             fontSize: 18,
