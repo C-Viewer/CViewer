@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using CViewer.DataAccess.Entities;
 
-namespace CViewer;
+namespace CViewer.DataAccess.Entities;
 
 public partial class Status
 {
@@ -10,7 +9,7 @@ public partial class Status
 
     public string Name { get; set; }
 
-    public virtual ICollection<Cv> Cvs { get; } = new List<Cv>();
+    public virtual ICollection<CV> Cvs { get; } = new List<CV>();
 
     public virtual ICollection<Report> Reports { get; } = new List<Report>();
 }
