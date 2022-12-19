@@ -25,7 +25,7 @@ namespace CViewer.DataAccess.Repositories
             new(2) { 
                 StatusId = CVStatusType.Finished,
                 Title = "QA", 
-                Description = "Тестирую программы на качество.", 
+                Description = "Тестирую программы на качество.",
                 Grade = 5,
                 DateCreation = new DateTime(2022, 12, 05, 17, 05, 01),
                 PeopleCreatedId = 3,
@@ -40,7 +40,7 @@ namespace CViewer.DataAccess.Repositories
             new(3) { 
                 StatusId = CVStatusType.Finished,
                 Title = "Flutter developer", 
-                Description = "Разработка ПО.", 
+                Description = "Разработка ПО.",
                 Grade = 5,
                 DateCreation = new DateTime(2022, 12, 07, 13, 01, 01),
                 PeopleCreatedId = 2,
