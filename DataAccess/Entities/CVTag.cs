@@ -5,11 +5,11 @@ namespace CViewer.DataAccess.Entities;
 
 public partial class CvTag
 {
-    public int Id { get; set; }
-
     public int CvId { get; set; }
 
     public int TagId { get; set; }
+
+    public int Id { get; set; }
 
     public virtual Cv Cv { get; set; }
 

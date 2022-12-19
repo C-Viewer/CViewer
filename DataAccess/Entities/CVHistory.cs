@@ -21,5 +21,7 @@ public partial class CvHistory
 
     public string AmazonPathToFile { get; set; }
 
+    public virtual Profile Author { get; set; }
+
     public virtual Cv Cv { get; set; }
 }

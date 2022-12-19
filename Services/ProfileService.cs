@@ -153,14 +153,14 @@ namespace CViewer.Services
 
         public List<Profile> ListProfiles()
         {
-            //var profiles = ProfileRepository.Profiles;
+            var profiles = ProfileRepository.Profiles;
 
-            List<Profile> profiles;
+            //List<Profile> profiles;
 
-            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
-            {
-                profiles = db.Profiles.ToList();
-            }
+            //using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            //{
+            //    profiles = db.Profiles.ToList();
+            //}
 
             return profiles;
         }

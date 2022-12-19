@@ -15,9 +15,9 @@ public partial class ProfileLog
 
     public string New { get; set; }
 
-    public int PeopleId { get; set; }
+    public int ProfileId { get; set; }
 
-    public virtual Profile People { get; set; }
+    public virtual Profile Profile { get; set; }
 
     public virtual TypesOfLog Type { get; set; }
 }

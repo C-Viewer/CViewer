@@ -40,13 +40,17 @@ public partial class Profile
 
     public virtual ICollection<CvExpert> CvExperts { get; } = new List<CvExpert>();
 
+    public virtual ICollection<CvHistory> CvHistories { get; } = new List<CvHistory>();
+
     public virtual ICollection<Cv> Cvs { get; } = new List<Cv>();
 
     public virtual ICollection<ProfileLog> ProfileLogs { get; } = new List<ProfileLog>();
 
     public virtual ICollection<ProfileToToken> ProfileToTokens { get; } = new List<ProfileToToken>();
 
-    public virtual ICollection<Report> Reports { get; } = new List<Report>();
+    public virtual ICollection<Report> ReportAuthors { get; } = new List<Report>();
+
+    public virtual ICollection<Report> ReportProfiles { get; } = new List<Report>();
 
     public virtual Specialization Specialization { get; set; }
 }

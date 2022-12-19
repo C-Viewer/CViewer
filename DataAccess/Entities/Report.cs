@@ -11,7 +11,7 @@ public partial class Report
 
     public string Text { get; set; }
 
-    public int PeopleId { get; set; }
+    public int ProfileId { get; set; }
 
     public int Rating { get; set; }
 
@@ -19,7 +19,9 @@ public partial class Report
 
     public int AuthorId { get; set; }
 
-    public virtual Profile People { get; set; }
+    public virtual Profile Author { get; set; }
+
+    public virtual Profile Profile { get; set; }
 
     public virtual Status Status { get; set; }
 }

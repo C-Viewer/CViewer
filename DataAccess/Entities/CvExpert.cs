@@ -9,9 +9,9 @@ public partial class CvExpert
 
     public int CvId { get; set; }
 
-    public int ExpertId { get; set; }
+    public int ProfileId { get; set; }
 
     public virtual Cv Cv { get; set; }
 
-    public virtual Profile Expert { get; set; }
+    public virtual Profile Profile { get; set; }
 }
