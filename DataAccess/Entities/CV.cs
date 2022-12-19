@@ -29,11 +29,15 @@ namespace CViewer.DataAccess.Entities
 
         public bool OpenToReview { get; set; }
 
-        public virtual ICollection<Profile> CvExperts { get; set; } = new List<Profile>();
+        public virtual ICollection<Profile> Profiles { get; set; } = new List<Profile>();
+
+        public virtual ICollection<CvExpert> CvExperts { get; set; } = new List<CvExpert>();
 
         public virtual ICollection<CVHistory> CvHistories { get; set; } = new List<CVHistory>();
 
-        public virtual ICollection<Tag> CvTags { get; set;  } = new List<Tag>();
+        public virtual ICollection<CvTag> CvTags { get; set; } = new List<CvTag>();
+
+        public virtual ICollection<Tag> Tags { get; set;  } = new List<Tag>();
 
         public virtual Profile PeopleCreated { get; set; }
 

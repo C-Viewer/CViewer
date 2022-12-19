@@ -18,7 +18,7 @@ namespace CViewer.Services
             newCv.Status = DataManager.GetStatus(CVStatusType.SentToReview);
             foreach(int t in cvDraft.Tags)
             {
-                newCv.CvTags.Add(DataManager.GetTag(t));
+                newCv.Tags.Add(DataManager.GetTag(t));
             }
             newCv.Title = cvDraft.Title;
             newCv.OpenToReview = true;
@@ -65,7 +65,7 @@ namespace CViewer.Services
             {
                 foreach(Tag tag in tags)
                 {
-                    cvForUpdating.CvTags.Add(tag);
+                    cvForUpdating.Tags.Add(tag);
                 }
             }
 
@@ -171,7 +171,7 @@ namespace CViewer.Services
             }
 
             takenCv.OpenToReview = false;
-            takenCv.CvExperts.Add(DataManager.GetProfile(expertId));
+            takenCv.Profiles.Add(DataManager.GetProfile(expertId));
             takenCv.Status = DataManager.GetStatus(CVStatusType.TakenToReview);
 
             return true;
