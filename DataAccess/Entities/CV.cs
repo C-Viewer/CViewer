@@ -29,20 +29,20 @@ namespace CViewer.DataAccess.Entities
 
         public bool OpenToReview { get; set; }
 
-        public virtual List<Profile> Profiles { get; set; } = new List<Profile>();
-
-        public virtual List<Tag> Tags { get; set; } = new List<Tag>();
-
         public virtual ICollection<CvExpert> CvExperts { get; } = new List<CvExpert>();
 
         public virtual ICollection<CvHistory> CvHistories { get; } = new List<CvHistory>();
 
         public virtual ICollection<CvTag> CvTags { get; } = new List<CvTag>();
 
-        public virtual Profile PeopleCreated { get; set; } = null!;
+        public virtual Profile PeopleCreated { get; set; }
 
-        public virtual Specialization Specialization { get; set; } = null!;
+        public virtual Specialization Specialization { get; set; }
 
-        public virtual Status Status { get; set; } = null!;
+        public virtual Status Status { get; set; }
+
+        public virtual List<Profile> Profiles { get; set; } = new List<Profile>();
+
+        public virtual List<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

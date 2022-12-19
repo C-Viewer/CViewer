@@ -90,6 +90,10 @@ namespace CViewer.DataAccess.DataManager
             }
             else
             {
+                using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+                {
+                    return db.Profiles.Where(u => u.Id == profileId).FirstOrDefault();
+                }
                 return ProfileRepository.Profiles.FirstOrDefault(u => u.Id == profileId);
             }
         }
