@@ -50,7 +50,7 @@ namespace CViewer.DataAccess.Repositories
                 FirstName = "Иван",
                 LastName = "Протос",
                 IsExpert = true,
-                Rating = 4.8,
+                Rating = 4.5,
                 Specialization = SpecializationRepository.Specializations.FirstOrDefault(s => s.Name == "QA"),
                 Biography = "QA в Яндекс"
             },    

@@ -52,7 +52,7 @@ namespace CViewer.DataAccess.Repositories
                 },
                 GoodCv = true,
                 PinnedFileName = "my_cv_flutter.pdf",
-                UrlFileForDownload = "STUB",
+                UrlFileForDownload = "https://da728kfevltdk.cloudfront.net/hi.txt",
             },
 
             new(4) { 
@@ -70,7 +70,7 @@ namespace CViewer.DataAccess.Repositories
                 },
                 GoodCv = true,
                 PinnedFileName = "my_cv_database.pdf",
-                UrlFileForDownload = "STUB",
+                UrlFileForDownload = "https://da728kfevltdk.cloudfront.net/qqq.zip",
             },
 
             new(5) { 
