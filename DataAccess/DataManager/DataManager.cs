@@ -4,7 +4,6 @@ using CViewer.Utils;
 using System.Xml.Serialization;
 using System.Xml;
 using CViewer.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CViewer.DataAccess.DataManager
 {

@@ -4,7 +4,6 @@ using CViewer.DataAccess.InnerEntities;
 using CViewer.DataAccess.Repositories;
 using CViewer.Utils;
 using static CViewer.DataAccess.EntitiesHelper;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CViewer.Services
 {
