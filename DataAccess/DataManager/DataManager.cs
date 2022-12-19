@@ -406,9 +406,9 @@ namespace CViewer.DataAccess.DataManager
                 CviewerReport cviewerReport = new CviewerReport();
                 cviewerReport.option0 = "Количество загруженных резюме за " + $"{date:Y}";
                 cviewerReport.option1 = "Количество загруженных файлов резюме за " + $"{date:Y}";
-                cviewerReport.option2 = "Количесво оценок экспертами за " + $"{date:Y}";
-                cviewerReport.option3 = "Количесво оценок пользователями за " + $"{date:Y}";
-                cviewerReport.option4 = "Количесво оценок на максимальный балл за " + $"{date:Y}";
+                cviewerReport.option2 = "Количество оценок экспертами за " + $"{date:Y}";
+                cviewerReport.option3 = "Количество оценок пользователями за " + $"{date:Y}";
+                cviewerReport.option4 = "Количество оценок на максимальный балл за " + $"{date:Y}";
                 cviewerReport.property0 = allCv;
                 cviewerReport.property1 = allCvFile;
                 cviewerReport.property2 = allExpertReports;
