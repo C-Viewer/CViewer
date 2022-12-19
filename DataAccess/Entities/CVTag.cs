@@ -11,7 +11,7 @@ public partial class CvTag
 
     public int TagId { get; set; }
 
-    public virtual CV CV { get; set; }
+    public virtual Cv Cv { get; set; }
 
     public virtual Tag Tag { get; set; }
 }

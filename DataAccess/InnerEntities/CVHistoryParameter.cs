@@ -5,7 +5,7 @@ namespace CViewer.DataAccess.InnerEntities
     public class CVHistoryParameter
     {
         [Required]
-        public int CVId { get; set; }
+        public int CvId { get; set; }
 
         [Required]
         public int AuthorId { get; set; }

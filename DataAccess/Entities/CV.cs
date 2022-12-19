@@ -3,7 +3,7 @@ using CViewer.DataAccess.Repositories;
 
 namespace CViewer.DataAccess.Entities
 {
-    public partial class CV
+    public partial class Cv
     {
         public int Id { get; set; }
 
@@ -29,20 +29,20 @@ namespace CViewer.DataAccess.Entities
 
         public bool OpenToReview { get; set; }
 
-        public virtual ICollection<Profile> Profiles { get; set; } = new List<Profile>();
+        public virtual List<Profile> Profiles { get; set; } = new List<Profile>();
 
-        public virtual ICollection<CvExpert> CvExperts { get; set; } = new List<CvExpert>();
+        public virtual List<Tag> Tags { get; set; } = new List<Tag>();
 
-        public virtual ICollection<CVHistory> CvHistories { get; set; } = new List<CVHistory>();
+        public virtual ICollection<CvExpert> CvExperts { get; } = new List<CvExpert>();
 
-        public virtual ICollection<CvTag> CvTags { get; set; } = new List<CvTag>();
+        public virtual ICollection<CvHistory> CvHistories { get; } = new List<CvHistory>();
 
-        public virtual ICollection<Tag> Tags { get; set;  } = new List<Tag>();
+        public virtual ICollection<CvTag> CvTags { get; } = new List<CvTag>();
 
-        public virtual Profile PeopleCreated { get; set; }
+        public virtual Profile PeopleCreated { get; set; } = null!;
 
-        public virtual Specialization Specialization { get; set; }
+        public virtual Specialization Specialization { get; set; } = null!;
 
-        public virtual Status Status { get; set; }
+        public virtual Status Status { get; set; } = null!;
     }
 }

@@ -4,7 +4,7 @@ namespace CViewer.DataAccess.Repositories
 {
     internal sealed class CVRepository
     {
-        public static List<CV> CVs = new()
+        public static List<Cv> CVs = new()
         {
             new() {
                 Status = CVStatusRepository.Statuses.Where(s => s.Name == CVStatusType.TakenToReview).FirstOrDefault(),

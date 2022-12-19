@@ -7,6 +7,7 @@ using System.Text;
 using CViewer.DataAccess.DataManager;
 using CViewer.Utils;
 using static CViewer.DataAccess.Entities.Profile;
+using System.Collections.Generic;
 
 namespace CViewer.Services
 {
@@ -152,7 +153,14 @@ namespace CViewer.Services
 
         public List<Profile> ListProfiles()
         {
-            var profiles = ProfileRepository.Profiles;
+            //var profiles = ProfileRepository.Profiles;
+
+            List<Profile> profiles;
+
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            {
+                profiles = db.Profiles.ToList();
+            }
 
             return profiles;
         }

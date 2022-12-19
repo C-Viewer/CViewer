@@ -16,11 +16,11 @@ public partial class CViewerMgrDbContext : DbContext
     {
     }
 
-    public virtual DbSet<CV> Cvs { get; set; }
+    public virtual DbSet<Cv> Cvs { get; set; }
 
     public virtual DbSet<CvExpert> CvExperts { get; set; }
 
-    public virtual DbSet<CVHistory> CvHistories { get; set; }
+    public virtual DbSet<CvHistory> CvHistories { get; set; }
 
     public virtual DbSet<CvTag> CvTags { get; set; }
 
@@ -48,7 +48,7 @@ public partial class CViewerMgrDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CV>(entity =>
+        modelBuilder.Entity<Cv>(entity =>
         {
             entity.ToTable("cv");
 
@@ -92,7 +92,7 @@ public partial class CViewerMgrDbContext : DbContext
 
             //entity.HasMany(e => e.CvExperts).WithMany(p => p.Cvs).UsingEntity<CvExpert>(
             //    j => j
-            //    .HasOne(pt => pt.CV)
+            //    .HasOne(pt => pt.Cv)
             //    .WithMany(t => t.CvExperts)
           
             //    )
@@ -106,7 +106,7 @@ public partial class CViewerMgrDbContext : DbContext
             entity.Property(e => e.CvId).HasColumnName("cv_id");
             entity.Property(e => e.ExpertId).HasColumnName("expert_id");
 
-            entity.HasOne(d => d.CV).WithMany(p => p.CvExperts)
+            entity.HasOne(d => d.Cv).WithMany(p => p.CvExperts)
                 .HasForeignKey(d => d.CvId)
                 .HasConstraintName("FK_cv_expert_cv");
 
@@ -116,7 +116,7 @@ public partial class CViewerMgrDbContext : DbContext
                 .HasConstraintName("FK_cv_expert_people");
         });
 
-        modelBuilder.Entity<CVHistory>(entity =>
+        modelBuilder.Entity<CvHistory>(entity =>
         {
             entity.ToTable("cv_history");
 
@@ -128,7 +128,7 @@ public partial class CViewerMgrDbContext : DbContext
             entity.Property(e => e.Comment)
                 .IsUnicode(false)
                 .HasColumnName("comment");
-            entity.Property(e => e.CVId).HasColumnName("cv_id");
+            entity.Property(e => e.CvId).HasColumnName("cv_id");
             entity.Property(e => e.DateTime)
                 .HasColumnType("datetime")
                 .HasColumnName("date_time");
@@ -137,8 +137,8 @@ public partial class CViewerMgrDbContext : DbContext
                 .HasColumnName("file_name");
             entity.Property(e => e.Grade).HasColumnName("grade");
 
-            entity.HasOne(d => d.CV).WithMany(p => p.CvHistories)
-                .HasForeignKey(d => d.CVId)
+            entity.HasOne(d => d.Cv).WithMany(p => p.CvHistories)
+                .HasForeignKey(d => d.CvId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_cv_history_cv");
         });
@@ -151,7 +151,7 @@ public partial class CViewerMgrDbContext : DbContext
             entity.Property(e => e.CvId).HasColumnName("cv_id");
             entity.Property(e => e.TagId).HasColumnName("tag_id");
 
-            entity.HasOne(d => d.CV).WithMany(p => p.CvTags)
+            entity.HasOne(d => d.Cv).WithMany(p => p.CvTags)
                 .HasForeignKey(d => d.CvId)
                 .HasConstraintName("FK_cv_tags_cv");
 

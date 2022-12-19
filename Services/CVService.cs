@@ -9,9 +9,9 @@ namespace CViewer.Services
 {
     internal sealed class CVService : ICVService
     {
-        public CV CreateCVForReview(CVDraftParameter cvDraft, Profile applicant)
+        public Cv CreateCVForReview(CVDraftParameter cvDraft, Profile applicant)
         {
-            CV newCv = new CV();
+            Cv newCv = new Cv();
             newCv.PeopleCreatedId = applicant.Id;
             newCv.DateCreation = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow);
             newCv.Specialization = applicant.Specialization;
@@ -45,7 +45,7 @@ namespace CViewer.Services
             DataManager.AddCVHistory(fileName, urlForDownload, cvId, authorId);
         }
 
-        public CV UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<Tag> tags = null, string description = null)
+        public Cv UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<Tag> tags = null, string description = null)
         {
             var cvForUpdating = CVRepository.CVs.FirstOrDefault(o => o.Id == cvId);
 
@@ -78,7 +78,7 @@ namespace CViewer.Services
         }
 
         // ToDo: Add validation on empty data
-        public CVHistory CreateCVEventForHistory(CVHistoryParameter cvHistoryParameter, out string errMsg)
+        public CvHistory CreateCVEventForHistory(CVHistoryParameter cvHistoryParameter, out string errMsg)
         {
             errMsg = String.Empty;
             Profile profile = DataManager.GetProfile(cvHistoryParameter.AuthorId);
@@ -88,17 +88,17 @@ namespace CViewer.Services
                 return null;
             }
 
-            CV cv = DataManager.GetCv(cvHistoryParameter.CVId);
+            Cv cv = DataManager.GetCv(cvHistoryParameter.CvId);
             if (cv == null)
             {
-                errMsg = "CV which is chosen does not found.";
+                errMsg = "Cv which is chosen does not found.";
                 return null;
             }
 
-            CVHistory newCvHistory = new CVHistory
+            CvHistory newCvHistory = new CvHistory
             {
                 Id = DataManager.GetCVHistoriesCount() + 1,
-                CVId = cvHistoryParameter.CVId,
+                CvId = cvHistoryParameter.CvId,
                 Comment = cvHistoryParameter.Comment,
                 DateTime = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),
                 AuthorId = cvHistoryParameter.AuthorId,
@@ -113,7 +113,7 @@ namespace CViewer.Services
             return DataManager.GetCv(cvId).Status;
         }
 
-        public CV GetCV(int cvId)
+        public Cv GetCV(int cvId)
         {
             var cv = CVRepository.CVs.FirstOrDefault(o => o.Id == cvId);
 
@@ -122,7 +122,7 @@ namespace CViewer.Services
             return cv;
         }
 
-        public CVHistory GetCVHistory(int cvHistoryId)
+        public CvHistory GetCVHistory(int cvHistoryId)
         {
             var cvHistory = CVHistoryRepository.CVHistories.FirstOrDefault(o => o.Id == cvHistoryId);
 
@@ -155,7 +155,7 @@ namespace CViewer.Services
             return SpecializationRepository.Specializations;
         }
 
-        public List<CV> ListCvsOpenedForReview()
+        public List<Cv> ListCvsOpenedForReview()
         {
             return DataManager.ListCvsOpenedForReview();
         }
@@ -163,10 +163,10 @@ namespace CViewer.Services
         public bool TakeCvToReview(int cvId, int expertId, out string errorMessage)
         {
             errorMessage = string.Empty;
-            CV takenCv = DataManager.GetCv(cvId);
+            Cv takenCv = DataManager.GetCv(cvId);
             if (!takenCv.OpenToReview)
             {
-                errorMessage = "Chosen CV was already taken to review.";
+                errorMessage = "Chosen Cv was already taken to review.";
                 return false;
             }
 
@@ -182,14 +182,14 @@ namespace CViewer.Services
             DataManager.MakeCvAsGood(cvId);
         }
 
-        public List<CV> ListGoodCvs()
+        public List<Cv> ListGoodCvs()
         {
             return DataManager.ListGoodCvs();
         }
 
-        public void UpdateCvStatusIfNecessary(CVHistory cvEventForHistory)
+        public void UpdateCvStatusIfNecessary(CvHistory cvEventForHistory)
         {
-            CV cv = DataManager.GetCv(cvEventForHistory.CVId);
+            Cv cv = DataManager.GetCv(cvEventForHistory.CvId);
             if (cvEventForHistory.Grade == null) { return; }
             else { cv.Grade = cvEventForHistory.Grade; }
 
@@ -204,25 +204,25 @@ namespace CViewer.Services
 
         public void PinFileToCv(int cvId, string fileName, string urlToStoreFile)
         {
-            CV cv = DataManager.GetCv(cvId);
+            Cv cv = DataManager.GetCv(cvId);
             cv.PinnedFileName = fileName;
             cv.UrlFileForDownload = urlToStoreFile;
         }
 
-        public void FinishCvReview(CV cv)
+        public void FinishCvReview(Cv cv)
         {
             cv.Status = DataManager.GetStatus(CVStatusType.Finished);
         }
 
-        public List<CVHistory> ListCVHistories()
+        public List<CvHistory> ListCVHistories()
         {
-            List<CVHistory> cvHistories = CVHistoryRepository.CVHistories;
+            List<CvHistory> cvHistories = CVHistoryRepository.CVHistories;
             return cvHistories;
         }
 
-        public List<CVHistory> ListCVHistories(int cvId)
+        public List<CvHistory> ListCVHistories(int cvId)
         {
-            List<CVHistory> concreteCvHistories = DataManager.GetCVHistories(cvId);
+            List<CvHistory> concreteCvHistories = DataManager.GetCVHistories(cvId);
             return concreteCvHistories;
         }
 
@@ -232,13 +232,13 @@ namespace CViewer.Services
             return attachedFiles;
         }
 
-        public List<CV> ListCVs()
+        public List<Cv> ListCVs()
         {
             var cvs = CVRepository.CVs;
             return cvs;
         }
 
-        public List<CV> ListCVsForProfile(string applicantOrExpertToken)
+        public List<Cv> ListCVsForProfile(string applicantOrExpertToken)
         {
             ProfileToToken profileToToken = DataManager.GetProfileAndToken(applicantOrExpertToken);
             if (profileToToken == null)

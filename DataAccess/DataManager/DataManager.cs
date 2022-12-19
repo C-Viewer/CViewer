@@ -119,7 +119,7 @@ namespace CViewer.DataAccess.DataManager
             }
             else
             {
-                CV cv = CVRepository.CVs.FirstOrDefault(cv => cv.Id == cvId);
+                Cv cv = CVRepository.CVs.FirstOrDefault(cv => cv.Id == cvId);
                 if (cv == null)
                 {
                     return new List<int> { EntityNotFound };
@@ -136,12 +136,12 @@ namespace CViewer.DataAccess.DataManager
             }
         }
 
-        internal static List<CVHistory> GetCVHistories(int cvId)
+        internal static List<CvHistory> GetCVHistories(int cvId)
         {
-            return CVHistoryRepository.CVHistories.Where(h => h.CVId == cvId).OrderByDescending(el => el.DateTime).ToList();
+            return CVHistoryRepository.CVHistories.Where(h => h.CvId == cvId).OrderByDescending(el => el.DateTime).ToList();
         }
 
-        internal static List<CV> GetCvsForProfile(int profileId)
+        internal static List<Cv> GetCvsForProfile(int profileId)
         {
             if (TemporaryConfiguration.UseDb)
             {
@@ -153,7 +153,7 @@ namespace CViewer.DataAccess.DataManager
             }
         }
 
-        internal static CV GetCv(int cvId)
+        internal static Cv GetCv(int cvId)
         {
             if (TemporaryConfiguration.UseDb)
             {
@@ -293,7 +293,7 @@ namespace CViewer.DataAccess.DataManager
             }
         }
 
-        public static void AddCV(CV newCV)
+        public static void AddCV(Cv newCV)
         {
             if (TemporaryConfiguration.UseDb)
             {
@@ -313,12 +313,12 @@ namespace CViewer.DataAccess.DataManager
             }
             else
             {
-                CVHistory cvHistory = new CVHistory
+                CvHistory cvHistory = new CvHistory
                 {
                     Id = GetCVHistoriesCount() + 1,
                     FileName = fileName,
                     AmazonPathToFile = urlForDownload,
-                    CVId = cvId,
+                    CvId = cvId,
                     DateTime = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),
                     AuthorId = authorId,
                 };
@@ -327,7 +327,7 @@ namespace CViewer.DataAccess.DataManager
             }
         }
 
-        public static void AddCVHistory(CVHistory cvEventForHistory)
+        public static void AddCVHistory(CvHistory cvEventForHistory)
         {
             if (TemporaryConfiguration.UseDb)
             {
@@ -339,7 +339,7 @@ namespace CViewer.DataAccess.DataManager
             }
         }
 
-        public static List<CV> ListCvsOpenedForReview()
+        public static List<Cv> ListCvsOpenedForReview()
         {
             if (TemporaryConfiguration.UseDb)
             {
@@ -359,12 +359,12 @@ namespace CViewer.DataAccess.DataManager
             }
             else
             {
-                CV cv = CVRepository.CVs.FirstOrDefault(cv => cv.Id == cvId);
+                Cv cv = CVRepository.CVs.FirstOrDefault(cv => cv.Id == cvId);
                 cv.GoodCv = true;
             }
         }
 
-        public static List<CV> ListGoodCvs()
+        public static List<Cv> ListGoodCvs()
         {
             if (TemporaryConfiguration.UseDb)
             {

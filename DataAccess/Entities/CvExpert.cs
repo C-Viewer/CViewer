@@ -11,7 +11,7 @@ public partial class CvExpert
 
     public int ExpertId { get; set; }
 
-    public virtual CV CV { get; set; }
+    public virtual Cv Cv { get; set; }
 
     public virtual Profile Expert { get; set; }
 }

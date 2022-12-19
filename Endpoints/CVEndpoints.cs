@@ -27,11 +27,11 @@ namespace CViewer.Endpoints
 
             app.MapGet("/get_cv",
                     ([Required] int cvId, ICVService service) => GetCV(cvId, service))
-                .Produces<CV>();
+                .Produces<Cv>();
 
             //app.MapGet("/get_cv_history",
             //        ([Required] int cvHistoryId, ICVService service) => GetCVHistory(cvHistoryId, service))
-            //    .Produces<CVHistory>();
+            //    .Produces<CvHistory>();
 
             //app.MapGet("/get_attached_file",
             //        ([Required] int attachedFileId, ICVService service) => GetAttachedFile(attachedFileId, service))
@@ -51,7 +51,7 @@ namespace CViewer.Endpoints
                             ISecurityService securityService, ICVService service, IAmazonS3Service amazonS3Service) =>
                         CreateCVForReviewAsync(complexCVAndIFormFile, context, securityService, service, amazonS3Service))
                 .Accepts<ComplexCVAndIFormFile>("multipart/form-data")
-                .Produces<CV>();
+                .Produces<Cv>();
 
             app.MapPut("/make_cv_as_good",
                 [EnableCors(Configuration.CorsPolicyName)]
@@ -63,14 +63,14 @@ namespace CViewer.Endpoints
                 [EnableCors(Configuration.CorsPolicyName)]
                 (ISecurityService securityService, ICVService service) =>
                     ListGoodCvs(service))
-                .Produces<List<CV>>();
+                .Produces<List<Cv>>();
 
             app.MapGet("/list_cvs_opened_for_review",
                 [EnableCors(Configuration.CorsPolicyName)]
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                 (HttpContext context, ISecurityService securityService, ICVService service) =>
                     ListCvsOpenedForReview(context, securityService, service))
-                .Produces<List<CV>>();
+                .Produces<List<Cv>>();
 
             app.MapPut("/take_cv_to_review",
                 [EnableCors(Configuration.CorsPolicyName)]
@@ -92,14 +92,14 @@ namespace CViewer.Endpoints
                     AddEventToHistoryAsync(complexCVHistoryParameterAndFIle, service: service, context: context,
                         securityService: securityService, amazonS3Service: amazonS3Service))
                 .Accepts<ComplexCVHistoryParameterAndFIle>("multipart/form-data")
-                .Produces<CVHistory>();
+                .Produces<CvHistory>();
 
             app.MapGet("/list_CVs",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (HttpContext context, ISecurityService securityService, ICVService service) =>
                         ListCVs(context, securityService, service))
-                .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
+                .Produces<List<Cv>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/get_cv_status",
                     [EnableCors(Configuration.CorsPolicyName)]
@@ -110,7 +110,7 @@ namespace CViewer.Endpoints
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     (HttpContext context, ISecurityService securityService, ICVService service) => ListCVsForProfile(context, securityService, service))
-                .Produces<List<CV>>(statusCode: 200, contentType: "application/json");
+                .Produces<List<Cv>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_CV_tags",
                 (ICVService service) => ListCVTags(service))
@@ -126,13 +126,13 @@ namespace CViewer.Endpoints
 
             //app.MapGet("/list_CV_histories",
             //        (ICVService service) => ListCVHistories(service))
-            //    .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
+            //    .Produces<List<CvHistory>>(statusCode: 200, contentType: "application/json");
 
             app.MapGet("/list_concrete_CV_histories",
                     [EnableCors(Configuration.CorsPolicyName)]
                     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
                     ([Required] int cvId, HttpContext context, ISecurityService securityService, ICVService service) => ListCVHistories(cvId, context, securityService, service))
-                .Produces<List<CVHistory>>(statusCode: 200, contentType: "application/json");
+                .Produces<List<CvHistory>>(statusCode: 200, contentType: "application/json");
 
             app.MapPut("/finish_cv_review",
                 [EnableCors(Configuration.CorsPolicyName)]
@@ -157,16 +157,16 @@ namespace CViewer.Endpoints
                 return Results.Unauthorized();
             }
 
-            CV cv = DataManager.GetCv(cvId);
+            Cv cv = DataManager.GetCv(cvId);
             if (cv == null)
             {
-                return Results.BadRequest("Chosen CV does not found");
+                return Results.BadRequest("Chosen Cv does not found");
             }
 
             Profile applicantProfile = DataManager.GetProfile(token);
             if (cv.PeopleCreatedId != applicantProfile.Id)
             {
-                return Results.BadRequest("This CV is not yours. You cannot change its status");
+                return Results.BadRequest("This Cv is not yours. You cannot change its status");
             }
 
             service.FinishCvReview(cv);
@@ -263,7 +263,7 @@ namespace CViewer.Endpoints
             }
 
             CVDraftParameter cvDraft = complexCVAndIFormFile.CvDraft;
-            CV newCv = service.CreateCVForReview(cvDraft, applicant);
+            Cv newCv = service.CreateCVForReview(cvDraft, applicant);
 
             var logger = new LoggerConfiguration()
                 .WriteTo.Console()
@@ -292,7 +292,7 @@ namespace CViewer.Endpoints
             var updatedCV = service.UpdateCVInfo(cvId: cvId, title: title, specialization: specialization, tags: tags, 
                 description: description);
 
-            if (updatedCV is null) Results.NotFound("CV not found");
+            if (updatedCV is null) Results.NotFound("Cv not found");
 
             return Results.Ok(updatedCV);
         }
@@ -305,7 +305,7 @@ namespace CViewer.Endpoints
                 return Results.Unauthorized();
             }
 
-            CVHistory cvEventForHistory = service.CreateCVEventForHistory(complexCVHistoryParameterAndFIle.CVHistoryParameter, out string errMsg);
+            CvHistory cvEventForHistory = service.CreateCVEventForHistory(complexCVHistoryParameterAndFIle.CVHistoryParameter, out string errMsg);
             if (cvEventForHistory == null)
             {
                 return Results.BadRequest(errMsg);
@@ -322,7 +322,7 @@ namespace CViewer.Endpoints
                     cvEventForHistory.AmazonPathToFile = urlToStoreFile;
                     cvEventForHistory.FileName = complexCVHistoryParameterAndFIle.CVHistoryParameter.FileName;
 
-                    service.PinFileToCv(cvEventForHistory.CVId, complexCVHistoryParameterAndFIle.CVHistoryParameter.FileName, urlToStoreFile);
+                    service.PinFileToCv(cvEventForHistory.CvId, complexCVHistoryParameterAndFIle.CVHistoryParameter.FileName, urlToStoreFile);
                 }
             }
 
@@ -333,9 +333,9 @@ namespace CViewer.Endpoints
 
         private static IResult GetCV(int cvId, ICVService service)
         {
-            CV cv = service.GetCV(cvId);
+            Cv cv = service.GetCV(cvId);
 
-            if (cv is null) return Results.NotFound("CV not found");
+            if (cv is null) return Results.NotFound("Cv not found");
 
             return Results.Ok(cv);
         }
@@ -344,7 +344,7 @@ namespace CViewer.Endpoints
         {
             var cvHistory = service.GetCVHistory(cvHistoryId);
 
-            if (cvHistory is null) return Results.NotFound("CV history not found");
+            if (cvHistory is null) return Results.NotFound("Cv history not found");
 
             return Results.Ok(cvHistory);
         }
@@ -384,7 +384,7 @@ namespace CViewer.Endpoints
             List<int> profilesIds = DataManager.GetProfilesIdsForCv(cvId);
             if (profilesIds.Count == 1 && profilesIds[0] == DataManager.EntityNotFound)
             {
-                return Results.BadRequest($"Cannot find CV corresponding current `{nameof(cvId)}`");
+                return Results.BadRequest($"Cannot find Cv corresponding current `{nameof(cvId)}`");
             }
 
             if (!Validator.ValidateTokenWithProfiles(applicantOrExpertToken, profilesIds))
@@ -392,13 +392,13 @@ namespace CViewer.Endpoints
                 return Results.Unauthorized();
             }
 
-            List<CVHistory> concreteCvHistories = service.ListCVHistories(cvId);
+            List<CvHistory> concreteCvHistories = service.ListCVHistories(cvId);
             return Results.Ok(concreteCvHistories);
         }
 
         private static IResult ListCVHistories(ICVService service)
         {
-            List<CVHistory> cvHistories = service.ListCVHistories();
+            List<CvHistory> cvHistories = service.ListCVHistories();
 
             return Results.Ok(cvHistories);
         }
@@ -436,7 +436,7 @@ namespace CViewer.Endpoints
             }
 
             string applicantOrExpertToken = TokenHelper.GetToken(context);
-            List<CV> profileCVs = service.ListCVsForProfile(applicantOrExpertToken);
+            List<Cv> profileCVs = service.ListCVsForProfile(applicantOrExpertToken);
 
             return Results.Ok(profileCVs);
         }
