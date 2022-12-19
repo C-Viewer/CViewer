@@ -76,7 +76,7 @@ namespace CViewer.DataAccess.Repositories
             new(5) { 
                 StatusId = CVStatusType.SentToReview,
                 Title = "Java", 
-                Description = "Разработка ПО на java.", 
+                Description = "Разработка ПО на java.",            
                 DateCreation = new DateTime(2022, 12, 08, 18, 25, 01),
                 PeopleCreatedId = 2,
                 ExpertIds = new List<int>() { 1 },
@@ -87,6 +87,24 @@ namespace CViewer.DataAccess.Repositories
                 },
                 OpenToReview = true,
             },
+            
+            new(6) { 
+                StatusId = CVStatusType.Finished,
+                Title = "Frontend Developer", 
+                Description = "Разработка на React", 
+                Grade = 5,
+                DateCreation = new DateTime(2022, 12, 20, 18, 25, 01),
+                PeopleCreatedId = 5,
+                ExpertIds = new List<int>() { 4 },
+                Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 9),            
+                Tags = new List<CVTag>
+                {
+                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 9),
+                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 4),
+                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 6),
+                },
+                GoodCv = true,
+            },            
         };
     }
 }
