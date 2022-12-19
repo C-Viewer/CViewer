@@ -2,16 +2,16 @@
 
 namespace CViewer.DataAccess.Entities
 {
-    public class AttachedFile
+    public class Token
     {
 
         [Required]
         public int Id { get; set; }
-
+        
         [Required]
-        public string FileName { get; set; }
-
+        public string Value { get; set; }
+        
         [Required]
-        public string FilePath { get; set; }
+        public DateTime ExpirationDateTime { get; set; }
     }
 }

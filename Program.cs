@@ -1,11 +1,14 @@
+using CViewer.Endpoints;
+using CViewer.Services;
+using CViewer.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using CViewer.Services;
 using System.Text;
-using CViewer.DataAccess.Entities;
-using CViewer.Endpoints;
+using System.Text.Json.Serialization;
+
+using MvcJsonOptions = Microsoft.AspNetCore.Mvc.JsonOptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +39,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.Configure<JsonOptions>(o => o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+builder.Services.Configure<MvcJsonOptions>(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters()
@@ -54,6 +60,14 @@ builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<ICVService, CVService>();
 builder.Services.AddSingleton<IProfileService, ProfileService>();
+builder.Services.AddSingleton<ISecurityService, SecurityService>();
+builder.Services.AddSingleton<IAmazonS3Service>(x =>
+    new AmazonS3Service(args[0], args[1]));
+
+builder.Services.AddCors(p => p.AddPolicy(Configuration.CorsPolicyName, builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+}));
 
 var app = builder.Build();
 
@@ -66,7 +80,11 @@ app.MapGet("/", () => "Nice CV, Awesome skills!!!")
 
 app.MapProfileEndpoints(builder);
 app.MapCVEndpoints();
+app.MapSecurityEndpoints();
+app.MapAmazonEndpoints();
 
 app.UseSwaggerUI();
+
+app.UseCors(Configuration.CorsPolicyName);
 
 app.Run();

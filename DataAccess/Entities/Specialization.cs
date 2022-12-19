@@ -2,16 +2,12 @@
 
 namespace CViewer.DataAccess.Entities
 {
-    public class AttachedFile
+    public class Specialization
     {
-
         [Required]
         public int Id { get; set; }
 
         [Required]
-        public string FileName { get; set; }
-
-        [Required]
-        public string FilePath { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -1,13 +1,15 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using CViewer.DataAccess.Entities;
+﻿using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
-using Microsoft.IdentityModel.Tokens;
+using CViewer.Utils;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using System.ComponentModel.DataAnnotations;
 
 namespace CViewer.Endpoints
 {
-    public static class ProfileEndpoints
+    internal static class ProfileEndpoints
     {
         private static WebApplicationBuilder _builder;
 
@@ -16,77 +18,192 @@ namespace CViewer.Endpoints
             _builder = builder;
 
             app.MapPost("/sign_in",
-                    (UserCredentials user, IProfileService service) => SignIn(user, service))
+                    ([Required] UserCredentials user, IProfileService service) => SignIn(user, service))
                 .Accepts<UserCredentials>("application/json")
-                .Produces<string>();
+                .Produces<ComplexObjectProfileAndToken>();
 
             app.MapPost("/sign_up",
-                (UserCredentials userCredentials, IProfileService service) => SignUp(userCredentials, service));
+                ([Required] UserCredentials userCredentials, IProfileService service) => SignUp(userCredentials, service))
+                .Produces<ComplexObjectProfileAndToken>();
+
+            app.MapPost("/logout",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                (HttpContext context, ISecurityService securityService, IProfileService service) =>
+                    Logout(context, securityService, service));
+            
 
             app.MapPut("/update_profile",
-                (int profileId, IProfileService service, string firstName, string lastName, string biography,
-                double? rating, string email, string password, int? specializationId) => UpdateProfile(profileId: profileId, firstName: firstName,
+                ([Required] int profileId, string firstName, string lastName, string biography,
+                int? rating, string email, string password, Specialization specializationId, IProfileService service) => UpdateProfile(profileId: profileId, firstName: firstName,
                     lastName: lastName, biography: biography, rating: rating, email: email, password: password, specializationId: specializationId, 
-                    service: service));
+                    service: service))
+                .Produces<Profile>();
 
             app.MapGet("/list_profiles",
-                (IProfileService service) => ListProfiles(service));
+                (IProfileService service) => ListProfiles(service))
+                .Produces<List<Profile>>();
 
             app.MapGet("/get_profile",
-                (int profileId, IProfileService service) => GetProfile(profileId, service));
+                    [EnableCors(Configuration.CorsPolicyName)]
+                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                    (HttpContext context, ISecurityService securityService, IProfileService service) => GetProfile(context, securityService, service))
+                .Produces<Profile>();
+
+            app.MapGet("/get_profile_by_id",
+                    [EnableCors(Configuration.CorsPolicyName)]
+                    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                    (int profileId, HttpContext context, ISecurityService securityService, IProfileService service) =>
+                        GetProfile(profileId, context, securityService, service))
+                .Produces<Profile>();
+
+            app.MapPost("/add_report_to_profile",
+                [EnableCors(Configuration.CorsPolicyName)]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+                (string comment, [Required] int peopleId, [Required] int authorId, [Required] int mark, HttpContext context, ISecurityService securityService, IProfileService service) => 
+                AddReportToProfile(comment, peopleId, authorId, mark, context, securityService, service));
+
+            //app.MapGet("/get_expert_profile",
+            //        [EnableCors(Configuration.CorsPolicyName)]
+            //        ([Required] int expertId, IProfileService service) => GetExpertProfile(expertId, service))
+            //    .Produces<Profile>();
+            //
+            //app.MapGet("/get_applicant_profile",
+            //        [EnableCors(Configuration.CorsPolicyName)]
+            //        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+            //([Required] int applicantId, HttpContext context, ISecurityService securityService, IProfileService service) => 
+            //    GetApplicantProfile(applicantId, context, securityService, service))
+            //    .Produces<Profile>();
         }
 
         private static IResult SignIn(UserCredentials user, IProfileService service)
         {
-            if (!string.IsNullOrEmpty(user.EmailAddress) &&
-                !string.IsNullOrEmpty(user.Password))
+            int status = service.SignIn(user, out Profile profile, out Token token, out string errorMessage, _builder);
+            switch (status)
             {
-                var loggedInUser = service.SignIn(user);
-                if (loggedInUser is null) return Results.NotFound("Profile not found");
-
-                var claims = new[]
+                case ErrorCodes.BadRequest:
                 {
-                    new Claim(ClaimTypes.NameIdentifier, loggedInUser.EmailAddress),
-                    new Claim(ClaimTypes.Email, loggedInUser.EmailAddress),
-                    new Claim(ClaimTypes.GivenName, loggedInUser.FirstName),
-                    new Claim(ClaimTypes.Surname, loggedInUser.LastName),
-                };
-
-                var token = new JwtSecurityToken
-                (
-                    issuer: _builder.Configuration["Jwt:Issuer"],
-                    audience: _builder.Configuration["Jwt:Audience"],
-                    claims: claims,
-                    expires: DateTime.UtcNow.AddDays(60),
-                    notBefore: DateTime.UtcNow,
-                    signingCredentials: new SigningCredentials(
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_builder.Configuration["Jwt:Key"])),
-                        SecurityAlgorithms.HmacSha256)
-                );
-
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-
-                return Results.Ok(tokenString);
+                    return Results.BadRequest(errorMessage);
+                }
+                case ErrorCodes.NotFound:
+                {
+                    return Results.NotFound(errorMessage);
+                }
+                case ErrorCodes.Ok:
+                {
+                    return Results.Ok(new ComplexObjectProfileAndToken { Profile = profile, Token = token });
+                }
+                default:
+                {
+                    return Results.BadRequest("Unexpected behaviour");
+                }
             }
-            return Results.BadRequest("Invalid user credentials");
+        }
+
+        private static IResult Logout(HttpContext context, ISecurityService securityService, IProfileService service)
+        {
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token))
+            {
+                return Results.Unauthorized();
+            }
+
+            service.Logout(token);
+
+            return Results.Ok("Logout success");
         }
 
         private static IResult SignUp(UserCredentials userCredentials, IProfileService service)
         {
-            var profile = service.SignUp(userCredentials);
+            int status = service.SignUp(userCredentials, out Profile profile, out Token token, out string errorMessage, _builder);
+            switch (status)
+            {
+                case ErrorCodes.Conflict:
+                {
+                    return Results.Conflict(errorMessage);
+                }
+                case ErrorCodes.BadRequest:
+                {
+                    return Results.BadRequest(errorMessage);
+                }
+                case ErrorCodes.NotFound:
+                {
+                    return Results.NotFound(errorMessage);
+                }
+                case ErrorCodes.Ok:
+                {
+                    return Results.Ok(new ComplexObjectProfileAndToken { Profile = profile, Token = token });
+                }
+                default:
+                {
+                    return Results.BadRequest("Unexpected behaviour");
+                }
+            }
+        }
+
+        private static IResult GetProfile(HttpContext context, ISecurityService securityService, IProfileService service)
+        {
+            string applicantOrExpertToken = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(applicantOrExpertToken))
+            {
+                return Results.Unauthorized();
+            }
+
+            Profile profile = service.GetProfile(applicantOrExpertToken);
+            if (profile is null)
+            {
+                return Results.NotFound("Profile not found");
+            }
+
             return Results.Ok(profile);
         }
 
-        private static IResult GetProfile(int profileId, IProfileService service)
+        private static IResult GetProfile(int profileId, HttpContext context, ISecurityService securityService, IProfileService service)
         {
-            var profile = service.GetProfile(profileId);
-            if (profile is null) return Results.NotFound("Profile not found");
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token))
+            {
+                return Results.Unauthorized();
+            }
+
+            Profile profile = service.GetProfile(profileId);
+            if (profile is null)
+            {
+                return Results.NotFound("Profile not found");
+            }
+
+            return Results.Ok(profile);
+        }
+
+        private static IResult GetExpertProfile(int expertId, IProfileService service)
+        {
+            Profile profile = service.GetExpertProfile(expertId);
+            if (profile is null)
+            {
+                return Results.NotFound("Expert profile not found");
+            }
+
+            return Results.Ok(profile);
+        }
+
+        private static IResult GetApplicantProfile(int applicantId, HttpContext context, ISecurityService securityService, IProfileService service)
+        {
+            if (!securityService.CheckAccess(TokenHelper.GetToken(context)))
+            {
+                return Results.Unauthorized();
+            }
+
+            Profile profile = service.GetApplicantProfile(applicantId);
+            if (profile is null)
+            {
+                return Results.NotFound("Applicant profile not found");
+            }
 
             return Results.Ok(profile);
         }
 
         private static IResult UpdateProfile(int profileId, IProfileService service, string firstName = null, string lastName = null, string biography = null,
-            double? rating = null, string email = null, string password = null, int? specializationId = null)
+            int? rating = null, string email = null, string password = null, Specialization specializationId = null)
         {
             var updatedProfile = service.UpdateProfile(profileId: profileId, firstName: firstName, lastName: lastName, 
                 biography: biography, rating: rating, email: email, password: password, specializationId: specializationId);
@@ -99,6 +216,14 @@ namespace CViewer.Endpoints
         private static IResult ListProfiles(IProfileService service)
         {
             return Results.Ok(service.ListProfiles());
+        }
+
+        private static IResult AddReportToProfile(string comment, int peopleId, int authorId, int mark, HttpContext context, ISecurityService securityService, IProfileService service)
+        {
+            string token = TokenHelper.GetToken(context);
+            if (!securityService.CheckAccess(token)) return Results.Unauthorized();
+            service.AddReportToProfile(comment, peopleId, authorId, mark);
+            return Results.Ok();
         }
     }
 }
