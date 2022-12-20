@@ -53,4 +53,6 @@ public partial class Profile
     public virtual ICollection<Report> ReportProfiles { get; } = new List<Report>();
 
     public virtual Specialization Specialization { get; set; }
+
+    public List<Cv> Cvs2 { get; set; } = new List<Cv>();
 }

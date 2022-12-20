@@ -41,8 +41,8 @@ namespace CViewer.DataAccess.Entities
 
         public virtual Status Status { get; set; }
 
-        public virtual List<Profile> Profiles { get; set; } = new List<Profile>();
+        public List<Profile> Profiles { get; set; } = new List<Profile>();
 
-        public virtual List<Tag> Tags { get; set; } = new List<Tag>();
+        public List<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

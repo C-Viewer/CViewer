@@ -10,4 +10,6 @@ public partial class Tag
     public string Name { get; set; }
 
     public virtual ICollection<CvTag> CvTags { get; } = new List<CvTag>();
+
+    public List<Cv> Cvs2 { get; set; } = new List<Cv>();
 }
