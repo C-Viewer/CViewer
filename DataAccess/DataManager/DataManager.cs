@@ -6,6 +6,7 @@ using System.Xml;
 using CViewer.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CViewer.DataAccess.DataManager
 {
@@ -123,13 +124,9 @@ namespace CViewer.DataAccess.DataManager
 
         internal static List<int> GetProfilesIdsForCv(int cvId)
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-                // ToDo
-            }
-            else
-            {
-                Cv cv = CVRepository.CVs.FirstOrDefault(cv => cv.Id == cvId);
+                Cv cv = db.Cvs.FirstOrDefault(cv => cv.Id == cvId);
                 if (cv == null)
                 {
                     return new List<int> { EntityNotFound };
@@ -156,25 +153,25 @@ namespace CViewer.DataAccess.DataManager
 
         internal static List<Cv> GetCvsForProfile(int profileId)
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                return CVRepository.CVs.Where(cv => cv.PeopleCreatedId == profileId || (!cv.OpenToReview && cv.CvExperts.Select(cv => cv.Id) != null && cv.CvExperts.Select(cv => cv.Id).Contains(profileId))).ToList();
+                return db.Cvs.Where(cv => cv.PeopleCreatedId == profileId || (!cv.OpenToReview && cv.CvExperts.Select(cv => cv.Id) != null && cv.CvExperts.Select(cv => cv.Id).Contains(profileId))).ToList();
             }
         }
 
         internal static Cv GetCv(int cvId)
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
+                return db.Cvs.FirstOrDefault(cv => cv.Id == cvId);
             }
-            else
+        }
+
+        public static List<Cv> ListCVs()
+        {
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-                return CVRepository.CVs.FirstOrDefault(cv => cv.Id == cvId);
+                return db.Cvs.ToList();
             }
         }
 
@@ -249,13 +246,9 @@ namespace CViewer.DataAccess.DataManager
 
         public static int GetCVCount()
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                return CVRepository.CVs.Count;
+                return db.Cvs.Count();
             }
         }
 
@@ -277,13 +270,10 @@ namespace CViewer.DataAccess.DataManager
 
         public static void AddCV(Cv newCV)
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                CVRepository.CVs.Add(newCV);
+                db.Cvs.Add(newCV);
+                db.SaveChangesAsync();
             }
         }
 
@@ -317,38 +307,27 @@ namespace CViewer.DataAccess.DataManager
 
         public static List<Cv> ListCvsOpenedForReview()
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                return CVRepository.CVs.Where(cv => (bool)cv.OpenToReview).ToList();
+                return db.Cvs.Where(cv => cv.OpenToReview).ToList();
             }
         }
 
         public static void MakeCvAsGood(int cvId)
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                Cv cv = CVRepository.CVs.FirstOrDefault(cv => cv.Id == cvId);
+                Cv cv = db.Cvs.FirstOrDefault(cv => cv.Id == cvId);
                 cv.GoodCv = true;
+                db.SaveChangesAsync();
             }
         }
 
         public static List<Cv> ListGoodCvs()
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                return CVRepository.CVs.Where(cv => cv.GoodCv).OrderByDescending(cv => cv.Grade).ToList();
+                return db.Cvs.Where(cv => cv.GoodCv).OrderByDescending(cv => cv.Grade).ToList();
             }
         }
 
@@ -388,7 +367,7 @@ namespace CViewer.DataAccess.DataManager
         {
             using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-                int allCv = CVRepository.CVs.Where(cv => cv.DateCreation.Month == date.Month && cv.DateCreation.Year == date.Year).Count();
+                int allCv = db.Cvs.Where(cv => cv.DateCreation.Month == date.Month && cv.DateCreation.Year == date.Year).Count();
                 int allCvFile = db.CvHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.AmazonPathToFile != null).Count();
                 int allExpertReports = db.CvHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade != null).Count();
                 int allApplicantReports = db.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year).Count();

@@ -47,34 +47,37 @@ namespace CViewer.Services
 
         public Cv UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<Tag> tags = null, string description = null)
         {
-            var cvForUpdating = CVRepository.CVs.FirstOrDefault(o => o.Id == cvId);
-
-            if (cvForUpdating is null) return null;
-
-            if (title != null)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-                cvForUpdating.Title = title;
-            }
+                Cv cvForUpdating = db.Cvs.FirstOrDefault(o => o.Id == cvId);
 
-            if (specialization != null)
-            {
-                cvForUpdating.Specialization = (Specialization)specialization;
-            }
+                if (cvForUpdating is null) return null;
 
-            if (tags != null)
-            {
-                foreach(Tag tag in tags)
+                if (title != null)
                 {
-                    cvForUpdating.Tags.Add(tag);
+                    cvForUpdating.Title = title;
                 }
-            }
 
-            if (description != null)
-            {
-                cvForUpdating.Description = description;
-            }
+                if (specialization != null)
+                {
+                    cvForUpdating.Specialization = (Specialization)specialization;
+                }
 
-            return cvForUpdating;
+                if (tags != null)
+                {
+                    foreach (Tag tag in tags)
+                    {
+                        cvForUpdating.Tags.Add(tag);
+                    }
+                }
+
+                if (description != null)
+                {
+                    cvForUpdating.Description = description;
+                }
+
+                return cvForUpdating;
+            }
         }
 
         // ToDo: Add validation on empty data
@@ -115,11 +118,7 @@ namespace CViewer.Services
 
         public Cv GetCV(int cvId)
         {
-            var cv = CVRepository.CVs.FirstOrDefault(o => o.Id == cvId);
-
-            if (cv is null) return null;
-
-            return cv;
+            return DataManager.GetCv(cvId);
         }
 
         public CvHistory GetCVHistory(int cvHistoryId)
@@ -220,8 +219,7 @@ namespace CViewer.Services
 
         public List<Cv> ListCVs()
         {
-            var cvs = CVRepository.CVs;
-            return cvs;
+            return DataManager.ListCVs();
         }
 
         public List<Cv> ListCVsForProfile(string applicantOrExpertToken)
