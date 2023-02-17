@@ -6,9 +6,6 @@ using System.Xml;
 using CViewer.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using Newtonsoft.Json.Linq;
-using static CViewer.DataAccess.Entities.Status;
 
 namespace CViewer.DataAccess.DataManager
 {
@@ -151,7 +148,10 @@ namespace CViewer.DataAccess.DataManager
 
         internal static List<CvHistory> GetCVHistories(int cvId)
         {
-            return CVHistoryRepository.CVHistories.Where(h => h.CvId == cvId).OrderByDescending(el => el.DateTime).ToList();
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            {
+                return db.CvHistories.Where(h => h.CvId == cvId).OrderByDescending(el => el.DateTime).ToList();
+            }
         }
 
         internal static List<Cv> GetCvsForProfile(int profileId)
@@ -241,13 +241,9 @@ namespace CViewer.DataAccess.DataManager
 
         public static int GetCVHistoriesCount()
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                return CVHistoryRepository.CVHistories.Count;
+                return db.CvHistories.Count();
             }
         }
 
@@ -293,11 +289,7 @@ namespace CViewer.DataAccess.DataManager
 
         public static void AddCVHistory(string fileName, string urlForDownload, int cvId, int authorId)
         {
-            if (TemporaryConfiguration.UseDb)
-            {
-
-            }
-            else
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
                 CvHistory cvHistory = new CvHistory
                 {
@@ -309,19 +301,17 @@ namespace CViewer.DataAccess.DataManager
                     AuthorId = authorId,
                 };
 
-                CVHistoryRepository.CVHistories.Add(cvHistory);
+                db.CvHistories.Add(cvHistory);
+                db.SaveChangesAsync();
             }
         }
 
         public static void AddCVHistory(CvHistory cvEventForHistory)
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                CVHistoryRepository.CVHistories.Add(cvEventForHistory);
+                db.CvHistories.Add(cvEventForHistory);
+                db.SaveChangesAsync();
             }
         }
 
@@ -399,10 +389,10 @@ namespace CViewer.DataAccess.DataManager
             using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
                 int allCv = CVRepository.CVs.Where(cv => cv.DateCreation.Month == date.Month && cv.DateCreation.Year == date.Year).Count();
-                int allCvFile = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.AmazonPathToFile != null).Count();
-                int allExpertReports = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade != null).Count();
+                int allCvFile = db.CvHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.AmazonPathToFile != null).Count();
+                int allExpertReports = db.CvHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade != null).Count();
                 int allApplicantReports = db.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year).Count();
-                int allMaxReports = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade == 5).Count() + db.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year && r.Rating == 5).Count();
+                int allMaxReports = db.CvHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade == 5).Count() + db.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year && r.Rating == 5).Count();
                 CviewerReport cviewerReport = new CviewerReport();
                 cviewerReport.option0 = "Количество загруженных резюме за " + $"{date:Y}";
                 cviewerReport.option1 = "Количество загруженных файлов резюме за " + $"{date:Y}";

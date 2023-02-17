@@ -156,16 +156,10 @@ namespace CViewer.Services
 
         public List<Profile> ListProfiles()
         {
-            //var profiles = ProfileRepository.Profiles;
-
-            List<Profile> profiles;
-
             using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-                profiles = db.Profiles.ToList();
+                return db.Profiles.ToList();
             }
-
-            return profiles;
         }
 
         private JwtSecurityToken GenerateToken(Profile loggedInUser, WebApplicationBuilder builder)

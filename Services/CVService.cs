@@ -124,11 +124,10 @@ namespace CViewer.Services
 
         public CvHistory GetCVHistory(int cvHistoryId)
         {
-            var cvHistory = CVHistoryRepository.CVHistories.FirstOrDefault(o => o.Id == cvHistoryId);
-
-            if (cvHistory is null) return null;
-
-            return cvHistory;
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            {
+                return db.CvHistories.FirstOrDefault(o => o.Id == cvHistoryId);
+            }
         }
 
         public List<Tag> ListCVTags()
@@ -207,8 +206,10 @@ namespace CViewer.Services
 
         public List<CvHistory> ListCVHistories()
         {
-            List<CvHistory> cvHistories = CVHistoryRepository.CVHistories;
-            return cvHistories;
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            {
+                return db.CvHistories.ToList();
+            }
         }
 
         public List<CvHistory> ListCVHistories(int cvId)
