@@ -273,31 +273,30 @@ namespace CViewer.DataAccess.DataManager
 
         public static Tag GetTag(int cvTag)
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                return CVTagRepository.CVTags.Where(t => t.Id == cvTag).FirstOrDefault();
+                return db.Tags.Where(t => t.Id == cvTag).FirstOrDefault();
             }
         }
 
-        public static List<Tag> GetTags(List<int> cvTags)
+        public static List<Tag> ListCVTags()
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                // ToDo: Adding Dictionary<int, string> will be better.
-                return cvTags
-                    .Where(id => CVTagRepository.CVTagIds.Contains(id))
-                    .Select(id => CVTagRepository.CVTags.FirstOrDefault(t => t.Id == id))
-                    .ToList();
+                return db.Tags.ToList();
             }
         }
+
+        //public static List<Tag> GetTags(List<int> cvTags)
+        //{
+        //    using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+        //    {
+        //        return cvTags
+        //            .Where(id => db.CVTagIds.Contains(id))
+        //            .Select(id => db.Tags.FirstOrDefault(t => t.Id == id))
+        //            .ToList();
+        //    }
+        //}
 
         public static void AddCV(Cv newCV)
         {

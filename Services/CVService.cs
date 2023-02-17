@@ -133,7 +133,7 @@ namespace CViewer.Services
 
         public List<Tag> ListCVTags()
         {
-            return CVTagRepository.CVTags;
+            return DataManager.ListCVTags();
         }
 
         public List<CVStatusTypeObject> ListCVStatuses()

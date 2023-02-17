@@ -15,11 +15,11 @@ namespace CViewer.DataAccess.Repositories
                 PeopleCreatedId = 2,
                 //Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 4)},
                 //Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 1),
-                Tags = new List<Tag>
-                {
-                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 4),
-                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 1),
-                },
+                //Tags = new List<Tag>
+                //{
+                //    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 4),
+                //    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 1),
+                //},
             },
 
             new() {
@@ -31,10 +31,10 @@ namespace CViewer.DataAccess.Repositories
                 PeopleCreatedId = 3,
                 //Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 4)},
                 //Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 3),
-                Tags = new List<Tag>
-                {
-                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 5),
-                },
+                //Tags = new List<Tag>
+                //{
+                //    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 5),
+                //},
             },
 
             new() {
@@ -46,10 +46,10 @@ namespace CViewer.DataAccess.Repositories
                 PeopleCreatedId = 2,
                 //Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 1)},
                 //Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 1),
-                Tags = new List<Tag>
-                {
-                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 3),
-                },
+                //Tags = new List<Tag>
+                //{
+                //    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 3),
+                //},
                 GoodCv = true,
                 PinnedFileName = "my_cv_flutter.pdf",
                 UrlFileForDownload = "https://da728kfevltdk.cloudfront.net/hi.txt",
@@ -64,10 +64,10 @@ namespace CViewer.DataAccess.Repositories
                 PeopleCreatedId = 2,
                 //Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 1)},
                 //Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 4),
-                Tags = new List<Tag>
-                {
-                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 4),
-                },
+                //Tags = new List<Tag>
+                //{
+                //    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 4),
+                //},
                 GoodCv = true,
                 PinnedFileName = "my_cv_database.pdf",
                 UrlFileForDownload = "https://da728kfevltdk.cloudfront.net/qqq.zip",
@@ -81,10 +81,10 @@ namespace CViewer.DataAccess.Repositories
                 PeopleCreatedId = 2,
                 //Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 1)},
                 //Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 1),
-                Tags = new List<Tag>
-                {
-                    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 2),
-                },
+                //Tags = new List<Tag>
+                //{
+                //    CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 2),
+                //},
                 OpenToReview = true,
             },
         };
