@@ -1,6 +1,5 @@
 ﻿using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.Repositories;
-using CViewer.Utils;
 
 namespace CViewer.Validation
 {
@@ -8,11 +7,7 @@ namespace CViewer.Validation
     {
         internal static bool ValidateTokenWithProfiles(string tokenValue, List<int> profilesIds)
         {
-            if (TemporaryConfiguration.UseDb)
-            {
-                // ToDo add db usage
-            }
-            else
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
                 foreach (int profileId in profilesIds)
                 {

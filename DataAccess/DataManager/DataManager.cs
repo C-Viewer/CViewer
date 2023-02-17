@@ -29,30 +29,19 @@ namespace CViewer.DataAccess.DataManager
 
         internal static void AddProfileAndToken(int profileId, Token token)
         {
-            if (TemporaryConfiguration.UseDb)
-            {
-
-            }
-            else
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
                 ProfileToToken profileToToken = new ProfileToToken { ProfileId = profileId, Token = token };
                 ProfileToTokenRepository.ProfilesToTokens.Add(profileToToken);
 
-                using (CViewerMgrDbContext db = new CViewerMgrDbContext())
-                {
-                    db.Tokens.Add(token);
-                    db.SaveChangesAsync();
-                }
+                db.Tokens.Add(token);
+                db.SaveChangesAsync();
             }
         }
 
         internal static ProfileToToken GetProfileAndToken(int profileId)
         {
-            if (TemporaryConfiguration.UseDb)
-            {
-
-            }
-            else
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
                 return ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p => p.ProfileId == profileId);
             }
@@ -60,11 +49,7 @@ namespace CViewer.DataAccess.DataManager
 
         internal static ProfileToToken GetProfileAndToken(string applicantOrExpertTokenValue)
         {
-            if (TemporaryConfiguration.UseDb)
-            {
-
-            }
-            else
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
                 return ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p => p.Token != null && p.Token.Value.Equals(applicantOrExpertTokenValue));
             }
@@ -72,14 +57,10 @@ namespace CViewer.DataAccess.DataManager
 
         internal static Profile GetProfile(string applicantOrExpertTokenValue)
         {
-            if (TemporaryConfiguration.UseDb)
-            {
-
-            }
-            else
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
                 ProfileToToken profileToToken = ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p =>
-                    p.Token != null && p.Token.Value == applicantOrExpertTokenValue);
+                        p.Token != null && p.Token.Value == applicantOrExpertTokenValue);
                 if (profileToToken == null)
                 {
                     return null;
@@ -214,11 +195,7 @@ namespace CViewer.DataAccess.DataManager
 
         public static void RemoveProfileAndToken(string applicantOrExpertTokenValue)
         {
-            if (TemporaryConfiguration.UseDb)
-            {
-
-            }
-            else
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
                 ProfileToToken profileToToken = ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p => p.Token.Value == applicantOrExpertTokenValue);
                 if (profileToToken != null)
