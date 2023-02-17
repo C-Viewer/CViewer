@@ -13,8 +13,8 @@ namespace CViewer.DataAccess.Repositories
                 Grade = 3,
                 DateCreation = new DateTime(2022, 12, 1, 16, 13, 33),
                 PeopleCreatedId = 2,
-                Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 4)},
-                Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 1),
+                //Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 4)},
+                //Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 1),
                 Tags = new List<Tag>
                 {
                     CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 4),
@@ -29,8 +29,8 @@ namespace CViewer.DataAccess.Repositories
                 Grade = 5,
                 DateCreation = new DateTime(2022, 12, 05, 17, 05, 01),
                 PeopleCreatedId = 3,
-                Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 4)},
-                Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 3),
+                //Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 4)},
+                //Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 3),
                 Tags = new List<Tag>
                 {
                     CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 5),
@@ -44,8 +44,8 @@ namespace CViewer.DataAccess.Repositories
                 Grade = 5,
                 DateCreation = new DateTime(2022, 12, 07, 13, 01, 01),
                 PeopleCreatedId = 2,
-                Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 1)},
-                Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 1),
+                //Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 1)},
+                //Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 1),
                 Tags = new List<Tag>
                 {
                     CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 3),
@@ -62,8 +62,8 @@ namespace CViewer.DataAccess.Repositories
                 Grade = 5,
                 DateCreation = new DateTime(2022, 12, 06, 19, 15, 01),
                 PeopleCreatedId = 2,
-                Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 1)},
-                Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 4),
+                //Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 1)},
+                //Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 4),
                 Tags = new List<Tag>
                 {
                     CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 4),
@@ -79,8 +79,8 @@ namespace CViewer.DataAccess.Repositories
                 Description = "Разработка ПО на java.",
                 DateCreation = new DateTime(2022, 12, 08, 18, 25, 01),
                 PeopleCreatedId = 2,
-                Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 1)},
-                Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 1),
+                //Profiles = new List<Profile>{ ProfileRepository.Profiles.FirstOrDefault(o => o.Id == 1)},
+                //Specialization = SpecializationRepository.Specializations.FirstOrDefault(o => o.Id == 1),
                 Tags = new List<Tag>
                 {
                     CVTagRepository.CVTags.FirstOrDefault(o => o.Id == 2),

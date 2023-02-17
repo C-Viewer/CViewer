@@ -349,15 +349,6 @@ namespace CViewer.Endpoints
             return Results.Ok(cvHistory);
         }
 
-        private static IResult GetAttachedFile(int attachedFileId, ICVService service)
-        {
-            var attachedFile = service.GetAttachedFile(attachedFileId);
-
-            if (attachedFile is null) return Results.NotFound("Attached file not found");
-
-            return Results.Ok(attachedFile);
-        }
-
         private static IResult ListCVTags(ICVService service)
         {
             return Results.Ok(service.ListCVTags());
@@ -401,13 +392,6 @@ namespace CViewer.Endpoints
             List<CvHistory> cvHistories = service.ListCVHistories();
 
             return Results.Ok(cvHistories);
-        }
-
-        private static IResult ListAttachedFiles(ICVService service)
-        {
-            var attachedFiles = service.ListAttachedFiles();
-
-            return Results.Ok(attachedFiles);
         }
 
         private static IResult ListCVs(HttpContext context, ISecurityService securityService, ICVService service)

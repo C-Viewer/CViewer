@@ -131,15 +131,6 @@ namespace CViewer.Services
             return cvHistory;
         }
 
-        public AttachedFile GetAttachedFile(int attachedFileId)
-        {
-            var attachedFile = AttachedFileRepository.AttachedFiles.FirstOrDefault(o => o.Id == attachedFileId);
-
-            if (attachedFile is null) return null;
-
-            return attachedFile;
-        }
-
         public List<Tag> ListCVTags()
         {
             return CVTagRepository.CVTags;
@@ -152,7 +143,7 @@ namespace CViewer.Services
 
         public List<Specialization> ListSpecializations()
         {
-            return SpecializationRepository.Specializations;
+            return DataManager.ListSpecializations();
         }
 
         public List<Cv> ListCvsOpenedForReview()
@@ -224,12 +215,6 @@ namespace CViewer.Services
         {
             List<CvHistory> concreteCvHistories = DataManager.GetCVHistories(cvId);
             return concreteCvHistories;
-        }
-
-        public List<AttachedFile> ListAttachedFiles()
-        {
-            var attachedFiles = AttachedFileRepository.AttachedFiles;
-            return attachedFiles;
         }
 
         public List<Cv> ListCVs()

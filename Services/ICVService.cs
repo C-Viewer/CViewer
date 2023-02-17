@@ -16,13 +16,11 @@ namespace CViewer.Services
         public CvHistory CreateCVEventForHistory(CVHistoryParameter cvHistoryParameter, out string errMsg);
         public List<CvHistory> ListCVHistories();
         public List<CvHistory> ListCVHistories(int cvId);
-        public List<AttachedFile> ListAttachedFiles();
         public List<Cv> ListCVs();
         public List<Cv> ListCVsForProfile(string applicantOrExpertToken);
         public Status GetCVStatus(int cvId);
         public Cv GetCV(int id);
         public CvHistory GetCVHistory(int id);
-        public AttachedFile GetAttachedFile(int id);
         public List<Tag> ListCVTags();
         public List<CVStatusTypeObject> ListCVStatuses();
         public List<Specialization> ListSpecializations();

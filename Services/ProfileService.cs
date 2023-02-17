@@ -109,46 +109,49 @@ namespace CViewer.Services
         public Profile UpdateProfile(int profileId, string firstName = null, string lastName = null, string biography = null,
             int? rating = null, string email = null, string password = null, Specialization specializationId = null)
         {
-            var profileForUpdate = ProfileRepository.Profiles.FirstOrDefault(o => o.Id == profileId);
-
-            if (profileForUpdate is null) return null;
-
-            if (firstName != null)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-                profileForUpdate.FirstName = firstName;
-            }
+                var profileForUpdate = db.Profiles.FirstOrDefault(o => o.Id == profileId);
 
-            if (lastName != null)
-            {
-                profileForUpdate.LastName = lastName;
-            }
+                if (profileForUpdate is null) return null;
 
-            if (biography != null)
-            {
-                profileForUpdate.Biography = biography;
-            }
+                if (firstName != null)
+                {
+                    profileForUpdate.FirstName = firstName;
+                }
 
-            if (rating != null)
-            {
-                profileForUpdate.Rating = rating;
-            }
+                if (lastName != null)
+                {
+                    profileForUpdate.LastName = lastName;
+                }
 
-            if (email != null)
-            {
-                profileForUpdate.EmailAddress = email;
-            }
+                if (biography != null)
+                {
+                    profileForUpdate.Biography = biography;
+                }
 
-            if (password != null)
-            {
-                profileForUpdate.Password = password;
-            }
+                if (rating != null)
+                {
+                    profileForUpdate.Rating = rating;
+                }
 
-            if (specializationId != null)
-            {
-                profileForUpdate.Specialization = specializationId;
-            }
+                if (email != null)
+                {
+                    profileForUpdate.EmailAddress = email;
+                }
 
-            return profileForUpdate;
+                if (password != null)
+                {
+                    profileForUpdate.Password = password;
+                }
+
+                if (specializationId != null)
+                {
+                    profileForUpdate.Specialization = specializationId;
+                }
+
+                return profileForUpdate;
+            }
         }
 
         public List<Profile> ListProfiles()

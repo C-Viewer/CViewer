@@ -5,6 +5,8 @@ using System.Xml.Serialization;
 using System.Xml;
 using CViewer.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CViewer.DataAccess.DataManager
 {
@@ -84,35 +86,35 @@ namespace CViewer.DataAccess.DataManager
 
         internal static Profile GetProfile(int profileId)
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                using (CViewerMgrDbContext db = new CViewerMgrDbContext())
-                {
-                    return db.Profiles.Where(u => u.Id == profileId).FirstOrDefault();
-                }
-                return ProfileRepository.Profiles.FirstOrDefault(u => u.Id == profileId);
+                return db.Profiles.Where(u => u.Id == profileId).FirstOrDefault();
             }
         }
 
         internal static Profile GetProfileFromMemory(string email, string password)
         {
-            // ToDo: Use salt and hash for password.
-            return ProfileRepository.Profiles.FirstOrDefault(u =>
-                u.EmailAddress.Equals(email) && u.Password.Equals(password));
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            {
+                return db.Profiles.FirstOrDefault(u => u.EmailAddress.Equals(email) && u.Password.Equals(password));
+            }
         }
 
         internal static int GetProfilesCountFromMemory()
         {
-            return ProfileRepository.Profiles.Count;
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            {
+                return db.Profiles.Count();
+            }
         }
 
         internal static void AddProfileToMemory(Profile profile)
         {
-            ProfileRepository.Profiles.Add(profile);
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            {
+                db.Profiles.Add(profile);
+                db.SaveChangesAsync();
+            }
         }
 
         internal static List<int> GetProfilesIdsForCv(int cvId)
@@ -207,25 +209,17 @@ namespace CViewer.DataAccess.DataManager
 
         public static Profile GetExpertProfile(int expertId)
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                return ProfileRepository.Profiles.FirstOrDefault(p => p.Id == expertId && p.IsExpert);
+                return db.Profiles.FirstOrDefault(p => p.Id == expertId && p.IsExpert);
             }
         }
 
         public static Profile GetApplicantProfile(int applicantId)
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                return ProfileRepository.Profiles.FirstOrDefault(p => p.Id == applicantId && !p.IsExpert);
+                return db.Profiles.FirstOrDefault(p => p.Id == applicantId && !p.IsExpert);
             }
         }
 
@@ -242,6 +236,14 @@ namespace CViewer.DataAccess.DataManager
                 {
                     ProfileToTokenRepository.ProfilesToTokens.Remove(profileToToken);
                 }
+            }
+        }
+
+        public static List<Specialization> ListSpecializations()
+        {
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            {
+                return db.Specializations.ToList();
             }
         }
 
@@ -412,10 +414,14 @@ namespace CViewer.DataAccess.DataManager
 
                 ReportRepository.Reports.Add(report);
 
-                Profile profile = ProfileRepository.Profiles.Where(p => p.Id == peopleId).First();
-                double marks = ReportRepository.Reports.Where(r => r.ProfileId == peopleId).Select(r => r.Rating).Sum();
-                double count = ReportRepository.Reports.Where(r => r.ProfileId == peopleId).Count();
-                profile.Rating = marks / count;
+                using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+                {
+                    Profile profile = db.Profiles.Where(p => p.Id == peopleId).First();
+
+                    double marks = ReportRepository.Reports.Where(r => r.ProfileId == peopleId).Select(r => r.Rating).Sum();
+                    double count = ReportRepository.Reports.Where(r => r.ProfileId == peopleId).Count();
+                    profile.Rating = marks / count;
+                }
             }
         }
 
