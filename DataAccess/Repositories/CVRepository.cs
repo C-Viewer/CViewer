@@ -7,7 +7,7 @@ namespace CViewer.DataAccess.Repositories
         public static List<Cv> CVs = new()
         {
             new() {
-                Status = CVStatusRepository.Statuses.Where(s => s.Name == CVStatusType.TakenToReview).FirstOrDefault(),
+                // = CVStatusRepository.Statuses.Where(s => s.Name == CVStatusType.TakenToReview).FirstOrDefault(),
                 Title = ".NET Software Engineer",
                 Description = "2 года опыта работы на должности .NET Software Engineer. Помимо .NET владею SQL-подобными языками.",
                 Grade = 3,
@@ -23,7 +23,7 @@ namespace CViewer.DataAccess.Repositories
             },
 
             new() {
-                Status = CVStatusRepository.Statuses.Where(s => s.Name == CVStatusType.Finished).FirstOrDefault(),
+                //Status = CVStatusRepository.Statuses.Where(s => s.Name == CVStatusType.Finished).FirstOrDefault(),
                 Title = "QA",
                 Description = "Тестирую программы на качество.",
                 Grade = 5,
@@ -38,7 +38,7 @@ namespace CViewer.DataAccess.Repositories
             },
 
             new() {
-                Status = CVStatusRepository.Statuses.Where(s => s.Name == CVStatusType.Finished).FirstOrDefault(),
+                //Status = CVStatusRepository.Statuses.Where(s => s.Name == CVStatusType.Finished).FirstOrDefault(),
                 Title = "Flutter developer",
                 Description = "Разработка ПО.",
                 Grade = 5,
@@ -56,7 +56,7 @@ namespace CViewer.DataAccess.Repositories
             },
 
             new() {
-                Status = CVStatusRepository.Statuses.Where(s => s.Name == CVStatusType.Finished).FirstOrDefault(),
+                ///Status = CVStatusRepository.Statuses.Where(s => s.Name == CVStatusType.Finished).FirstOrDefault(),
                 Title = "Database developer",
                 Description = "Разработка баз данных.",
                 Grade = 5,
@@ -74,7 +74,7 @@ namespace CViewer.DataAccess.Repositories
             },
 
             new() {
-                Status = CVStatusRepository.Statuses.Where(s => s.Name == CVStatusType.SentToReview).FirstOrDefault(),
+                ///Status = CVStatusRepository.Statuses.Where(s => s.Name == CVStatusType.SentToReview).FirstOrDefault(),
                 Title = "Java",
                 Description = "Разработка ПО на java.",
                 DateCreation = new DateTime(2022, 12, 08, 18, 25, 01),

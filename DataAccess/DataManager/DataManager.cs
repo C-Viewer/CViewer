@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Newtonsoft.Json.Linq;
+using static CViewer.DataAccess.Entities.Status;
 
 namespace CViewer.DataAccess.DataManager
 {
@@ -187,26 +188,15 @@ namespace CViewer.DataAccess.DataManager
 
         internal static Status GetStatus(CVStatusType s)
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                return CVStatusRepository.Statuses.Where(st => st.Name == s).FirstOrDefault();
+                return db.Statuses.Where(st => st.Name == s).FirstOrDefault();
             }
         }
 
         internal static List<CVStatusType> GetCVStatuses()
         {
-            if (TemporaryConfiguration.UseDb)
-            {
-
-            }
-            else
-            {
-                return CVStatusRepository.CvStatuses;
-            }
+            return Enum.GetValues(typeof(CVStatusType)).Cast<CVStatusType>().ToList();
         }
 
         public static Profile GetExpertProfile(int expertId)

@@ -1,4 +1,5 @@
-﻿using CViewer.DataAccess.Repositories;
+﻿using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.Repositories;
 
 namespace CViewer.DataAccess
 {

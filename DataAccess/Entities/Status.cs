@@ -4,6 +4,16 @@ using CViewer.DataAccess.Repositories;
 
 namespace CViewer.DataAccess.Entities;
 
+public enum CVStatusType
+{
+    Draft,
+    SentToReview,
+    TakenToReview,
+    NeedFix,
+    Reviewed,
+    Finished,
+}
+
 public partial class Status
 {
     public int Id { get; set; }
