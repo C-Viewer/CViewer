@@ -1,7 +1,6 @@
 ﻿using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.InnerEntities;
-using CViewer.DataAccess.Repositories;
 using CViewer.Utils;
 using static CViewer.DataAccess.EntitiesHelper;
 
@@ -30,8 +29,7 @@ namespace CViewer.Services
 
         public async Task<string> StoreFileAsync(IFormFile file, IAmazonS3Service service)
         {
-            WorkWithFiles workWithFiles = new WorkWithFiles();
-            string date = workWithFiles.GetDateForName();
+            string date = WorkWithFiles.GetDateForName();
 
             string path = Path.GetFileNameWithoutExtension(file.FileName) + "_" + date.Replace(' ', '_') + Path.GetExtension(file.FileName);
 

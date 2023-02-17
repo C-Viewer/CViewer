@@ -1,5 +1,4 @@
 ﻿using CViewer.DataAccess.Entities;
-using CViewer.DataAccess.Repositories;
 
 namespace CViewer.Validation
 {
@@ -11,7 +10,7 @@ namespace CViewer.Validation
             {
                 foreach (int profileId in profilesIds)
                 {
-                    ProfileToToken profileToToken = ProfileToTokenRepository.ProfilesToTokens.FirstOrDefault(p =>
+                    ProfileToToken profileToToken = db.ProfileToTokens.FirstOrDefault(p =>
                         p.ProfileId == profileId && p.Token != null && p.Token.Value.Equals(tokenValue));
                     if (profileToToken != null)
                     {

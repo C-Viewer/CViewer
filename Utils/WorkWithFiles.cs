@@ -1,8 +1,8 @@
 ﻿namespace CViewer.Utils
 {
-    public class WorkWithFiles
+    internal static class WorkWithFiles
     {
-        public Stream GenerateStreamFromString(string s)
+        public static Stream GenerateStreamFromString(string s)
         {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
@@ -12,7 +12,7 @@
             return stream;
         }
 
-        public IFormFile ReturnFormFile(Stream result, string path)
+        public static IFormFile ReturnFormFile(Stream result, string path)
         {
             var ms = new MemoryStream();
             try
@@ -27,7 +27,7 @@
             }
         }
 
-        public string GetDateForName()
+        public static string GetDateForName()
         {
             string dateNow = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow).ToString();
             var charsToRemove = new string[] { ".", ":", "/" };

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CViewer.DataAccess.Repositories;
 
 namespace CViewer.DataAccess.Entities;
 

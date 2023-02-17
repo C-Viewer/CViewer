@@ -3,7 +3,6 @@ using CViewer.DataAccess;
 using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.InnerEntities;
-using CViewer.DataAccess.Repositories;
 using CViewer.DataAccess.TransitObjects;
 using CViewer.Services;
 using CViewer.Utils;

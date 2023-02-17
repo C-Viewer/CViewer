@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using CViewer.DataAccess.Repositories;
 
 namespace CViewer.DataAccess.Entities
 {

@@ -1,6 +1,5 @@
 ﻿using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.InnerEntities;
-using CViewer.DataAccess.Repositories;
 using static CViewer.DataAccess.EntitiesHelper;
 
 namespace CViewer.Services
