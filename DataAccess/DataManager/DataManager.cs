@@ -7,6 +7,7 @@ using CViewer.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Newtonsoft.Json.Linq;
 
 namespace CViewer.DataAccess.DataManager
 {
@@ -37,7 +38,12 @@ namespace CViewer.DataAccess.DataManager
             {
                 ProfileToToken profileToToken = new ProfileToToken { ProfileId = profileId, Token = token };
                 ProfileToTokenRepository.ProfilesToTokens.Add(profileToToken);
-                TokenRepository.Tokens.Add(token);
+
+                using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+                {
+                    db.Tokens.Add(token);
+                    db.SaveChangesAsync();
+                }
             }
         }
 
@@ -173,13 +179,9 @@ namespace CViewer.DataAccess.DataManager
 
         internal static int GetTokenCount()
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                return TokenRepository.Tokens.Count;
+                return db.Tokens.Count();
             }
         }
 
@@ -286,17 +288,6 @@ namespace CViewer.DataAccess.DataManager
                 return db.Tags.ToList();
             }
         }
-
-        //public static List<Tag> GetTags(List<int> cvTags)
-        //{
-        //    using (CViewerMgrDbContext db = new CViewerMgrDbContext())
-        //    {
-        //        return cvTags
-        //            .Where(id => db.CVTagIds.Contains(id))
-        //            .Select(id => db.Tags.FirstOrDefault(t => t.Id == id))
-        //            .ToList();
-        //    }
-        //}
 
         public static void AddCV(Cv newCV)
         {
