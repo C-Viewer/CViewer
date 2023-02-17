@@ -364,23 +364,15 @@ namespace CViewer.DataAccess.DataManager
 
         public static int GetReportsCount()
         {
-            if (TemporaryConfiguration.UseDb)
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
-
-            }
-            else
-            {
-                return ReportRepository.Reports.Count;
+                return db.Reports.Count();
             }
         }
 
         public static void AddReport(string comment, int peopleId, int authorId, int mark)
         {
-            if (TemporaryConfiguration.UseDb)
-            {
-
-            }
-            else
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
                 Report report = new Report
                 {
@@ -392,32 +384,25 @@ namespace CViewer.DataAccess.DataManager
                     Rating = mark
                 };
 
-                ReportRepository.Reports.Add(report);
+                db.Reports.Add(report);
+                Profile profile = db.Profiles.Where(p => p.Id == peopleId).First();
 
-                using (CViewerMgrDbContext db = new CViewerMgrDbContext())
-                {
-                    Profile profile = db.Profiles.Where(p => p.Id == peopleId).First();
-
-                    double marks = ReportRepository.Reports.Where(r => r.ProfileId == peopleId).Select(r => r.Rating).Sum();
-                    double count = ReportRepository.Reports.Where(r => r.ProfileId == peopleId).Count();
-                    profile.Rating = marks / count;
-                }
+                double marks = db.Reports.Where(r => r.ProfileId == peopleId).Select(r => r.Rating).Sum();
+                double count = db.Reports.Where(r => r.ProfileId == peopleId).Count();
+                profile.Rating = marks / count;
+                db.SaveChangesAsync();
             }
         }
 
         public static async Task<string> GenerateCViewerReportAsync(DateTime date, IAmazonS3Service amazonS3Service)
         {
-            if (TemporaryConfiguration.UseDb)
-            {
-
-            }
-            else
+            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
             {
                 int allCv = CVRepository.CVs.Where(cv => cv.DateCreation.Month == date.Month && cv.DateCreation.Year == date.Year).Count();
                 int allCvFile = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.AmazonPathToFile != null).Count();
                 int allExpertReports = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade != null).Count();
-                int allApplicantReports = ReportRepository.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year).Count();
-                int allMaxReports = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade == 5).Count() + ReportRepository.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year && r.Rating == 5).Count();
+                int allApplicantReports = db.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year).Count();
+                int allMaxReports = CVHistoryRepository.CVHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade == 5).Count() + db.Reports.Where(r => r.CreatedDate.Month == date.Month && r.CreatedDate.Year == date.Year && r.Rating == 5).Count();
                 CviewerReport cviewerReport = new CviewerReport();
                 cviewerReport.option0 = "Количество загруженных резюме за " + $"{date:Y}";
                 cviewerReport.option1 = "Количество загруженных файлов резюме за " + $"{date:Y}";
