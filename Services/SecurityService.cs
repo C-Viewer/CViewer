@@ -14,8 +14,9 @@ namespace CViewer.Services
                 return false;
             }
 
+            Token token = DataManager.GetToken(profileToToken);
             // Allow user at least 10-minutes session.
-            if (TokenHelper.TokenLifeTimeForSessionWindow() <= profileToToken.Token.ExpirationDateTime)
+            if (TokenHelper.TokenLifeTimeForSessionWindow() <= token.ExpirationDateTime)
             {
                 return true;
             }

@@ -44,6 +44,12 @@ namespace CViewer.DataAccess.DataManager
             return db.ProfileToTokens.FirstOrDefault(p => p.Token != null && p.Token.Value.Equals(applicantOrExpertTokenValue));
         }
 
+        internal static Token GetToken(ProfileToToken profileToToken)
+        {
+            using CviewerContext db = new();
+            return db.Tokens.FirstOrDefault(p => p.Id.Equals(profileToToken.TokenId));
+        }
+
         internal static Profile GetProfile(string applicantOrExpertTokenValue)
         {
             using CviewerContext db = new();
