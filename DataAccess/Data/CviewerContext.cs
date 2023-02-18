@@ -116,13 +116,11 @@ public partial class CviewerContext : DbContext
             j => j
                 .HasOne(pt => pt.Profile)
                 .WithMany(t => t.CvExperts)
-                .HasForeignKey(pt => pt.ProfileId)
-                .HasConstraintName("FK_cv_expert_cv"),
+                .HasForeignKey(pt => pt.ProfileId),
             j => j
                 .HasOne(pt => pt.Cv)
                 .WithMany(p => p.CvExperts)
                 .HasForeignKey(pt => pt.CvId)
-                .HasConstraintName("FK_cv_expert_cv")
                 );
         });
 

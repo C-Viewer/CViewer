@@ -201,10 +201,8 @@ namespace CViewer.Services
 
         public List<CvHistory> ListCVHistories()
         {
-            using (CviewerContext db = new CviewerContext())
-            {
-                return db.CvHistories.ToList();
-            }
+            using CviewerContext db = new();
+            return db.CvHistories.ToList();
         }
 
         public List<CvHistory> ListCVHistories(int cvId)
@@ -233,16 +231,5 @@ namespace CViewer.Services
         {
             return await DataManager.GenerateCViewerReportAsync(date, amazonS3Service);
         }
-
-        //public bool Delete(int id)
-        //{
-        //    var oldMovie = CVRepository.CVs.FirstOrDefault(o => o.Id == id);
-        //
-        //    if (oldMovie is null) return false;
-        //
-        //    CVRepository.CVs.Remove(oldMovie);
-        //
-        //    return true;
-        //}
     }
 }
