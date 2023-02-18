@@ -1,21 +1,58 @@
-﻿using CViewer.DataAccess.Entities;
-using CViewer.DataAccess.Repositories;
+﻿using CViewer.DataAccess.Data;
+using CViewer.DataAccess.DataManager;
+using CViewer.DataAccess.Entities;
+using CViewer.DataAccess.InnerEntities;
+using CViewer.Utils;
+using static CViewer.DataAccess.EntitiesHelper;
 
 namespace CViewer.Services
 {
-    public class CVService : ICVService
+    internal sealed class CVService : ICVService
     {
-        public CV CreateCVDraft(CV cv, int applicantId)
+        public Cv CreateCVForReview(CVDraftParameter cvDraft, Profile applicant)
         {
-            cv.Id = CVRepository.CVs.Count + 1;
-            CVRepository.CVs.Add(cv);
+            Cv newCv = new()
+            {
+                PeopleCreatedId = applicant.Id,
+                DateCreation = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),
+                SpecializationId = applicant.SpecializationId,
+                Status = DataManager.GetStatus(CVStatusType.SentToReview),
+                Title = cvDraft.Title,
+                Description = cvDraft.Description,
+                OpenToReview = true,
+                GoodCv = false
 
-            return cv;
+            };
+            foreach (string t in cvDraft.Tags)
+            {
+                newCv.Tags.Add(DataManager.GetTag(t));
+            }
+
+            newCv = DataManager.AddCV(newCv).Result;
+
+            return DataManager.GetCv(newCv.Id);
         }
 
-        public CV UpdateCVInfo(int cvId, string title = null, Specialization? specialization = null, List<CVTag> tags = null, string description = null)
+        public async Task<string> StoreFileAsync(IFormFile file, IAmazonS3Service service)
         {
-            var cvForUpdating = CVRepository.CVs.FirstOrDefault(o => o.Id == cvId);
+            string date = WorkWithFiles.GetDateForName();
+
+            string path = Path.GetFileNameWithoutExtension(file.FileName) + "_" + date.Replace(' ', '_') + Path.GetExtension(file.FileName);
+
+            bool status = await service.AddFileAsync(file, path);
+            if (status) return service.GetAmazonFileURL(path);
+            else return null;
+        }
+
+        public void PinToHistory(string fileName, string urlForDownload, int cvId, int authorId)
+        {
+            DataManager.AddCVHistory(fileName, urlForDownload, cvId, authorId);
+        }
+
+        public Cv UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<Tag> tags = null, string description = null)
+        {
+            using CviewerContext db = new();
+            Cv cvForUpdating = db.Cvs.FirstOrDefault(o => o.Id == cvId);
 
             if (cvForUpdating is null) return null;
 
@@ -31,7 +68,10 @@ namespace CViewer.Services
 
             if (tags != null)
             {
-                cvForUpdating.Tags = tags;
+                foreach (Tag tag in tags)
+                {
+                    cvForUpdating.CvTags.Add(new CvTag { Tag = tag });
+                }
             }
 
             if (description != null)
@@ -43,95 +83,160 @@ namespace CViewer.Services
         }
 
         // ToDo: Add validation on empty data
-        public CVHistory AddEventToHistory(int cvId, DateTime dateTime, ICVService service, string fileName = null,
-            string applicantComment = null, string expertComment = null, double? grade = null)
+        public CvHistory CreateCVEventForHistory(CVHistoryParameter cvHistoryParameter, out string errMsg)
         {
-            CVHistory cvHistory = new CVHistory
+            errMsg = String.Empty;
+            Profile profile = DataManager.GetProfile(cvHistoryParameter.AuthorId);
+            if (profile == null)
             {
-                Id = CVHistoryRepository.CVHistories.Count + 1,
-                CVId = cvId,
-                ApplicantComment = applicantComment,
-                ExpertComment = expertComment,
-                DateTime = dateTime,
-
-                // ToDo: Change to Amazon Path
-                AmazonPathToFile = fileName,
-                Grade = grade
-            };
-
-            if (fileName != null)
-            {
-                // ToDo: Add adding file path to Amazaon S3.
-                int newAttachedFileId = AttachedFileRepository.AttachedFiles.Count + 1;
-                var attachedFile = new AttachedFile()
-                {
-                    Id = newAttachedFileId,
-                    FileName = fileName,
-                    FilePath = $"HardCodePath/{fileName}"
-                };
-                AttachedFileRepository.AttachedFiles.Add(attachedFile);
-
-                cvHistory.AttachedFileId = newAttachedFileId;
-                cvHistory.AmazonPathToFile = fileName;
+                errMsg = "Profile which is chosen as author does not found.";
+                return null;
             }
 
-            return cvHistory;
+            Cv cv = DataManager.GetCv(cvHistoryParameter.CvId);
+            if (cv == null)
+            {
+                errMsg = "Cv which is chosen does not found.";
+                return null;
+            }
+
+            CvHistory newCvHistory = new()
+            {
+                CvId = cvHistoryParameter.CvId,
+                Comment = cvHistoryParameter.Comment,
+                DateTime = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),
+                AuthorId = cvHistoryParameter.AuthorId,
+                Grade = cvHistoryParameter.Grade,
+            };
+
+            return newCvHistory;
         }
 
-        public CV GetCV(int cvId)
+        public Status GetCVStatus(int cvId)
         {
-            var cv = CVRepository.CVs.FirstOrDefault(o => o.Id == cvId);
-
-            if (cv is null) return null;
-
-            return cv;
+            return DataManager.GetCv(cvId).Status;
         }
 
-        public CVHistory GetCVHistory(int cvHistoryId)
+        public Cv GetCV(int cvId)
         {
-            var cvHistory = CVHistoryRepository.CVHistories.FirstOrDefault(o => o.Id == cvHistoryId);
-
-            if (cvHistory is null) return null;
-
-            return cvHistory;
+            return DataManager.GetCv(cvId);
         }
 
-        public AttachedFile GetAttachedFile(int attachedFileId)
+        public CvHistory GetCVHistory(int cvHistoryId)
         {
-            var attachedFile = AttachedFileRepository.AttachedFiles.FirstOrDefault(o => o.Id == attachedFileId);
-
-            if (attachedFile is null) return null;
-
-            return attachedFile;
+            using CviewerContext db = new CviewerContext();
+            return db.CvHistories.FirstOrDefault(o => o.Id == cvHistoryId);
         }
 
-        public List<CVHistory> ListCVHistories()
+        public List<Tag> ListCVTags()
         {
-            var cvHistories = CVHistoryRepository.CVHistories;
-            return cvHistories;
+            return DataManager.ListCVTags();
         }
 
-        public List<AttachedFile> ListAttachedFiles()
+        public List<CVStatusTypeObject> ListCVStatuses()
         {
-            var attachedFiles = AttachedFileRepository.AttachedFiles;
-            return attachedFiles;
+            return DataManager.GetCVStatuses().Select(status => new CVStatusTypeObject(status)).ToList();
         }
 
-        public List<CV> ListCVs()
+        public List<Specialization> ListSpecializations()
         {
-            var cvs = CVRepository.CVs;
-            return cvs;
+            return DataManager.ListSpecializations();
         }
 
-        //public bool Delete(int id)
-        //{
-        //    var oldMovie = CVRepository.CVs.FirstOrDefault(o => o.Id == id);
-        //
-        //    if (oldMovie is null) return false;
-        //
-        //    CVRepository.CVs.Remove(oldMovie);
-        //
-        //    return true;
-        //}
+        public List<Cv> ListCvsOpenedForReview()
+        {
+            return DataManager.ListCvsOpenedForReview();
+        }
+
+        public bool TakeCvToReview(int cvId, int expertId, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            Cv takenCv = DataManager.GetCv(cvId);
+            if (!takenCv.OpenToReview)
+            {
+                errorMessage = "Chosen Cv was already taken to review.";
+                return false;
+            }
+
+            DataManager.TakeCvToReview(takenCv, expertId);
+            return true;
+        }
+
+        public void MakeCvAsGood(int cvId)
+        {
+            DataManager.MakeCvAsGood(cvId);
+        }
+
+        public List<Cv> ListGoodCvs()
+        {
+            return DataManager.ListGoodCvs();
+        }
+
+        public void UpdateCvStatusIfNecessary(CvHistory cvEventForHistory)
+        {
+            Cv cv = DataManager.GetCv(cvEventForHistory.CvId);
+            if (cvEventForHistory.Grade == null) { return; }
+            else { cv.Grade = cvEventForHistory.Grade; }
+
+            if (cvEventForHistory.Grade >= 4)
+            {
+                cv.Status = DataManager.GetStatus(CVStatusType.Reviewed);
+                return;
+            }
+
+            cv.Status = DataManager.GetStatus(CVStatusType.NeedFix);
+        }
+
+        public void PinFileToCv(int cvId, string fileName, string urlToStoreFile)
+        {
+            Cv cv = DataManager.GetCv(cvId);
+            cv.PinnedFileName = fileName;
+            cv.UrlFileForDownload = urlToStoreFile;
+        }
+
+        public void FinishCvReview(Cv cv)
+        {
+            cv.Status = DataManager.GetStatus(CVStatusType.Finished);
+        }
+
+        public List<CvHistory> ListCVHistories()
+        {
+            using CviewerContext db = new();
+            return db.CvHistories.ToList();
+        }
+
+        public List<CvHistory> ListCVHistories(int cvId)
+        {
+            List<CvHistory> concreteCvHistories = DataManager.GetCVHistories(cvId);
+            return concreteCvHistories;
+        }
+
+        public List<Cv> ListCVs()
+        {
+            return DataManager.ListCVs();
+        }
+
+        public List<Cv> ListCVsForProfile(string applicantOrExpertToken)
+        {
+            Profile profile = DataManager.GetProfile(applicantOrExpertToken);
+            if (profile == null)
+            {
+                return null;
+            }
+
+            if (profile.IsExpert)
+            {
+                return DataManager.GetCvsForExpert(profile.Id);
+            }
+            else
+            {
+                return DataManager.GetCvsForProfile(profile.Id);
+            }
+        }
+
+        public async Task<string> GenerateCViewerReportAsync(DateTime date, IAmazonS3Service amazonS3Service)
+        {
+            return await DataManager.GenerateCViewerReportAsync(date, amazonS3Service);
+        }
     }
 }
