@@ -16,7 +16,7 @@ namespace CViewer.Services
                 PeopleCreatedId = applicant.Id,
                 DateCreation = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),
                 SpecializationId = applicant.SpecializationId,
-                StatusId = DataManager.GetStatus(CVStatusType.SentToReview).Id,
+                Status = DataManager.GetStatus(CVStatusType.SentToReview),
                 Title = cvDraft.Title,
                 Description = cvDraft.Description,
                 OpenToReview = true,
@@ -100,9 +100,8 @@ namespace CViewer.Services
                 return null;
             }
 
-            CvHistory newCvHistory = new CvHistory
+            CvHistory newCvHistory = new()
             {
-                Id = DataManager.GetCVHistoriesCount() + 1,
                 CvId = cvHistoryParameter.CvId,
                 Comment = cvHistoryParameter.Comment,
                 DateTime = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),

@@ -27,7 +27,6 @@ namespace CViewer.Services
 
             newProfile = new Profile
             {
-                Id = DataManager.GetProfilesCountFromMemory() + 1,
                 EmailAddress = userCredentials.EmailAddress,
                 Password = userCredentials.Password
             };
@@ -37,7 +36,7 @@ namespace CViewer.Services
             JwtSecurityToken jwtToken = GenerateToken(newProfile, builder);
             string tokenValue = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             token = new Token()
-                { Id = DataManager.GetTokenCount() + 1, Value = tokenValue, ExpirationDateTime = jwtToken.ValidTo };
+                { Value = tokenValue, ExpirationDateTime = jwtToken.ValidTo };
 
             DataManager.AddProfileAndToken(newProfile.Id, token);
             return ErrorCodes.Ok;

@@ -76,12 +76,6 @@ namespace CViewer.DataAccess.DataManager
             return db.Profiles.FirstOrDefault(u => u.EmailAddress.Equals(email) && u.Password.Equals(password));
         }
 
-        internal static int GetProfilesCountFromMemory()
-        {
-            using CviewerContext db = new();
-            return db.Profiles.Count();
-        }
-
         internal async static void AddProfileToMemory(Profile profile)
         {
             using CviewerContext db = new();
@@ -134,12 +128,6 @@ namespace CViewer.DataAccess.DataManager
             return db.Cvs.ToList();
         }
 
-        internal static int GetTokenCount()
-        {
-            using CviewerContext db = new();
-            return db.Tokens.Count();
-        }
-
         internal static Status GetStatus(CVStatusType s)
         {
             using CviewerContext db = new();
@@ -180,18 +168,6 @@ namespace CViewer.DataAccess.DataManager
             return db.Specializations.ToList();
         }
 
-        public static int GetCVHistoriesCount()
-        {
-            using CviewerContext db = new();
-            return db.CvHistories.Count();
-        }
-
-        public static int GetCVCount()
-        {
-            using CviewerContext db = new();
-            return db.Cvs.Count();
-        }
-
         public static Tag GetTag(string cvTag)
         {
             using CviewerContext db = new();
@@ -214,20 +190,11 @@ namespace CViewer.DataAccess.DataManager
             return newCV;
         }
 
-        //public async static void SetTagsToCv(Cv newCV)
-        //{
-        //    using CviewerContext db = new();
-        //    db.Cvs.Update(newCV);
-        //    await db.SaveChangesAsync();
-        //    return newCV;
-        //}
-
         public async static void AddCVHistory(string fileName, string urlForDownload, int cvId, int authorId)
         {
             using CviewerContext db = new();
             CvHistory cvHistory = new()
             {
-                //Id = GetCVHistoriesCount() + 1,
                 FileName = fileName,
                 AmazonPathToFile = urlForDownload,
                 CvId = cvId,
@@ -254,12 +221,10 @@ namespace CViewer.DataAccess.DataManager
 
         public async static void MakeCvAsGood(int cvId)
         {
-            using (CviewerContext db = new())
-            {
-                Cv cv = db.Cvs.FirstOrDefault(cv => cv.Id == cvId);
-                cv.GoodCv = true;
-                await db.SaveChangesAsync();
-            }
+            using CviewerContext db = new();
+            Cv cv = GetCv(cvId);
+            cv.GoodCv = true;
+            await db.SaveChangesAsync();
         }
 
         public static List<Cv> ListGoodCvs()
@@ -268,18 +233,11 @@ namespace CViewer.DataAccess.DataManager
             return db.Cvs.Where(cv => cv.GoodCv).OrderByDescending(cv => cv.Grade).ToList();
         }
 
-        public static int GetReportsCount()
-        {
-            using CviewerContext db = new();
-            return db.Reports.Count();
-        }
-
         public async static void AddReport(string comment, int peopleId, int authorId, int mark)
         {
             using CviewerContext db = new();
             Report report = new()
             {
-                //Id = GetReportsCount() + 1,
                 Text = comment,
                 ProfileId = peopleId,
                 CreatedDate = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),
