@@ -1,4 +1,5 @@
-﻿using CViewer.DataAccess.DataManager;
+﻿using CViewer.DataAccess.Data;
+using CViewer.DataAccess.DataManager;
 using CViewer.DataAccess.Entities;
 using CViewer.DataAccess.InnerEntities;
 using CViewer.Utils;
@@ -45,7 +46,7 @@ namespace CViewer.Services
 
         public Cv UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<Tag> tags = null, string description = null)
         {
-            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            using (CviewerContext db = new CviewerContext())
             {
                 Cv cvForUpdating = db.Cvs.FirstOrDefault(o => o.Id == cvId);
 
@@ -121,10 +122,8 @@ namespace CViewer.Services
 
         public CvHistory GetCVHistory(int cvHistoryId)
         {
-            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
-            {
-                return db.CvHistories.FirstOrDefault(o => o.Id == cvHistoryId);
-            }
+            using CviewerContext db = new CviewerContext();
+            return db.CvHistories.FirstOrDefault(o => o.Id == cvHistoryId);
         }
 
         public List<Tag> ListCVTags()
@@ -203,7 +202,7 @@ namespace CViewer.Services
 
         public List<CvHistory> ListCVHistories()
         {
-            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            using (CviewerContext db = new CviewerContext())
             {
                 return db.CvHistories.ToList();
             }

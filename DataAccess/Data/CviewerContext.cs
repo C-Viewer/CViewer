@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using CViewer.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CViewer;
+namespace CViewer.DataAccess.Data;
 
-public partial class CViewerMgrDbContext : DbContext
+public partial class CviewerContext : DbContext
 {
-    public CViewerMgrDbContext()
+    public CviewerContext()
     {
     }
 
-    public CViewerMgrDbContext(DbContextOptions<CViewerMgrDbContext> options)
+    public CviewerContext(DbContextOptions<CviewerContext> options)
         : base(options)
     {
     }
@@ -303,8 +303,8 @@ public partial class CViewerMgrDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .IsRequired()
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(50)
+                .IsUnicode(false)
                 .HasColumnName("name");
         });
 

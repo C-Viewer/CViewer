@@ -7,6 +7,7 @@ using CViewer.DataAccess.DataManager;
 using CViewer.Utils;
 using static CViewer.DataAccess.Entities.Profile;
 using System.Collections.Generic;
+using CViewer.DataAccess.Data;
 
 namespace CViewer.Services
 {
@@ -108,7 +109,7 @@ namespace CViewer.Services
         public Profile UpdateProfile(int profileId, string firstName = null, string lastName = null, string biography = null,
             int? rating = null, string email = null, string password = null, Specialization specializationId = null)
         {
-            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            using (CviewerContext db = new CviewerContext())
             {
                 var profileForUpdate = db.Profiles.FirstOrDefault(o => o.Id == profileId);
 
@@ -155,7 +156,7 @@ namespace CViewer.Services
 
         public List<Profile> ListProfiles()
         {
-            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            using (CviewerContext db = new CviewerContext())
             {
                 return db.Profiles.ToList();
             }

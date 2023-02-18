@@ -1,4 +1,5 @@
-﻿using CViewer.DataAccess.Entities;
+﻿using CViewer.DataAccess.Data;
+using CViewer.DataAccess.Entities;
 
 namespace CViewer.Validation
 {
@@ -6,7 +7,7 @@ namespace CViewer.Validation
     {
         internal static bool ValidateTokenWithProfiles(string tokenValue, List<int> profilesIds)
         {
-            using (CViewerMgrDbContext db = new CViewerMgrDbContext())
+            using (CviewerContext db = new CviewerContext())
             {
                 foreach (int profileId in profilesIds)
                 {

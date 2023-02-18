@@ -6,6 +6,7 @@ using CViewer.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using CViewer.DataAccess.Data;
 
 namespace CViewer.DataAccess.DataManager
 {
@@ -28,7 +29,7 @@ namespace CViewer.DataAccess.DataManager
 
         internal static void AddProfileAndToken(int profileId, Token token)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             ProfileToToken profileToToken = new() { ProfileId = profileId, Token = token };
             db.Tokens.Add(token);
             db.ProfileToTokens.Add(profileToToken);
@@ -37,19 +38,19 @@ namespace CViewer.DataAccess.DataManager
 
         internal static ProfileToToken GetProfileAndToken(int profileId)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.ProfileToTokens.FirstOrDefault(p => p.ProfileId == profileId);
         }
 
         internal static ProfileToToken GetProfileAndToken(string applicantOrExpertTokenValue)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.ProfileToTokens.FirstOrDefault(p => p.Token != null && p.Token.Value.Equals(applicantOrExpertTokenValue));
         }
 
         internal static Profile GetProfile(string applicantOrExpertTokenValue)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             ProfileToToken profileToToken = db.ProfileToTokens.FirstOrDefault(p =>
                     p.Token != null && p.Token.Value == applicantOrExpertTokenValue);
             if (profileToToken == null)
@@ -62,32 +63,32 @@ namespace CViewer.DataAccess.DataManager
 
         internal static Profile GetProfile(int profileId)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Profiles.Where(u => u.Id == profileId).FirstOrDefault();
         }
 
         internal static Profile GetProfileFromMemory(string email, string password)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Profiles.FirstOrDefault(u => u.EmailAddress.Equals(email) && u.Password.Equals(password));
         }
 
         internal static int GetProfilesCountFromMemory()
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Profiles.Count();
         }
 
         internal static void AddProfileToMemory(Profile profile)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             db.Profiles.Add(profile);
             db.SaveChangesAsync();
         }
 
         internal static List<int> GetProfilesIdsForCv(int cvId)
         {
-            using (CViewerMgrDbContext db = new())
+            using (CviewerContext db = new())
             {
                 Cv cv = db.Cvs.FirstOrDefault(cv => cv.Id == cvId);
                 if (cv == null)
@@ -108,37 +109,37 @@ namespace CViewer.DataAccess.DataManager
 
         internal static List<CvHistory> GetCVHistories(int cvId)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.CvHistories.Where(h => h.CvId == cvId).OrderByDescending(el => el.DateTime).ToList();
         }
 
         internal static List<Cv> GetCvsForProfile(int profileId)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Cvs.Where(cv => cv.PeopleCreatedId == profileId || (!cv.OpenToReview && cv.CvExperts.Select(cv => cv.Id) != null && cv.CvExperts.Select(cv => cv.Id).Contains(profileId))).ToList();
         }
 
         internal static Cv GetCv(int cvId)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Cvs.FirstOrDefault(cv => cv.Id == cvId);
         }
 
         public static List<Cv> ListCVs()
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Cvs.ToList();
         }
 
         internal static int GetTokenCount()
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Tokens.Count();
         }
 
         internal static Status GetStatus(CVStatusType s)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Statuses.Where(st => st.Name == s).FirstOrDefault();
         }
 
@@ -149,19 +150,19 @@ namespace CViewer.DataAccess.DataManager
 
         public static Profile GetExpertProfile(int expertId)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Profiles.FirstOrDefault(p => p.Id == expertId && p.IsExpert);
         }
 
         public static Profile GetApplicantProfile(int applicantId)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Profiles.FirstOrDefault(p => p.Id == applicantId && !p.IsExpert);
         }
 
         public static void RemoveProfileAndToken(string applicantOrExpertTokenValue)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             ProfileToToken profileToToken = db.ProfileToTokens.FirstOrDefault(p => p.Token.Value == applicantOrExpertTokenValue);
             if (profileToToken != null)
             {
@@ -172,44 +173,44 @@ namespace CViewer.DataAccess.DataManager
 
         public static List<Specialization> ListSpecializations()
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Specializations.ToList();
         }
 
         public static int GetCVHistoriesCount()
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.CvHistories.Count();
         }
 
         public static int GetCVCount()
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Cvs.Count();
         }
 
         public static Tag GetTag(int cvTag)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Tags.Where(t => t.Id == cvTag).FirstOrDefault();
         }
 
         public static List<Tag> ListCVTags()
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Tags.ToList();
         }
 
         public static void AddCV(Cv newCV)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             db.Cvs.Add(newCV);
             db.SaveChangesAsync();
         }
 
         public static void AddCVHistory(string fileName, string urlForDownload, int cvId, int authorId)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             CvHistory cvHistory = new()
             {
                 //Id = GetCVHistoriesCount() + 1,
@@ -226,20 +227,20 @@ namespace CViewer.DataAccess.DataManager
 
         public static void AddCVHistory(CvHistory cvEventForHistory)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             db.CvHistories.Add(cvEventForHistory);
             db.SaveChangesAsync();
         }
 
         public static List<Cv> ListCvsOpenedForReview()
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Cvs.Where(cv => cv.OpenToReview).ToList();
         }
 
         public static void MakeCvAsGood(int cvId)
         {
-            using (CViewerMgrDbContext db = new())
+            using (CviewerContext db = new())
             {
                 Cv cv = db.Cvs.FirstOrDefault(cv => cv.Id == cvId);
                 cv.GoodCv = true;
@@ -249,19 +250,19 @@ namespace CViewer.DataAccess.DataManager
 
         public static List<Cv> ListGoodCvs()
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Cvs.Where(cv => cv.GoodCv).OrderByDescending(cv => cv.Grade).ToList();
         }
 
         public static int GetReportsCount()
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             return db.Reports.Count();
         }
 
         public static void AddReport(string comment, int peopleId, int authorId, int mark)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             Report report = new()
             {
                 //Id = GetReportsCount() + 1,
@@ -283,7 +284,7 @@ namespace CViewer.DataAccess.DataManager
 
         public static async Task<string> GenerateCViewerReportAsync(DateTime date, IAmazonS3Service amazonS3Service)
         {
-            using CViewerMgrDbContext db = new();
+            using CviewerContext db = new();
             int allCv = db.Cvs.Where(cv => cv.DateCreation.Month == date.Month && cv.DateCreation.Year == date.Year).Count();
             int allCvFile = db.CvHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.AmazonPathToFile != null).Count();
             int allExpertReports = db.CvHistories.Where(cv => cv.DateTime.Month == date.Month && cv.DateTime.Year == date.Year && cv.Grade != null).Count();
