@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using CViewer.DataAccess.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CViewer.DataAccess.DataManager
 {
@@ -142,7 +143,7 @@ namespace CViewer.DataAccess.DataManager
         internal static Status GetStatus(CVStatusType s)
         {
             using CviewerContext db = new();
-            return db.Statuses.Where(st => st.Name == s).FirstOrDefault();
+            return db.Statuses.Where(st => st.Name == s.ToString()).FirstOrDefault();
         }
 
         internal static List<CVStatusType> GetCVStatuses()
@@ -191,10 +192,12 @@ namespace CViewer.DataAccess.DataManager
             return db.Cvs.Count();
         }
 
-        public static Tag GetTag(int cvTag)
+        public static Tag GetTag(string cvTag)
         {
             using CviewerContext db = new();
-            return db.Tags.Where(t => t.Id == cvTag).FirstOrDefault();
+            Tag tag = db.Tags.Where(t => t.Name == cvTag).FirstOrDefault();
+            if (tag != null) { return tag; }
+            else { return new Tag { Name = cvTag }; }
         }
 
         public static List<Tag> ListCVTags()
@@ -203,12 +206,21 @@ namespace CViewer.DataAccess.DataManager
             return db.Tags.ToList();
         }
 
-        public async static void AddCV(Cv newCV)
+        public async static Task<Cv> AddCV(Cv newCV)
         {
             using CviewerContext db = new();
-            db.Cvs.Add(newCV);
+            db.Cvs.Update(newCV);
             await db.SaveChangesAsync();
+            return newCV;
         }
+
+        //public async static void SetTagsToCv(Cv newCV)
+        //{
+        //    using CviewerContext db = new();
+        //    db.Cvs.Update(newCV);
+        //    await db.SaveChangesAsync();
+        //    return newCV;
+        //}
 
         public async static void AddCVHistory(string fileName, string urlForDownload, int cvId, int authorId)
         {

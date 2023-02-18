@@ -11,21 +11,26 @@ namespace CViewer.Services
     {
         public Cv CreateCVForReview(CVDraftParameter cvDraft, Profile applicant)
         {
-            Cv newCv = new Cv();
-            newCv.PeopleCreatedId = applicant.Id;
-            newCv.DateCreation = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow);
-            newCv.Specialization = applicant.Specialization;
-            newCv.Status = DataManager.GetStatus(CVStatusType.SentToReview);
-            foreach(int t in cvDraft.Tags)
+            Cv newCv = new()
+            {
+                PeopleCreatedId = applicant.Id,
+                DateCreation = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),
+                SpecializationId = applicant.SpecializationId,
+                StatusId = DataManager.GetStatus(CVStatusType.SentToReview).Id,
+                Title = cvDraft.Title,
+                Description = cvDraft.Description,
+                OpenToReview = true,
+                GoodCv = false
+
+            };
+            foreach (string t in cvDraft.Tags)
             {
                 newCv.Tags.Add(DataManager.GetTag(t));
             }
-            newCv.Title = cvDraft.Title;
-            newCv.OpenToReview = true;
 
-            DataManager.AddCV(newCv);
+            newCv = DataManager.AddCV(newCv).Result;
 
-            return newCv;
+            return DataManager.GetCv(newCv.Id);
         }
 
         public async Task<string> StoreFileAsync(IFormFile file, IAmazonS3Service service)
@@ -65,7 +70,7 @@ namespace CViewer.Services
             {
                 foreach (Tag tag in tags)
                 {
-                    cvForUpdating.Tags.Add(tag);
+                    cvForUpdating.CvTags.Add(new CvTag { Tag = tag });
                 }
             }
 

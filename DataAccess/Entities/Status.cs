@@ -17,7 +17,7 @@ public partial class Status
 {
     public int Id { get; set; }
 
-    public CVStatusType Name { get; set; }
+    public string Name { get; set; }
 
     public virtual ICollection<Cv> Cvs { get; } = new List<Cv>();
 
