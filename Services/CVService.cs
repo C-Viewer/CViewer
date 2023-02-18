@@ -46,37 +46,35 @@ namespace CViewer.Services
 
         public Cv UpdateCVInfo(int cvId, string title = null, Specialization specialization = null, List<Tag> tags = null, string description = null)
         {
-            using (CviewerContext db = new CviewerContext())
+            using CviewerContext db = new();
+            Cv cvForUpdating = db.Cvs.FirstOrDefault(o => o.Id == cvId);
+
+            if (cvForUpdating is null) return null;
+
+            if (title != null)
             {
-                Cv cvForUpdating = db.Cvs.FirstOrDefault(o => o.Id == cvId);
-
-                if (cvForUpdating is null) return null;
-
-                if (title != null)
-                {
-                    cvForUpdating.Title = title;
-                }
-
-                if (specialization != null)
-                {
-                    cvForUpdating.Specialization = (Specialization)specialization;
-                }
-
-                if (tags != null)
-                {
-                    foreach (Tag tag in tags)
-                    {
-                        cvForUpdating.Tags.Add(tag);
-                    }
-                }
-
-                if (description != null)
-                {
-                    cvForUpdating.Description = description;
-                }
-
-                return cvForUpdating;
+                cvForUpdating.Title = title;
             }
+
+            if (specialization != null)
+            {
+                cvForUpdating.Specialization = (Specialization)specialization;
+            }
+
+            if (tags != null)
+            {
+                foreach (Tag tag in tags)
+                {
+                    cvForUpdating.Tags.Add(tag);
+                }
+            }
+
+            if (description != null)
+            {
+                cvForUpdating.Description = description;
+            }
+
+            return cvForUpdating;
         }
 
         // ToDo: Add validation on empty data

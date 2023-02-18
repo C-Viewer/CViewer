@@ -15,9 +15,10 @@ namespace CViewer.DataAccess.DataManager
     {
         internal const int EntityNotFound = -1;
 
-        internal static void SetTokenToProfileBySignIn(int profileId, Token token)
+        internal async static void SetTokenToProfileBySignIn(int profileId, Token token)
         {
-            ProfileToToken profileToToken = GetProfileAndToken(profileId);
+            using CviewerContext db = new();
+            ProfileToToken profileToToken = db.ProfileToTokens.FirstOrDefault(p => p.ProfileId == profileId);
             if (profileToToken == null)
             {
                 AddProfileAndToken(profileId, token);
@@ -25,21 +26,16 @@ namespace CViewer.DataAccess.DataManager
             }
 
             profileToToken.Token = token;
+            await db.SaveChangesAsync();
         }
 
-        internal static void AddProfileAndToken(int profileId, Token token)
+        internal async static void AddProfileAndToken(int profileId, Token token)
         {
             using CviewerContext db = new();
             ProfileToToken profileToToken = new() { ProfileId = profileId, Token = token };
             db.Tokens.Add(token);
             db.ProfileToTokens.Add(profileToToken);
-            db.SaveChanges();
-        }
-
-        internal static ProfileToToken GetProfileAndToken(int profileId)
-        {
-            using CviewerContext db = new();
-            return db.ProfileToTokens.FirstOrDefault(p => p.ProfileId == profileId);
+            await db.SaveChangesAsync();
         }
 
         internal static ProfileToToken GetProfileAndToken(string applicantOrExpertTokenValue)

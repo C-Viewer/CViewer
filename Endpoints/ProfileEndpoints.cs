@@ -82,21 +82,22 @@ namespace CViewer.Endpoints
             switch (status)
             {
                 case ErrorCodes.BadRequest:
-                {
-                    return Results.BadRequest(errorMessage);
-                }
+                    {
+                        return Results.BadRequest(errorMessage);
+                    }
                 case ErrorCodes.NotFound:
-                {
-                    return Results.NotFound(errorMessage);
-                }
+                    {
+                        return Results.NotFound(errorMessage);
+                    }
                 case ErrorCodes.Ok:
-                {
-                    return Results.Ok(new ComplexObjectProfileAndToken { Profile = profile, Token = token });
-                }
+                    {
+                        //return Results.Ok(new ComplexObjectProfileAndToken { Profile = profile, Token = token });
+                        return Results.Ok(token);
+                    }
                 default:
-                {
-                    return Results.BadRequest("Unexpected behaviour");
-                }
+                    {
+                        return Results.BadRequest("Unexpected behaviour");
+                    }
             }
         }
 

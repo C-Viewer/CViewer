@@ -7,20 +7,18 @@ namespace CViewer.Validation
     {
         internal static bool ValidateTokenWithProfiles(string tokenValue, List<int> profilesIds)
         {
-            using (CviewerContext db = new CviewerContext())
+            using CviewerContext db = new CviewerContext();
+            foreach (int profileId in profilesIds)
             {
-                foreach (int profileId in profilesIds)
+                ProfileToToken profileToToken = db.ProfileToTokens.FirstOrDefault(p =>
+                    p.ProfileId == profileId && p.Token != null && p.Token.Value.Equals(tokenValue));
+                if (profileToToken != null)
                 {
-                    ProfileToToken profileToToken = db.ProfileToTokens.FirstOrDefault(p =>
-                        p.ProfileId == profileId && p.Token != null && p.Token.Value.Equals(tokenValue));
-                    if (profileToToken != null)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
-
-                return false;
             }
+
+            return false;
         }
     }
 }
