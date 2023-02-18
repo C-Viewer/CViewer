@@ -233,6 +233,16 @@ namespace CViewer.DataAccess.DataManager
             return db.Cvs.Where(cv => cv.GoodCv).OrderByDescending(cv => cv.Grade).ToList();
         }
 
+        public async static void TakeCvToReview(Cv cv, int expertId)
+        {
+            cv.OpenToReview = false;
+            cv.Profiles.Add(GetProfile(expertId));
+            cv.Status = GetStatus(CVStatusType.TakenToReview);
+            using CviewerContext db = new();
+            db.Cvs.Update(cv);
+            await db.SaveChangesAsync();
+        }
+
         public async static void AddReport(string comment, int peopleId, int authorId, int mark)
         {
             using CviewerContext db = new();

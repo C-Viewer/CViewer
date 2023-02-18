@@ -158,10 +158,7 @@ namespace CViewer.Services
                 return false;
             }
 
-            takenCv.OpenToReview = false;
-            takenCv.Profiles.Add(DataManager.GetProfile(expertId));
-            takenCv.Status = DataManager.GetStatus(CVStatusType.TakenToReview);
-
+            DataManager.TakeCvToReview(takenCv, expertId);
             return true;
         }
 

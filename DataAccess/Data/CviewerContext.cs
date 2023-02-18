@@ -109,6 +109,21 @@ public partial class CviewerContext : DbContext
                 .WithMany(p => p.CvTags)
                 .HasForeignKey(pt => pt.CvId)
                 );
+
+            entity.HasMany(c => c.Profiles)
+                .WithMany(t => t.Cvs2)
+                .UsingEntity<CvExpert>(
+            j => j
+                .HasOne(pt => pt.Profile)
+                .WithMany(t => t.CvExperts)
+                .HasForeignKey(pt => pt.ProfileId)
+                .HasConstraintName("FK_cv_expert_cv"),
+            j => j
+                .HasOne(pt => pt.Cv)
+                .WithMany(p => p.CvExperts)
+                .HasForeignKey(pt => pt.CvId)
+                .HasConstraintName("FK_cv_expert_cv")
+                );
         });
 
         modelBuilder.Entity<CvExpert>(entity =>
