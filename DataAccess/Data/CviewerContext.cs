@@ -258,11 +258,6 @@ public partial class CviewerContext : DbContext
                 .HasForeignKey(d => d.ProfileId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_people_token_people");
-
-            entity.HasOne(d => d.Token).WithMany(p => p.ProfileToTokens)
-                .HasForeignKey(d => d.TokenId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_people_token_token");
         });
 
         modelBuilder.Entity<Report>(entity =>

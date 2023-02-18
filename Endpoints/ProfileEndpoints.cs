@@ -91,8 +91,7 @@ namespace CViewer.Endpoints
                     }
                 case ErrorCodes.Ok:
                     {
-                        //return Results.Ok(new ComplexObjectProfileAndToken { Profile = profile, Token = token });
-                        return Results.Ok(token);
+                        return Results.Ok(new ComplexObjectProfileAndToken { Profile = profile, Token = token });
                     }
                 default:
                     {

@@ -10,6 +10,4 @@ public partial class Token
     public string Value { get; set; }
 
     public DateTime ExpirationDateTime { get; set; }
-
-    public virtual ICollection<ProfileToToken> ProfileToTokens { get; } = new List<ProfileToToken>();
 }
