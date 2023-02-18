@@ -218,13 +218,20 @@ namespace CViewer.Services
 
         public List<Cv> ListCVsForProfile(string applicantOrExpertToken)
         {
-            ProfileToToken profileToToken = DataManager.GetProfileAndToken(applicantOrExpertToken);
-            if (profileToToken == null)
+            Profile profile = DataManager.GetProfile(applicantOrExpertToken);
+            if (profile == null)
             {
                 return null;
             }
 
-            return DataManager.GetCvsForProfile(profileToToken.ProfileId);
+            if (profile.IsExpert)
+            {
+                return DataManager.GetCvsForExpert(profile.Id);
+            }
+            else
+            {
+                return DataManager.GetCvsForProfile(profile.Id);
+            }
         }
 
         public async Task<string> GenerateCViewerReportAsync(DateTime date, IAmazonS3Service amazonS3Service)

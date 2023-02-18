@@ -110,7 +110,7 @@ public partial class CviewerContext : DbContext
                 .HasForeignKey(pt => pt.CvId)
                 );
 
-            entity.HasMany(c => c.Profiles)
+            entity.HasMany(c => c.Experts)
                 .WithMany(t => t.Cvs2)
                 .UsingEntity<CvExpert>(
             j => j

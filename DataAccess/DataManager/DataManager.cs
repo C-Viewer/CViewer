@@ -113,7 +113,19 @@ namespace CViewer.DataAccess.DataManager
         internal static List<Cv> GetCvsForProfile(int profileId)
         {
             using CviewerContext db = new();
-            return db.Cvs.Where(cv => cv.PeopleCreatedId == profileId || (!cv.OpenToReview && cv.CvExperts.Select(cv => cv.Id) != null && cv.CvExperts.Select(cv => cv.Id).Contains(profileId))).ToList();
+            return db.Cvs.Where(cv => cv.PeopleCreatedId == profileId).ToList();
+        }
+
+        internal static List<Cv> GetCvsForExpert(int profileId)
+        {
+            using CviewerContext db = new();
+            List<Cv> cvs = db.Cvs.Include(p => p.Experts).Where(cv => cv.Experts.Contains(GetProfile(profileId))).ToList();
+            foreach (Cv cv in cvs)
+            {
+                cv.Experts = null;
+                cv.CvExperts.Clear();
+            }
+            return cvs;
         }
 
         internal static Cv GetCv(int cvId)
@@ -236,7 +248,7 @@ namespace CViewer.DataAccess.DataManager
         public async static void TakeCvToReview(Cv cv, int expertId)
         {
             cv.OpenToReview = false;
-            cv.Profiles.Add(GetProfile(expertId));
+            cv.Experts.Add(GetProfile(expertId));
             cv.Status = GetStatus(CVStatusType.TakenToReview);
             using CviewerContext db = new();
             db.Cvs.Update(cv);

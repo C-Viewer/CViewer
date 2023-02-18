@@ -40,7 +40,7 @@ namespace CViewer.DataAccess.Entities
 
         public virtual Status Status { get; set; }
 
-        public List<Profile> Profiles { get; set; } = new List<Profile>();
+        public List<Profile> Experts { get; set; } = new List<Profile>();
 
         public List<Tag> Tags { get; set; } = new List<Tag>();
     }
