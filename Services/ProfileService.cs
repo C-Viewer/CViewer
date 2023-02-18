@@ -65,7 +65,7 @@ namespace CViewer.Services
             JwtSecurityToken jwtToken = GenerateToken(existingProfile, builder);
             string tokenValue = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             token = new Token()
-                { Id = DataManager.GetTokenCount() + 1, Value = tokenValue, ExpirationDateTime = jwtToken.ValidTo };
+                { Value = tokenValue, ExpirationDateTime = jwtToken.ValidTo };
 
             DataManager.SetTokenToProfileBySignIn(existingProfile.Id, token);
 

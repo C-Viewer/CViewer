@@ -30,9 +30,9 @@ namespace CViewer.DataAccess.DataManager
         {
             using CViewerMgrDbContext db = new();
             ProfileToToken profileToToken = new() { ProfileId = profileId, Token = token };
-            db.ProfileToTokens.Add(profileToToken);
             db.Tokens.Add(token);
-            db.SaveChangesAsync();
+            db.ProfileToTokens.Add(profileToToken);
+            db.SaveChanges();
         }
 
         internal static ProfileToToken GetProfileAndToken(int profileId)
@@ -166,6 +166,7 @@ namespace CViewer.DataAccess.DataManager
             if (profileToToken != null)
             {
                 db.ProfileToTokens.Remove(profileToToken);
+                db.SaveChangesAsync();
             }
         }
 
@@ -211,7 +212,7 @@ namespace CViewer.DataAccess.DataManager
             using CViewerMgrDbContext db = new();
             CvHistory cvHistory = new()
             {
-                Id = GetCVHistoriesCount() + 1,
+                //Id = GetCVHistoriesCount() + 1,
                 FileName = fileName,
                 AmazonPathToFile = urlForDownload,
                 CvId = cvId,
@@ -263,7 +264,7 @@ namespace CViewer.DataAccess.DataManager
             using CViewerMgrDbContext db = new();
             Report report = new()
             {
-                Id = GetReportsCount() + 1,
+                //Id = GetReportsCount() + 1,
                 Text = comment,
                 ProfileId = peopleId,
                 CreatedDate = LocalTimeHelper.GetMoscowDateTime(DateTime.UtcNow),
