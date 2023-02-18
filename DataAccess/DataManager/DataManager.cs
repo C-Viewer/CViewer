@@ -75,11 +75,11 @@ namespace CViewer.DataAccess.DataManager
             return db.Profiles.Count();
         }
 
-        internal static void AddProfileToMemory(Profile profile)
+        internal async static void AddProfileToMemory(Profile profile)
         {
             using CviewerContext db = new();
             db.Profiles.Add(profile);
-            db.SaveChangesAsync();
+            await db.SaveChangesAsync();
         }
 
         internal static List<int> GetProfilesIdsForCv(int cvId)
@@ -156,14 +156,14 @@ namespace CViewer.DataAccess.DataManager
             return db.Profiles.FirstOrDefault(p => p.Id == applicantId && !p.IsExpert);
         }
 
-        public static void RemoveProfileAndToken(string applicantOrExpertTokenValue)
+        public async static void RemoveProfileAndToken(string applicantOrExpertTokenValue)
         {
             using CviewerContext db = new();
             ProfileToToken profileToToken = db.ProfileToTokens.FirstOrDefault(p => p.Token.Value == applicantOrExpertTokenValue);
             if (profileToToken != null)
             {
                 db.ProfileToTokens.Remove(profileToToken);
-                db.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
         }
 
@@ -197,14 +197,14 @@ namespace CViewer.DataAccess.DataManager
             return db.Tags.ToList();
         }
 
-        public static void AddCV(Cv newCV)
+        public async static void AddCV(Cv newCV)
         {
             using CviewerContext db = new();
             db.Cvs.Add(newCV);
-            db.SaveChangesAsync();
+            await db.SaveChangesAsync();
         }
 
-        public static void AddCVHistory(string fileName, string urlForDownload, int cvId, int authorId)
+        public async static void AddCVHistory(string fileName, string urlForDownload, int cvId, int authorId)
         {
             using CviewerContext db = new();
             CvHistory cvHistory = new()
@@ -218,14 +218,14 @@ namespace CViewer.DataAccess.DataManager
             };
 
             db.CvHistories.Add(cvHistory);
-            db.SaveChangesAsync();
+            await db.SaveChangesAsync();
         }
 
-        public static void AddCVHistory(CvHistory cvEventForHistory)
+        public async static void AddCVHistory(CvHistory cvEventForHistory)
         {
             using CviewerContext db = new();
             db.CvHistories.Add(cvEventForHistory);
-            db.SaveChangesAsync();
+            await db.SaveChangesAsync();
         }
 
         public static List<Cv> ListCvsOpenedForReview()
@@ -234,13 +234,13 @@ namespace CViewer.DataAccess.DataManager
             return db.Cvs.Where(cv => cv.OpenToReview).ToList();
         }
 
-        public static void MakeCvAsGood(int cvId)
+        public async static void MakeCvAsGood(int cvId)
         {
             using (CviewerContext db = new())
             {
                 Cv cv = db.Cvs.FirstOrDefault(cv => cv.Id == cvId);
                 cv.GoodCv = true;
-                db.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
         }
 
@@ -256,7 +256,7 @@ namespace CViewer.DataAccess.DataManager
             return db.Reports.Count();
         }
 
-        public static void AddReport(string comment, int peopleId, int authorId, int mark)
+        public async static void AddReport(string comment, int peopleId, int authorId, int mark)
         {
             using CviewerContext db = new();
             Report report = new()
@@ -275,7 +275,7 @@ namespace CViewer.DataAccess.DataManager
             double marks = db.Reports.Where(r => r.ProfileId == peopleId).Select(r => r.Rating).Sum();
             double count = db.Reports.Where(r => r.ProfileId == peopleId).Count();
             profile.Rating = marks / count;
-            db.SaveChangesAsync();
+            await db.SaveChangesAsync();
         }
 
         public static async Task<string> GenerateCViewerReportAsync(DateTime date, IAmazonS3Service amazonS3Service)
